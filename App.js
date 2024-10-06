@@ -22,7 +22,11 @@ const Tab = createBottomTabNavigator();
 const RegistrationFlow = () => {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Register" component={RegisterScreen} />
+      <Stack.Screen
+        name="Register"
+        component={RegisterScreen}
+        options={{ headerShown: false }}
+      />
       <Stack.Screen
         name="RegisterStep1"
         component={RegisterStep1}
@@ -69,7 +73,6 @@ const Tabs = () => {
   );
 };
 
-// TODO: Main App Navigator
 const AppNavigator = () => (
   <Stack.Navigator>
     <Stack.Screen
