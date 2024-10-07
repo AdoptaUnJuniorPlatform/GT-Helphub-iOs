@@ -19,6 +19,107 @@ module.exports = {
         "neutral-color-blue-gray-50": "#eceff1",
         "gray-500": "#6a7280",
       },
+      fontFamily: {
+        "roboto-light": ["Roboto-Light", "sans-serif"],
+        "roboto-regular": ["Roboto-Regular", "sans-serif"],
+        "roboto-medium": ["Roboto-Medium", "sans-serif"],
+        "roboto-bold": ["Roboto-Bold", "sans-serif"],
+        "poppins-regular": ["Poppins-Regular", "sans-serif"],
+        "poppins-medium": ["Poppins-Medium", "sans-serif"],
+      },
+      fontSize: {
+        h1: [
+          "96px",
+          {
+            letterSpacing: "-1.5px",
+            fontWeight: "300",
+          },
+        ],
+        h2: [
+          "60px",
+          {
+            letterSpacing: "-0.5px",
+            fontWeight: "300",
+          },
+        ],
+        h3: [
+          "48px",
+          {
+            letterSpacing: "0px",
+            fontWeight: "400",
+          },
+        ],
+        h: [
+          "34px",
+          {
+            letterSpacing: "0.25px",
+            fontWeight: "400",
+          },
+        ],
+        h5: [
+          "24px",
+          {
+            letterSpacing: "0px",
+            fontWeight: "400",
+          },
+        ],
+        h6: [
+          "20px",
+          {
+            letterSpacing: "0.15px",
+            fontWeight: "500",
+          },
+        ],
+        subtitle1: [
+          "16px",
+          {
+            letterSpacing: "0.15px",
+            fontWeight: "400",
+          },
+        ],
+        subtitle2: [
+          "14px",
+          {
+            letterSpacing: "0px",
+            fontWeight: "500",
+          },
+        ],
+        body1: [
+          "16px",
+          {
+            letterSpacing: "0.5px",
+            fontWeight: "400",
+          },
+        ],
+        body2: [
+          "14px",
+          {
+            letterSpacing: "0.25px",
+            fontWeight: "400",
+          },
+        ],
+        boton: [
+          "14px",
+          {
+            letterSpacing: "1.25px",
+            fontWeight: "400",
+          },
+        ],
+        caption: [
+          "12px",
+          {
+            letterSpacing: "0.4px",
+            fontWeight: "400",
+          },
+        ],
+        overline: [
+          "10px",
+          {
+            letterSpacing: "1.5px",
+            fontWeight: "400",
+          },
+        ],
+      },
     },
   },
   plugins: [],
