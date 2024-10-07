@@ -58,53 +58,59 @@ const RegisterForm = ({ navigation }) => {
   return (
     <View>
       {/* Header */}
-      <Text className="text-[24px] text-[#434242] my-[20px]">Registro</Text>
+      <Text className="font-roboto-regular text-h5 text-neutros-negro my-[20px]">
+        Registro
+      </Text>
       {/* Text Input */}
       <View className="gap-2 mb-4">
-        <Text className="text-[#263238] font-medium text-[14px]">Nombre</Text>
+        <Text className="text-neutral-color-blue-gray-900 font-poppins-medium text-[14px]">
+          Nombre
+        </Text>
         <TextInput
           value={name}
           onChangeText={setName}
           placeholder="Name"
-          className="border-[1px] border-[#cfd8dc] rounded-[8px] h-[40px] bg-transparent text-[14px] text-[#90A4AE] p-3"
-          placeholderTextColor="#90A4AE"
+          className="border-[1px] border-neutral-color-blue-gray-100 rounded-[8px] h-[40px] bg-transparent font-roboto-regular text-[14px] text-[#90A4AE] p-3"
+          placeholderTextColor="neutral-color-blue-gray-300"
         />
       </View>
       {/* Text Input */}
       <View className="gap-2 mb-4">
-        <Text className="text-[#263238] font-medium text-[14px]">
+        <Text className="text-neutral-color-blue-gray-900 font-poppins-medium text-[14px]">
           Apellidos
         </Text>
         <TextInput
           value={surname}
           onChangeText={setSurname}
           placeholder="Apellido 1"
-          className="border-[1px] border-[#cfd8dc] rounded-[8px] h-[40px] bg-transparent text-[14px] text-[#90A4AE] p-3"
-          placeholderTextColor="#90A4AE"
+          className="border-[1px] border-neutral-color-blue-gray-100 rounded-[8px] h-[40px] bg-transparent text-[14px] font-roboto-regular text-[#90A4AE] p-3"
+          placeholderTextColor="neutral-color-blue-gray-300"
         />
       </View>
       {/* Phone Input */}
       <View>
         <View className="gap-2 mb-4">
-          <Text className="text-[#263238] font-medium text-[14px]">
+          <Text className="text-neutral-color-blue-gray-900 font-poppins-medium text-[14px]">
             Teléfono
           </Text>
-          <View className="flex-row items-center border-[1px] border-[#cfd8dc] rounded-[8px] h-[40px] bg-transparent">
+          <View className="flex-row items-center border-[1px] border-neutral-color-blue-gray-100 rounded-[8px] h-[40px] bg-transparent">
             {/* Country Code Dropdown */}
             <TouchableOpacity className="flex-row items-center pl-3">
               {/* Flag Emoji and Country Code */}
-              <Text className="text-[12px] color-[#607D8B] pr-2">🇪🇸 +34</Text>
-              <Feather name="chevron-down" size={20} color="#8fa2ad" />
+              <Text className="text-[12px] font-roboto-medium color-neutral-color-blue-gray-500 pr-2">
+                🇪🇸 +34
+              </Text>
+              <Feather name="chevron-down" size={20} color="#90a3ae" />
             </TouchableOpacity>
 
-            <View className="w-[1px] h-[25px] bg-[#cfd8dc] ml-2" />
+            <View className="w-[1px] h-[25px] bg-neutral-color-blue-gray-100 ml-2" />
 
             <TextInput
               value={phoneNumber}
               onChangeText={setPhoneNumber}
               placeholder="Mobile Number"
-              className="flex-1 text-[14px] text-[#90A4AE] bg-transparent p-3"
-              placeholderTextColor="#90A4AE"
+              className="flex-1 text-[14px] font-roboto-regular text-neutral-color-blue-gray-300 bg-transparent p-3"
+              placeholderTextColor="neutral-color-blue-gray-300"
               keyboardType="phone-pad"
             />
           </View>
@@ -113,14 +119,16 @@ const RegisterForm = ({ navigation }) => {
       {/* Section Optional */}
       <View className="flex-row items-center mt-10 mb-6">
         <View className="flex-row items-center gap-2 pr-2 pl-4">
-          <MaterialIcons name="info" size={19} color="#7066d2" />
-          <Text className="text-[#7165d1] font-[20px]">Opcional</Text>
-          <Ionicons name="information-circle" size={19} color="#90a4ae" />
+          <MaterialIcons name="info" size={19} color="#7165d1" />
+          <Text className="text-primarios-violeta-100 text-h6 font-roboto-medium">
+            Opcional
+          </Text>
+          <Ionicons name="information-circle" size={19} color="#90a3ae" />
         </View>
-        <View className="flex-1 border-b-[1px] border-[#696868]"></View>
+        <View className="flex-1 border-b-[1px] border-neutros-negro-80"></View>
       </View>
       {/* Toggle */}
-      <View className="flex-row items-center gap-2">
+      <View className="flex-row items-center gap-3">
         <TouchableOpacity
           onPress={toggleSwitch}
           className="w-[40px] h-[20px] rounded-full px-1"
@@ -143,44 +151,48 @@ const RegisterForm = ({ navigation }) => {
           </Animated.View>
         </TouchableOpacity>
         <View>
-          <Text className="text-[#212121] font-[16px]">
+          <Text className="text-neutral-color-gray-900 font-poppins-medium font-[16px]">
             Activar la opción de llamada
           </Text>
-          <Text className="text-[#607d8b] font-[14px]">
+          <Text className="text-neutral-color-blue-gray-500 font-poppins-regular font-[14px]">
             Mostrar teléfono al iniciar intercambio
           </Text>
         </View>
       </View>
       {/* Header */}
-      <Text className="text-[24px] text-[#434242] my-[20px]">Registro</Text>
+      <Text className="font-roboto-regular text-h5 text-neutros-negro my-[20px]">
+        Registro
+      </Text>
       {/* Email Input */}
       <View className="gap-2 mb-4">
-        <Text className="text-[#263238] font-medium text-[14px]">Email</Text>
+        <Text className="text-neutral-color-blue-gray-900 font-poppins-medium text-[14px]">
+          Email
+        </Text>
         <TextInput
           value={email}
           onChangeText={setEmail}
           placeholder="ejemplo@gmail.com"
-          className="border-[1px] border-[#cfd8dc] rounded-[8px] h-[40px] bg-transparent text-[14px] text-[#90A4AE] p-3"
-          placeholderTextColor="#90A4AE"
+          className="border-[1px] border-neutral-color-blue-gray-100 rounded-[8px] font-roboto-regular h-[40px] bg-[#E3E0F6] text-[14px] text-[#90A4AE] p-3"
+          placeholderTextColor="neutral-color-blue-gray-300"
           keyboardType="email-address"
           autoCapitalize="none"
         />
       </View>
       {/* Password Input */}
       <View className="gap-2 mb-2">
-        <Text className="text-[#263238] font-medium text-[14px]">
+        <Text className="text-neutral-color-blue-gray-900 font-poppins-medium text-[14px]">
           Contraseña
         </Text>
         <TextInput
           value={password}
           onChangeText={setPassword}
           placeholder="********"
-          className="border-[1px] border-[#cfd8dc] rounded-[8px] h-[40px] bg-transparent text-[14px] text-[#90A4AE] p-3"
-          placeholderTextColor="#90A4AE"
+          className="border-[1px] border-neutral-color-blue-gray-100 rounded-[8px] font-roboto-regular h-[40px] bg-[#E3E0F6] text-[14px] text-[#90A4AE] p-3"
+          placeholderTextColor="neutral-color-blue-gray-300"
           secureTextEntry={true}
         />
       </View>
-      <Text className="text-[#78909c] font-medium text-[13px]">
+      <Text className="text-neutral-color-blue-gray-400 font-poppins-medium text-[13px]">
         La contraseña debe incluir al menos 12 caracteres, una letra mayúscula y
         un número.
       </Text>
@@ -193,7 +205,7 @@ const RegisterForm = ({ navigation }) => {
           <View
             className={`w-[18px] h-[18px] border-[1px] rounded ${acceptTermsAndConditions
                 ? "bg-[#3F51B5] border-[#3F51B5]"
-                : "bg-transparent border-[#cfd8dc]"
+                : "bg-transparent border-neutral-color-blue-gray-100"
               } flex items-center justify-center`}
           >
             {acceptTermsAndConditions && (
@@ -203,24 +215,26 @@ const RegisterForm = ({ navigation }) => {
         </TouchableOpacity>
 
         <View className="flex-row flex-wrap">
-          <Text className="text-[#788f9c] text-[12px]">
+          <Text className="text-neutral-color-blue-gray-400 font-poppins-medium text-[12px]">
             Estoy de acuerdo con sus{" "}
           </Text>
 
           <TouchableOpacity
             onPress={() => Linking.openURL("https://www.google.com/")}
           >
-            <Text className="font-medium text-[12px] text-[#212121]">
+            <Text className="font-medium text-[12px] text-neutral-color-gray-900">
               Términos de servicio{" "}
             </Text>
           </TouchableOpacity>
 
-          <Text className="text-[#788f9c] text-[12px]">y </Text>
+          <Text className="text-neutral-color-blue-gray-400 text-[12px]">
+            y{" "}
+          </Text>
 
           <TouchableOpacity
             onPress={() => Linking.openURL("https://www.google.com/")}
           >
-            <Text className="font-medium text-[12px] text-[#212121]">
+            <Text className="font-medium text-[12px] text-neutral-color-gray-900">
               Política de privacidad
             </Text>
           </TouchableOpacity>
@@ -228,7 +242,7 @@ const RegisterForm = ({ navigation }) => {
       </View>
       {/* Submit Button */}
       <TouchableOpacity
-        className="bg-[#496CEB] h-[36px] items-center justify-center rounded-[8px]"
+        className="bg-primarios-celeste-100 h-[36px] items-center justify-center rounded-[8px]"
         onPress={onSubmit}
       >
         <Text className="font-bold text-[12px] uppercase text-white">
