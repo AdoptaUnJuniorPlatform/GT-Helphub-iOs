@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import Feather from "@expo/vector-icons/Feather";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
-import Ionicons from "@expo/vector-icons/Ionicons";
+import InfoIconWithTooltip from "./InfoIconWithTooltip";
 
 const RegisterForm = ({ navigation }) => {
   const [name, setName] = useState("");
@@ -123,9 +123,12 @@ const RegisterForm = ({ navigation }) => {
           <Text className="text-primarios-violeta-100 text-h6 font-roboto-medium">
             Opcional
           </Text>
-          <Ionicons name="information-circle" size={19} color="#90a3ae" />
         </View>
-        <View className="flex-1 border-b-[1px] border-neutros-negro-80"></View>
+        <InfoIconWithTooltip
+          title="Coordinar directamente por llamada"
+          text="No te preocupes, tu teléfono no está visible para todos los usuarios. Solo estará visible para la persona con la que solicites un intercambio."
+        />
+        <View className="flex-1 ml-3 border-b-[1px] border-neutros-negro-80"></View>
       </View>
       {/* Toggle */}
       <View className="flex-row items-center gap-3">
