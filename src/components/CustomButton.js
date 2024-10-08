@@ -8,7 +8,7 @@ const CustomButton = ({
   variant = "purple",
   isBackButton = false,
 }) => {
-  const buttonWidth = width === "full" ? "w-full" : "w-auto px-[16px]";
+  const buttonWidth = width === "full" ? "w-full" : "w-fit px-[16px]";
 
   const buttonStyle =
     variant === "purple"
