@@ -1,7 +1,7 @@
-import { TouchableOpacity, Text } from "react-native";
+import { TouchableOpacity, Text, View } from "react-native";
 import Feather from "@expo/vector-icons/Feather";
 
-const Button = ({
+const CustomButton = ({
   onPress,
   title,
   width = "full",
@@ -13,7 +13,7 @@ const Button = ({
   const buttonStyle =
     variant === "purple"
       ? "bg-primarios-celeste-100"
-      : "bg-white border-[1px] neutral-color-blue-gray-300";
+      : "bg-white border-[1px] border-neutral-color-blue-gray-300";
 
   const textStyle =
     variant === "purple" ? "text-white" : "text-primarios-celeste-100";
@@ -22,10 +22,12 @@ const Button = ({
     return (
       <TouchableOpacity
         onPress={onPress}
-        className="flex-row items-center gap-[8px] mt-12 w-auto"
+        className="h-[36px] flex-row items-center gap-[8px]"
       >
-        <Feather name="chevron-left" size={20} color="#212121" />
-        <Text className="uppercase font-roboto-bold text-[12px] text-[#263238]">
+        <View>
+          <Feather name="chevron-left" size={20} color="#212121" />
+        </View>
+        <Text className="uppercase font-bold text-[12px] text-[#263238]">
           {title}
         </Text>
       </TouchableOpacity>
@@ -44,4 +46,4 @@ const Button = ({
   );
 };
 
-export default Button;
+export default CustomButton;
