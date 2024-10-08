@@ -54,16 +54,6 @@ const RegisterStep1Form = ({ navigation }) => {
         Por favor escribe tu código postal (5 dígitos) de tu lugar de
         residencia.
       </Text>
-
-      {/* Submit Button */}
-      {/* <TouchableOpacity
-        className="bg-primarios-celeste-100 h-[36px] items-center justify-center rounded-[8px]"
-        onPress={onSubmit}
-      >
-        <Text className="font-bold text-[12px] uppercase text-white">
-          Registrarse
-        </Text>
-      </TouchableOpacity> */}
     </View>
   );
 };
