@@ -4,8 +4,8 @@ import Feather from "@expo/vector-icons/Feather";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import InfoIconWithTooltip from "./InfoIconWithTooltip";
 import ToggleSwitch from "./ToggleSwitch";
-import Checkbox from "./Checkbox";
-import Button from "./Button";
+import CustomCheckbox from "./CustomCheckbox";
+import CustomButton from "./CustomButton";
 import InputField from "./InputField";
 
 const RegisterForm = ({ navigation }) => {
@@ -129,14 +129,14 @@ const RegisterForm = ({ navigation }) => {
         un número.
       </Text>
 
-      <Checkbox
+      <CustomCheckbox
         isChecked={acceptTermsAndConditions}
         onPress={() => setAcceptTermsAndConditions(!acceptTermsAndConditions)}
         label="Estoy de acuerdo con sus"
         labelLink="Términos de servicio y Política de privacidad"
         onLinkPress={() => Linking.openURL("https://www.google.com")}
       />
-      <Button onPress={onSubmit} title="Registrarse" />
+      <CustomButton onPress={onSubmit} title="Registrarse" />
     </View>
   );
 };
