@@ -100,7 +100,7 @@ export default function RegisterStep2({ navigation }) {
                 <View className="justify-center items-center">
                   <Image
                     source={{ uri: selectedImage }}
-                    style={{ width: 57, height: 57 }}
+                    style={{ width: 100, height: 100 }}
                   />
                 </View>
               ) : (
@@ -144,7 +144,7 @@ export default function RegisterStep2({ navigation }) {
           <View className="flex-row items-center justify-between mt-12">
             <CustomButton
               title="Atrás"
-              onPress={() => navigation.navigate("RegisterStep1")}
+              onPress={() => navigation.goBack()}
               width="content"
               isBackButton
             />
