@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import { View, Text, Linking, TouchableOpacity, TextInput } from "react-native";
 import Feather from "@expo/vector-icons/Feather";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
-import InfoIconWithTooltip from "./InfoIconWithTooltip";
-import ToggleSwitch from "./ToggleSwitch";
-import CustomCheckbox from "./CustomCheckbox";
-import CustomButton from "./CustomButton";
-import InputField from "./InputField";
+import InfoIconWithTooltip from "../../components/InfoIconWithTooltip";
+import ToggleSwitch from "../ToggleSwitch";
+import CustomCheckbox from "../CustomCheckbox";
+import CustomButton from "../CustomButton";
+import InputField from "../InputField";
 
 const RegisterForm = ({ navigation }) => {
   const [name, setName] = useState("");

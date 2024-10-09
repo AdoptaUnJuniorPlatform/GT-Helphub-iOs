@@ -1,5 +1,5 @@
 import { View, Text } from "react-native";
-import LogoDark from "./LogoDark";
+import LogoDark from "./svgComponents/LogoDark";
 
 const StepHeader = ({ title }) => {
   return (

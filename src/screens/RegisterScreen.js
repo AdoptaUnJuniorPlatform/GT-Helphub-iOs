@@ -5,8 +5,8 @@ import {
   ScrollView,
   TouchableOpacity,
 } from "react-native";
-import LogoLight from "../components/LogoLight";
-import RegisterForm from "../components/RegisterForm";
+import LogoLight from "../components/svgComponents/LogoLight";
+import RegisterForm from "../components/forms/RegisterForm";
 
 export default function RegisterScreen({ navigation }) {
   return (
