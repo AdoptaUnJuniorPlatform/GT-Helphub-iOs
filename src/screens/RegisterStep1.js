@@ -1,5 +1,5 @@
 import { Text, View, SafeAreaView, ScrollView } from "react-native";
-import RegisterStep1Form from "../components/RegisterStep1Form";
+import RegisterStep1Form from "../components/forms/RegisterStep1Form";
 import CustomButton from "../components/CustomButton";
 import StepHeader from "../components/StepHeader";
 import CustomChip from "../components/CustomChip";
