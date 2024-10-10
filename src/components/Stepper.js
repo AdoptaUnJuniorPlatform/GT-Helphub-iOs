@@ -12,7 +12,7 @@ const Stepper = ({ step = "1" }) => {
   return (
     <View className="pt-3">
       <View className="flex-row items-center">
-        <StepLabel title="1" status="active" />
+        <StepLabel title={step} status="active" />
         <View className="relative h-[3px] flex-1">
           <View className="bg-neutral-color-blue-gray-50 h-[3px] flex-1"></View>
           <View
@@ -20,7 +20,7 @@ const Stepper = ({ step = "1" }) => {
             style={{ width: `${progressBarWidth}%` }}
           ></View>
         </View>
-        <StepLabel title="2" status="inactive" />
+        <StepLabel title={parseInt(step) + 1} status="inactive" />
       </View>
       <View
         className="absolute top-2 w-[32px] h-[32px] rounded-full bg-primarios-violeta-100 justify-center items-center"
