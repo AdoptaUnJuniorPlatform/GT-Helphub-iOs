@@ -11,7 +11,7 @@ export default function RegisterStep5({ navigation }) {
         />
         <Button
           title="Siguiente"
-          onPress={() => navigation.navigate("HomeTabs")}
+          onPress={() => navigation.navigate("SessionStart")}
         />
       </View>
     </SafeAreaView>
