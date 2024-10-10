@@ -149,13 +149,15 @@ const RegisterForm = ({ navigation }) => {
         un número.
       </Text>
 
-      <CustomCheckbox
-        isChecked={acceptTermsAndConditions}
-        onPress={() => setAcceptTermsAndConditions(!acceptTermsAndConditions)}
-        label="Estoy de acuerdo con sus"
-        labelLink="Términos de servicio y Política de privacidad"
-        onLinkPress={() => Linking.openURL("https://www.google.com")}
-      />
+      <View className=" my-[34px]">
+        <CustomCheckbox
+          isChecked={acceptTermsAndConditions}
+          onPress={() => setAcceptTermsAndConditions(!acceptTermsAndConditions)}
+          label="Estoy de acuerdo con sus"
+          labelLink="Términos de servicio y Política de privacidad"
+          onLinkPress={() => Linking.openURL("https://www.google.com")}
+        />
+      </View>
       <CustomButton onPress={onSubmit} title="Registrarse" />
     </View>
   );

@@ -4,8 +4,8 @@ import Feather from "@expo/vector-icons/Feather";
 
 const CustomCheckbox = ({ isChecked, onPress, label, labelLink, onLinkPress }) => {
   return (
-    <View className="flex-row items-start my-[34px]">
-      <TouchableOpacity className="mr-2 mt-[1px]" onPress={onPress}>
+    <View className="flex-row items-start">
+      <TouchableOpacity className="mr-2 " onPress={onPress}>
         <View
           className={`w-[18px] h-[18px] border-[1px] rounded ${isChecked
             ? "bg-[#3F51B5] border-[#3F51B5]"
