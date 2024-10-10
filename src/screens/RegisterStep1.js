@@ -31,7 +31,7 @@ export default function RegisterStep1({ navigation }) {
         <View className="flex-row items-center justify-between mt-12">
           <CustomButton
             title="Atrás"
-            onPress={() => navigation.navigate("Register")}
+            onPress={() => navigation.goBack()}
             width="content"
             isBackButton
           />

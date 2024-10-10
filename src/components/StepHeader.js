@@ -7,11 +7,15 @@ const StepHeader = ({ title }) => {
       <View>
         <LogoDark />
       </View>
-      <View className="mt-[34px] w-[257px]">
-        <Text className="font-roboto-light leading-10 text-[30px] text-center text-neutros-negro">
-          {title}
-        </Text>
-      </View>
+      {title ? (
+        <View className="mt-[34px] w-[257px]">
+          <Text className="font-roboto-light leading-10 text-[30px] text-center text-neutros-negro">
+            {title}
+          </Text>
+        </View>
+      ) : (
+        <View />
+      )}
     </View>
   );
 };
