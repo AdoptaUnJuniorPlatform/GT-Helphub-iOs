@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React, { useState } from "react";
 import { View, Text, Linking, TouchableOpacity, TextInput } from "react-native";
 import Feather from "@expo/vector-icons/Feather";
@@ -18,6 +19,8 @@ const RegisterForm = ({ navigation }) => {
   const [acceptTermsAndConditions, setAcceptTermsAndConditions] =
     useState(false);
   const [isEnabled, setIsEnabled] = useState(false);
+
+  const [isFocused, setIsFocused] = useState(false);
 
   const onSubmit = () => {
     if (!acceptTermsAndConditions) {
@@ -49,28 +52,45 @@ const RegisterForm = ({ navigation }) => {
       {/* Phone Input */}
       <View>
         <View className="gap-2 mb-4">
-          <Text className="text-neutral-color-blue-gray-900 font-poppins-medium text-[14px]">
+          <Text
+            className={`font-poppins-medium text-[14px] ${isFocused
+              ? "text-neutral-color-blue-gray-400"
+              : "text-neutral-color-blue-gray-900"
+              }`}
+          >
             Teléfono
           </Text>
-          <View className="flex-row items-center border-[1px] border-neutral-color-blue-gray-100 rounded-[8px] h-[40px] bg-transparent">
+          <View
+            className={`flex-row items-center border-[1px] ${isFocused ? "border-[#455A64]" : "border-neutral-color-blue-gray-100"} rounded-[8px] h-[40px] bg-transparent`}
+          >
             {/* Country Code Dropdown */}
             <TouchableOpacity className="flex-row items-center pl-3">
               {/* Flag Emoji and Country Code */}
-              <Text className="text-[12px] font-roboto-medium color-neutral-color-blue-gray-500 pr-2">
+              <Text
+                className={`text-[12px] font-roboto-medium ${isFocused ? "color-neutral-color-gray-900" : "color-neutral-color-blue-gray-100"} pr-2`}
+              >
                 {countryCode}
               </Text>
-              <Feather name="chevron-down" size={20} color="#90a3ae" />
+              <Feather
+                name="chevron-down"
+                size={20}
+                color={isFocused ? "#212121" : "#90a3ae"}
+              />
             </TouchableOpacity>
 
-            <View className="w-[1px] h-[25px] bg-neutral-color-blue-gray-100 ml-2" />
+            <View
+              className={`w-[1px] h-[25px] ${isFocused ? "bg-neutral-color-gray-900" : "bg-neutral-color-blue-gray-100"} ml-2`}
+            />
 
             <TextInput
               value={phoneNumber}
               onChangeText={setPhoneNumber}
               placeholder="Mobile Number"
               className="flex-1 text-[14px] font-roboto-regular text-neutral-color-blue-gray-300 bg-transparent p-3"
-              placeholderTextColor="neutral-color-blue-gray-300"
+              placeholderTextColor={isFocused ? "#212121" : "#90a3ae"}
               keyboardType="phone-pad"
+              onFocus={() => setIsFocused(true)}
+              onBlur={() => setIsFocused(false)}
             />
           </View>
         </View>
