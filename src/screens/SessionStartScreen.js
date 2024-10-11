@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import LogoLight from "../components/svgComponents/LogoLight";
 import Feather from "@expo/vector-icons/Feather";
+import CustomButton from "../components/CustomButton";
 
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState("");
@@ -18,13 +19,13 @@ export default function LoginScreen({ navigation }) {
   const [isPasswordFocused, setIsPasswordFocused] = useState(false);
 
   return (
-    <SafeAreaView className="flex-1">
+    <SafeAreaView className="flex-1 bg-white">
       <View className="flex-1 bg-white">
         <View className="bg-primarios-violeta-100 w-full items-center py-[30px] mb-[20px] rounded-b-3xl">
           <LogoLight />
         </View>
 
-        <View className="flex-1 px-4 pb-10">
+        <View className="flex-1 px-4 pb-8">
           <Text className="text-primarios-violeta-100 text-[24px] font-roboto-regular mt-[30px] mb-[20px]">
             Inicia Sesión
           </Text>
@@ -102,14 +103,10 @@ export default function LoginScreen({ navigation }) {
             </View>
           </View>
 
-          <TouchableOpacity
-            className="h-[50px] items-center justify-center rounded-[8px] bg-primarios-violeta-100 shadow-md"
+          <CustomButton
             onPress={() => navigation.navigate("HomeTabs")}
-          >
-            <Text className="text-white text-[20px] font-roboto-medium">
-              Inicia Sesión
-            </Text>
-          </TouchableOpacity>
+            title="Inicia Sesión"
+          />
         </View>
       </View>
     </SafeAreaView>
