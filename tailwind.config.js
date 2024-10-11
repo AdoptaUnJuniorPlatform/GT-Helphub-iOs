@@ -12,6 +12,7 @@ module.exports = {
         "neutros-blanco": "#ffffff",
         "primarios-violeta-100": "#7165d1",
         "primarios-celeste-100": "#496ceb",
+        "primarios-azul-100": "#1945e2",
         "neutral-color-gray-900": "#212121",
         "neutral-color-blue-gray-900": "#253237",
         "neutral-color-blue-gray-500": "#607d8a",
@@ -28,6 +29,7 @@ module.exports = {
         "roboto-bold": ["Roboto-Bold", "sans-serif"],
         "poppins-regular": ["Poppins-Regular", "sans-serif"],
         "poppins-medium": ["Poppins-Medium", "sans-serif"],
+        "poppins-semibold": ["Poppins-Semibold", "sans-serif"],
       },
       fontSize: {
         h1: [

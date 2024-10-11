@@ -1,46 +1,29 @@
-import { Text, View, SafeAreaView } from "react-native";
+import { View, SafeAreaView } from "react-native";
 import RegisterStep1Form from "../components/forms/RegisterStep1Form";
 import CustomButton from "../components/CustomButton";
 import StepHeader from "../components/StepHeader";
-import CustomChip from "../components/CustomChip";
-import Stepper from "../components/Stepper";
+import StepTitle from "../components/StepTitle";
 
 export default function RegisterStep1({ navigation }) {
   return (
     <SafeAreaView className="flex-1 bg-white">
       <View className="flex-1 justify-between px-4">
         <View className="flex-1">
-          {/* Step Header with Stepper */}
-          <View className="h-[188px] mb-5">
-            <StepHeader />
-
-            <View className="px-4">
-              <Stepper />
-
-              <View className="mt-[20px] w-full flex-row justify-between items-center">
-                <CustomChip label={"Sobre ti"} status="active" />
-                <CustomChip label={"Tu foto"} status="inactive" />
-              </View>
-            </View>
-          </View>
-
-          {/* Step Titles */}
-          <View className="h-auto">
-            <Text className="text-primarios-violeta-100 text-h font-roboto-regular mb-[5px]">
-              Paso 1
-            </Text>
-            <Text
-              className="text-[#7166D2] text-[16px] font-roboto-medium"
-              style={{ opacity: 0.8 }}
-            >
-              Cuéntanos un poco más sobre vos
-            </Text>
-          </View>
-
+          <StepHeader
+            step="1"
+            label1={"Sobre ti"}
+            label2={"Tu foto"}
+            status1={"active"}
+            status2={"inactive"}
+          />
+          <StepTitle
+            title="Paso 1"
+            subtitle="Cuéntanos un poco más sobre vos"
+          />
           <RegisterStep1Form />
         </View>
 
-        {/* Button Set */}
+        {/* Navigation Button Set */}
         <View className="flex-row items-center justify-between mt-12">
           <CustomButton
             title="Atrás"

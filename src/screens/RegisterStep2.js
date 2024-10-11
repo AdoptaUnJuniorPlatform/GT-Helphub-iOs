@@ -3,20 +3,16 @@ import {
   Text,
   View,
   SafeAreaView,
-  ScrollView,
   Pressable,
   Animated,
   Easing,
-  Image,
 } from "react-native";
 import StepHeader from "../components/StepHeader";
-import CustomChip from "../components/CustomChip";
-import Stepper from "../components/Stepper";
 import CustomButton from "../components/CustomButton";
 import { Ionicons } from "@expo/vector-icons";
-import ImageIcon from "../components/svgComponents/ImageIcon";
 import AvatarChecked from "../components/AvatarChecked";
 import * as ImagePicker from "expo-image-picker";
+import StepTitle from "../components/StepTitle";
 
 export default function RegisterStep2({ navigation }) {
   const [visible, setVisible] = useState(false);
@@ -64,58 +60,58 @@ export default function RegisterStep2({ navigation }) {
   };
 
   return (
-    <SafeAreaView className="flex-1">
-      <ScrollView className="flex-1 bg-white px-4">
-        <View className="flex-grow">
-          <View className="flex-1 mb-5">
-            <StepHeader title="Una foto vale más que mil palabras" />
+    <SafeAreaView className="flex-1 bg-white">
+      <View className="flex-1 px-4">
+        <View className="flex-1 justify-between">
+          <View>
+            <StepHeader
+              step={"2"}
+              label1={"Tu foto"}
+              label2={"Disponibilidad"}
+              status1={"active"}
+              status2={"inactive"}
+            />
+            <StepTitle
+              title="Paso 2"
+              subtitle="Una foto vale más que mil palabras"
+            />
 
-            <View className="px-4">
-              <Stepper step="2" />
+            <View className="gap-[20px] mt-1">
+              <View>
+                <View className="flex-row justify-between items-center mb-[8px] mr-3">
+                  <Text className="text-neutral-color-gray-900 font-roboto-medium text-[20px]">
+                    Escoger una foto
+                  </Text>
 
-              <View className="mt-[20px] w-full flex-row justify-between items-center">
-                <CustomChip label={"Tu foto"} status="active" />
-                <CustomChip label={"Disponibilidad"} status="inactive" />
-              </View>
-            </View>
-          </View>
-
-          <Text className="text-primarios-violeta-100 text-h font-roboto-regular mb-[20px]">
-            Paso 2
-          </Text>
-
-          <View className="gap-[20px]">
-            <View>
-              <Text className="text-neutral-color-gray-900 font-roboto-medium text-[20px] mb-[8px]">
-                Escoger una foto
-              </Text>
-              <Text className="text-neutral-color-blue-gray-500 font-poppins-medium text-[16px]">
-                En HelpHub, todas las personas deben tener una fotografía en
-                donde se muestre claramente su rostro.
-              </Text>
-            </View>
-
-            <View className="justify-center align-center border-[1px] border-neutral-color-blue-gray-100 rounded-[8px] gap-[12px] px-[79px] py-[11px]">
-              {selectedImage ? (
-                <View className="justify-center items-center">
-                  <Image
-                    source={{ uri: selectedImage }}
-                    style={{ width: 100, height: 100 }}
-                  />
+                  <Pressable
+                    onPress={toggleDialog}
+                    className="flex-row gap-1 items-center"
+                  >
+                    <Ionicons
+                      name="information-circle"
+                      size={19}
+                      color="#1945e2"
+                    />
+                    <Text className="uppercase text-primarios-celeste-100 text-[12px] font-roboto-bold">
+                      Consejos
+                    </Text>
+                  </Pressable>
                 </View>
-              ) : (
-                <View className="justify-center items-center">
-                  <ImageIcon />
-                </View>
-              )}
-              <View className="gap-[10px] w-full self-end">
-                <Text className="text-neutros-negro text-center font-roboto-regular text-[24px]">
-                  Subir foto
-                </Text>
-                <Text className="text-neutros-negro-80 text-center font-roboto-medium text-[16px]">
-                  Selecciona una foto de perfil de tu equipo.
+                <Text className="text-neutral-color-blue-gray-500 leading-6 font-roboto-regular text-[16px]">
+                  En HelpHub, todas las personas deben tener una fotografía en
+                  donde se muestre claramente su rostro.
                 </Text>
               </View>
+
+              <View className="flex-row justify-between gap-2 items-center pt-6 px-14">
+                <AvatarChecked source={require("../../assets/avatar1.png")} />
+                <AvatarChecked source={require("../../assets/avatar2.png")} />
+                <AvatarChecked source={require("../../assets/avatar3.png")} />
+              </View>
+
+              <Text className="text-neutros-negro-80 text-center font-poppins-medium text-[13px]">
+                Si no lo tienes claro, aquí tienes unos ejemplos.
+              </Text>
               <View className="justify-center items-center">
                 <CustomButton
                   onPress={pickImage}
@@ -124,23 +120,9 @@ export default function RegisterStep2({ navigation }) {
                 />
               </View>
             </View>
-
-            <View className="flex-row gap-1">
-              <Text className="text-neutral-color-blue-gray-400 font-poppins-medium text-[13px]">
-                Si no lo tienes claro, aquí tienes unos ejemplos:
-              </Text>
-              <Pressable onPress={toggleDialog}>
-                <Ionicons name="information-circle" size={19} color="#90a3ae" />
-              </Pressable>
-            </View>
-
-            <View className="flex-row justify-between gap-2 items-center pt-6 px-14">
-              <AvatarChecked source={require("../../assets/avatar1.png")} />
-              <AvatarChecked source={require("../../assets/avatar2.png")} />
-              <AvatarChecked source={require("../../assets/avatar3.png")} />
-            </View>
           </View>
 
+          {/* Navigation Button Set */}
           <View className="flex-row items-center justify-between mt-12">
             <CustomButton
               title="Atrás"
@@ -156,7 +138,7 @@ export default function RegisterStep2({ navigation }) {
             />
           </View>
         </View>
-      </ScrollView>
+      </View>
 
       {visible && (
         <Animated.View
@@ -164,20 +146,32 @@ export default function RegisterStep2({ navigation }) {
             opacity: opacity,
             backgroundColor: "rgba(144, 145, 146, 0.6)",
           }}
-          className="absolute w-full h-screen flex-1 px-4"
+          className="absolute w-full h-screen flex-1 justify-center px-4"
         >
-          <View className="bg-white top-[160px] p-[24px] rounded-[8px]">
+          <View className="bg-white p-[24px] rounded-[8px]">
             <View className="mb-[24px]">
-              <Text className="mb-[8px] text-neutral-color-gray-900 font-poppins-regular font-bold text-[24px]">
+              <Text className="mb-[8px] text-neutral-color-gray-900 font-poppins-semibold text-[24px]">
                 Como escoger una gran foto
               </Text>
-              <Text className="text-[16px] font-poppins-regular text-neutral-color-blue-gray-500">
-                Preferentemente no escojas fotos donde tengas que recortar a
-                otras personas. Tu cara debe estar en el centro y bien enfocada.
-                Un fondo limpio y sin distracciones hará que te destaques más.
-                Mantén la edición de la foto al mínimo. Asegúrate de que la foto
-                sea reciente y refleje cómo te ves actualmente.
-              </Text>
+              <View className="gap-5">
+                <Text className="text-[15px] font-poppins-regular text-neutral-color-blue-gray-500">
+                  Preferentemente no escojas fotos donde tengas que recortar a
+                  otras personas.
+                </Text>
+                <Text className="text-[15px] font-poppins-regular text-neutral-color-blue-gray-500">
+                  Tu cara debe estar en el centro y bien enfocada.
+                </Text>
+                <Text className="text-[15px] font-poppins-regular text-neutral-color-blue-gray-500">
+                  Un fondo limpio y sin distracciones hará que te destaques más.
+                </Text>
+                <Text className="text-[15px] font-poppins-regular text-neutral-color-blue-gray-500">
+                  Mantén la edición de la foto al mínimo.
+                </Text>
+                <Text className="text-[15px] font-poppins-regular text-neutral-color-blue-gray-500">
+                  Asegúrate de que la foto sea reciente y refleje cómo te ves
+                  actualmente.
+                </Text>
+              </View>
             </View>
             <View className="items-end">
               <CustomButton

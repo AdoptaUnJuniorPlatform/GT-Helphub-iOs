@@ -2,7 +2,7 @@ import { View } from "react-native";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import StepLabel from "./StepLabel";
 
-const Stepper = ({ step = "1" }) => {
+const Stepper = ({ step }) => {
   const progressPercentage = ((step - 1) / 4) * 100;
 
   const constrainedLeft = Math.min(Math.max(progressPercentage, 4), 96);
