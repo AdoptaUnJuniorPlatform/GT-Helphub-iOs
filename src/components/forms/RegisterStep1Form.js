@@ -9,7 +9,7 @@ const RegisterStep1Form = ({ navigation }) => {
 
   return (
     <View>
-      <Text className="font-roboto-regular text-h5 text-neutros-negro my-[20px]">
+      <Text className="font-roboto-medium text-[20px] text-neutros-negro my-[20px]">
         Breve descripción del usuario
       </Text>
       <CustomTextarea
@@ -18,7 +18,7 @@ const RegisterStep1Form = ({ navigation }) => {
         placeholder="Por Ej: Soy una joven estudiante de enfermería, tengo 22 años vivo en Madrid con unas amigas. Soy una apasionada por la música, y que desea aprender a tocar el piano."
         numberOfLines="7"
       />
-      <View className="flex-1 mt-4">
+      <View className="mt-4">
         <InputFieldWithIcon
           label="Ubicación"
           value={postalCode}
@@ -27,8 +27,7 @@ const RegisterStep1Form = ({ navigation }) => {
           iconName="envelope"
         />
         <Text className="text-neutral-color-blue-gray-400 font-poppins-medium text-[13px]">
-          Por favor escribe tu código postal (5 dígitos) de tu lugar de
-          residencia.
+          Introduce tu código postal (5 dígitos) para identificar tu ubicación.
         </Text>
       </View>
     </View>

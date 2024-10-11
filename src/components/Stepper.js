@@ -10,7 +10,7 @@ const Stepper = ({ step = "1" }) => {
   const progressBarWidth = ((step - 1) / 4) * 100;
 
   return (
-    <View className="pt-3">
+    <View>
       <View className="flex-row items-center">
         <StepLabel title={step} status="active" />
         <View className="relative h-[3px] flex-1">
@@ -23,7 +23,7 @@ const Stepper = ({ step = "1" }) => {
         <StepLabel title={parseInt(step) + 1} status="inactive" />
       </View>
       <View
-        className="absolute top-2 w-[32px] h-[32px] rounded-full bg-primarios-violeta-100 justify-center items-center"
+        className="absolute -top-1 w-[32px] h-[32px] rounded-full bg-primarios-violeta-100 justify-center items-center"
         style={{
           left: `${constrainedLeft}%`,
           transform: [{ translateX: -16 }],
