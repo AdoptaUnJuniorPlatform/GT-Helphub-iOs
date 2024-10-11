@@ -7,6 +7,7 @@ module.exports = {
         "neutros-negro": "#434242",
         "neutros-negro-80": "#696868",
         "neutros-negro-50": "#b8b8b8",
+        "neutros-beige-fondo": "#f6f5f4",
         "neutros-blanco": "#ffffff",
         "primarios-violeta-100": "#7165d1",
         "primarios-celeste-100": "#496ceb",
