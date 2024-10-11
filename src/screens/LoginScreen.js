@@ -1,6 +1,12 @@
-import { Text, View, SafeAreaView, ImageBackground, Image } from "react-native";
+import {
+  Text,
+  View,
+  SafeAreaView,
+  ImageBackground,
+  Image,
+  TouchableOpacity,
+} from "react-native";
 import LogoLight from "../components/svgComponents/LogoLight";
-import CustomButton from "../components/CustomButton";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import Fontisto from "@expo/vector-icons/Fontisto";
 
@@ -33,19 +39,25 @@ export default function LoginScreen({ navigation }) {
               <View className="flex-1 justify-start items-center bg-transparent px-4 mt-12">
                 <View className="w-full">
                   <View className="mb-7">
-                    <CustomButton
+                    <TouchableOpacity
+                      className="h-[36px] items-center justify-center rounded-[8px] w-full bg-white"
                       onPress={() => navigation.navigate("RegisterFlow")}
-                      title="Crear cuenta nueva"
-                      variant="white"
-                    />
+                    >
+                      <Text className="font-roboto-bold text-[12px] uppercase text-primarios-violeta-100">
+                        Crear cuenta nueva
+                      </Text>
+                    </TouchableOpacity>
                   </View>
 
                   <View>
-                    <CustomButton
+                    <TouchableOpacity
+                      className="h-[36px] items-center justify-center rounded-[8px] w-full bg-white"
                       onPress={() => navigation.navigate("SessionStart")}
-                      title="Iniciar sesión"
-                      variant="white"
-                    />
+                    >
+                      <Text className="font-roboto-bold text-[12px] uppercase text-primarios-violeta-100">
+                        Iniciar sesión
+                      </Text>
+                    </TouchableOpacity>
                   </View>
                 </View>
 

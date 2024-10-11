@@ -10,7 +10,7 @@ module.exports = {
         "neutros-beige-fondo": "#f6f5f4",
         "text-neutros-gris-fondo": "#fafafa",
         "neutros-blanco": "#ffffff",
-        "primarios-violeta-100": "#7165d1",
+        "primarios-violeta-100": "#7166d2",
         "primarios-celeste-100": "#496ceb",
         "primarios-azul-100": "#1945e2",
         "neutral-color-gray-900": "#212121",
