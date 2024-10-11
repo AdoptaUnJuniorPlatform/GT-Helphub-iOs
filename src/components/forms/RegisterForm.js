@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import React, { useState } from "react";
+import { useState } from "react";
 import { View, Text, Linking, TouchableOpacity, TextInput } from "react-native";
 import Feather from "@expo/vector-icons/Feather";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";

@@ -12,6 +12,7 @@ import ProfileScreen from "../screens/ProfileScreen";
 import MessagesScreen from "../screens/MessagesScreen";
 import NotificationsScreen from "../screens/NotificationsScreen";
 import RatingsScreen from "../screens/RatingsScreen";
+import SessionStartScreen from "../screens/SessionStartScreen";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -69,8 +70,13 @@ const AppNavigator = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name="SessionStart"
+        name="Login"
         component={LoginScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="SessionStart"
+        component={SessionStartScreen}
         options={{ headerShown: false }}
       />
       <Stack.Screen

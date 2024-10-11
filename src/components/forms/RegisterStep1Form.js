@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { View, Text } from "react-native";
 import CustomTextarea from "../CustomTextarea";
 import InputFieldWithIcon from "../InputFieldWithIcon";
@@ -16,6 +16,7 @@ const RegisterStep1Form = ({ navigation }) => {
         value={description}
         onChange={setDescription}
         placeholder="Por Ej: Soy una joven estudiante de enfermería, tengo 22 años vivo en Madrid con unas amigas. Soy una apasionada por la música, y que desea aprender a tocar el piano."
+        numberOfLines="7"
       />
       <View className="flex-1 mt-4">
         <InputFieldWithIcon
