@@ -37,7 +37,7 @@ const CustomDropdown = ({ label }) => {
     <View>
       <TouchableOpacity
         onPress={toggleDropdown}
-        className="h-[59px] p-3 flex-row w-full justify-between items-center border-[1px] rounded-[6px]"
+        className="h-[59px] p-3 flex-row w-full bg-[#fbfbff] justify-between items-center border-[1px] rounded-[6px]"
         style={{ borderColor: "rgba(105, 104, 104, 0.1)", overflow: "hidden" }}
       >
         <Text
