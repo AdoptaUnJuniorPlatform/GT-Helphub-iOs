@@ -106,7 +106,7 @@ export default function RegisterStep1({ navigation }) {
             />
             <CustomButton
               title="Siguiente"
-              onPress={() => navigation.navigate("RegisterStep4")}
+              onPress={() => navigation.navigate("RegisterStep4_1")}
               variant="white"
               width="content"
             />

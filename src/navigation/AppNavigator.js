@@ -5,7 +5,8 @@ import RegisterScreen from "../screens/RegisterScreen";
 import RegisterStep1 from "../screens/RegisterStep1";
 import RegisterStep2 from "../screens/RegisterStep2";
 import RegisterStep3 from "../screens/RegisterStep3";
-import RegisterStep4 from "../screens/RegisterStep4";
+import RegisterStep4_1 from "../screens/RegisterStep4_1";
+import RegisterStep4_2 from "../screens/RegisterStep4_2";
 import RegisterStep5 from "../screens/RegisterStep5";
 import HomeScreen from "../screens/HomeScreen";
 import ProfileScreen from "../screens/ProfileScreen";
@@ -41,8 +42,13 @@ const RegistrationFlow = () => {
         options={{ headerShown: false }}
       />
       <Stack.Screen
-        name="RegisterStep4"
-        component={RegisterStep4}
+        name="RegisterStep4_1"
+        component={RegisterStep4_1}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="RegisterStep4_2"
+        component={RegisterStep4_2}
         options={{ headerShown: false }}
       />
       <Stack.Screen
