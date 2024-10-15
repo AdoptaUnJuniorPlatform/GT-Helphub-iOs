@@ -5,29 +5,42 @@ import {
   ImageBackground,
   Image,
   TouchableOpacity,
+  Dimensions,
 } from "react-native";
 import LogoLight from "../components/svgComponents/LogoLight";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import Fontisto from "@expo/vector-icons/Fontisto";
 
+const { width } = Dimensions.get("window");
+
 export default function LoginScreen({ navigation }) {
+  const isSmallScreen = width <= 392;
+  const isBigScreen = width >= 430;
+
   return (
     <SafeAreaView className="flex-1 bg-primarios-violeta-100">
       <View className="flex-1 bg-primarios-violeta-100">
         <ImageBackground
           source={require("../../assets/login-background.png")}
           style={{ width: "100%", height: "100%" }}
+          resizeMode="cover"
         >
           <View className="flex-1">
-            <View className="px-8 py-10">
+            <View
+              className={`px-8 ${isSmallScreen ? "py-5" : isBigScreen ? "py-14" : "py-10"}`}
+            >
               <LogoLight />
             </View>
             <View className="flex-1">
               <View className="px-4 pb-9">
-                <Text className="font-roboto-light text-[35px] text-white">
+                <Text
+                  className={`font-roboto-light ${isSmallScreen ? "text-[32px]" : isBigScreen ? "text-[38px]" : "text-[35px]"} text-white`}
+                >
                   Conecta y Comparte
                 </Text>
-                <Text className="font-roboto-regular text-[35px] text-black">
+                <Text
+                  className={`font-roboto-regular ${isSmallScreen ? "text-[32px]" : isBigScreen ? "text-[38px]" : "text-[35px]"} text-black`}
+                >
                   Habilidades
                 </Text>
               </View>
@@ -36,9 +49,9 @@ export default function LoginScreen({ navigation }) {
                 <Image source={require("../../assets/login-hero.png")} />
               </View>
 
-              <View className="flex-1 justify-start items-center bg-transparent px-4 mt-12">
+              <View className="flex-1 justify-start items-center bg-transparent px-4 mt-[12%]">
                 <View className="w-full">
-                  <View className="mb-7">
+                  <View className={`${isSmallScreen ? "mb-4" : "mb-7"}`}>
                     <TouchableOpacity
                       className="h-[36px] items-center justify-center rounded-[8px] w-full bg-white"
                       onPress={() => navigation.navigate("RegisterFlow")}
@@ -61,8 +74,10 @@ export default function LoginScreen({ navigation }) {
                   </View>
                 </View>
 
-                <View className="items-center justify-center mt-7">
-                  <Text className="text-text-neutros-gris-fondo text-[16px] font-roboto-regular mb-[15px]">
+                <View
+                  className={`items-center justify-center ${isBigScreen ? "mt-9" : isSmallScreen ? "mt-4" : "mt-7"}`}
+                >
+                  <Text className="text-neutros-gris-fondo text-[16px] font-roboto-regular mb-3">
                     Ingresa con
                   </Text>
                   <View className="flex-row gap-2">

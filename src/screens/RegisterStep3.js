@@ -5,6 +5,7 @@ import StepHeader from "../components/StepHeader";
 import CustomDropdown from "../components/CustomDropdown";
 import CustomRadio from "../components/CustomRadio";
 import StepTitle from "../components/StepTitle";
+import { daysOfTheWeek } from "../data/data";
 
 export default function RegisterStep1({ navigation }) {
   const [timeSlot, setTimeSlot] = useState("");
@@ -92,7 +93,7 @@ export default function RegisterStep1({ navigation }) {
               <Text className="text-neutral-color-blue-gray-500 mb-4 font-roboto-regular text-[16px]">
                 Puedes seccionar más de un día.
               </Text>
-              <CustomDropdown label="Seleccionar días" />
+              <CustomDropdown label="Seleccionar días" items={daysOfTheWeek} />
             </View>
           </View>
 

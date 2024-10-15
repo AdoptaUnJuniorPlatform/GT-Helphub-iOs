@@ -9,12 +9,24 @@ const CustomButton = ({
   isBackButton = false,
 }) => {
   const getWidthStyle = () => (width === "full" ? "w-full" : "w-fit px-[16px]");
+
   const getButtonStyle = () =>
     variant === "filled"
-      ? "bg-primarios-azul-100 shadow-md"
+      ? "bg-primarios-azul-100"
       : "bg-white border-[1px] border-primarios-celeste-100";
+
   const getTextStyle = () =>
     variant === "filled" ? "text-white" : "text-primarios-celeste-100";
+
+  const shadowStyle =
+    variant === "filled"
+      ? {
+        shadowColor: "#212121",
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.3,
+        shadowRadius: 2,
+      }
+      : {};
 
   if (isBackButton) {
     return (
@@ -36,6 +48,7 @@ const CustomButton = ({
     <TouchableOpacity
       className={`h-[36px] items-center justify-center rounded-[8px] ${getWidthStyle()} ${getButtonStyle()}`}
       onPress={onPress}
+      style={shadowStyle}
     >
       <Text
         className={`font-roboto-bold text-[12px] uppercase ${getTextStyle()}`}
