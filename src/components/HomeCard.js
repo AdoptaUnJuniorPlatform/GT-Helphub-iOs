@@ -4,7 +4,7 @@ import CustomButton from "./CustomButton";
 
 const { width } = Dimensions.get("window");
 
-const HomeCard = () => {
+const HomeCard = ({ onPress }) => {
   const isSmallScreen = width <= 392;
   const isBigScreen = width >= 430;
 
@@ -110,7 +110,7 @@ const HomeCard = () => {
       <View className="flex-1 flex-row justify-between px-4">
         <View>
           <CustomButton
-            onPress={() => console.log("ver más")}
+            onPress={onPress}
             title={"Ver más"}
             variant="white"
             width="content"
