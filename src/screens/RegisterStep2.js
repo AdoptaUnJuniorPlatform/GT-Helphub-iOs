@@ -148,7 +148,15 @@ export default function RegisterStep2({ navigation }) {
           }}
           className="absolute w-full h-screen flex-1 justify-center px-4"
         >
-          <View className="bg-white p-[24px] rounded-[8px]">
+          <View
+            className="bg-white p-[24px] rounded-[8px]"
+            style={{
+              shadowColor: "#212121",
+              shadowOffset: { width: 0, height: 3 },
+              shadowOpacity: 0.4,
+              shadowRadius: 4,
+            }}
+          >
             <View className="mb-[24px]">
               <Text className="mb-[8px] text-neutral-color-gray-900 font-poppins-semibold text-[24px]">
                 Como escoger una gran foto
