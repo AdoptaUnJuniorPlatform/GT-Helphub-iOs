@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState } from "react";
 import {
   View,
   Text,
@@ -8,8 +8,6 @@ import {
   Modal,
   Pressable,
   Dimensions,
-  Animated,
-  Easing,
 } from "react-native";
 import LogoDark from "../components/svgComponents/LogoDark";
 import HomeCard from "../components/HomeCard";
@@ -28,32 +26,15 @@ export default function HomeScreen() {
   const isBigScreen = width >= 430;
 
   const [isFilterVisible, setFilterVisible] = useState(false);
-  const [isCardOpened, setCardOpened] = useState(false);
+  const [isCardVisible, setCardVisible] = useState(false);
   const [selected, setSelected] = useState(null);
-
-  const opacity = useRef(new Animated.Value(0)).current;
 
   const toggleFilter = () => {
     setFilterVisible(!isFilterVisible);
   };
 
   const toggleCard = () => {
-    if (isCardOpened) {
-      Animated.timing(opacity, {
-        toValue: 0,
-        duration: 300,
-        easing: Easing.out(Easing.ease),
-        useNativeDriver: true,
-      }).start(() => setCardOpened(false));
-    } else {
-      setCardOpened(true);
-      Animated.timing(opacity, {
-        toValue: 1,
-        duration: 300,
-        easing: Easing.out(Easing.ease),
-        useNativeDriver: true,
-      }).start();
-    }
+    setCardVisible(!isCardVisible);
   };
 
   return (
@@ -128,6 +109,10 @@ export default function HomeScreen() {
           </ScrollView>
         </View>
       </View>
+
+      {isCardVisible && (
+        <ProfileCard isCardVisible={isCardVisible} toggleCard={toggleCard} />
+      )}
 
       {isFilterVisible && (
         <Modal
@@ -269,8 +254,6 @@ export default function HomeScreen() {
           </View>
         </Modal>
       )}
-
-      {isCardOpened && <ProfileCard onPress={toggleCard} opacity={opacity} />}
     </View>
   );
 }
