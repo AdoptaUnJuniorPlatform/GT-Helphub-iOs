@@ -12,8 +12,9 @@ import HomeScreen from "../screens/HomeScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 import MessagesScreen from "../screens/MessagesScreen";
 import NotificationsScreen from "../screens/NotificationsScreen";
-import RatingsScreen from "../screens/RatingsScreen";
 import SessionStartScreen from "../screens/SessionStartScreen";
+import { Ionicons } from "@expo/vector-icons";
+import { Text, SafeAreaView } from "react-native";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -62,13 +63,78 @@ const RegistrationFlow = () => {
 
 const Tabs = () => {
   return (
-    <Tab.Navigator>
-      <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="Profile" component={ProfileScreen} />
-      <Tab.Screen name="Messages" component={MessagesScreen} />
-      <Tab.Screen name="Notifications" component={NotificationsScreen} />
-      <Tab.Screen name="Ratings" component={RatingsScreen} />
-    </Tab.Navigator>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
+      <Tab.Navigator
+        screenOptions={({ route }) => ({
+          tabBarStyle: {
+            backgroundColor: "#7166d2",
+            marginHorizontal: 25,
+            height: 45,
+            paddingBottom: 4,
+            borderRadius: 8,
+            shadowColor: "#000",
+            shadowOffset: { width: 0, height: 1 },
+            shadowOpacity: 0.2,
+            shadowRadius: 4,
+            position: "absolute",
+            bottom: 16,
+            left: 0,
+            right: 0,
+          },
+          tabBarIcon: ({ color, focused }) => {
+            let iconName;
+            const iconSize = focused ? 20 : 24;
+            if (route.name === "Inicio") {
+              iconName = "home";
+            } else if (route.name === "Mensajes") {
+              iconName = "mail";
+            } else if (route.name === "Alertas") {
+              iconName = "notifications";
+            } else if (route.name === "Perfil") {
+              iconName = "person";
+            }
+            return <Ionicons name={iconName} size={iconSize} color={color} />;
+          },
+          tabBarLabel: ({ focused }) => {
+            return focused ? (
+              <Text
+                style={{
+                  color: "white",
+                  fontWeight: "bold",
+                  fontSize: 9,
+                  marginTop: -5,
+                }}
+              >
+                {route.name}
+              </Text>
+            ) : null;
+          },
+          tabBarActiveTintColor: "white",
+          tabBarInactiveTintColor: "#d1ceee",
+        })}
+      >
+        <Tab.Screen
+          name="Inicio"
+          component={HomeScreen}
+          options={{ headerShown: false }}
+        />
+        <Tab.Screen
+          name="Mensajes"
+          component={MessagesScreen}
+          options={{ headerShown: false }}
+        />
+        <Tab.Screen
+          name="Alertas"
+          component={NotificationsScreen}
+          options={{ headerShown: false }}
+        />
+        <Tab.Screen
+          name="Perfil"
+          component={ProfileScreen}
+          options={{ headerShown: false }}
+        />
+      </Tab.Navigator>
+    </SafeAreaView>
   );
 };
 
