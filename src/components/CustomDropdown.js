@@ -45,7 +45,10 @@ const CustomDropdown = ({ label, items }) => {
       </TouchableOpacity>
 
       {isOpen && (
-        <ScrollView className="border-[1px] border-gray-200 mt-2 max-h-[200px] rounded-[8px]">
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          className="border-[1px] border-gray-200 mt-2 max-h-[200px] rounded-[8px]"
+        >
           {items.map((item) => (
             <View
               key={item}

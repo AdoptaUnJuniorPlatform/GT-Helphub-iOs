@@ -3,7 +3,7 @@ import { TouchableOpacity, View, Text } from "react-native";
 const CustomRadio = ({ isSelected, label, onPress }) => {
   return (
     <TouchableOpacity
-      className={`h-[44px] flex-row items-center justify-start pl-2 border-[1px] rounded-[5px] ${isSelected ? "border-primarios-celeste-100" : "border-neutros-negro-50"}`}
+      className={`h-[44px] flex-row items-center justify-start px-2 border-[1px] rounded-[5px] ${isSelected ? "border-primarios-celeste-100" : "border-neutros-negro-50"}`}
       onPress={onPress}
     >
       <View className="mr-1 mt-[1px]">

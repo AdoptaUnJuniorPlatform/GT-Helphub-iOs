@@ -6,6 +6,7 @@ import {
   Pressable,
   Animated,
   Easing,
+  Dimensions,
 } from "react-native";
 import StepHeader from "../components/StepHeader";
 import CustomButton from "../components/CustomButton";
@@ -14,9 +15,14 @@ import AvatarChecked from "../components/AvatarChecked";
 import * as ImagePicker from "expo-image-picker";
 import StepTitle from "../components/StepTitle";
 
+const { width } = Dimensions.get("window");
+
 export default function RegisterStep2({ navigation }) {
+  const isSmallScreen = width <= 392;
+  const isBigScreen = width >= 430;
+
   const [visible, setVisible] = useState(false);
-  const [selectedImage, setSelectedImage] = useState(null);
+  const [image, setImage] = useState(null);
   const opacity = useRef(new Animated.Value(0)).current;
 
   const toggleDialog = () => {
@@ -55,7 +61,7 @@ export default function RegisterStep2({ navigation }) {
     });
 
     if (!result.canceled) {
-      setSelectedImage(result.assets[0].uri);
+      setImage(result.assets[0].uri);
     }
   };
 
@@ -76,10 +82,14 @@ export default function RegisterStep2({ navigation }) {
               subtitle="Una foto vale más que mil palabras"
             />
 
-            <View className="gap-[20px] mt-1">
+            <View
+              className={`${isBigScreen ? "gap-[22px]" : isSmallScreen ? "gap-[18px]" : "gap-[20px]"} mt-1`}
+            >
               <View>
                 <View className="flex-row justify-between items-center mb-[8px] mr-3">
-                  <Text className="text-neutral-color-gray-900 font-roboto-medium text-[20px]">
+                  <Text
+                    className={`text-neutral-color-gray-900 font-roboto-medium ${isBigScreen ? "text-[21px]" : isSmallScreen ? "text-[18px]" : "text-[20px]"}`}
+                  >
                     Escoger una foto
                   </Text>
 
@@ -103,7 +113,9 @@ export default function RegisterStep2({ navigation }) {
                 </Text>
               </View>
 
-              <View className="flex-row justify-between gap-2 items-center pt-6 px-14">
+              <View
+                className={`w-[65%] self-center flex-row justify-between items-center ${isSmallScreen ? "pt-2" : "pt-6"}`}
+              >
                 <AvatarChecked source={require("../../assets/avatar1.png")} />
                 <AvatarChecked source={require("../../assets/avatar2.png")} />
                 <AvatarChecked source={require("../../assets/avatar3.png")} />
@@ -123,7 +135,9 @@ export default function RegisterStep2({ navigation }) {
           </View>
 
           {/* Navigation Button Set */}
-          <View className="flex-row items-center justify-between mt-12">
+          <View
+            className={`flex-row items-center justify-between ${isSmallScreen ? "mt-auto mb-2" : "mt-12"}`}
+          >
             <CustomButton
               title="Atrás"
               onPress={() => navigation.goBack()}
@@ -158,7 +172,9 @@ export default function RegisterStep2({ navigation }) {
             }}
           >
             <View className="mb-[24px]">
-              <Text className="mb-[8px] text-neutral-color-gray-900 font-poppins-semibold text-[24px]">
+              <Text
+                className={`text-neutral-color-gray-900 font-poppins-semibold w-[90%] ${isBigScreen ? "text-[26px] mb-[12px]" : isSmallScreen ? "text-[22px] mb-[8px]" : "text-[24px] mb-[8px]"}`}
+              >
                 Como escoger una gran foto
               </Text>
               <View className="gap-5">

@@ -1,10 +1,14 @@
-import { View, SafeAreaView } from "react-native";
+import { View, SafeAreaView, Dimensions } from "react-native";
 import RegisterStep1Form from "../components/forms/RegisterStep1Form";
 import CustomButton from "../components/CustomButton";
 import StepHeader from "../components/StepHeader";
 import StepTitle from "../components/StepTitle";
 
+const { width } = Dimensions.get("window");
+
 export default function RegisterStep1({ navigation }) {
+  const isSmallScreen = width <= 392;
+
   return (
     <SafeAreaView className="flex-1 bg-white">
       <View className="flex-1 justify-between px-4">
@@ -16,15 +20,14 @@ export default function RegisterStep1({ navigation }) {
             status1={"active"}
             status2={"inactive"}
           />
-          <StepTitle
-            title="Paso 1"
-            subtitle="Cuéntanos un poco más sobre vos"
-          />
+          <StepTitle title="Paso 1" subtitle="Cuéntanos un poco más sobre ti" />
           <RegisterStep1Form />
         </View>
 
         {/* Navigation Button Set */}
-        <View className="flex-row items-center justify-between mt-12">
+        <View
+          className={`flex-row items-center justify-between ${isSmallScreen ? "mt-auto mb-2" : "mt-12"}`}
+        >
           <CustomButton
             title="Atrás"
             onPress={() => navigation.goBack()}

@@ -11,7 +11,10 @@ import RegisterForm from "../components/forms/RegisterForm";
 export default function RegisterScreen({ navigation }) {
   return (
     <SafeAreaView className="flex-1">
-      <ScrollView className="flex-1 bg-white px-4">
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        className="flex-1 bg-white px-4"
+      >
         <View className="bg-primarios-violeta-100 w-full h-auto items-center py-[46px] mb-[20px] rounded-b-3xl">
           <LogoLight />
 

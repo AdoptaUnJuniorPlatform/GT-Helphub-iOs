@@ -5,6 +5,7 @@ import { useFonts } from "expo-font";
 import {
   Roboto_300Light,
   Roboto_400Regular,
+  Roboto_400Regular_Italic,
   Roboto_500Medium,
   Roboto_700Bold,
 } from "@expo-google-fonts/roboto";
@@ -18,6 +19,7 @@ export default function App() {
   const [fontsLoaded, error] = useFonts({
     Roboto_300Light,
     Roboto_400Regular,
+    Roboto_400Regular_Italic,
     Roboto_500Medium,
     Roboto_700Bold,
     Poppins_400Regular,

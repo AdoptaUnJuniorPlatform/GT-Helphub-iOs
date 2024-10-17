@@ -1,11 +1,18 @@
-import { View } from "react-native";
+import { View, Dimensions } from "react-native";
 import LogoDark from "./svgComponents/LogoDark";
 import Stepper from "./Stepper";
 import CustomChip from "./CustomChip";
 
+const { width } = Dimensions.get("window");
+
 const StepHeader = ({ step, label1, label2, status1, status2 }) => {
+  const isSmallScreen = width <= 392;
+  const isBigScreen = width >= 430;
+
   return (
-    <View className="h-[188px] mb-5">
+    <View
+      className={`h-[188px] mb-5 ${isBigScreen ? "mb-7" : isSmallScreen ? "mb-3" : "mb-5"}`}
+    >
       <View className="flex-1 w-full items-center py-8">
         <LogoDark />
       </View>
