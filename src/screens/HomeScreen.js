@@ -125,7 +125,10 @@ export default function HomeScreen() {
             <View
               className={`w-3/4 h-full bg-white px-4 ${isSmallScreen ? "py-6" : "py-16"} items-start justify-between border-l-[1px] border-neutral-color-blue-gray-50`}
             >
-              <ScrollView className="px-2 mb-2">
+              <ScrollView
+                showsVerticalScrollIndicator={false}
+                className="px-2 mb-2"
+              >
                 {/* Header */}
                 <View className="w-full">
                   <View className="flex-row justify-between items-center mb-3">
