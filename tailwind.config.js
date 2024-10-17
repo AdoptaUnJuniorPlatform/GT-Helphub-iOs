@@ -25,6 +25,7 @@ module.exports = {
       fontFamily: {
         "roboto-light": ["Roboto-Light", "sans-serif"],
         "roboto-regular": ["Roboto-Regular", "sans-serif"],
+        "roboto-italic": ["Roboto-Italic", "sans-serif"],
         "roboto-medium": ["Roboto-Medium", "sans-serif"],
         "roboto-bold": ["Roboto-Bold", "sans-serif"],
         "poppins-regular": ["Poppins-Regular", "sans-serif"],
