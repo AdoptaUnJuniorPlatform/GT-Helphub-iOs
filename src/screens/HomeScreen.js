@@ -38,7 +38,10 @@ export default function HomeScreen() {
   };
 
   return (
-    <View className="flex-1 bg-white">
+    <ScrollView
+      showsVerticalScrollIndicator={false}
+      className="flex-1 bg-white"
+    >
       <View
         className={`px-9 ${isBigScreen ? "my-7" : isSmallScreen ? "my-3" : "my-5"}`}
       >
@@ -90,23 +93,46 @@ export default function HomeScreen() {
         </View>
 
         {/* Cards Section */}
-        <View className="pl-4">
-          <Text
-            className={`font-roboto-regular ${isBigScreen ? "text-[22px] mb-7" : isSmallScreen ? "text-[18px] mb-2" : "text-[20px] mb-6"} text-neutral-color-gray-900`}
-          >
-            Animales
-          </Text>
-          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            <View>
-              <HomeCard onPress={toggleCard} />
-            </View>
-            <View>
-              <HomeCard onPress={toggleCard} />
-            </View>
-            <View>
-              <HomeCard onPress={toggleCard} />
-            </View>
-          </ScrollView>
+        <View>
+          <View className="pl-4 mb-6">
+            <Text
+              className={`font-roboto-regular ${isBigScreen ? "text-[22px] mb-7" : isSmallScreen ? "text-[18px] mb-2" : "text-[20px] mb-6"} text-neutral-color-gray-900`}
+            >
+              Animales
+            </Text>
+            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+              <View>
+                <HomeCard onPress={toggleCard} />
+              </View>
+              <View>
+                <HomeCard onPress={toggleCard} />
+              </View>
+              <View>
+                <HomeCard onPress={toggleCard} />
+              </View>
+            </ScrollView>
+          </View>
+        </View>
+
+        <View>
+          <View className="pl-4 mb-6">
+            <Text
+              className={`font-roboto-regular ${isBigScreen ? "text-[22px] mb-7" : isSmallScreen ? "text-[18px] mb-2" : "text-[20px] mb-6"} text-neutral-color-gray-900`}
+            >
+              Ayuda
+            </Text>
+            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+              <View>
+                <HomeCard onPress={toggleCard} />
+              </View>
+              <View>
+                <HomeCard onPress={toggleCard} />
+              </View>
+              <View>
+                <HomeCard onPress={toggleCard} />
+              </View>
+            </ScrollView>
+          </View>
         </View>
       </View>
 
@@ -230,7 +256,7 @@ export default function HomeScreen() {
               </ScrollView>
 
               {/* Button Set */}
-              <View className="mt-3 flex-row w-full px-2">
+              <View className="mt-3 flex-row w-full justify-between px-2">
                 <CustomButton
                   onPress={() => console.log("borrar filtros")}
                   title={"Borrar filtros"}
@@ -238,25 +264,17 @@ export default function HomeScreen() {
                   variant="white"
                 />
 
-                <TouchableOpacity
-                  className="ml-2 h-[36px] bg-white items-center justify-center px-4 rounded-[8px] w-fit"
+                <CustomButton
                   onPress={() => console.log("guardar")}
-                  style={{
-                    shadowColor: "#212121",
-                    shadowOffset: { width: 0, height: 2 },
-                    shadowOpacity: 0.3,
-                    shadowRadius: 2,
-                  }}
-                >
-                  <Text className="font-roboto-bold text-[12px] uppercase">
-                    Guardar
-                  </Text>
-                </TouchableOpacity>
+                  title={"Guardar"}
+                  width="content"
+                  variant="filled"
+                />
               </View>
             </View>
           </View>
         </Modal>
       )}
-    </View>
+    </ScrollView>
   );
 }

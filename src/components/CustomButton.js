@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { TouchableOpacity, Text, View } from "react-native";
 import Feather from "@expo/vector-icons/Feather";
 
@@ -7,13 +8,13 @@ const CustomButton = ({
   width = "full",
   variant = "filled",
   isBackButton = false,
+  disabled = false,
+  children,
 }) => {
   const getWidthStyle = () => (width === "full" ? "w-full" : "w-fit px-[16px]");
 
   const getButtonStyle = () =>
-    variant === "filled"
-      ? "bg-primarios-azul-100"
-      : "bg-white border-[1px] border-primarios-celeste-100";
+    variant === "filled" ? "bg-primarios-azul-100" : "bg-white border-[1px]";
 
   const getTextStyle = () =>
     variant === "filled" ? "text-white" : "text-primarios-celeste-100";
@@ -44,14 +45,22 @@ const CustomButton = ({
     );
   }
 
+  const disabledStyle = disabled
+    ? { borderColor: "#b8b8b8" }
+    : { borderColor: "#496ceb" };
+  const disabledText = disabled ? { color: "#b8b8b8" } : {};
+
   return (
     <TouchableOpacity
-      className={`h-[36px] items-center justify-center rounded-[8px] ${getWidthStyle()} ${getButtonStyle()}`}
-      onPress={onPress}
-      style={shadowStyle}
+      className={`flex-row h-[36px] items-center justify-center rounded-[8px] ${getWidthStyle()} ${getButtonStyle()}`}
+      onPress={disabled ? null : onPress}
+      style={[shadowStyle, disabledStyle]}
+      disabled={disabled}
     >
+      {children}
       <Text
         className={`font-roboto-bold text-[12px] uppercase ${getTextStyle()}`}
+        style={disabledText}
       >
         {title}
       </Text>

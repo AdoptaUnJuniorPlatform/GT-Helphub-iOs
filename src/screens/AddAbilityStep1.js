@@ -1,22 +1,20 @@
 import { useState } from "react";
 import {
   View,
-  SafeAreaView,
-  ScrollView,
-  Dimensions,
-  Text,
   TouchableOpacity,
+  Text,
+  Dimensions,
+  ScrollView,
 } from "react-native";
-import CustomButton from "../components/CustomButton";
-import StepHeader from "../components/StepHeader";
-import StepTitle from "../components/StepTitle";
-import CustomRadio from "../components/CustomRadio";
-import CustomTextarea from "../components/CustomTextarea";
 import Feather from "@expo/vector-icons/Feather";
+import CustomButton from "../components/CustomButton";
+import CustomTextarea from "../components/CustomTextarea";
+import CustomRadio from "../components/CustomRadio";
+import AntDesign from "@expo/vector-icons/AntDesign";
 
 const { width } = Dimensions.get("window");
 
-export default function RegisterStep4_1({ navigation }) {
+const AddAbilityStep1 = ({ onRequestClose, visible, navigation }) => {
   const isSmallScreen = width <= 392;
   const isBigScreen = width >= 430;
 
@@ -38,30 +36,55 @@ export default function RegisterStep4_1({ navigation }) {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-white">
-      <View className="flex-1">
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-          className="flex-1 bg-white px-4"
-        >
-          <StepHeader
-            step={"4"}
-            label1={"Mis habilidades"}
-            label2={"Que quiero aprender"}
-            status1={"active"}
-            status2={"inactive"}
-          />
-
-          <StepTitle title={"Paso 4"} subtitle={"¡Ya casi estamos!"} />
-
-          {/* Carga... */}
-          <View className={`${isSmallScreen ? "mt-2" : "mt-4"}`}>
+    <View
+      className={`absolute w-full h-screen flex-1 justify-center ${isSmallScreen ? "pt-8" : "pt-16"} bg-white`}
+    >
+      <ScrollView showsVerticalScrollIndicator={false}>
+        {/* Go Back Button */}
+        <View className="bg-[#fbfbff] w-full py-2 flex-row justify-start items-center">
+          <TouchableOpacity
+            onPress={() => navigation.goBack()}
+            className={`${isBigScreen ? "h-[42px]" : isSmallScreen ? "h-[30px]" : "h-[36px]"}  flex-row items-center justify-center pl-[8px] pr-[16px]`}
+          >
+            <View className="mr-[8px]">
+              <Feather
+                name="chevron-left"
+                size={isSmallScreen ? 24 : 28}
+                color="#696868"
+              />
+            </View>
             <Text
-              className={`text-neutral-color-gray-900 font-roboto-medium ${isBigScreen ? "text-[21px] mb-[8px]" : isSmallScreen ? "text-[18px] mb-[3px]" : "text-[20px] mb-[5px]"}`}
+              className={`font-roboto-medium ${isSmallScreen ? "text-[20px]" : "text-[22px]"} text-neutros-negro`}
             >
-              Añade tu primera habilidad
+              Volver
             </Text>
+          </TouchableOpacity>
+        </View>
 
+        {/* Info */}
+        <View className="bg-terciario-verde-fondo rounded-[8px] mx-4 mt-4 px-[20px] pt-[15px] pb-[10px]">
+          <View className="flex-row items-center gap-4 mb-2">
+            <AntDesign name="checkcircleo" size={24} color="#43A047" />
+            <Text className="text-[14px] text-terciario-verde-oscuro font-roboto-medium">
+              ¡Ya tienes 2 habilidades!
+            </Text>
+          </View>
+          <Text className="text-[12px] text-terciario-verde-oscuro font-roboto-400">
+            Sigue sumando habilidades para hacer crecer esta comunidad.
+          </Text>
+        </View>
+
+        {/* Form Section */}
+        <View
+          className={`bg-[#f7f7f7] rounded-[8px] ${isSmallScreen ? "pt-3 pb-4 px-4 mx-4 my-2" : "p-4 m-4"}`}
+        >
+          {/* Info */}
+          <View>
+            <Text
+              className={`text-neutral-color-gray-900 font-roboto-medium ${isBigScreen ? "text-[21px] mb-[8px]" : isSmallScreen ? "text-[18px] mb-[4px]" : "text-[20px] mb-[5px]"}`}
+            >
+              Nueva habilidad
+            </Text>
             <Text
               className={`text-neutral-color-blue-gray-500 ${isSmallScreen ? "" : "leading-6"} font-roboto-regular text-[16px]`}
             >
@@ -70,12 +93,12 @@ export default function RegisterStep4_1({ navigation }) {
           </View>
 
           {/* Título... */}
-          <View className={`${isSmallScreen ? "mt-2" : "mt-4"}`}>
+          <View className="mt-4">
             <View
               className={`flex-row justify-between items-center ${isBigScreen ? "mb-2" : isSmallScreen ? "" : "mb-1"}`}
             >
               <Text
-                className={`text-neutral-color-gray-900 font-roboto-medium ${isBigScreen ? "text-[21px] w-[35%] text-wrap" : isSmallScreen ? "text-[18px]" : "text-[20px]"}`}
+                className={`text-neutral-color-gray-900 font-roboto-medium ${isBigScreen ? "text-[21px] w-[35%] text-wrap" : isSmallScreen ? "text-[18px]" : "text-[20px] w-[35%] text-wrap"}`}
               >
                 Título de tu publicación
               </Text>
@@ -102,22 +125,22 @@ export default function RegisterStep4_1({ navigation }) {
                   Ejemplos para crear tu título
                 </Text>
                 <Text
-                  className={`text-neutros-negro-80 font-poppins-medium text-[14px] ${isSmallScreen ? "mb-2" : "mb-3"}`}
+                  className={`text-neutros-negro-80 font-roboto-regular text-[14px] ${isSmallScreen ? "mb-2" : "mb-3"}`}
                 >
                   Sesión grupal de meditación al aire libre.
                 </Text>
                 <Text
-                  className={`text-neutros-negro-80 font-poppins-medium text-[14px] ${isSmallScreen ? "mb-2" : "mb-3"}`}
+                  className={`text-neutros-negro-80 font-roboto-regular text-[14px] ${isSmallScreen ? "mb-2" : "mb-3"}`}
                 >
                   Revisión de currículum vitae.
                 </Text>
                 <Text
-                  className={`text-neutros-negro-80 font-poppins-medium text-[14px] ${isSmallScreen ? "mb-2" : "mb-3"}`}
+                  className={`text-neutros-negro-80 font-roboto-regular text-[14px] ${isSmallScreen ? "mb-2" : "mb-3"}`}
                 >
                   Clases de cocina italiana tradicional.
                 </Text>
                 <Text
-                  className={`text-neutros-negro-80 font-poppins-medium text-[14px] ${isSmallScreen ? "mb-2" : "mb-3"}`}
+                  className={`text-neutros-negro-80 font-roboto-regular text-[14px] ${isSmallScreen ? "mb-2" : "mb-3"}`}
                 >
                   Entrenamiento personal en gimnasio.
                 </Text>
@@ -137,9 +160,9 @@ export default function RegisterStep4_1({ navigation }) {
           </View>
 
           {/* Nivel */}
-          <View className={`${isSmallScreen ? "mt-2" : "mt-4"}`}>
+          <View className="mt-4">
             <Text
-              className={`text-neutral-color-gray-900 font-roboto-medium ${isBigScreen ? "text-[21px]" : isSmallScreen ? "text-[18px]" : "text-[20px]"}`}
+              className={`text-neutral-color-gray-900 font-roboto-medium ${isBigScreen ? "text-[21px]" : isSmallScreen ? "text-[16px]" : "text-[20px]"}`}
             >
               Nivel
             </Text>
@@ -171,27 +194,21 @@ export default function RegisterStep4_1({ navigation }) {
           </View>
 
           {/* Modalidad */}
-          <View className={`${isSmallScreen ? "mt-0" : "mt-3"}`}>
+          <View className="mt-2">
             <Text
-              className={`text-neutral-color-gray-900 font-roboto-medium ${isBigScreen ? "text-[21px]" : isSmallScreen ? "text-[18px]" : "text-[20px]"}`}
+              className={`text-neutral-color-gray-900 font-roboto-medium ${isBigScreen ? "text-[21px]" : isSmallScreen ? "text-[16px]" : "text-[20px]"}`}
             >
               Modalidad
             </Text>
-            <View
-              className={`flex flex-wrap flex-row justify-start ${isSmallScreen ? "mt-1" : "mt-2"}`}
-            >
-              <View
-                className={`mr-2 w-auto ${isSmallScreen ? "mb-1" : "mb-2"}`}
-              >
+            <View className="flex flex-wrap flex-row justify-start mt-2">
+              <View className="mr-2 w-auto mb-2">
                 <CustomRadio
                   label="Online"
                   isSelected={mode === "Online"}
                   onPress={() => handleModeChange("Online")}
                 />
               </View>
-              <View
-                className={`mr-2 w-auto ${isSmallScreen ? "mb-1" : "mb-2"}`}
-              >
+              <View className="mr-2 w-auto mb-2">
                 <CustomRadio
                   label="Presencial"
                   isSelected={mode === "Presemcial"}
@@ -202,34 +219,31 @@ export default function RegisterStep4_1({ navigation }) {
           </View>
 
           {/* Asterisc */}
-          <View>
+          <View className="mt-2">
             <Text
-              className={`text-neutral-color-blue-gray-500 font-roboto-italic ${isSmallScreen ? "text-[9px]" : "text-[13px] leading-5"}`}
+              className={`text-neutral-color-blue-gray-500 font-roboto-italic ${isSmallScreen ? "text-[11px]" : "text-[13px]"} leading-5`}
             >
               Recomendamos una reunión online antes de un encuentro presencial
               por seguridad.
             </Text>
           </View>
-        </ScrollView>
+        </View>
+      </ScrollView>
 
-        {/* Navigation Button Set */}
-        <View
-          className={`absolute ${isSmallScreen ? "pb-2" : ""} bottom-0 left-0 right-0 px-4 pt-2 bg-white flex-row items-center justify-between`}
-        >
+      {/* Siguiente */}
+      <View className={`mx-4 ${isSmallScreen ? "mb-2" : "mb-10"} mt-2`}>
+        <View className="flex-row justify-end">
           <CustomButton
-            title="Atrás"
-            onPress={() => navigation.goBack()}
+            onPress={() => navigation.navigate("AddAbilityStep2")}
+            title={"Siguiente"}
             width="content"
-            isBackButton
-          />
-          <CustomButton
-            title="Siguiente"
-            onPress={() => navigation.navigate("RegisterStep4_2")}
             variant="white"
-            width="content"
           />
         </View>
       </View>
-    </SafeAreaView>
+    </View>
+    // </Modal>
   );
-}
+};
+
+export default AddAbilityStep1;

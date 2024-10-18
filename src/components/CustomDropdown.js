@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, ScrollView } from "react-native";
 import Feather from "@expo/vector-icons/Feather";
 import CustomCheckbox from "./CustomCheckbox";
 
-const CustomDropdown = ({ label, items }) => {
+const CustomDropdown = ({ label, items, backgroundColor }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedItems, setSelectedItems] = useState([]);
 
@@ -27,7 +27,7 @@ const CustomDropdown = ({ label, items }) => {
     <View className="w-full">
       <TouchableOpacity
         onPress={toggleDropdown}
-        className="h-[44px] p-3 flex-row w-full bg-[#fbfbff] justify-between items-center border-[1px] rounded-[8px]"
+        className={`h-[44px] p-3 flex-row w-full ${backgroundColor} justify-between items-center border-[1px] rounded-[8px]`}
         style={{ borderColor: "rgba(105, 104, 104, 0.1)", overflow: "hidden" }}
       >
         <Text
@@ -47,12 +47,12 @@ const CustomDropdown = ({ label, items }) => {
       {isOpen && (
         <ScrollView
           showsVerticalScrollIndicator={false}
-          className="border-[1px] border-gray-200 mt-2 max-h-[200px] rounded-[8px]"
+          className={`border-[1px] border-gray-200 ${backgroundColor} mt-2 max-h-[200px] rounded-[8px]`}
         >
           {items.map((item) => (
             <View
               key={item}
-              className="px-6 py-2 border-[1px] w-[97%]"
+              className="px-6 py-2 border-[1px] w-full"
               style={{
                 backgroundColor: selectedItems.includes(item)
                   ? "rgba(229, 243, 255, 0.8)"

@@ -51,7 +51,7 @@ export default function RegisterStep1({ navigation }) {
             status2={"inactive"}
           />
 
-          <StepTitle title={"Paso 4"} subtitle={"¡Ya casi terminamos!"} />
+          <StepTitle title={"Paso 4"} subtitle={"¡Ya casi estamos!"} />
 
           <View className="flex-1">
             <View>
@@ -113,7 +113,7 @@ export default function RegisterStep1({ navigation }) {
                   }
                   multiline={true}
                   numberOfLines={7}
-                  maxLength={255}
+                  maxLength={160}
                   height={146}
                 />
               </View>
@@ -128,7 +128,11 @@ export default function RegisterStep1({ navigation }) {
                   ¿Qué categoría se ajusta mejor a tu habilidad?
                 </Text>
                 <View className="mt-1">
-                  <CustomDropdown label="Categorías" items={categories} />
+                  <CustomDropdown
+                    label="Categorías"
+                    items={categories}
+                    backgroundColor={"bg-[#fbfbff]"}
+                  />
                 </View>
               </View>
             </View>

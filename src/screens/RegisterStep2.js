@@ -7,6 +7,7 @@ import {
   Animated,
   Easing,
   Dimensions,
+  Image,
 } from "react-native";
 import StepHeader from "../components/StepHeader";
 import CustomButton from "../components/CustomButton";
@@ -14,6 +15,8 @@ import { Ionicons } from "@expo/vector-icons";
 import AvatarChecked from "../components/AvatarChecked";
 import * as ImagePicker from "expo-image-picker";
 import StepTitle from "../components/StepTitle";
+import UserCircle from "../components/svgComponents/UserCircle";
+import Feather from "@expo/vector-icons/Feather";
 
 const { width } = Dimensions.get("window");
 
@@ -86,7 +89,9 @@ export default function RegisterStep2({ navigation }) {
               className={`${isBigScreen ? "gap-[22px]" : isSmallScreen ? "gap-[18px]" : "gap-[20px]"} mt-1`}
             >
               <View>
-                <View className="flex-row justify-between items-center mb-[8px] mr-3">
+                <View
+                  className={`flex-row justify-between items-center ${isSmallScreen ? "mb-[3px]" : "mb-[8px]"} mr-3`}
+                >
                   <Text
                     className={`text-neutral-color-gray-900 font-roboto-medium ${isBigScreen ? "text-[21px]" : isSmallScreen ? "text-[18px]" : "text-[20px]"}`}
                   >
@@ -107,36 +112,62 @@ export default function RegisterStep2({ navigation }) {
                     </Text>
                   </Pressable>
                 </View>
-                <Text className="text-neutral-color-blue-gray-500 leading-6 font-roboto-regular text-[16px]">
+                <Text
+                  className={`text-neutral-color-blue-gray-500 leading-6 font-roboto-regular ${isSmallScreen ? "text-[14px]" : "text-[16px]"}`}
+                >
                   En HelpHub, todas las personas deben tener una fotografía en
                   donde se muestre claramente su rostro.
                 </Text>
               </View>
 
-              <View
-                className={`w-[65%] self-center flex-row justify-between items-center ${isSmallScreen ? "pt-2" : "pt-6"}`}
-              >
-                <AvatarChecked source={require("../../assets/avatar1.png")} />
-                <AvatarChecked source={require("../../assets/avatar2.png")} />
-                <AvatarChecked source={require("../../assets/avatar3.png")} />
+              <View className="justify-center items-center">
+                <View className="relative">
+                  {image ? (
+                    <>
+                      <Image
+                        source={{ uri: image }}
+                        style={{
+                          width: isSmallScreen ? 100 : 120,
+                          height: isSmallScreen ? 100 : 120,
+                          borderRadius: isSmallScreen ? 50 : 60,
+                        }}
+                      />
+                      <View className="absolute right-1 top-1 bg-primarios-violeta-100 h-[22px] w-[22px] rounded-full border-[1px] border-white justify-center items-center">
+                        <Feather name="check" size={14} color="white" />
+                      </View>
+                    </>
+                  ) : (
+                    <UserCircle />
+                  )}
+                </View>
+                <View className="absolute -bottom-6">
+                  <CustomButton
+                    onPress={pickImage}
+                    title="Subir Foto"
+                    width="content"
+                  />
+                </View>
               </View>
 
-              <Text className="text-neutros-negro-80 text-center font-poppins-medium text-[13px]">
-                Si no lo tienes claro, aquí tienes unos ejemplos.
-              </Text>
-              <View className="justify-center items-center">
-                <CustomButton
-                  onPress={pickImage}
-                  title="Subir Foto"
-                  width="content"
-                />
+              <View>
+                <View
+                  className={`self-center flex-row justify-between items-center ${isSmallScreen ? "w-[50%] pt-5" : "w-[65%] pt-6"}`}
+                >
+                  <AvatarChecked source={require("../../assets/avatar1.png")} />
+                  <AvatarChecked source={require("../../assets/avatar2.png")} />
+                  <AvatarChecked source={require("../../assets/avatar3.png")} />
+                </View>
+
+                <Text className="mt-2 text-neutros-negro-80 text-center font-poppins-medium text-[13px]">
+                  Si no lo tienes claro, aquí tienes unos ejemplos.
+                </Text>
               </View>
             </View>
           </View>
 
           {/* Navigation Button Set */}
           <View
-            className={`flex-row items-center justify-between ${isSmallScreen ? "mt-auto mb-2" : "mt-12"}`}
+            className={`flex-row items-center justify-between ${isSmallScreen ? "mt-auto mb-2" : "mt-8"}`}
           >
             <CustomButton
               title="Atrás"
@@ -146,9 +177,14 @@ export default function RegisterStep2({ navigation }) {
             />
             <CustomButton
               title="Siguiente"
-              onPress={() => navigation.navigate("RegisterStep3")}
+              onPress={() => {
+                if (image) {
+                  navigation.navigate("RegisterStep3");
+                }
+              }}
               variant="white"
               width="content"
+              disabled={!image}
             />
           </View>
         </View>

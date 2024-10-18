@@ -9,15 +9,15 @@ export const daysOfTheWeek = [
 ];
 
 export const categories = [
-  "Informática",
-  "Idiomas",
-  "Diseño",
-  "Salud y bienestar",
-  "Tutorias",
-  "Bricolaje y reparaciones",
-  "Consultoría y asesoramiento",
   "Animales",
   "Ayuda",
+  "Consultoría",
+  "Diseño",
+  "Idiomas",
+  "Informática",
+  "Reparaciones",
+  "Salud",
+  "Tutorias",
 ];
 
 export const subcategories = [
