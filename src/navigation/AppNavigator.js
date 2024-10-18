@@ -13,13 +13,15 @@ import ProfileScreen from "../screens/ProfileScreen";
 import MessagesScreen from "../screens/MessagesScreen";
 import NotificationsScreen from "../screens/NotificationsScreen";
 import SessionStartScreen from "../screens/SessionStartScreen";
+import AddAbilityStep1 from "../screens/AddAbilityStep1";
+import AddAbilityStep2 from "../screens/AddAbilityStep2";
 import { Ionicons } from "@expo/vector-icons";
 import { Text, SafeAreaView } from "react-native";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
-const RegistrationFlow = () => {
+const RegisterFlow = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -138,6 +140,23 @@ const Tabs = () => {
   );
 };
 
+const AddAbilityFlow = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="AddAbilityStep1"
+        component={AddAbilityStep1}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="AddAbilityStep2"
+        component={AddAbilityStep2}
+        options={{ headerShown: false }}
+      />
+    </Stack.Navigator>
+  );
+};
+
 const AppNavigator = () => {
   return (
     <Stack.Navigator>
@@ -153,12 +172,17 @@ const AppNavigator = () => {
       />
       <Stack.Screen
         name="RegisterFlow"
-        component={RegistrationFlow}
+        component={RegisterFlow}
         options={{ headerShown: false }}
       />
       <Stack.Screen
         name="HomeTabs"
         component={Tabs}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="AddAbilityFlow"
+        component={AddAbilityFlow}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>
