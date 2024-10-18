@@ -128,7 +128,11 @@ export default function RegisterStep5({ navigation }) {
                   Busca más categorías
                 </Text>
                 <View className="mb-[60px]">
-                  <CustomDropdown label="Catégories" items={categories} />
+                  <CustomDropdown
+                    label="Catégories"
+                    items={categories}
+                    backgroundColor={"bg-[#fbfbff]"}
+                  />
                 </View>
               </View>
             </View>

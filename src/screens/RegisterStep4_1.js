@@ -39,169 +39,182 @@ export default function RegisterStep4_1({ navigation }) {
 
   return (
     <SafeAreaView className="flex-1 bg-white">
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        className="flex-1 bg-white px-4"
-      >
-        <StepHeader
-          step={"4"}
-          label1={"Mis habilidades"}
-          label2={"Que quiero aprender"}
-          status1={"active"}
-          status2={"inactive"}
-        />
+      <View className="flex-1">
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          className="flex-1 bg-white px-4"
+        >
+          <StepHeader
+            step={"4"}
+            label1={"Mis habilidades"}
+            label2={"Que quiero aprender"}
+            status1={"active"}
+            status2={"inactive"}
+          />
 
-        <StepTitle title={"Paso 4"} subtitle={"¡Ya casi terminamos!"} />
+          <StepTitle title={"Paso 4"} subtitle={"¡Ya casi estamos!"} />
 
-        {/* Carga... */}
-        <View className="mt-4">
-          <Text
-            className={`text-neutral-color-gray-900 font-roboto-medium ${isBigScreen ? "text-[21px] mb-[8px]" : isSmallScreen ? "text-[18px] mb-[5px]" : "text-[20px] mb-[8px]"}`}
-          >
-            Carga tu primera habilidad
-          </Text>
-
-          <Text className="text-neutral-color-blue-gray-500 leading-6 font-roboto-regular text-[16px]">
-            ¡Puedes añadir múltiples habilidades y siempre podrás cambiarlas o
-            editarlas más tarde!
-          </Text>
-        </View>
-
-        {/* Título... */}
-        <View className={`${isSmallScreen ? "mt-2" : "mt-4"}`}>
-          <View className="flex-row justify-between items-center mb-2">
+          {/* Carga... */}
+          <View className={`${isSmallScreen ? "mt-2" : "mt-4"}`}>
             <Text
-              className={`text-neutral-color-gray-900 w-[35%] text-wrap font-roboto-medium ${isBigScreen ? "text-[21px]" : isSmallScreen ? "text-[18px]" : "text-[20px]"}`}
+              className={`text-neutral-color-gray-900 font-roboto-medium ${isBigScreen ? "text-[21px] mb-[8px]" : isSmallScreen ? "text-[18px] mb-[3px]" : "text-[20px] mb-[5px]"}`}
             >
-              Título de tu publicación
+              Añade tu primera habilidad
             </Text>
-            <TouchableOpacity
-              onPress={toggleDialog}
-              className="h-[36px] flex-row items-center justify-center rounded-[8px]"
+
+            <Text
+              className={`text-neutral-color-blue-gray-500 ${isSmallScreen ? "" : "leading-6"} font-roboto-regular text-[16px]`}
             >
-              <Text className="uppercase font-roboto-bold text-[12px] text-primarios-celeste-100">
-                Ejemplos
+              Puedes agregar varias habilidades y editarlas más tarde.
+            </Text>
+          </View>
+
+          {/* Título... */}
+          <View className={`${isSmallScreen ? "mt-2" : "mt-4"}`}>
+            <View
+              className={`flex-row justify-between items-center ${isBigScreen ? "mb-2" : isSmallScreen ? "" : "mb-1"}`}
+            >
+              <Text
+                className={`text-neutral-color-gray-900 font-roboto-medium ${isBigScreen ? "text-[21px] w-[35%] text-wrap" : isSmallScreen ? "text-[18px]" : "text-[20px]"}`}
+              >
+                Título de tu publicación
               </Text>
-              <View className="ml-2">
-                <Feather
-                  name={isDialogVisible ? "chevron-up" : "chevron-down"}
-                  size={16}
-                  color="#496CEB"
+              <TouchableOpacity
+                onPress={toggleDialog}
+                className={`${isBigScreen ? "h-[36px]" : ""} flex-row items-center justify-center rounded-[8px]`}
+              >
+                <Text className="uppercase font-roboto-bold text-[12px] text-primarios-celeste-100">
+                  Ejemplos
+                </Text>
+                <View className="ml-2">
+                  <Feather
+                    name={isDialogVisible ? "chevron-up" : "chevron-down"}
+                    size={16}
+                    color="#496CEB"
+                  />
+                </View>
+              </TouchableOpacity>
+            </View>
+
+            {isDialogVisible && (
+              <View className="rounded-[8px] bg-[#EEF1FF] p-[16px] my-2">
+                <Text className="text-neutral-color-blue-gray-900 font-roboto-bold text-[16px] mb-3">
+                  Ejemplos para crear tu título
+                </Text>
+                <Text
+                  className={`text-neutros-negro-80 font-poppins-medium text-[14px] ${isSmallScreen ? "mb-2" : "mb-3"}`}
+                >
+                  Sesión grupal de meditación al aire libre.
+                </Text>
+                <Text
+                  className={`text-neutros-negro-80 font-poppins-medium text-[14px] ${isSmallScreen ? "mb-2" : "mb-3"}`}
+                >
+                  Revisión de currículum vitae.
+                </Text>
+                <Text
+                  className={`text-neutros-negro-80 font-poppins-medium text-[14px] ${isSmallScreen ? "mb-2" : "mb-3"}`}
+                >
+                  Clases de cocina italiana tradicional.
+                </Text>
+                <Text
+                  className={`text-neutros-negro-80 font-poppins-medium text-[14px] ${isSmallScreen ? "mb-2" : "mb-3"}`}
+                >
+                  Entrenamiento personal en gimnasio.
+                </Text>
+              </View>
+            )}
+
+            <View className="mt-2">
+              <CustomTextarea
+                value={title}
+                onChange={setTitle}
+                placeholder={"Ej: Pintar óleo"}
+                multiline={false}
+                numberOfLines={1}
+                maxLength={20}
+              />
+            </View>
+          </View>
+
+          {/* Nivel */}
+          <View className={`${isSmallScreen ? "mt-2" : "mt-4"}`}>
+            <Text
+              className={`text-neutral-color-gray-900 font-roboto-medium ${isBigScreen ? "text-[21px]" : isSmallScreen ? "text-[18px]" : "text-[20px]"}`}
+            >
+              Nivel
+            </Text>
+            <View
+              className={`flex flex-wrap flex-row justify-start ${isSmallScreen ? "mt-1" : "mt-2"}`}
+            >
+              <View className="mr-2 w-auto mb-2">
+                <CustomRadio
+                  label="Básico"
+                  isSelected={level === "Básico"}
+                  onPress={() => handleLevelChange("Básico")}
                 />
               </View>
-            </TouchableOpacity>
-          </View>
-
-          {isDialogVisible && (
-            <View className="rounded-[8px] bg-[#EEF1FF] p-[16px] my-2">
-              <Text className="text-neutral-color-blue-gray-900 font-roboto-bold text-[16px] mb-3">
-                Ejemplos para crear tu título
-              </Text>
-              <Text
-                className={`text-neutros-negro-80 font-poppins-medium text-[14px] ${isSmallScreen ? "mb-2" : "mb-3"}`}
-              >
-                Sesión grupal de meditación al aire libre.
-              </Text>
-              <Text
-                className={`text-neutros-negro-80 font-poppins-medium text-[14px] ${isSmallScreen ? "mb-2" : "mb-3"}`}
-              >
-                Revisión de currículum vitae.
-              </Text>
-              <Text
-                className={`text-neutros-negro-80 font-poppins-medium text-[14px] ${isSmallScreen ? "mb-2" : "mb-3"}`}
-              >
-                Clases de cocina italiana tradicional.
-              </Text>
-              <Text
-                className={`text-neutros-negro-80 font-poppins-medium text-[14px] ${isSmallScreen ? "mb-2" : "mb-3"}`}
-              >
-                Entrenamiento personal en gimnasio.
-              </Text>
-            </View>
-          )}
-
-          <View className="mt-2">
-            <CustomTextarea
-              value={title}
-              onChange={setTitle}
-              placeholder={"Ej: Pintar óleo"}
-              multiline={false}
-              numberOfLines={1}
-              maxLength={20}
-            />
-          </View>
-        </View>
-
-        {/* Nivel */}
-        <View className={`${isSmallScreen ? "mt-2" : "mt-4"}`}>
-          <Text
-            className={`text-neutral-color-gray-900 font-roboto-medium ${isBigScreen ? "text-[21px]" : isSmallScreen ? "text-[18px]" : "text-[20px]"}`}
-          >
-            Nivel
-          </Text>
-          <View className="flex flex-wrap flex-row justify-start mt-2">
-            <View className="mr-2 w-auto mb-2">
-              <CustomRadio
-                label="Básico"
-                isSelected={level === "Básico"}
-                onPress={() => handleLevelChange("Básico")}
-              />
-            </View>
-            <View className="mr-2 w-auto mb-2">
-              <CustomRadio
-                label="Medio"
-                isSelected={level === "Medio"}
-                onPress={() => handleLevelChange("Medio")}
-              />
-            </View>
-            <View className="mr-2 w-auto mb-2">
-              <CustomRadio
-                label="Avanzado"
-                isSelected={level === "Avanzado"}
-                onPress={() => handleLevelChange("Avanzado")}
-              />
+              <View className="mr-2 w-auto mb-2">
+                <CustomRadio
+                  label="Medio"
+                  isSelected={level === "Medio"}
+                  onPress={() => handleLevelChange("Medio")}
+                />
+              </View>
+              <View className="mr-2 w-auto mb-2">
+                <CustomRadio
+                  label="Avanzado"
+                  isSelected={level === "Avanzado"}
+                  onPress={() => handleLevelChange("Avanzado")}
+                />
+              </View>
             </View>
           </View>
-        </View>
 
-        {/* Modalidad */}
-        <View className={`${isSmallScreen ? "mt-2" : "mt-3"}`}>
-          <Text
-            className={`text-neutral-color-gray-900 font-roboto-medium ${isBigScreen ? "text-[21px]" : isSmallScreen ? "text-[18px]" : "text-[20px]"}`}
-          >
-            Modalidad
-          </Text>
-          <View className="flex flex-wrap flex-row justify-start mt-2">
-            <View className="mr-2 w-auto mb-2">
-              <CustomRadio
-                label="Online"
-                isSelected={mode === "Online"}
-                onPress={() => handleModeChange("Online")}
-              />
-            </View>
-            <View className="mr-2 w-auto mb-2">
-              <CustomRadio
-                label="Presemcial"
-                isSelected={mode === "Presemcial"}
-                onPress={() => handleModeChange("Presemcial")}
-              />
+          {/* Modalidad */}
+          <View className={`${isSmallScreen ? "mt-0" : "mt-3"}`}>
+            <Text
+              className={`text-neutral-color-gray-900 font-roboto-medium ${isBigScreen ? "text-[21px]" : isSmallScreen ? "text-[18px]" : "text-[20px]"}`}
+            >
+              Modalidad
+            </Text>
+            <View
+              className={`flex flex-wrap flex-row justify-start ${isSmallScreen ? "mt-1" : "mt-2"}`}
+            >
+              <View
+                className={`mr-2 w-auto ${isSmallScreen ? "mb-1" : "mb-2"}`}
+              >
+                <CustomRadio
+                  label="Online"
+                  isSelected={mode === "Online"}
+                  onPress={() => handleModeChange("Online")}
+                />
+              </View>
+              <View
+                className={`mr-2 w-auto ${isSmallScreen ? "mb-1" : "mb-2"}`}
+              >
+                <CustomRadio
+                  label="Presencial"
+                  isSelected={mode === "Presemcial"}
+                  onPress={() => handleModeChange("Presemcial")}
+                />
+              </View>
             </View>
           </View>
-        </View>
 
-        {/* Asterisc */}
-        <View className="mt-3">
-          <Text
-            className={`text-neutral-color-blue-gray-500 ${isSmallScreen ? "leading-5" : "leading-6"} font-roboto-italic text-[13px]`}
-          >
-            * Te recomendamos tener una reunión online antes de un encuentro
-            presencial para mayor seguridad.
-          </Text>
-        </View>
+          {/* Asterisc */}
+          <View>
+            <Text
+              className={`text-neutral-color-blue-gray-500 font-roboto-italic ${isSmallScreen ? "text-[9px]" : "text-[13px] leading-5"}`}
+            >
+              Recomendamos una reunión online antes de un encuentro presencial
+              por seguridad.
+            </Text>
+          </View>
+        </ScrollView>
 
         {/* Navigation Button Set */}
         <View
-          className={`flex-row items-center justify-between ${isBigScreen ? "mt-6" : isSmallScreen ? "mt-8 mb-2" : "mt-12"}`}
+          className={`absolute ${isSmallScreen ? "pb-2" : ""} bottom-0 left-0 right-0 px-4 pt-2 bg-white flex-row items-center justify-between`}
         >
           <CustomButton
             title="Atrás"
@@ -216,7 +229,7 @@ export default function RegisterStep4_1({ navigation }) {
             width="content"
           />
         </View>
-      </ScrollView>
+      </View>
     </SafeAreaView>
   );
 }

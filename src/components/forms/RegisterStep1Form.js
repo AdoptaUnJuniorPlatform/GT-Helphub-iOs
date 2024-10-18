@@ -25,7 +25,7 @@ const RegisterStep1Form = ({ navigation }) => {
         placeholder="Por Ej: Soy una joven estudiante de enfermería, tengo 22 años vivo en Madrid con unas amigas. Soy una apasionada por la música, y que desea aprender a tocar el piano."
         multiline={true}
         numberOfLines={7}
-        maxLength={255}
+        maxLength={160}
         height={146}
       />
       <View className={`${isBigScreen ? "mt-6" : "mt-4"}`}>

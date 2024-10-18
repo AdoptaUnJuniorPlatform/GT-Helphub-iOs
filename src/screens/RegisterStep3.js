@@ -128,6 +128,7 @@ export default function RegisterStep1({ navigation }) {
                 <CustomDropdown
                   label="Seleccionar días"
                   items={daysOfTheWeek}
+                  backgroundColor={"bg-[#fbfbff]"}
                 />
               </View>
             </View>
