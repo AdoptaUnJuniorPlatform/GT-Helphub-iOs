@@ -1,10 +1,11 @@
-import { Text, View, SafeAreaView } from "react-native";
+import { Text, View, SafeAreaView, Button } from "react-native";
 
-export default function MessagesScreen() {
+export default function MessagesScreen({ navigation }) {
   return (
     <SafeAreaView className="flex-1">
       <View className="flex-1 justify-center items-center bg-white">
         <Text>Messages Screen</Text>
+        <Button title="Exit" onPress={() => navigation.navigate("Login")} />
       </View>
     </SafeAreaView>
   );
