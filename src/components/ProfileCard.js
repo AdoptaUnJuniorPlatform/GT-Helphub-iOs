@@ -1,8 +1,17 @@
-import { View, Modal, Pressable, Text, Image, Dimensions } from "react-native";
+import {
+  View,
+  Modal,
+  Pressable,
+  Text,
+  Image,
+  Dimensions,
+  ScrollView,
+} from "react-native";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import CustomButton from "./CustomButton";
 import Entypo from "@expo/vector-icons/Entypo";
-import DialogIcon from "./svgComponents/DialogIcon";
+import RatingCard from "./RatingCard";
+// import DialogIcon from "./svgComponents/DialogIcon";
 
 const { width } = Dimensions.get("window");
 
@@ -24,7 +33,7 @@ const ProfileCard = ({ isCardVisible, toggleCard }) => {
         className="absolute w-full h-screen flex-1 justify-center px-4"
       >
         <View
-          className="bg-white p-[24px] rounded-[8px] items-start"
+          className="bg-white p-[24px] rounded-[8px]"
           style={{
             shadowColor: "#212121",
             shadowOffset: { width: 0, height: 3 },
@@ -39,8 +48,12 @@ const ProfileCard = ({ isCardVisible, toggleCard }) => {
           </View>
 
           <View className="flex-row justify-start items-center mb-5 gap-2 w-full">
-            <View className="h-[124px] w-[120px]">
-              <Image source={require("../../assets/avatar5.png")} />
+            <View className="h-[124px] w-[120px] rounded-[10px]">
+              <Image
+                source={require("../../assets/avatar5.png")}
+                style={{ width: "100%", height: "100%" }}
+                resizeMode="contain"
+              />
             </View>
             <View className="h-[124px] py-4 justify-between">
               <Text className="font-roboto-medium text-[20px] text-neutros-negro">
@@ -88,7 +101,7 @@ const ProfileCard = ({ isCardVisible, toggleCard }) => {
             </Text>
           </View>
 
-          <View
+          {/* <View
             className={`w-full mb-5 rounded-[8px] border-[1px] ${isBigScreen ? "py-[35px]" : isSmallScreen ? "py-[20px]" : "py-[30px]"} items-center justify-center border-neutral-color-blue-gray-100`}
           >
             <View>
@@ -101,6 +114,20 @@ const ProfileCard = ({ isCardVisible, toggleCard }) => {
               Comparte tu opinión y ayuda a que otros conozcan mejor a esta
               persona
             </Text>
+          </View> */}
+
+          <View className="mb-6">
+            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+              <View>
+                <RatingCard />
+              </View>
+              <View>
+                <RatingCard />
+              </View>
+              <View>
+                <RatingCard />
+              </View>
+            </ScrollView>
           </View>
 
           <View className="w-[80%] self-center">

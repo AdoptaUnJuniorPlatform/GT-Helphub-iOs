@@ -10,12 +10,16 @@ const HomeCard = ({ onPress }) => {
 
   return (
     <View
-      className={`${isBigScreen ? "h-[445px] w-[325px] py-5" : isSmallScreen ? "h-[350px] w-[300px] py-4" : "h-[407px] w-[307px] py-5"} mr-4 shadow-sm rounded-[6px] border-x-[1px] border-neutral-color-blue-gray-50`}
+      className={`${isBigScreen ? "h-[445px] w-[325px] py-5" : isSmallScreen ? "h-[350px] w-[300px] py-4" : "h-[407px] w-[307px] py-5"} mr-4 rounded-[6px] border-x-[1px] border-neutral-color-blue-gray-50`}
     >
       {/* Header */}
       <View className="flex-row items-center gap-[25px] px-5">
         <View className="w-[59px] h-[59px] rounded-full">
-          <Image source={require("../../assets/avatar4.png")} />
+          <Image
+            source={require("../../assets/avatar4.png")}
+            style={{ width: "100%", height: "100%" }}
+            resizeMode="contain"
+          />
         </View>
         <Text
           className={`text-neutros-negro ${isSmallScreen ? "text-[18px]" : "text-[20px]"} font-roboto-medium`}
