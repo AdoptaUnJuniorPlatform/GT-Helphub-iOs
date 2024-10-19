@@ -27,7 +27,7 @@ const ToggleSwitch = ({ isEnabled, onToggle }) => {
   return (
     <TouchableOpacity
       onPress={toggleSwitch}
-      className="w-[40px] h-[20px] rounded-full px-1"
+      className="w-[40px] h-[20px] rounded-full"
       activeOpacity={0.8}
     >
       {/* Animated Track */}

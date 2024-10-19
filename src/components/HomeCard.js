@@ -90,6 +90,12 @@ const HomeCard = ({ onPress }) => {
         </View>
       </View>
 
+      {/* Descripción */}
+      <Text className="my-2 px-4 text-neutros-negro-80 text-[14px] font-roboto-regular">
+        Aprende a preparar un plato vegano delicioso y nutritivo (desde
+        entrantes hasta postres)
+      </Text>
+
       {/* Separator */}
       <View
         className={`border-b-[0.3px] border-b-neutral-color-blue-gray-50 ${isBigScreen ? "mt-2 mb-4" : isSmallScreen ? "mt-0 mb-2" : "mt-1 mb-3"}`}

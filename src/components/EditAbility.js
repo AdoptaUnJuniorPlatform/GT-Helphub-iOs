@@ -56,7 +56,7 @@ const EditAbility = ({ onRequestClose, visible }) => {
               <Text
                 className={`font-roboto-medium ${isSmallScreen ? "text-[20px]" : "text-[22px]"} text-neutros-negro`}
               >
-                Volver
+                Habilidades
               </Text>
             </TouchableOpacity>
           </View>

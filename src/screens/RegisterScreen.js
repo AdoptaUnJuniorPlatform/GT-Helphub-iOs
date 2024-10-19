@@ -4,41 +4,40 @@ import {
   SafeAreaView,
   ScrollView,
   TouchableOpacity,
+  Dimensions,
 } from "react-native";
 import LogoLight from "../components/svgComponents/LogoLight";
 import RegisterForm from "../components/forms/RegisterForm";
 
+const { width } = Dimensions.get("window");
+
 export default function RegisterScreen({ navigation }) {
+  const isSmallScreen = width <= 392;
+  const isBigScreen = width >= 430;
+
   return (
-    <SafeAreaView className="flex-1">
+    <SafeAreaView className="flex-1 bg-white">
       <ScrollView
         showsVerticalScrollIndicator={false}
         className="flex-1 bg-white px-4"
       >
-        <View className="bg-primarios-violeta-100 w-full h-auto items-center py-[46px] mb-[20px] rounded-b-3xl">
+        <View className="bg-primarios-violeta-100 w-full items-center py-[30px] rounded-b-3xl">
           <LogoLight />
-
-          <View className="mt-[34px]">
-            <View>
-              <Text className="text-white w-[243px] font-roboto-light text-[40px] mb-[5px]">
-                Bienvenido a la comunidad
-              </Text>
-              <Text className="text-white font-roboto-regular text-subtitle1">
-                Comparte, aprende, crece
-              </Text>
-            </View>
-          </View>
         </View>
 
         <RegisterForm navigation={navigation} />
 
-        <View className="flex-row items-center justify-center mt-[16px]">
-          <Text className="text-neutral-color-blue-gray-500 font-poppins-medium text-[14px]">
+        <View
+          className={`flex-row gap-1 justify-center mt-2 ${isSmallScreen ? "mb-3" : ""}`}
+        >
+          <Text className="text-neutros-negro-80 font-roboto-medium text-[14px]">
             ¿Ya tienes una cuenta?
           </Text>
-          <TouchableOpacity onPress={() => navigation.navigate("SessionStart")}>
-            <Text className="font-poppins-medium text-[14px] text-neutral-color-gray-900">
-              {" "}
+          <TouchableOpacity>
+            <Text
+              onPress={() => navigation.navigate("SessionStart")}
+              className="text-primarios-azul-100 font-roboto-medium text-[14px] underline"
+            >
               Ingresar
             </Text>
           </TouchableOpacity>
