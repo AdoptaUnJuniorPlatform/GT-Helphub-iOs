@@ -27,31 +27,35 @@ export default function LoginScreen({ navigation }) {
         >
           <View className="flex-1">
             <View
-              className={`px-8 ${isSmallScreen ? "py-5" : isBigScreen ? "py-14" : "py-10"}`}
+              className={`px-4 ${isSmallScreen ? "py-4" : isBigScreen ? "py-14" : "py-10"}`}
             >
               <LogoLight />
             </View>
             <View className="flex-1">
-              <View className="px-4 pb-9">
+              <View
+                className={`px-4 ${isBigScreen ? "pb-8" : isSmallScreen ? "pb-4" : "pb-6"}`}
+              >
                 <Text
-                  className={`font-roboto-light ${isSmallScreen ? "text-[32px]" : isBigScreen ? "text-[38px]" : "text-[35px]"} text-white`}
+                  className={`font-roboto-light ${isSmallScreen ? "text-[30px]" : isBigScreen ? "text-[38px]" : "text-[35px]"} text-white`}
                 >
                   Conecta y Comparte
                 </Text>
                 <Text
-                  className={`font-roboto-regular ${isSmallScreen ? "text-[32px]" : isBigScreen ? "text-[38px]" : "text-[35px]"} text-black`}
+                  className={`font-roboto-regular ${isSmallScreen ? "text-[30px]" : isBigScreen ? "text-[38px]" : "text-[35px]"} text-black`}
                 >
                   Habilidades
                 </Text>
               </View>
 
-              <View>
+              <View className="flex-row justify-end">
                 <Image source={require("../../assets/login-hero.png")} />
               </View>
 
-              <View className="flex-1 justify-start items-center bg-transparent px-4 mt-[12%]">
+              <View
+                className={`flex-1 justify-start items-center bg-transparent px-4 ${isBigScreen ? "mt-8" : isSmallScreen ? "mt-4" : "mt-6"}`}
+              >
                 <View className="w-full">
-                  <View className={`${isSmallScreen ? "mb-4" : "mb-7"}`}>
+                  <View className={`${isSmallScreen ? "mb-2" : "mb-4"}`}>
                     <TouchableOpacity
                       className="h-[36px] items-center justify-center rounded-[8px] w-full bg-white"
                       onPress={() => navigation.navigate("RegisterFlow")}
@@ -77,7 +81,9 @@ export default function LoginScreen({ navigation }) {
                 <View
                   className={`items-center justify-center ${isBigScreen ? "mt-9" : isSmallScreen ? "mt-4" : "mt-7"}`}
                 >
-                  <Text className="text-neutros-gris-fondo text-[16px] font-roboto-regular mb-3">
+                  <Text
+                    className={`text-neutros-gris-fondo text-[16px] font-roboto-regular ${isSmallScreen ? "mb-2" : "mb-3"}`}
+                  >
                     Ingresa con
                   </Text>
                   <View className="flex-row gap-2">

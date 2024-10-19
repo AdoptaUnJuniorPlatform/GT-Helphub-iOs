@@ -19,7 +19,7 @@ module.exports = {
         "terciario-verde-oscuro": "#4B6C4C",
         "neutral-color-gray-900": "#212121",
         "neutral-color-blue-gray-900": "#253237",
-        "neutral-color-blue-gray-500": "#607d8a",
+        "neutral-color-blue-gray-500": "#607d8b",
         "neutral-color-blue-gray-400": "#788f9c",
         "neutral-color-blue-gray-300": "#90a3ae",
         "neutral-color-blue-gray-100": "#cfd8dc",

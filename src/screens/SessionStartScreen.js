@@ -5,9 +5,12 @@ import {
   SafeAreaView,
   TouchableOpacity,
   TextInput,
+  Dimensions,
 } from "react-native";
 import LogoLight from "../components/svgComponents/LogoLight";
 import Feather from "@expo/vector-icons/Feather";
+
+const { width } = Dimensions.get("window");
 
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState("");
@@ -17,6 +20,9 @@ export default function LoginScreen({ navigation }) {
   const [isEmailFocused, setIsEmailFocused] = useState(false);
   const [isPasswordFocused, setIsPasswordFocused] = useState(false);
 
+  const isSmallScreen = width <= 392;
+  const isBigScreen = width >= 430;
+
   return (
     <SafeAreaView className="flex-1 bg-white">
       <View className="flex-1 bg-white">
@@ -24,7 +30,7 @@ export default function LoginScreen({ navigation }) {
           <LogoLight />
         </View>
 
-        <View className="flex-1 px-4 pb-8">
+        <View className={`flex-1 px-4 ${isSmallScreen ? "pb-4" : "pb-8"}`}>
           <Text className="text-primarios-violeta-100 text-[24px] font-roboto-regular mt-[30px] mb-[20px]">
             Inicia Sesión
           </Text>
@@ -32,7 +38,7 @@ export default function LoginScreen({ navigation }) {
           <View className="flex-1">
             <View className="mb-2">
               <View className="gap-2 mb-4">
-                <Text className="font-poppins-medium text-[14px] text-primarios-violeta-100">
+                <Text className="font-poppins-medium text-[14px] text-neutros-negro-80">
                   Email
                 </Text>
                 <TextInput
@@ -48,9 +54,19 @@ export default function LoginScreen({ navigation }) {
               </View>
 
               <View className="gap-2 mb-4">
-                <Text className="font-poppins-medium text-[14px] text-primarios-violeta-100">
-                  Contraseña
-                </Text>
+                <View className="flex-row items-center justify-between">
+                  <Text className="font-poppins-medium text-[14px] text-neutros-negro-80">
+                    Contraseña
+                  </Text>
+                  <TouchableOpacity>
+                    <Text
+                      onPress={() => navigation.navigate("ResetPasswordFlow")}
+                      className="text-primarios-celeste-100 font-roboto-medium text-[14px] underline"
+                    >
+                      ¿Ha olvidado su contraseña?
+                    </Text>
+                  </TouchableOpacity>
+                </View>
                 <View className="relative border-[1px] border-neutral-color-blue-gray-100 focus:border-[#455A64] rounded-[8px] h-[40px] bg-[#E3E0F6] flex-row items-center justify-between">
                   <TextInput
                     value={password}
@@ -110,6 +126,20 @@ export default function LoginScreen({ navigation }) {
               Inicia Sesión
             </Text>
           </TouchableOpacity>
+
+          <View className="flex-row gap-1 justify-center mt-2">
+            <Text className="text-neutros-negro-80 font-roboto-medium text-[14px]">
+              ¿No tienes una cuenta?
+            </Text>
+            <TouchableOpacity>
+              <Text
+                onPress={() => navigation.navigate("RegisterFlow")}
+                className="text-primarios-azul-100 font-roboto-medium text-[14px] underline"
+              >
+                Registrarse
+              </Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
     </SafeAreaView>
