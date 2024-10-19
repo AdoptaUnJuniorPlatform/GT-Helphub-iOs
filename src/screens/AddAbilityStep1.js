@@ -56,7 +56,7 @@ const AddAbilityStep1 = ({ onRequestClose, visible, navigation }) => {
             <Text
               className={`font-roboto-medium ${isSmallScreen ? "text-[20px]" : "text-[22px]"} text-neutros-negro`}
             >
-              Volver
+              Habilidades
             </Text>
           </TouchableOpacity>
         </View>
