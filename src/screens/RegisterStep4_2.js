@@ -151,7 +151,6 @@ export default function RegisterStep1({ navigation }) {
           />
           <CustomButton
             title="Siguiente"
-            // onPress={() => navigation.navigate("RegisterStep5")}
             onPress={togglePopUp}
             variant="white"
             width="content"
