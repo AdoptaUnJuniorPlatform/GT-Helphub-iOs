@@ -18,6 +18,8 @@ import AddAbilityStep1 from "../screens/AddAbilityStep1";
 import AddAbilityStep2 from "../screens/AddAbilityStep2";
 import ResetPasswordStep1 from "../screens/ResetPasswordStep1";
 import ResetPasswordStep2 from "../screens/ResetPasswordStep2";
+import MessagesStep1 from "../screens/MessagesStep1";
+import MessagesStep2 from "../screens/MessagesStep2";
 import { Ionicons } from "@expo/vector-icons";
 import { Text, SafeAreaView } from "react-native";
 
@@ -182,6 +184,23 @@ const ResetPasswordFlow = () => {
   );
 };
 
+const MessagesFlow = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="MessagesStep1"
+        component={MessagesStep1}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="MessagesStep2"
+        component={MessagesStep2}
+        options={{ headerShown: false }}
+      />
+    </Stack.Navigator>
+  );
+};
+
 const AppNavigator = () => {
   return (
     <Stack.Navigator>
@@ -213,6 +232,11 @@ const AppNavigator = () => {
       <Stack.Screen
         name="AddAbilityFlow"
         component={AddAbilityFlow}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="MessagesFlow"
+        component={MessagesFlow}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>

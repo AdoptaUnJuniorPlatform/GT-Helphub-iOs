@@ -7,6 +7,7 @@ import {
   Dimensions,
   TouchableOpacity,
   Modal,
+  Image,
 } from "react-native";
 import CustomButton from "../components/CustomButton";
 import StepHeader from "../components/StepHeader";
@@ -16,6 +17,7 @@ import CustomTextarea from "../components/CustomTextarea";
 import { categories } from "../data/data";
 import Feather from "@expo/vector-icons/Feather";
 import CelebrateIcon from "../components/svgComponents/CelebrateIcon";
+import CustomChip from "../components/CustomChip";
 
 const { width } = Dimensions.get("window");
 
@@ -37,14 +39,16 @@ export default function RegisterStep1({ navigation }) {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-white">
+    <SafeAreaView className="flex-1 bg-neutros-gris-fondo">
       <View className="flex-1">
         <ScrollView
           showsVerticalScrollIndicator={false}
-          className="flex-1 bg-white px-4"
+          className="flex-1 bg-neutros-gris-fondo px-4"
         >
           <StepHeader
             step={"4"}
+            statusStepLabel1={"active"}
+            statusStepLabel2={"inactive"}
             label1={"Mis habilidades"}
             label2={"Que quiero aprender"}
             status1={"active"}
@@ -59,7 +63,7 @@ export default function RegisterStep1({ navigation }) {
               <View className={`${isSmallScreen ? "mt-2" : "mt-4"}`}>
                 <View className="flex-row justify-between items-center mb-2">
                   <Text
-                    className={`text-neutral-color-gray-900 font-roboto-medium ${isBigScreen ? "text-[21px]" : isSmallScreen ? "text-[18px]" : "text-[20px]"}`}
+                    className={`text-neutros-negro font-roboto-medium ${isBigScreen ? "text-[21px]" : isSmallScreen ? "text-[18px]" : "text-[20px]"}`}
                   >
                     ¿Qué ofreces?
                   </Text>
@@ -123,7 +127,7 @@ export default function RegisterStep1({ navigation }) {
                 className={`${isSmallScreen ? "mt-1" : "mt-4"} flex-grow mb-[60px]`}
               >
                 <Text
-                  className={`text-neutral-color-gray-900 font-roboto-medium ${isBigScreen ? "text-[21px] mb-[8px]" : isSmallScreen ? "text-[18px] mb-[5px]" : "text-[20px] mb-[8px]"}`}
+                  className={`text-neutros-negro font-roboto-medium ${isBigScreen ? "text-[21px] mb-[8px]" : isSmallScreen ? "text-[18px] mb-[5px]" : "text-[20px] mb-[8px]"}`}
                 >
                   ¿Qué categoría se ajusta mejor a tu habilidad?
                 </Text>
@@ -141,7 +145,7 @@ export default function RegisterStep1({ navigation }) {
 
         {/* Navigation Button Set */}
         <View
-          className={`absolute ${isSmallScreen ? "pb-2" : ""} bottom-0 left-0 right-0 px-4 pt-2 bg-white flex-row items-center justify-between`}
+          className={`absolute ${isSmallScreen ? "pb-2" : ""} bottom-0 left-0 right-0 px-4 pt-2 bg-neutros-gris-fondo flex-row items-center justify-between`}
         >
           <CustomButton
             title="Atrás"
@@ -150,10 +154,12 @@ export default function RegisterStep1({ navigation }) {
             isBackButton
           />
           <CustomButton
-            title="Siguiente"
+            title="Continuar"
             onPress={togglePopUp}
             variant="white"
             width="content"
+            // disabled={!ability || !selectedCategory}
+            disabled={!ability}
           />
         </View>
       </View>
@@ -172,7 +178,7 @@ export default function RegisterStep1({ navigation }) {
             className="absolute w-full h-screen flex-1 justify-center px-4"
           >
             <View
-              className="bg-white p-[24px] rounded-[8px] items-start"
+              className="bg-white p-6 pt-8 rounded-[8px] items-start"
               style={{
                 shadowColor: "#212121",
                 shadowOffset: { width: 0, height: 3 },
@@ -180,17 +186,25 @@ export default function RegisterStep1({ navigation }) {
                 shadowRadius: 4,
               }}
             >
-              <View className="w-full justify-center items-center gap-[10px] mb-[24px]">
-                <CelebrateIcon />
-                <Text className="text-primarios-violeta-100 font-roboto-bold text-[24px]">
-                  ¡Felicidades!
-                </Text>
+              <View
+                className={`w-full justify-center items-center gap-[10px] ${isSmallScreen ? "mb-[14px]" : "mb-[24px]"}`}
+              >
+                <View
+                  className={`flex-row items-center ${isSmallScreen ? "" : "mb-2"}`}
+                >
+                  <CelebrateIcon />
+                  <Text className="text-primarios-violeta-100 font-roboto-bold ml-3 text-[24px]">
+                    ¡Felicidades!
+                  </Text>
+                </View>
                 <Text className="text-neutros-negro-80 font-roboto-regular text-[16px] text-center w-[80%]">
                   Ya tienes tu primera habilidad cargada en tu cuenta.
                 </Text>
               </View>
 
-              <View className="py-[11px] px-[24px] rounded-[8px] bg-[#eef1ff] w-full mb-[24px]">
+              <View
+                className={`py-[11px] px-[24px] rounded-[8px] bg-[#eef1ff] w-full ${isSmallScreen ? "mb-[14px]" : "mb-[24px]"}`}
+              >
                 <Text className="text-neutros-negro-80 font-roboto-regular text-[14px]">
                   Puedes <Text className="font-roboto-medium">editarla</Text> o{" "}
                   <Text className="font-roboto-medium">eliminarla</Text> cuando
@@ -199,69 +213,113 @@ export default function RegisterStep1({ navigation }) {
               </View>
 
               <View className="mb-[24px] w-full">
-                <Text
-                  className="font-roboto-regular text-[16px] mb-[10px]"
-                  style={{ color: "rgba(113, 102, 210, 0.8)" }}
-                >
-                  Vista previa
-                </Text>
-
                 <View
-                  className="bg-[#fbfbff] w-full rounded-[8px] p-[24px]"
-                  style={{
-                    shadowColor: "#212121",
-                    shadowOffset: { width: 0, height: 2 },
-                    shadowOpacity: 0.2,
-                    shadowRadius: 2,
-                  }}
+                  className={`bg-neutros-blanco ${isBigScreen ? "py-5" : isSmallScreen ? "py-4" : "py-5"} rounded-[6px] border-x-[1px] border-b-[1px] border-neutral-color-blue-gray-50`}
                 >
-                  <View>
-                    <Text className="font-roboto-regular text-[24px] text-neutros-negro mb-3">
-                      Clases de cocina
-                    </Text>
-                    <Text className="font-roboto-regular text-[14px] text-neutros-negro">
-                      Online
+                  {/* Header */}
+                  <View className="flex-row items-center gap-[25px] px-5">
+                    <View className="w-[59px] h-[59px] rounded-full">
+                      <Image
+                        source={require("../../assets/avatar4.png")}
+                        style={{ width: "100%", height: "100%" }}
+                        resizeMode="contain"
+                      />
+                    </View>
+                    <Text
+                      className={`text-neutros-negro ${isSmallScreen ? "text-[18px]" : "text-[20px]"} font-roboto-medium`}
+                    >
+                      Juanita Perez
                     </Text>
                   </View>
 
+                  {/* Subheader */}
                   <View
-                    className={`border-b-[0.3px] border-b-neutral-color-blue-gray-50 ${isBigScreen ? "mt-2 mb-4" : isSmallScreen ? "mt-1 mb-2" : "mt-1 mb-3"}`}
+                    className={`${isBigScreen ? "mt-10" : isSmallScreen ? "mt-4" : "mt-8"} px-5`}
+                  >
+                    <Text
+                      className={`font-roboto-regular ${isSmallScreen ? "text-[18px]" : "text-[20px]"} text-neutros-negro`}
+                    >
+                      Cuidado de animales
+                    </Text>
+                  </View>
+
+                  {/* Direction */}
+                  <View
+                    className={`px-4 ${isBigScreen ? "mt-5" : isSmallScreen ? "mt-3" : "mt-4"}`}
+                  >
+                    <Text className="font-roboto-regular text-[14px] text-neutros-negro">
+                      14011 Córdoba, Córdoba provincia
+                    </Text>
+                  </View>
+
+                  {/* Separator */}
+                  <View
+                    className={`border-b-[0.3px] border-b-neutral-color-blue-gray-50 ${isBigScreen ? "mt-3 mb-4" : isSmallScreen ? "mt-2 mb-2" : "mt-2 mb-3"}`}
                   ></View>
 
-                  <View>
-                    <Text className="font-roboto-regular text-[13px] text-neutros-negro">
-                      Nivel
-                    </Text>
-                    <View className="flex-row gap-2 mt-0">
-                      <View className="flex-row w-content px-[11px] h-[22px] rounded-full items-center">
-                        <Text className="font-roboto-regular text-[12px] text-neutros-negro-80">
-                          Básico
-                        </Text>
-                      </View>
+                  {/* Level */}
+                  <View className="flex-row gap-2 px-4">
+                    <View className="flex-row w-content px-[11px] h-[22px] rounded-full items-center bg-neutral-color-blue-gray-50">
+                      <Text className="font-roboto-regular text-[12px] text-neutros-negro-80">
+                        Básico
+                      </Text>
+                    </View>
 
-                      <View className="flex-row w-content px-[11px] h-[22px] rounded-full items-center bg-primarios-celeste-100">
-                        <Text className="font-roboto-regular text-[12px] text-white">
-                          Medio
-                        </Text>
-                      </View>
+                    <View className="flex-row w-content px-[11px] h-[22px] rounded-full items-center bg-primarios-celeste-100">
+                      <Text className="font-roboto-regular text-[12px] text-white">
+                        Medio
+                      </Text>
+                    </View>
 
-                      <View className="flex-row w-content px-[11px] h-[22px] rounded-full items-center">
-                        <Text className="font-roboto-regular text-[12px] text-neutros-negro-80">
-                          Experto
-                        </Text>
-                      </View>
+                    <View className="flex-row w-content px-[11px] h-[22px] rounded-full items-center bg-neutral-color-blue-gray-50">
+                      <Text className="font-roboto-regular text-[12px] text-neutros-negro-80">
+                        Avanzado
+                      </Text>
                     </View>
                   </View>
 
+                  {/* Availability */}
                   <View
-                    className={`border-b-[0.3px] border-b-neutral-color-blue-gray-50 ${isBigScreen ? "mt-3 mb-4" : isSmallScreen ? "mt-2 mb-3" : "my-3"}`}
+                    className={`flex-row items-center justify-between px-4 ${isBigScreen ? "mt-5" : isSmallScreen ? "mt-3" : "mt-5"}`}
+                  >
+                    <Text className="font-roboto-regular text-[14px] text-neutros-negro">
+                      Disponibilidad
+                    </Text>
+                    <View className="border-[0.3px] border-neutral-color-blue-gray-50 h-[32px] w-fit justify-center px-4 rounded-md">
+                      <Text
+                        className={`font-roboto-medium ${isSmallScreen ? "text-[12px]" : "text-[14px]"} text-neutros-negro`}
+                      >
+                        9:00hs a 14:00hs
+                      </Text>
+                    </View>
+                  </View>
+
+                  {/* Descripción */}
+                  <Text className="my-2 px-4 text-neutros-negro-80 text-[14px] font-roboto-regular">
+                    Aprende a preparar un plato vegano delicioso y nutritivo
+                    (desde entrantes hasta postres)
+                  </Text>
+
+                  {/* Separator */}
+                  <View
+                    className={`border-b-[0.3px] border-b-neutral-color-blue-gray-50 ${isBigScreen ? "mt-2 mb-4" : isSmallScreen ? "mt-0 mb-2" : "mt-1 mb-3"}`}
                   ></View>
 
-                  <View className="flex-row">
-                    <View className="flex-row w-content px-[11px] h-[22px] rounded-full items-center border-[1px] border-neutros-negro-80">
-                      <Text className="font-roboto-regular text-[12px] text-neutros-negro-80">
-                        Tutorías
-                      </Text>
+                  {/* Categories */}
+                  <View className="flex-row gap-2 px-4">
+                    <View>
+                      <CustomChip
+                        label={"Animales"}
+                        status={"inactive"}
+                        showBorder
+                      />
+                    </View>
+                    <View>
+                      <CustomChip
+                        label={"Consultoría"}
+                        status={"inactive"}
+                        showBorder
+                      />
                     </View>
                   </View>
                 </View>

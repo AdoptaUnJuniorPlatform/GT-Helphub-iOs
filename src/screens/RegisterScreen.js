@@ -16,10 +16,10 @@ export default function RegisterScreen({ navigation }) {
   const isBigScreen = width >= 430;
 
   return (
-    <SafeAreaView className="flex-1 bg-white">
+    <SafeAreaView className="flex-1 bg-neutros-gris-fondo">
       <ScrollView
         showsVerticalScrollIndicator={false}
-        className="flex-1 bg-white px-4"
+        className="flex-1 bg-neutros-gris-fondo px-4"
       >
         <View className="bg-primarios-violeta-100 w-full items-center py-[30px] rounded-b-3xl">
           <LogoLight />
@@ -28,7 +28,7 @@ export default function RegisterScreen({ navigation }) {
         <RegisterForm navigation={navigation} />
 
         <View
-          className={`flex-row gap-1 justify-center mt-2 ${isSmallScreen ? "mb-3" : ""}`}
+          className={`flex-row gap-1 justify-center ${isSmallScreen ? "mb-3 mt-2" : isBigScreen ? "mt-4" : "mt-2"}`}
         >
           <Text className="text-neutros-negro-80 font-roboto-medium text-[14px]">
             ¿Ya tienes una cuenta?

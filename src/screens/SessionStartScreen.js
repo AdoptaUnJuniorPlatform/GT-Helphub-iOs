@@ -24,8 +24,8 @@ export default function LoginScreen({ navigation }) {
   const isBigScreen = width >= 430;
 
   return (
-    <SafeAreaView className="flex-1 bg-white">
-      <View className="flex-1 bg-white">
+    <SafeAreaView className="flex-1 bg-neutros-gris-fondo">
+      <View className="flex-1 bg-neutros-gris-fondo">
         <View className="bg-primarios-violeta-100 w-full items-center py-[30px] mb-[20px] rounded-b-3xl">
           <LogoLight />
         </View>
@@ -127,7 +127,7 @@ export default function LoginScreen({ navigation }) {
             </Text>
           </TouchableOpacity>
 
-          <View className="flex-row gap-1 justify-center mt-2">
+          <View className="flex-row gap-1 justify-center mt-3">
             <Text className="text-neutros-negro-80 font-roboto-medium text-[14px]">
               ¿No tienes una cuenta?
             </Text>

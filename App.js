@@ -32,7 +32,7 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <StatusBar style="dark" backgroundColor="white" />
+      <StatusBar style="dark" />
       <AppNavigator />
     </NavigationContainer>
   );

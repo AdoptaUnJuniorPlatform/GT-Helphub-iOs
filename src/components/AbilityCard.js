@@ -48,7 +48,7 @@ const AbilityCard = ({ onDelete, onEdit }) => {
           <Text
             className={`font-roboto-regular ${isSmallScreen ? "text-[10px]" : "text-[12px]"} text-neutros-negro-80`}
           >
-            Experto
+            Avanzado
           </Text>
         </View>
       </View>

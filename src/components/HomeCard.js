@@ -10,7 +10,7 @@ const HomeCard = ({ onPress }) => {
 
   return (
     <View
-      className={`${isBigScreen ? "h-[445px] w-[325px] py-5" : isSmallScreen ? "h-[350px] w-[300px] py-4" : "h-[407px] w-[307px] py-5"} mr-4 rounded-[6px] border-x-[1px] border-neutral-color-blue-gray-50`}
+      className={`${isBigScreen ? "w-[325px] py-5" : isSmallScreen ? "w-[300px] py-4" : "w-[307px] py-5"} mr-4 rounded-[6px] border-x-[1px] border-neutral-color-blue-gray-50`}
     >
       {/* Header */}
       <View className="flex-row items-center gap-[25px] px-5">
@@ -69,7 +69,7 @@ const HomeCard = ({ onPress }) => {
 
         <View className="flex-row w-content px-[11px] h-[22px] rounded-full items-center bg-neutral-color-blue-gray-50">
           <Text className="font-roboto-regular text-[12px] text-neutros-negro-80">
-            Experto
+            Avanzado
           </Text>
         </View>
       </View>

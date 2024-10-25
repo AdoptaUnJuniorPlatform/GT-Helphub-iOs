@@ -11,6 +11,7 @@ import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import CustomButton from "./CustomButton";
 import Entypo from "@expo/vector-icons/Entypo";
 import RatingCard from "./RatingCard";
+import CustomRating from "./CustomRating";
 // import DialogIcon from "./svgComponents/DialogIcon";
 
 const { width } = Dimensions.get("window");
@@ -59,18 +60,7 @@ const ProfileCard = ({ isCardVisible, toggleCard }) => {
               <Text className="font-roboto-medium text-[20px] text-neutros-negro">
                 Juanita Perez
               </Text>
-              <View className="flex-row justify-start items-center gap-2">
-                <View className="flex-row items-center justify-start">
-                  <Entypo name="star" size={12} color="#B8B8B8" />
-                  <Entypo name="star" size={12} color="#B8B8B8" />
-                  <Entypo name="star" size={12} color="#B8B8B8" />
-                  <Entypo name="star" size={12} color="#B8B8B8" />
-                  <Entypo name="star" size={12} color="#B8B8B8" />
-                </View>
-                <Text className="font-roboto-regular text-[14px] text-neutros-negro">
-                  Good
-                </Text>
-              </View>
+              <CustomRating rating={5} />
               <View>
                 <Text className="font-roboto-medium text-[14px] text-neutros-negro">
                   Valoración general

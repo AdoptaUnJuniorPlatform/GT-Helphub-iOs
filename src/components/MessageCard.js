@@ -1,8 +1,11 @@
-import { View, Text, Image } from "react-native";
+import { View, Text, Image, TouchableOpacity } from "react-native";
 
-const MessageCard = ({ image, name, surname, message, pending }) => {
+const MessageCard = ({ image, name, surname, message, pending, onPress }) => {
   return (
-    <View className="flex-1 flex-row w-full p-5 bg-[#f4f4f4] rounded-[6px] justify-between items-center mb-1">
+    <TouchableOpacity
+      onPress={onPress}
+      className="flex-1 flex-row w-full p-5 bg-[#f4f4f4] rounded-[6px] justify-between items-center mb-1"
+    >
       <View className="flex-1 flex-row items-center">
         <View className="w-[59px] h-[59px] rounded-full mr-5">
           <Image
@@ -32,7 +35,7 @@ const MessageCard = ({ image, name, surname, message, pending }) => {
           </Text>
         </View>
       )}
-    </View>
+    </TouchableOpacity>
   );
 };
 
