@@ -14,7 +14,7 @@ const CustomChip = ({
     ? color === "purple"
       ? "bg-primarios-violeta-100"
       : "bg-primarios-azul-100"
-    : `bg-white ${showBorder ? "border border-neutros-negro-50" : ""}`;
+    : `bg-transparent ${showBorder ? "border border-neutros-negro-50" : ""}`;
 
   const textStyle = isActive ? "text-white" : "text-neutros-negro";
 

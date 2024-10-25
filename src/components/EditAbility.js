@@ -37,11 +37,11 @@ const EditAbility = ({ onRequestClose, visible }) => {
   return (
     <Modal transparent={true} visible={visible} onRequestClose={onRequestClose}>
       <View
-        className={`absolute w-full h-screen flex-1 justify-center ${isSmallScreen ? "pt-8" : "pt-16"} bg-white`}
+        className={`absolute w-full h-screen flex-1 justify-center ${isSmallScreen ? "pt-8" : "pt-16"} bg-neutros-gris-fondo`}
       >
         <ScrollView showsVerticalScrollIndicator={false}>
           {/* Go Back Button */}
-          <View className="bg-[#fbfbff] w-full py-2 flex-row justify-start items-center">
+          <View className="bg-neutros-gris-fondo w-full py-2 flex-row justify-start items-center">
             <TouchableOpacity
               onPress={onRequestClose}
               className={`${isBigScreen ? "h-[42px]" : isSmallScreen ? "h-[30px]" : "h-[36px]"}  flex-row items-center justify-center pl-[8px] pr-[16px]`}
@@ -194,6 +194,8 @@ const EditAbility = ({ onRequestClose, visible }) => {
               title={"Guardar"}
               width="content"
               variant="white"
+              // disabled={!title || !level || !mode || !ability || !selectedCategory}
+              disabled={!title || !level || !mode || !ability}
             />
           </View>
         </View>

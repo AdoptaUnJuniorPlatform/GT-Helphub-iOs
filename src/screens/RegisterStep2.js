@@ -69,12 +69,14 @@ export default function RegisterStep2({ navigation }) {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-white">
+    <SafeAreaView className="flex-1 bg-neutros-gris-fondo">
       <View className="flex-1 px-4">
         <View className="flex-1 justify-between">
           <View>
             <StepHeader
               step={"2"}
+              statusStepLabel1={"active"}
+              statusStepLabel2={"inactive"}
               label1={"Tu foto"}
               label2={"Disponibilidad"}
               status1={"active"}
@@ -93,7 +95,7 @@ export default function RegisterStep2({ navigation }) {
                   className={`flex-row justify-between items-center ${isSmallScreen ? "mb-[3px]" : "mb-[8px]"} mr-3`}
                 >
                   <Text
-                    className={`text-neutral-color-gray-900 font-roboto-medium ${isBigScreen ? "text-[21px]" : isSmallScreen ? "text-[18px]" : "text-[20px]"}`}
+                    className={`text-neutros-negro font-roboto-medium ${isBigScreen ? "text-[21px]" : isSmallScreen ? "text-[18px]" : "text-[20px]"}`}
                   >
                     Escoger una foto
                   </Text>
@@ -113,7 +115,7 @@ export default function RegisterStep2({ navigation }) {
                   </Pressable>
                 </View>
                 <Text
-                  className={`text-neutral-color-blue-gray-500 leading-6 font-roboto-regular ${isSmallScreen ? "text-[14px]" : "text-[16px]"}`}
+                  className={`text-neutros-negro-80 leading-6 font-roboto-regular ${isSmallScreen ? "text-[14px]" : "text-[16px]"}`}
                 >
                   En HelpHub, todas las personas deben tener una fotografía en
                   donde se muestre claramente su rostro.
@@ -158,7 +160,7 @@ export default function RegisterStep2({ navigation }) {
                   <AvatarChecked source={require("../../assets/avatar3.png")} />
                 </View>
 
-                <Text className="mt-2 text-neutros-negro-80 text-center font-poppins-medium text-[13px]">
+                <Text className="mt-2 text-neutros-negro-80 text-center font-roboto-medium text-[14px]">
                   Si no lo tienes claro, aquí tienes unos ejemplos.
                 </Text>
               </View>
@@ -176,7 +178,7 @@ export default function RegisterStep2({ navigation }) {
               isBackButton
             />
             <CustomButton
-              title="Siguiente"
+              title="Continuar"
               onPress={() => {
                 if (image) {
                   navigation.navigate("RegisterStep3");

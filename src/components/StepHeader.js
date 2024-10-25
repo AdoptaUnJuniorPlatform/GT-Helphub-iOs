@@ -5,7 +5,15 @@ import CustomChip from "./CustomChip";
 
 const { width } = Dimensions.get("window");
 
-const StepHeader = ({ step, label1, label2, status1, status2 }) => {
+const StepHeader = ({
+  step,
+  statusStepLabel1,
+  statusStepLabel2,
+  label1,
+  label2,
+  status1,
+  status2,
+}) => {
   const isSmallScreen = width <= 392;
   const isBigScreen = width >= 430;
 
@@ -18,7 +26,11 @@ const StepHeader = ({ step, label1, label2, status1, status2 }) => {
       </View>
 
       <View className="px-4">
-        <Stepper step={step} />
+        <Stepper
+          step={step}
+          statusStepLabel1={statusStepLabel1}
+          statusStepLabel2={statusStepLabel2}
+        />
 
         <View className="mt-[20px] w-full flex-row justify-between items-center">
           <CustomChip label={label1} status={status1} />

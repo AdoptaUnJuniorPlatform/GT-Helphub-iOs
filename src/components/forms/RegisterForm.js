@@ -1,12 +1,16 @@
 /* eslint-disable prettier/prettier */
 import { useState } from "react";
-import { View, Text, Linking, TextInput } from "react-native";
-import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import { View, Text, Linking, TextInput, Dimensions } from "react-native";
 import ToggleSwitch from "../ToggleSwitch";
 import CustomCheckbox from "../CustomCheckbox";
 import CustomButton from "../CustomButton";
 
+const { width } = Dimensions.get("window");
+
 const RegisterForm = ({ navigation }) => {
+  const isSmallScreen = width <= 392;
+  const isBigScreen = width >= 430;
+
   const countryCode = "🇪🇸  +34";
 
   const [name, setName] = useState("");
@@ -36,11 +40,11 @@ const RegisterForm = ({ navigation }) => {
 
   return (
     <View>
-      <Text className="font-roboto-regular text-[24px] text-neutros-negro my-[20px]">
+      <Text className={`font-roboto-regular text-[24px] text-neutros-negro ${isSmallScreen ? "mt-4 mb-2" : "my-[20px]"}`}>
         Registro
       </Text>
 
-      <View className="mb-4">
+      <View className={`${isSmallScreen ? "mb-3" : "mb-4"}`}>
         <TextInput
           value={name}
           onChangeText={setName}
@@ -53,7 +57,7 @@ const RegisterForm = ({ navigation }) => {
         />
       </View>
 
-      <View className="mb-4">
+      <View className={`${isSmallScreen ? "mb-3" : "mb-4"}`}>
         <TextInput
           value={surnameOne}
           onChangeText={setSurnameOne}
@@ -66,11 +70,11 @@ const RegisterForm = ({ navigation }) => {
         />
       </View>
 
-      <View className="mb-4">
+      <View className={`${isSmallScreen ? "mb-3" : "mb-4"}`}>
         <TextInput
           value={surnameTwo}
           onChangeText={setSurnameTwo}
-          placeholder="Apellido 2"
+          placeholder="Apellido 2 (opcional)"
           keyboardType="default"
           className="bg-transparent border-[1px] border-neutral-color-blue-gray-100 focus:border-[#455A64] rounded-[8px] h-[40px] font-roboto-regular text-[14px] text-neutral-color-gray-900 p-3"
           placeholderTextColor={isSurnameTwoFocused ? "#212121" : "#90A4AE"}
@@ -80,13 +84,13 @@ const RegisterForm = ({ navigation }) => {
       </View>
 
       {/* Phone Input */}
-      <View className="gap-2 mb-4">
+      <View className={`${isSmallScreen ? "mb-3" : "mb-4"} gap-2`}>
         <View
           className={`flex-row items-center border-[1px] ${isPhoneNumberFocused ? "border-[#455A64]" : "border-neutral-color-blue-gray-100"} rounded-[8px] h-[40px] bg-transparent`}
         >
           <View className="flex-row items-center pl-3">
             <Text
-              className={`text-[12px] font-roboto-medium ${isPhoneNumberFocused ? "color-neutral-color-gray-900" : "color-neutral-color-blue-gray-500"} pr-1`}
+              className={`text-[12px] font-roboto-medium ${isPhoneNumberFocused ? "color-neutral-color-gray-900" : "color-neutral-color-blue-gray-300"} pr-1`}
             >
               {countryCode}
             </Text>
@@ -109,7 +113,7 @@ const RegisterForm = ({ navigation }) => {
         </View>
       </View>
 
-      <View className="mb-4">
+      <View className={`${isSmallScreen ? "mb-3" : "mb-4"}`}>
         <TextInput
           value={email}
           onChangeText={setEmail}
@@ -122,7 +126,7 @@ const RegisterForm = ({ navigation }) => {
         />
       </View>
 
-      <View className="mb-4">
+      <View className="mb-2">
         <TextInput
           value={password}
           onChangeText={setPassword}
@@ -135,20 +139,10 @@ const RegisterForm = ({ navigation }) => {
         />
       </View>
 
-      <Text className="text-neutros-negro-80 font-roboto-medium text-[13px]">
+      <Text className={`text-neutros-negro-80 font-roboto-regular text-[12px] ${isSmallScreen ? "mb-3" : "mb-5"}`}>
         La contraseña debe incluir al menos 12 caracteres, una letra mayúscula y
         un número.
       </Text>
-
-      <View className="flex-row items-center my-6">
-        <View className="flex-row items-center gap-2 pr-2 pl-4">
-          <MaterialIcons name="info" size={19} color="#7165d1" />
-          <Text className="text-primarios-violeta-100 text-[20px] font-roboto-medium">
-            Opcional
-          </Text>
-        </View>
-        <View className="flex-1 ml-3 border-b-[1px] border-neutros-negro-80"></View>
-      </View>
 
       {/* ToggleSwitch */}
       <View className="flex-row items-center">
@@ -156,16 +150,16 @@ const RegisterForm = ({ navigation }) => {
           <ToggleSwitch isEnabled={isEnabled} onToggle={setIsEnabled} />
         </View>
         <View>
-          <Text className="text-neutral-color-gray-900 font-roboto-medium font-[16px]">
+          <Text className="text-neutros-negro font-roboto-medium font-[16px]">
             Activar la opción de llamada
           </Text>
-          <Text className="text-neutral-color-blue-gray-500 font-roboto-regular font-[14px]">
+          <Text className="text-neutros-negro-80 font-roboto-regular font-[14px]">
             Mostrar teléfono al iniciar intercambio
           </Text>
         </View>
       </View>
 
-      <View className="my-6">
+      <View className={`${isBigScreen ? "mt-5 mb-[100px]" : isSmallScreen ? "my-2" : "my-5"}`}>
         <CustomCheckbox
           isChecked={acceptTermsAndConditions}
           onPress={() => setAcceptTermsAndConditions(!acceptTermsAndConditions)}

@@ -38,14 +38,16 @@ export default function RegisterStep4_1({ navigation }) {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-white">
+    <SafeAreaView className="flex-1 bg-neutros-gris-fondo">
       <View className="flex-1">
         <ScrollView
           showsVerticalScrollIndicator={false}
-          className="flex-1 bg-white px-4"
+          className="flex-1 bg-neutros-gris-fondo px-4"
         >
           <StepHeader
             step={"4"}
+            statusStepLabel1={"active"}
+            statusStepLabel2={"inactive"}
             label1={"Mis habilidades"}
             label2={"Que quiero aprender"}
             status1={"active"}
@@ -57,13 +59,13 @@ export default function RegisterStep4_1({ navigation }) {
           {/* Carga... */}
           <View className={`${isSmallScreen ? "mt-2" : "mt-4"}`}>
             <Text
-              className={`text-neutral-color-gray-900 font-roboto-medium ${isBigScreen ? "text-[21px] mb-[8px]" : isSmallScreen ? "text-[18px] mb-[3px]" : "text-[20px] mb-[5px]"}`}
+              className={`text-neutros-negro font-roboto-medium ${isBigScreen ? "text-[21px] mb-[8px]" : isSmallScreen ? "text-[18px] mb-[3px]" : "text-[20px] mb-[5px]"}`}
             >
               Añade tu primera habilidad
             </Text>
 
             <Text
-              className={`text-neutral-color-blue-gray-500 ${isSmallScreen ? "" : "leading-6"} font-roboto-regular text-[16px]`}
+              className={`text-neutros-negro-80 ${isSmallScreen ? "" : "leading-6"} font-roboto-regular text-[16px]`}
             >
               Puedes agregar varias habilidades y editarlas más tarde.
             </Text>
@@ -75,7 +77,7 @@ export default function RegisterStep4_1({ navigation }) {
               className={`flex-row justify-between items-center ${isBigScreen ? "mb-2" : isSmallScreen ? "" : "mb-1"}`}
             >
               <Text
-                className={`text-neutral-color-gray-900 font-roboto-medium ${isBigScreen ? "text-[21px] w-[35%] text-wrap" : isSmallScreen ? "text-[18px]" : "text-[20px]"}`}
+                className={`text-neutros-negro font-roboto-medium ${isBigScreen ? "text-[21px] w-[35%] text-wrap" : isSmallScreen ? "text-[18px]" : "text-[20px]"}`}
               >
                 Título de tu publicación
               </Text>
@@ -139,7 +141,7 @@ export default function RegisterStep4_1({ navigation }) {
           {/* Nivel */}
           <View className={`${isSmallScreen ? "mt-2" : "mt-4"}`}>
             <Text
-              className={`text-neutral-color-gray-900 font-roboto-medium ${isBigScreen ? "text-[21px]" : isSmallScreen ? "text-[18px]" : "text-[20px]"}`}
+              className={`text-neutros-negro font-roboto-medium ${isBigScreen ? "text-[21px]" : isSmallScreen ? "text-[18px]" : "text-[20px]"}`}
             >
               Nivel
             </Text>
@@ -173,7 +175,7 @@ export default function RegisterStep4_1({ navigation }) {
           {/* Modalidad */}
           <View className={`${isSmallScreen ? "mt-0" : "mt-3"}`}>
             <Text
-              className={`text-neutral-color-gray-900 font-roboto-medium ${isBigScreen ? "text-[21px]" : isSmallScreen ? "text-[18px]" : "text-[20px]"}`}
+              className={`text-neutros-negro font-roboto-medium ${isBigScreen ? "text-[21px]" : isSmallScreen ? "text-[18px]" : "text-[20px]"}`}
             >
               Modalidad
             </Text>
@@ -204,7 +206,7 @@ export default function RegisterStep4_1({ navigation }) {
           {/* Asterisc */}
           <View>
             <Text
-              className={`text-neutral-color-blue-gray-500 font-roboto-italic ${isSmallScreen ? "text-[9px]" : "text-[13px] leading-5"}`}
+              className={`text-neutros-negro font-roboto-italic ${isSmallScreen ? "text-[9px]" : "text-[13px] leading-5"}`}
             >
               Recomendamos una reunión online antes de un encuentro presencial
               por seguridad.
@@ -214,7 +216,7 @@ export default function RegisterStep4_1({ navigation }) {
 
         {/* Navigation Button Set */}
         <View
-          className={`absolute ${isSmallScreen ? "pb-2" : ""} bottom-0 left-0 right-0 px-4 pt-2 bg-white flex-row items-center justify-between`}
+          className={`absolute ${isSmallScreen ? "pb-2" : ""} bottom-0 left-0 right-0 px-4 pt-2 bg-neutros-gris-fondo flex-row items-center justify-between`}
         >
           <CustomButton
             title="Atrás"
@@ -223,10 +225,11 @@ export default function RegisterStep4_1({ navigation }) {
             isBackButton
           />
           <CustomButton
-            title="Siguiente"
+            title="Continuar"
             onPress={() => navigation.navigate("RegisterStep4_2")}
             variant="white"
             width="content"
+            disabled={!title || !level || !mode}
           />
         </View>
       </View>

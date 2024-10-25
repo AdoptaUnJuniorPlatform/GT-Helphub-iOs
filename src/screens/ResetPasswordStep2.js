@@ -28,8 +28,8 @@ export default function ResetPasswordStep1({ navigation }) {
   const isBigScreen = width >= 430;
 
   return (
-    <SafeAreaView className="flex-1 bg-white">
-      <View className="flex-1 bg-white">
+    <SafeAreaView className="flex-1 bg-neutros-gris-fondo">
+      <View className="flex-1 bg-neutros-gris-fondo">
         <View className="bg-primarios-violeta-100 w-full items-center py-[30px] rounded-b-3xl">
           <LogoLight />
         </View>
@@ -50,7 +50,7 @@ export default function ResetPasswordStep1({ navigation }) {
 
         <View className={`flex-1 px-4 ${isSmallScreen ? "pb-4" : "pb-16"}`}>
           <Text
-            className={`text-primarios-violeta-100 text-[20px] font-roboto-medium ${isSmallScreen ? "mt-6" : "mt-8"} mb-2`}
+            className={`text-primarios-violeta-100 text-[20px] font-roboto-medium ${isSmallScreen ? "mt-4 mb-1" : "mt-8 mb-2"}`}
           >
             Reseteo de contraseña
           </Text>
@@ -59,7 +59,7 @@ export default function ResetPasswordStep1({ navigation }) {
             contraseña.
           </Text>
 
-          <View className={`flex-1 ${isSmallScreen ? "mt-6" : "mt-8"}`}>
+          <View className={`flex-1 ${isSmallScreen ? "mt-4" : "mt-8"}`}>
             <View className="mb-4">
               <TextInput
                 value={verificationCode}
@@ -122,7 +122,7 @@ export default function ResetPasswordStep1({ navigation }) {
           </View>
 
           <TouchableOpacity
-            className="h-[36px] items-center justify-center rounded-[8px] w-full bg-primarios-violeta-100"
+            className={`h-[36px] items-center justify-center rounded-[8px] w-full bg-primarios-violeta-100 ${isSmallScreen ? "mb-8" : ""}`}
             onPress={() => navigation.navigate("SessionStart")}
           >
             <Text className="font-roboto-bold text-[12px] uppercase text-white">

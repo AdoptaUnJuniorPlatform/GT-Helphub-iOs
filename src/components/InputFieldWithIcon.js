@@ -3,7 +3,7 @@ import { useState } from "react";
 import { View, TextInput, Text } from "react-native";
 import EvilIcons from "@expo/vector-icons/EvilIcons";
 
-const InputFieldWithIcon = ({ label, value, onChange, placeholder, iconName }) => {
+const InputFieldWithIcon = ({ label, value, onChangeText, placeholder, iconName }) => {
   const [isFocused, setIsFocused] = useState(false);
 
   return (
@@ -25,9 +25,10 @@ const InputFieldWithIcon = ({ label, value, onChange, placeholder, iconName }) =
         />
         <TextInput
           value={value}
-          onChange={onChange}
+          onChangeText={onChangeText}
           placeholder={placeholder}
-          className="flex-1 font-roboto-regular text-[14px] text-neutral-color-blue-gray-300 p-3 pl-2"
+          keyboardType="numeric"
+          className={`flex-1 font-roboto-regular text-[14px] ${isFocused ? "text-neutral-color-gray-900" : "text-[#90A4AE]"} p-3 pl-2`}
           placeholderTextColor={isFocused ? "#212121" : "#90a3ae"}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}

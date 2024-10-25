@@ -11,11 +11,12 @@ import {
 import EditIcon from "../components/svgComponents/EditIcon";
 import CustomButton from "../components/CustomButton";
 import AntDesign from "@expo/vector-icons/AntDesign";
-import Entypo from "@expo/vector-icons/Entypo";
 import AbilityCard from "../components/AbilityCard";
 import RatingCard from "../components/RatingCard";
 import EditAbility from "../components/EditAbility";
 import EditProfile from "../components/EditProfile";
+import Calendar from "../components/Calendar";
+import CustomRating from "../components/CustomRating";
 
 const { width } = Dimensions.get("window");
 
@@ -36,7 +37,7 @@ export default function ProfileScreen({ navigation }) {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-white">
+    <SafeAreaView className="flex-1 bg-neutros-gris-fondo">
       <View className="flex-1 justify-center items-center justify-start bg-white">
         {/* Profile Card */}
         <View
@@ -93,19 +94,8 @@ export default function ProfileScreen({ navigation }) {
                 <View
                   className={`flex-row ${isSmallScreen ? "gap-1" : "gap-3"}`}
                 >
-                  <View className="border-[1px] border-neutros-negro-50 rounded-[5px] w-fit px-3 py-1">
-                    <Text
-                      className={`text-neutros-negro ${isSmallScreen ? "text-[9px]" : "text-[12px]"} font-roboto-regular`}
-                    >
-                      Lunes
-                    </Text>
-                  </View>
-                  <View className="border-[1px] border-neutros-negro-50 rounded-[5px] w-fit px-3 py-1">
-                    <Text
-                      className={`text-neutros-negro ${isSmallScreen ? "text-[9px]" : "text-[12px]"} font-roboto-regular`}
-                    >
-                      Sábado
-                    </Text>
+                  <View>
+                    <Calendar selectedDays={[0, 3, 4]} />
                   </View>
                 </View>
               </View>
@@ -263,18 +253,7 @@ export default function ProfileScreen({ navigation }) {
                   <Text className="text-neutros-negro font-roboto-medium text-[14px]">
                     Valoración general
                   </Text>
-                  <View className="flex-row">
-                    <View className="flex-row items-center justify-start mr-3">
-                      <Entypo name="star" size={12} color="#ffd43c" />
-                      <Entypo name="star" size={12} color="#ffd43c" />
-                      <Entypo name="star" size={12} color="#ffd43c" />
-                      <Entypo name="star" size={12} color="#ffd43c" />
-                      <Entypo name="star" size={12} color="#ffd43c" />
-                    </View>
-                    <Text className="text-neutros-negro font-roboto-regular text-[14px]">
-                      Excelente
-                    </Text>
-                  </View>
+                  <CustomRating rating={5} />
                 </View>
               </View>
               <View

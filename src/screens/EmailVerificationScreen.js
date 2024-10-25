@@ -33,8 +33,8 @@ export default function EmailVerificationScreen({ navigation }) {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-white">
-      <View className="flex-1 bg-white px-4">
+    <SafeAreaView className="flex-1 bg-neutros-gris-fondo">
+      <View className="flex-1 bg-neutros-gris-fondo px-4">
         <View className="w-full items-center py-8">
           <LogoDark />
         </View>
@@ -97,8 +97,16 @@ export default function EmailVerificationScreen({ navigation }) {
         </View>
 
         <View
-          className={`flex-row items-center justify-end ${isSmallScreen ? "mt-auto mb-2" : "mt-8"}`}
+          className={`flex-row items-center justify-between ${isSmallScreen ? "mt-auto mb-2" : "mt-8"}`}
         >
+          <CustomButton
+            title="Atrás"
+            onPress={() => navigation.goBack()}
+            variant="white"
+            width="content"
+            isBackButton
+          />
+
           <CustomButton
             title="Continuar"
             onPress={() => {

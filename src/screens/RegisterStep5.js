@@ -11,8 +11,6 @@ import CustomButton from "../components/CustomButton";
 import StepHeader from "../components/StepHeader";
 import StepTitle from "../components/StepTitle";
 import CustomChip from "../components/CustomChip";
-import CustomDropdown from "../components/CustomDropdown";
-import { categories } from "../data/data";
 
 const { width } = Dimensions.get("window");
 
@@ -52,11 +50,13 @@ export default function RegisterStep5({ navigation }) {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-white">
+    <SafeAreaView className="flex-1 bg-neutros-gris-fondo">
       <View className="flex-1">
-        <ScrollView className="flex-1 bg-white px-4 pb-20">
+        <ScrollView className="flex-1 bg-neutros-gris-fondo px-4 pb-20">
           <StepHeader
             step={"5"}
+            statusStepLabel1={"inactive"}
+            statusStepLabel2={"active"}
             label1={"Mis habilidades"}
             label2={"Que quiero aprender"}
             status1={"inactive"}
@@ -71,28 +71,31 @@ export default function RegisterStep5({ navigation }) {
               {/* ¿Qué te gustaría...? */}
               <View className="mt-4">
                 <Text
-                  className={`text-neutral-color-gray-900 font-roboto-medium ${isBigScreen ? "text-[21px] mb-[8px]" : isSmallScreen ? "text-[18px] mb-[5px]" : "text-[20px] mb-[8px]"}`}
+                  className={`text-neutros-negro font-roboto-medium ${isBigScreen ? "text-[21px] mb-[8px]" : isSmallScreen ? "text-[18px] mb-[5px]" : "text-[20px] mb-[8px]"}`}
                 >
                   ¿Qué te gustaría aprender?
                 </Text>
 
-                <Text className="text-neutral-color-blue-gray-500 leading-6 font-roboto-regular text-[16px]">
-                  Nos gustaría saber qué te gustaría aprender, para que los
-                  demás usuarios puedan ofrecerte su ayuda.
+                <Text className="text-neutros-negro-80 leading-6 font-roboto-regular text-[16px]">
+                  Cuéntanos qué te gustaría aprender para que otros usuarios
+                  puedan ayudarte.
                 </Text>
               </View>
 
-              {/* Categorías pop */}
+              {/* Seleccionar */}
               <View className={`${isSmallScreen ? "mt-2" : "mt-4"}`}>
                 <Text
-                  className={`text-neutral-color-gray-900 font-roboto-medium ${isBigScreen
+                  className={`text-neutros-negro font-roboto-medium ${isBigScreen
                       ? "text-[21px]"
                       : isSmallScreen
                         ? "text-[18px]"
                         : "text-[20px]"
                     }`}
                 >
-                  Categorías populares
+                  Seleccionar categorías
+                </Text>
+                <Text className="mt-2 text-neutros-negro-80 font-roboto-medium text-[14px]">
+                  Puedes seleccionar hasta 3 categorías
                 </Text>
                 <View
                   className={`flex flex-wrap flex-row justify-start align-center ${isSmallScreen ? "gap-1" : "gap-2"} mt-1`}
@@ -114,34 +117,13 @@ export default function RegisterStep5({ navigation }) {
                   ))}
                 </View>
               </View>
-
-              {/* Busca */}
-              <View className={`${isSmallScreen ? "mt-3" : "mt-4"} flex-grow`}>
-                <Text
-                  className={`text-neutral-color-gray-900 font-roboto-medium ${isBigScreen
-                      ? "text-[21px]"
-                      : isSmallScreen
-                        ? "text-[18px]"
-                        : "text-[20px]"
-                    } mb-[8px]`}
-                >
-                  Busca más categorías
-                </Text>
-                <View className="mb-[60px]">
-                  <CustomDropdown
-                    label="Catégories"
-                    items={categories}
-                    backgroundColor={"bg-[#fbfbff]"}
-                  />
-                </View>
-              </View>
             </View>
           </View>
         </ScrollView>
 
         {/* Navigation Button Set */}
         <View
-          className={`absolute ${isSmallScreen ? "pb-2" : ""} bottom-0 left-0 right-0 px-4 pt-2 bg-white flex-row items-center justify-between`}
+          className={`absolute ${isSmallScreen ? "pb-2" : ""} bottom-0 left-0 right-0 px-4 pt-2 bg-neutros-gris-fondo flex-row items-center justify-between`}
         >
           <CustomButton
             title="Atrás"
@@ -154,6 +136,7 @@ export default function RegisterStep5({ navigation }) {
             onPress={() => navigation.navigate("HomeTabs")}
             variant="white"
             width="content"
+          // disabled={!selectedCategories}
           />
         </View>
       </View>

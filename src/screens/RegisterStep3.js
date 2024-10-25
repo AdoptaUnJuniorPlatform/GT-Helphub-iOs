@@ -21,14 +21,16 @@ export default function RegisterStep1({ navigation }) {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-white">
+    <SafeAreaView className="flex-1 bg-neutros-gris-fondo">
       <View className="flex-1">
         <ScrollView
           showsVerticalScrollIndicator={false}
-          className="flex-1 bg-white px-4"
+          className="flex-1 bg-neutros-gris-fondo px-4"
         >
           <StepHeader
             step={"3"}
+            statusStepLabel1={"active"}
+            statusStepLabel2={"inactive"}
             label1={"Disponibilidad"}
             label2={"Mis habilidades"}
             status1={"active"}
@@ -42,12 +44,12 @@ export default function RegisterStep1({ navigation }) {
               {/* ¿Qué día...? */}
               <View className="mt-4">
                 <Text
-                  className={`text-neutral-color-gray-900 font-roboto-medium ${isBigScreen ? "text-[21px] mb-[8px]" : isSmallScreen ? "text-[18px] mb-[5px]" : "text-[20px] mb-[8px]"}`}
+                  className={`text-neutros-negro font-roboto-medium ${isBigScreen ? "text-[21px] mb-[8px]" : isSmallScreen ? "text-[18px] mb-[5px]" : "text-[20px] mb-[8px]"}`}
                 >
                   ¿Qué día estás disponible?
                 </Text>
 
-                <Text className="text-neutral-color-blue-gray-500 leading-6 font-roboto-regular text-[16px]">
+                <Text className="text-neutros-negro leading-6 font-roboto-regular text-[16px]">
                   En HelpHub, queremos facilitar a los usuarios la coordinación
                   de horarios.
                 </Text>
@@ -56,7 +58,7 @@ export default function RegisterStep1({ navigation }) {
               {/* Disponibilidad horaria */}
               <View className={`${isSmallScreen ? "mt-2" : "mt-4"}`}>
                 <Text
-                  className={`text-neutral-color-gray-900 font-roboto-medium ${isBigScreen ? "text-[21px]" : isSmallScreen ? "text-[18px]" : "text-[20px]"}`}
+                  className={`text-neutros-negro font-roboto-medium ${isBigScreen ? "text-[21px]" : isSmallScreen ? "text-[18px]" : "text-[20px]"}`}
                 >
                   Disponibilidad horaria
                 </Text>
@@ -116,12 +118,12 @@ export default function RegisterStep1({ navigation }) {
                 className={`${isSmallScreen ? "mt-1" : "mt-4"} flex-grow mb-[60px]`}
               >
                 <Text
-                  className={`text-neutral-color-gray-900 font-roboto-medium ${isBigScreen ? "text-[21px] mb-[8px]" : isSmallScreen ? "text-[18px] mb-[5px]" : "text-[20px] mb-[8px]"}`}
+                  className={`text-neutros-negro font-roboto-medium ${isBigScreen ? "text-[21px] mb-[8px]" : isSmallScreen ? "text-[18px] mb-[5px]" : "text-[20px] mb-[8px]"}`}
                 >
                   Días
                 </Text>
                 <Text
-                  className={`text-neutral-color-blue-gray-500 ${isSmallScreen ? "mb-2" : "mb-4"} font-roboto-regular text-[16px]`}
+                  className={`text-neutros-negro-80 ${isSmallScreen ? "mb-2" : "mb-4"} font-roboto-medium text-[14px]`}
                 >
                   Puedes seleccionar más de un día.
                 </Text>
@@ -137,7 +139,7 @@ export default function RegisterStep1({ navigation }) {
 
         {/* Navigation Button Set */}
         <View
-          className={`absolute ${isSmallScreen ? "pb-2" : ""} bottom-0 left-0 right-0 px-4 pt-2 bg-white flex-row items-center justify-between`}
+          className={`bg-neutros-gris-fondo absolute ${isSmallScreen ? "pb-2" : ""} bottom-0 left-0 right-0 px-4 pt-2 flex-row items-center justify-between`}
         >
           <CustomButton
             title="Atrás"
@@ -146,10 +148,12 @@ export default function RegisterStep1({ navigation }) {
             isBackButton
           />
           <CustomButton
-            title="Siguiente"
+            title="Continuar"
             onPress={() => navigation.navigate("RegisterStep4_1")}
             variant="white"
             width="content"
+            // disabled={!timeSlot || !days}
+            disabled={!timeSlot}
           />
         </View>
       </View>

@@ -1,6 +1,6 @@
 import { View, Text, TouchableOpacity, Image } from "react-native";
 
-const RequestCard = ({ image, name, surname, message, pending }) => {
+const RequestCard = ({ image, name, surname, onPress }) => {
   return (
     <View className="flex-1 flex-row w-full p-5 bg-primarios-violeta-20 rounded-[6px] justify-between items-center mb-1">
       <View className="flex-1 flex-row items-center">
@@ -24,7 +24,7 @@ const RequestCard = ({ image, name, surname, message, pending }) => {
       </View>
       <TouchableOpacity
         className="flex-row h-[36px] items-center justify-center rounded-[8px] bg-primarios-rosa-100 w-fit px-[16px]"
-        onPress={() => console.log("ver perfil")}
+        onPress={onPress}
       >
         <Text className="font-roboto-bold text-[12px] text-white">
           Ver Perfil

@@ -14,7 +14,7 @@ const CustomButton = ({
   const getWidthStyle = () => (width === "full" ? "w-full" : "w-fit px-[16px]");
 
   const getButtonStyle = () =>
-    variant === "filled" ? "bg-primarios-azul-100" : "bg-white border-[1px]";
+    variant === "filled" ? "bg-primarios-azul-100" : "bg-transparent border-[1px]";
 
   const getTextStyle = () =>
     variant === "filled" ? "text-white" : "text-primarios-celeste-100";
