@@ -1,6 +1,13 @@
 import { View, Text, Image, TouchableOpacity } from "react-native";
 
-const MessageCard = ({ image, name, surname, message, pending, onPress }) => {
+export const MessageCard = ({
+  image,
+  name,
+  surname,
+  message,
+  pending,
+  onPress,
+}) => {
   return (
     <TouchableOpacity
       onPress={onPress}
@@ -38,5 +45,3 @@ const MessageCard = ({ image, name, surname, message, pending, onPress }) => {
     </TouchableOpacity>
   );
 };
-
-export default MessageCard;

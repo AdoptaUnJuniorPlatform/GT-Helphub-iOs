@@ -7,7 +7,7 @@ import {
   TextInput,
   Dimensions,
 } from "react-native";
-import LogoLight from "../components/svgComponents/LogoLight";
+import { LogoLight } from "../components";
 import AntDesign from "@expo/vector-icons/AntDesign";
 
 const { width } = Dimensions.get("window");

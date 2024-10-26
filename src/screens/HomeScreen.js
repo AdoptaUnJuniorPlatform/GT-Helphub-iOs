@@ -10,15 +10,17 @@ import {
   Dimensions,
   SafeAreaView,
 } from "react-native";
-import LogoDark from "../components/svgComponents/LogoDark";
-import HomeCard from "../components/HomeCard";
+import {
+  LogoDark,
+  HomeCard,
+  CustomDropdown,
+  CustomButton,
+  ProfileCard,
+} from "../components";
 import Entypo from "@expo/vector-icons/Entypo";
 import Feather from "@expo/vector-icons/Feather";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
-import CustomDropdown from "../components/CustomDropdown";
-import CustomButton from "../components/CustomButton";
 import { categories, postalCodes } from "../data/data";
-import ProfileCard from "../components/ProfileCard";
 
 const { width } = Dimensions.get("window");
 

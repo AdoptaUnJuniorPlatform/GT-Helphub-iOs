@@ -1,11 +1,10 @@
 import { TouchableOpacity, View, Text, Dimensions } from "react-native";
-import React from "react";
 
 const { width } = Dimensions.get("window");
 
 const daysOfTheWeek = ["L", "M", "X", "J", "V", "S", "D"];
 
-const Calendar = ({ selectedDays = [], onPress }) => {
+export const Calendar = ({ selectedDays = [], onPress }) => {
   const isSmallScreen = width <= 392;
   const isBigScreen = width >= 430;
 
@@ -31,5 +30,3 @@ const Calendar = ({ selectedDays = [], onPress }) => {
     </View>
   );
 };
-
-export default Calendar;

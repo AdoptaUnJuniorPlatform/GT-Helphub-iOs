@@ -6,16 +6,16 @@ import {
   Dimensions,
   Image,
 } from "react-native";
+import { CustomButton } from "./CustomButton";
+import { VerifiedIcon } from "../components/svgComponents/VerifiedIcon";
+import { CustomChip } from "./CustomChip";
+import { CustomRating } from "../components/CustomRating";
 import Feather from "@expo/vector-icons/Feather";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
-import CustomButton from "./CustomButton";
-import VerifiedIcon from "../components/svgComponents/VerifiedIcon";
-import CustomChip from "./CustomChip";
-import CustomRating from "../components/CustomRating";
 
 const { width } = Dimensions.get("window");
 
-const MessagesProfile = ({ onRequestClose, visible, navigation }) => {
+export const MessagesProfile = ({ onRequestClose, visible, navigation }) => {
   const isSmallScreen = width <= 392;
   const isBigScreen = width >= 430;
 
@@ -215,5 +215,3 @@ const MessagesProfile = ({ onRequestClose, visible, navigation }) => {
     </Modal>
   );
 };
-
-export default MessagesProfile;

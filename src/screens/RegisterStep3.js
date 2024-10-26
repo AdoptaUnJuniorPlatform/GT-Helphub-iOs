@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { Text, View, SafeAreaView, ScrollView, Dimensions } from "react-native";
-import CustomButton from "../components/CustomButton";
-import StepHeader from "../components/StepHeader";
-import CustomDropdown from "../components/CustomDropdown";
-import CustomRadio from "../components/CustomRadio";
-import StepTitle from "../components/StepTitle";
+import {
+  CustomButton,
+  StepHeader,
+  CustomDropdown,
+  CustomRadio,
+  StepTitle,
+} from "../components";
 import { daysOfTheWeek } from "../data/data";
 
 const { width } = Dimensions.get("window");

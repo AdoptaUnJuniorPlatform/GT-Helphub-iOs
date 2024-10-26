@@ -1,6 +1,6 @@
 import Svg, { Path } from "react-native-svg";
 
-export default function CelebrateIcon(props) {
+export const CelebrateIcon = (props) => {
   return (
     <Svg
       width="29"
@@ -17,4 +17,4 @@ export default function CelebrateIcon(props) {
       />
     </Svg>
   );
-}
+};

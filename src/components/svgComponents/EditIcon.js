@@ -1,6 +1,6 @@
 import Svg, { Path, Defs, Rect, G, ClipPath } from "react-native-svg";
 
-export default function EditIcon(props) {
+export const EditIcon = (props) => {
   return (
     <Svg
       width="24"
@@ -23,4 +23,4 @@ export default function EditIcon(props) {
       </Defs>
     </Svg>
   );
-}
+};

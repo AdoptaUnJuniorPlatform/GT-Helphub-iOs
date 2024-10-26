@@ -7,8 +7,7 @@ import {
   Dimensions,
   ScrollView,
 } from "react-native";
-import LogoLight from "../components/svgComponents/LogoLight";
-import HeroCard from "../components/HeroCard";
+import { LogoLight, HeroCard } from "../components";
 
 const { width } = Dimensions.get("window");
 

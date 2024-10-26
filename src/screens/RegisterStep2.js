@@ -9,13 +9,15 @@ import {
   Dimensions,
   Image,
 } from "react-native";
-import StepHeader from "../components/StepHeader";
-import CustomButton from "../components/CustomButton";
-import { Ionicons } from "@expo/vector-icons";
-import AvatarChecked from "../components/AvatarChecked";
+import {
+  StepHeader,
+  CustomButton,
+  StepTitle,
+  UserCircle,
+  AvatarChecked,
+} from "../components";
 import * as ImagePicker from "expo-image-picker";
-import StepTitle from "../components/StepTitle";
-import UserCircle from "../components/svgComponents/UserCircle";
+import { Ionicons } from "@expo/vector-icons";
 import Feather from "@expo/vector-icons/Feather";
 
 const { width } = Dimensions.get("window");

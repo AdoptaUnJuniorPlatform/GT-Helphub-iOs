@@ -7,10 +7,7 @@ import {
   TouchableOpacity,
   Dimensions,
 } from "react-native";
-import CustomButton from "../components/CustomButton";
-import StepHeader from "../components/StepHeader";
-import StepTitle from "../components/StepTitle";
-import CustomChip from "../components/CustomChip";
+import { CustomButton, StepHeader, StepTitle, CustomChip } from "../components";
 
 const { width } = Dimensions.get("window");
 

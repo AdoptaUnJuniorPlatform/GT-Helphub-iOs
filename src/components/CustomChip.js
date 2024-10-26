@@ -1,7 +1,7 @@
 import { View, Text, TouchableOpacity } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 
-const CustomChip = ({
+export const CustomChip = ({
   label,
   status,
   color = "purple",
@@ -33,5 +33,3 @@ const CustomChip = ({
     </View>
   );
 };
-
-export default CustomChip;

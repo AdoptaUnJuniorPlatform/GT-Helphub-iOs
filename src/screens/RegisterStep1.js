@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { View, SafeAreaView, Dimensions, Text } from "react-native";
-import CustomButton from "../components/CustomButton";
-import StepHeader from "../components/StepHeader";
-import StepTitle from "../components/StepTitle";
-import CustomTextarea from "../components/CustomTextarea";
-import InputFieldWithIcon from "../components/InputFieldWithIcon";
+import {
+  CustomButton,
+  StepHeader,
+  StepTitle,
+  CustomTextarea,
+  InputFieldWithIcon,
+} from "../components";
 
 const { width } = Dimensions.get("window");
 

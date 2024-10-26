@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { View, Text, TextInput } from "react-native";
 
-const InputField = ({
+export const InputField = ({
   label,
   value,
   onChange,
@@ -33,5 +33,3 @@ const InputField = ({
     </View>
   );
 };
-
-export default InputField;

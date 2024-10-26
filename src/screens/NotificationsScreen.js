@@ -10,10 +10,12 @@ import {
   Pressable,
 } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
-import MessagesProfile from "../components/MessagesProfile";
-import NotificationCard from "../components/NotificationCard";
+import {
+  MessagesProfile,
+  NotificationCard,
+  AlertDialogIcon,
+} from "../components";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
-import AlertDialogIcon from "../components/svgComponents/AlertDialogIcon";
 
 const { width } = Dimensions.get("window");
 

@@ -9,15 +9,17 @@ import {
   Modal,
   Image,
 } from "react-native";
-import CustomButton from "../components/CustomButton";
-import StepHeader from "../components/StepHeader";
-import CustomDropdown from "../components/CustomDropdown";
-import StepTitle from "../components/StepTitle";
-import CustomTextarea from "../components/CustomTextarea";
+import {
+  CustomButton,
+  StepHeader,
+  CustomDropdown,
+  StepTitle,
+  CustomTextarea,
+  CustomChip,
+  CelebrateIcon,
+} from "../components";
 import { categories } from "../data/data";
 import Feather from "@expo/vector-icons/Feather";
-import CelebrateIcon from "../components/svgComponents/CelebrateIcon";
-import CustomChip from "../components/CustomChip";
 
 const { width } = Dimensions.get("window");
 

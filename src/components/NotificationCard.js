@@ -1,7 +1,7 @@
 import { View, Text, Image, TouchableOpacity } from "react-native";
-import CustomButton from "./CustomButton";
+import { CustomButton } from "./CustomButton";
 
-const NotificationCard = ({
+export const NotificationCard = ({
   time,
   image,
   name,
@@ -108,5 +108,3 @@ const NotificationCard = ({
     </View>
   );
 };
-
-export default NotificationCard;

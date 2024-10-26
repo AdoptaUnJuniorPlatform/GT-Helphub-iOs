@@ -1,6 +1,6 @@
 import Svg, { Path } from "react-native-svg";
 
-export default function LogoLight(props) {
+export const LogoLight = (props) => {
   return (
     <Svg
       width="156"
@@ -40,4 +40,4 @@ export default function LogoLight(props) {
       />
     </Svg>
   );
-}
+};

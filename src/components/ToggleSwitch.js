@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import { TouchableOpacity, Animated } from "react-native";
 
-const ToggleSwitch = ({ isEnabled, onToggle }) => {
+export const ToggleSwitch = ({ isEnabled, onToggle }) => {
   const animatedValue = useRef(new Animated.Value(isEnabled ? 1 : 0)).current;
 
   const toggleSwitch = () => {
@@ -48,5 +48,3 @@ const ToggleSwitch = ({ isEnabled, onToggle }) => {
     </TouchableOpacity>
   );
 };
-
-export default ToggleSwitch;

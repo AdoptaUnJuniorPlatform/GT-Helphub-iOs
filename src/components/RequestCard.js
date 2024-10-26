@@ -1,6 +1,6 @@
 import { View, Text, TouchableOpacity, Image } from "react-native";
 
-const RequestCard = ({ image, name, surname, onPress }) => {
+export const RequestCard = ({ image, name, surname, onPress }) => {
   return (
     <View className="flex-1 flex-row w-full p-5 bg-primarios-violeta-20 rounded-[6px] justify-between items-center mb-1">
       <View className="flex-1 flex-row items-center">
@@ -33,5 +33,3 @@ const RequestCard = ({ image, name, surname, onPress }) => {
     </View>
   );
 };
-
-export default RequestCard;

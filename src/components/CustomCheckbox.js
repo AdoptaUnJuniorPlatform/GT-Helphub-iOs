@@ -2,7 +2,7 @@
 import { TouchableOpacity, View, Text } from "react-native";
 import Feather from "@expo/vector-icons/Feather";
 
-const CustomCheckbox = ({ isChecked, onPress, label, labelLink, onLinkPress }) => {
+export const CustomCheckbox = ({ isChecked, onPress, label, labelLink, onLinkPress }) => {
   return (
     <View className="flex-row items-start">
       <TouchableOpacity className="mr-2" onPress={onPress}>
@@ -37,5 +37,3 @@ const CustomCheckbox = ({ isChecked, onPress, label, labelLink, onLinkPress }) =
     </View>
   );
 };
-
-export default CustomCheckbox;

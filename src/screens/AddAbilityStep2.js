@@ -6,10 +6,8 @@ import {
   Dimensions,
   ScrollView,
 } from "react-native";
+import { CustomButton, CustomTextarea, CustomDropdown } from "../components";
 import Feather from "@expo/vector-icons/Feather";
-import CustomButton from "../components/CustomButton";
-import CustomTextarea from "../components/CustomTextarea";
-import CustomDropdown from "../components/CustomDropdown";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { categories } from "../data/data";
 

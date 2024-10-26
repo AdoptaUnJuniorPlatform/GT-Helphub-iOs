@@ -2,7 +2,7 @@ import { View, Text, Dimensions } from "react-native";
 
 const { width } = Dimensions.get("window");
 
-const StepTitle = ({ title, subtitle }) => {
+export const StepTitle = ({ title, subtitle }) => {
   const isSmallScreen = width <= 392;
   const isBigScreen = width >= 430;
 
@@ -22,5 +22,3 @@ const StepTitle = ({ title, subtitle }) => {
     </View>
   );
 };
-
-export default StepTitle;

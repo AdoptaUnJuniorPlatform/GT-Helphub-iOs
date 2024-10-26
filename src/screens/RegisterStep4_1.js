@@ -7,11 +7,13 @@ import {
   Text,
   TouchableOpacity,
 } from "react-native";
-import CustomButton from "../components/CustomButton";
-import StepHeader from "../components/StepHeader";
-import StepTitle from "../components/StepTitle";
-import CustomRadio from "../components/CustomRadio";
-import CustomTextarea from "../components/CustomTextarea";
+import {
+  CustomButton,
+  StepHeader,
+  StepTitle,
+  CustomRadio,
+  CustomTextarea,
+} from "../components";
 import Feather from "@expo/vector-icons/Feather";
 
 const { width } = Dimensions.get("window");

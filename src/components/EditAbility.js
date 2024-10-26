@@ -7,16 +7,16 @@ import {
   Dimensions,
   ScrollView,
 } from "react-native";
+import { CustomButton } from "./CustomButton";
+import { CustomTextarea } from "./CustomTextarea";
+import { CustomRadio } from "./CustomRadio";
+import { CustomDropdown } from "./CustomDropdown";
 import Feather from "@expo/vector-icons/Feather";
-import CustomButton from "./CustomButton";
-import CustomTextarea from "./CustomTextarea";
-import CustomRadio from "./CustomRadio";
-import CustomDropdown from "./CustomDropdown";
 import { categories } from "../data/data";
 
 const { width } = Dimensions.get("window");
 
-const EditAbility = ({ onRequestClose, visible }) => {
+export const EditAbility = ({ onRequestClose, visible }) => {
   const isSmallScreen = width <= 392;
   const isBigScreen = width >= 430;
 
@@ -203,5 +203,3 @@ const EditAbility = ({ onRequestClose, visible }) => {
     </Modal>
   );
 };
-
-export default EditAbility;

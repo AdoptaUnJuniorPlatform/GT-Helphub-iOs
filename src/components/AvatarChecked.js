@@ -3,7 +3,7 @@ import Feather from "@expo/vector-icons/Feather";
 
 const { width } = Dimensions.get("window");
 
-const AvatarChecked = ({ source }) => {
+export const AvatarChecked = ({ source }) => {
   const isSmallScreen = width <= 392;
   const isBigScreen = width >= 430;
 
@@ -24,5 +24,3 @@ const AvatarChecked = ({ source }) => {
     </View>
   );
 };
-
-export default AvatarChecked;

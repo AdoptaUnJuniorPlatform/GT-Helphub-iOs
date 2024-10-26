@@ -7,10 +7,12 @@ import {
   TouchableOpacity,
   SafeAreaView,
 } from "react-native";
-import MessageCard from "../components/MessageCard";
-import RequestCard from "../components/RequestCard";
-import AlertIcon from "../components/svgComponents/AlertIcon";
-import MessagesProfile from "../components/MessagesProfile";
+import {
+  MessageCard,
+  RequestCard,
+  MessagesProfile,
+  AlertIcon,
+} from "../components";
 
 const { width } = Dimensions.get("window");
 

@@ -1,10 +1,9 @@
-import { View, Text, TouchableOpacity } from "react-native";
-import CustomButton from "./CustomButton";
-import { Dimensions } from "react-native"; // If needed
+import { View, Text, TouchableOpacity, Dimensions } from "react-native";
+import { CustomButton } from "./CustomButton";
 
 const { width } = Dimensions.get("window");
 
-const AbilityCard = ({ onDelete, onEdit }) => {
+export const AbilityCard = ({ onDelete, onEdit }) => {
   const isSmallScreen = width <= 392;
   const isBigScreen = width >= 430;
 
@@ -86,5 +85,3 @@ const AbilityCard = ({ onDelete, onEdit }) => {
     </View>
   );
 };
-
-export default AbilityCard;

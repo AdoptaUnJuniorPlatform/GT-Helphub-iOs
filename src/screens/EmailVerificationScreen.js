@@ -9,11 +9,9 @@ import {
   Modal,
   Pressable,
 } from "react-native";
-import LogoDark from "../components/svgComponents/LogoDark";
-import CustomButton from "../components/CustomButton";
+import { LogoDark, CustomButton, CheckIcon } from "../components";
 import Feather from "@expo/vector-icons/Feather";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
-import CheckIcon from "../components/svgComponents/CheckIcon";
 
 const { width } = Dimensions.get("window");
 

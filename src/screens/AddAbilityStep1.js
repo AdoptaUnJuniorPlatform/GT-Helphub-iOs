@@ -6,10 +6,8 @@ import {
   Dimensions,
   ScrollView,
 } from "react-native";
+import { CustomButton, CustomTextarea, CustomRadio } from "../components";
 import Feather from "@expo/vector-icons/Feather";
-import CustomButton from "../components/CustomButton";
-import CustomTextarea from "../components/CustomTextarea";
-import CustomRadio from "../components/CustomRadio";
 import AntDesign from "@expo/vector-icons/AntDesign";
 
 const { width } = Dimensions.get("window");

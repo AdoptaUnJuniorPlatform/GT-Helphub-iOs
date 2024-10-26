@@ -7,16 +7,16 @@ import {
   Dimensions,
   ScrollView,
 } from "react-native";
-import MaterialIcons from "@expo/vector-icons/MaterialIcons";
-import CustomButton from "./CustomButton";
-import Entypo from "@expo/vector-icons/Entypo";
-import RatingCard from "./RatingCard";
-import CustomRating from "./CustomRating";
+import { CustomButton } from "./CustomButton";
+import { RatingCard } from "./RatingCard";
+import { CustomRating } from "./CustomRating";
 // import DialogIcon from "./svgComponents/DialogIcon";
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+// import Entypo from "@expo/vector-icons/Entypo";
 
 const { width } = Dimensions.get("window");
 
-const ProfileCard = ({ isCardVisible, toggleCard }) => {
+export const ProfileCard = ({ isCardVisible, toggleCard }) => {
   const isSmallScreen = width <= 392;
   const isBigScreen = width >= 430;
 
@@ -131,5 +131,3 @@ const ProfileCard = ({ isCardVisible, toggleCard }) => {
     </Modal>
   );
 };
-
-export default ProfileCard;

@@ -6,8 +6,7 @@ import {
   TouchableOpacity,
   Dimensions,
 } from "react-native";
-import LogoLight from "../components/svgComponents/LogoLight";
-import RegisterForm from "../components/RegisterForm";
+import { LogoLight, RegisterForm } from "../components";
 
 const { width } = Dimensions.get("window");
 

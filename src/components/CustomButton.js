@@ -2,7 +2,7 @@
 import { TouchableOpacity, Text, View } from "react-native";
 import Feather from "@expo/vector-icons/Feather";
 
-const CustomButton = ({
+export const CustomButton = ({
   onPress,
   title,
   width = "full",
@@ -67,5 +67,3 @@ const CustomButton = ({
     </TouchableOpacity>
   );
 };
-
-export default CustomButton;

@@ -11,8 +11,8 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from "react-native";
+import { CustomButton } from "../components";
 import Feather from "@expo/vector-icons/Feather";
-import CustomButton from "../components/CustomButton";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 
 const { width } = Dimensions.get("window");

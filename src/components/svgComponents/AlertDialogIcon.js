@@ -1,6 +1,6 @@
 import Svg, { Path, G, Defs, Rect, ClipPath } from "react-native-svg";
 
-export default function AlertDialogIcon(props) {
+export const AlertDialogIcon = (props) => {
   return (
     <Svg
       width="50"
@@ -30,4 +30,4 @@ export default function AlertDialogIcon(props) {
       </Defs>
     </Svg>
   );
-}
+};

@@ -5,7 +5,7 @@ import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 const { width } = Dimensions.get("window");
 const { height: screenHeight } = Dimensions.get("window");
 
-const RatingCard = ({ onPress }) => {
+export const RatingCard = ({ onPress }) => {
   const isSmallScreen = width <= 392;
   const isBigScreen = width >= 430;
 
@@ -77,5 +77,3 @@ const RatingCard = ({ onPress }) => {
     </View>
   );
 };
-
-export default RatingCard;

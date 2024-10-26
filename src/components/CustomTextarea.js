@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { View, Text, TextInput } from "react-native";
 
-const CustomTextarea = ({
+export const CustomTextarea = ({
   value,
   onChange,
   placeholder,
@@ -35,5 +35,3 @@ const CustomTextarea = ({
     </View>
   );
 };
-
-export default CustomTextarea;

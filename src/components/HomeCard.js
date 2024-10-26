@@ -1,10 +1,10 @@
 import { View, Text, Image, Dimensions } from "react-native";
-import CustomChip from "./CustomChip";
-import CustomButton from "./CustomButton";
+import { CustomChip } from "./CustomChip";
+import { CustomButton } from "./CustomButton";
 
 const { width } = Dimensions.get("window");
 
-const HomeCard = ({ onPress }) => {
+export const HomeCard = ({ onPress }) => {
   const isSmallScreen = width <= 392;
   const isBigScreen = width >= 430;
 
@@ -138,5 +138,3 @@ const HomeCard = ({ onPress }) => {
     </View>
   );
 };
-
-export default HomeCard;

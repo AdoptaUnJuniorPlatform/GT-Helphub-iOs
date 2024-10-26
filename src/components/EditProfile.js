@@ -9,20 +9,20 @@ import {
   Image,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
+import { CustomButton } from "./CustomButton";
+import { CustomTextarea } from "./CustomTextarea";
+import { InputFieldWithIcon } from "./InputFieldWithIcon";
+import { UserCircle } from "./svgComponents/UserCircle";
+import { CustomRadio } from "./CustomRadio";
+import { CustomChip } from "../components/CustomChip";
+import { CustomDropdown } from "../components/CustomDropdown";
 import Feather from "@expo/vector-icons/Feather";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
-import CustomButton from "./CustomButton";
-import CustomTextarea from "./CustomTextarea";
-import InputFieldWithIcon from "./InputFieldWithIcon";
-import UserCircle from "../components/svgComponents/UserCircle";
-import CustomRadio from "./CustomRadio";
-import CustomChip from "../components/CustomChip";
-import CustomDropdown from "../components/CustomDropdown";
 import { daysOfTheWeek } from "../data/data";
 
 const { width } = Dimensions.get("window");
 
-const EditProfile = ({ onRequestClose, visible }) => {
+export const EditProfile = ({ onRequestClose, visible }) => {
   const isSmallScreen = width <= 392;
   const isBigScreen = width >= 430;
 
@@ -322,5 +322,3 @@ const EditProfile = ({ onRequestClose, visible }) => {
     </Modal>
   );
 };
-
-export default EditProfile;

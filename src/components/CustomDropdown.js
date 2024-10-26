@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { View, Text, TouchableOpacity, ScrollView } from "react-native";
+import { CustomCheckbox } from "./CustomCheckbox";
 import Feather from "@expo/vector-icons/Feather";
-import CustomCheckbox from "./CustomCheckbox";
 
-const CustomDropdown = ({ label, items, backgroundColor }) => {
+export const CustomDropdown = ({ label, items, backgroundColor }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedItems, setSelectedItems] = useState([]);
 
@@ -74,5 +74,3 @@ const CustomDropdown = ({ label, items, backgroundColor }) => {
     </View>
   );
 };
-
-export default CustomDropdown;

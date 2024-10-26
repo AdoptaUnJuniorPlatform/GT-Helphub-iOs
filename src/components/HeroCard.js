@@ -1,10 +1,10 @@
 import { View, Text, Image, Dimensions } from "react-native";
-import CustomChip from "./CustomChip";
 import { ScrollView } from "react-native-gesture-handler";
+import { CustomChip } from "./CustomChip";
 
 const { width } = Dimensions.get("window");
 
-const HeroCard = ({
+export const HeroCard = ({
   image,
   name,
   surname,
@@ -95,5 +95,3 @@ const HeroCard = ({
     </View>
   );
 };
-
-export default HeroCard;

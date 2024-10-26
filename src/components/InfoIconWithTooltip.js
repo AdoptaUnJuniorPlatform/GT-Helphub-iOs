@@ -2,7 +2,7 @@ import { useState, useRef } from "react";
 import { View, Text, Pressable, Animated, Easing } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
-const InfoIconWithTooltip = ({ title, text }) => {
+export const InfoIconWithTooltip = ({ title, text }) => {
   const [visible, setVisible] = useState(false);
   const opacity = useRef(new Animated.Value(0)).current;
 
@@ -49,5 +49,3 @@ const InfoIconWithTooltip = ({ title, text }) => {
     </View>
   );
 };
-
-export default InfoIconWithTooltip;

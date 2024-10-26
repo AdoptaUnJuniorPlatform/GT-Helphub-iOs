@@ -8,15 +8,17 @@ import {
   TouchableOpacity,
   ScrollView,
 } from "react-native";
-import EditIcon from "../components/svgComponents/EditIcon";
-import CustomButton from "../components/CustomButton";
+import {
+  CustomButton,
+  AbilityCard,
+  RatingCard,
+  EditAbility,
+  EditProfile,
+  Calendar,
+  CustomRating,
+  EditIcon,
+} from "../components";
 import AntDesign from "@expo/vector-icons/AntDesign";
-import AbilityCard from "../components/AbilityCard";
-import RatingCard from "../components/RatingCard";
-import EditAbility from "../components/EditAbility";
-import EditProfile from "../components/EditProfile";
-import Calendar from "../components/Calendar";
-import CustomRating from "../components/CustomRating";
 
 const { width } = Dimensions.get("window");
 

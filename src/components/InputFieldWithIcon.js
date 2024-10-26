@@ -3,7 +3,7 @@ import { useState } from "react";
 import { View, TextInput, Text } from "react-native";
 import EvilIcons from "@expo/vector-icons/EvilIcons";
 
-const InputFieldWithIcon = ({ label, value, onChangeText, placeholder, iconName }) => {
+export const InputFieldWithIcon = ({ label, value, onChangeText, placeholder, iconName }) => {
   const [isFocused, setIsFocused] = useState(false);
 
   return (
@@ -37,5 +37,3 @@ const InputFieldWithIcon = ({ label, value, onChangeText, placeholder, iconName 
     </View>
   );
 };
-
-export default InputFieldWithIcon;

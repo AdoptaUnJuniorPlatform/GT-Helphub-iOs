@@ -1,6 +1,6 @@
 import Svg, { Path } from "react-native-svg";
 
-export default function AlertIcon(props) {
+export const AlertIcon = (props) => {
   return (
     <Svg
       width="38"
@@ -19,4 +19,4 @@ export default function AlertIcon(props) {
       />
     </Svg>
   );
-}
+};

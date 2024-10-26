@@ -1,13 +1,13 @@
 /* eslint-disable prettier/prettier */
 import { useState } from "react";
 import { View, Text, Linking, TextInput, Dimensions } from "react-native";
-import ToggleSwitch from "./ToggleSwitch";
-import CustomCheckbox from "./CustomCheckbox";
-import CustomButton from "./CustomButton";
+import { ToggleSwitch } from "./ToggleSwitch";
+import { CustomCheckbox } from "./CustomCheckbox";
+import { CustomButton } from "./CustomButton";
 
 const { width } = Dimensions.get("window");
 
-const RegisterForm = ({ navigation }) => {
+export const RegisterForm = ({ navigation }) => {
   const isSmallScreen = width <= 392;
   const isBigScreen = width >= 430;
 
@@ -172,5 +172,3 @@ const RegisterForm = ({ navigation }) => {
     </View >
   );
 };
-
-export default RegisterForm;

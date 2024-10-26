@@ -1,6 +1,6 @@
 import { View, Text } from "react-native";
 
-const StepLabel = ({ status, title }) => {
+export const StepLabel = ({ status, title }) => {
   const labelStyle =
     status === "active"
       ? "bg-primarios-violeta-100"
@@ -14,5 +14,3 @@ const StepLabel = ({ status, title }) => {
     </View>
   );
 };
-
-export default StepLabel;

@@ -1,11 +1,11 @@
 import { View, Dimensions } from "react-native";
-import LogoDark from "./svgComponents/LogoDark";
-import Stepper from "./Stepper";
-import CustomChip from "./CustomChip";
+import { LogoDark } from "./svgComponents/LogoDark";
+import { Stepper } from "./Stepper";
+import { CustomChip } from "./CustomChip";
 
 const { width } = Dimensions.get("window");
 
-const StepHeader = ({
+export const StepHeader = ({
   step,
   statusStepLabel1,
   statusStepLabel2,
@@ -40,5 +40,3 @@ const StepHeader = ({
     </View>
   );
 };
-
-export default StepHeader;
