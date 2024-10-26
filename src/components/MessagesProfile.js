@@ -192,12 +192,14 @@ const MessagesProfile = ({ onRequestClose, visible, navigation }) => {
             <View className={`mx-4 ${isSmallScreen ? "mb-2" : "mb-10"} mt-2`}>
               <View className="flex-row justify-end">
                 <View className="mr-2">
-                  <CustomButton
+                  <TouchableOpacity
                     onPress={() => console.log("declinar")}
-                    title={"Declinar"}
-                    width="content"
-                    variant="white"
-                  />
+                    className="h-[36px] flex-row items-center justify-center rounded-[8px] px-[16px] border-[1px] border-neutros-negro-80"
+                  >
+                    <Text className="uppercase font-roboto-medium text-[12px] text-neutros-negro-80">
+                      Declinar
+                    </Text>
+                  </TouchableOpacity>
                 </View>
                 <CustomButton
                   onPress={goToMessagesFlow}

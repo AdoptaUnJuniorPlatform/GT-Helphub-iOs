@@ -98,7 +98,7 @@ const ProfileCard = ({ isCardVisible, toggleCard }) => {
               <DialogIcon />
             </View>
             <Text className="text-neutros-negro font-roboto-medium text-[18px] my-3">
-              Aún no hay Valoraciones
+              Aún no hay valoraciones
             </Text>
             <Text className="text-neutros-negro-80 w-[65%] text-center font-roboto-regular text-[14px]">
               Comparte tu opinión y ayuda a que otros conozcan mejor a esta

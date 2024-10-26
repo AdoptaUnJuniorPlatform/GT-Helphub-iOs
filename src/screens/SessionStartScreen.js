@@ -134,7 +134,7 @@ export default function LoginScreen({ navigation }) {
             <TouchableOpacity>
               <Text
                 onPress={() => navigation.navigate("RegisterFlow")}
-                className="text-primarios-azul-100 font-roboto-medium text-[14px] underline"
+                className="text-primarios-celeste-100 font-roboto-medium text-[14px] underline"
               >
                 Registrarse
               </Text>

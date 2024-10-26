@@ -7,7 +7,7 @@ import {
   Dimensions,
 } from "react-native";
 import LogoLight from "../components/svgComponents/LogoLight";
-import RegisterForm from "../components/forms/RegisterForm";
+import RegisterForm from "../components/RegisterForm";
 
 const { width } = Dimensions.get("window");
 
@@ -36,7 +36,7 @@ export default function RegisterScreen({ navigation }) {
           <TouchableOpacity>
             <Text
               onPress={() => navigation.navigate("SessionStart")}
-              className="text-primarios-azul-100 font-roboto-medium text-[14px] underline"
+              className="text-primarios-celeste-100 font-roboto-medium text-[14px] underline"
             >
               Ingresar
             </Text>
