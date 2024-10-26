@@ -206,10 +206,10 @@ const MessagesScreen = ({ navigation }) => {
               >
                 <AlertIcon />
                 <Text className="text-neutros-negro text-[16px] font-roboto-regular mt-1 mb-2">
-                  Sin solicitudes
+                  Sin solicitudes pendientes
                 </Text>
                 <Text className="text-neutros-negro-50 text-[14px] font-roboto-medium">
-                  No hay solicitudes
+                  No hay conversaciones
                 </Text>
                 <TouchableOpacity
                   className="flex-row h-[36px] mt-6 items-center justify-center rounded-[5px] bg-transparent w-fit px-[16px] border-[1px] border-neutros-negro-80"

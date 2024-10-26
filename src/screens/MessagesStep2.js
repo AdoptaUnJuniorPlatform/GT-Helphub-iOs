@@ -197,7 +197,7 @@ const MessagesStep2 = ({ navigation }) => {
 
             <View className="mt-2 justify-center items-end self-end">
               <TouchableOpacity className="flex-row h-[36px] items-center justify-center rounded-[8px] w-fit px-[16px] bg-terciario-celeste-oscuro">
-                <Text className="font-roboto-medium text-[14px] uppercase terciario-celeste-muy-oscuro">
+                <Text className="font-roboto-medium text-[12px] uppercase terciario-celeste-muy-oscuro">
                   Borrar mensaje
                 </Text>
               </TouchableOpacity>
