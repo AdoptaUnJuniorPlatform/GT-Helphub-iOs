@@ -1,3 +1,4 @@
+// Svgs
 export { AlertDialogIcon } from "./svgComponents/AlertDialogIcon";
 export { AlertIcon } from "./svgComponents/AlertIcon";
 export { CelebrateIcon } from "./svgComponents/CelebrateIcon";
@@ -9,7 +10,8 @@ export { LogoDark } from "./svgComponents/LogoDark";
 export { LogoLight } from "./svgComponents/LogoLight";
 export { UserCircle } from "./svgComponents/UserCircle";
 export { VerifiedIcon } from "./svgComponents/VerifiedIcon";
-export { AbilityCard } from "./AbilityCard";
+
+// Molecules
 export { AvatarChecked } from "./AvatarChecked";
 export { Calendar } from "./Calendar";
 export { CustomButton } from "./CustomButton";
@@ -19,13 +21,20 @@ export { CustomDropdown } from "./CustomDropdown";
 export { CustomRadio } from "./CustomRadio";
 export { CustomRating } from "./CustomRating";
 export { CustomTextarea } from "./CustomTextarea";
+export { InfoIconWithTooltip } from "./InfoIconWithTooltip";
+export { InputField } from "./InputField";
+export { InputFieldWithIcon } from "./InputFieldWithIcon";
+export { StepLabel } from "./StepLabel";
+export { Stepper } from "./Stepper";
+export { StepTitle } from "./StepTitle";
+export { ToggleSwitch } from "./ToggleSwitch";
+
+// Organisms
+export { AbilityCard } from "./AbilityCard";
 export { EditAbility } from "./EditAbility";
 export { EditProfile } from "./EditProfile";
 export { HeroCard } from "./HeroCard";
 export { HomeCard } from "./HomeCard";
-export { InfoIconWithTooltip } from "./InfoIconWithTooltip";
-export { InputField } from "./InputField";
-export { InputFieldWithIcon } from "./InputFieldWithIcon";
 export { MessageCard } from "./MessageCard";
 export { MessagesProfile } from "./MessagesProfile";
 export { NotificationCard } from "./NotificationCard";
@@ -34,7 +43,4 @@ export { RatingCard } from "./RatingCard";
 export { RegisterForm } from "./RegisterForm";
 export { RequestCard } from "./RequestCard";
 export { StepHeader } from "./StepHeader";
-export { StepLabel } from "./StepLabel";
-export { Stepper } from "./Stepper";
-export { StepTitle } from "./StepTitle";
-export { ToggleSwitch } from "./ToggleSwitch";
+export { RatingsDialog } from "./RatingsDialog";

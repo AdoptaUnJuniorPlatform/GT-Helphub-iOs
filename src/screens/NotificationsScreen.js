@@ -14,6 +14,7 @@ import {
   MessagesProfile,
   NotificationCard,
   AlertDialogIcon,
+  RatingsDialog,
 } from "../components";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 
@@ -27,9 +28,14 @@ const NotificationsScreen = ({ navigation }) => {
   const [isDialogVisible, setDialogVisible] = useState(false);
   const [hasDialogShown, setHasDialogShown] = useState(false);
   const [isProfileVisible, setProfileVisible] = useState(false);
+  const [isRatingsDialogVisible, setIsRatingsDialogVisible] = useState(false);
 
   const toggleDialog = () => {
     setDialogVisible(!isDialogVisible);
+  };
+
+  const toggleRatingsDialog = () => {
+    setIsRatingsDialogVisible(!isRatingsDialogVisible);
   };
 
   const completed = [
@@ -154,6 +160,7 @@ const NotificationsScreen = ({ navigation }) => {
                   name={message.name}
                   surname={message.surname}
                   navigation={navigation}
+                  onRatingsPress={toggleRatingsDialog}
                 />
               ))}
             </View>
@@ -221,7 +228,7 @@ const NotificationsScreen = ({ navigation }) => {
                   image={message.image}
                   name={message.name}
                   surname={message.surname}
-                  onPress={toggleProfile}
+                  onProfilePress={toggleProfile}
                 />
               ))}
             </View>
@@ -234,6 +241,13 @@ const NotificationsScreen = ({ navigation }) => {
           visible={isProfileVisible}
           onRequestClose={toggleProfile}
           navigation={navigation}
+        />
+      )}
+
+      {isRatingsDialogVisible && (
+        <RatingsDialog
+          isDialogVisible={isRatingsDialogVisible}
+          toggleDialog={toggleRatingsDialog}
         />
       )}
     </SafeAreaView>

@@ -11,7 +11,7 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from "react-native";
-import { CustomButton } from "../components";
+import { CustomButton, RatingsDialog } from "../components";
 import Feather from "@expo/vector-icons/Feather";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
@@ -21,6 +21,12 @@ const { width } = Dimensions.get("window");
 const MessagesStep2 = ({ navigation }) => {
   const isSmallScreen = width <= 392;
   const isBigScreen = width >= 430;
+
+  const [isDialogVisible, setDialogVisible] = useState(false);
+
+  const toggleDialog = () => {
+    setDialogVisible(!isDialogVisible);
+  };
 
   const [messages, setMessages] = useState([
     {
@@ -142,7 +148,7 @@ const MessagesStep2 = ({ navigation }) => {
 
           <View className="justify-center items-center mt-4">
             <CustomButton
-              onPress={() => console.log("ir a valoraciones")}
+              onPress={toggleDialog}
               title={"Valorar intercambio"}
               width="content"
               variant="filled"
@@ -238,6 +244,13 @@ const MessagesStep2 = ({ navigation }) => {
           </View>
         </View>
       </KeyboardAvoidingView>
+
+      {isDialogVisible && (
+        <RatingsDialog
+          isDialogVisible={isDialogVisible}
+          toggleDialog={toggleDialog}
+        />
+      )}
     </SafeAreaView>
   );
 };

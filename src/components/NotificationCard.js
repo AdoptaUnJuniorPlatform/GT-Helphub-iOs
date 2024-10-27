@@ -7,7 +7,8 @@ export const NotificationCard = ({
   name,
   surname,
   status,
-  onPress,
+  onRatingsPress,
+  onProfilePress,
   navigation,
 }) => {
   return (
@@ -70,7 +71,7 @@ export const NotificationCard = ({
         {status === "declined" ? (
           <View className="self-end">
             <CustomButton
-              onPress={onPress}
+              onPress={onProfilePress}
               title={"Ver perfil"}
               width="content"
             />
@@ -78,7 +79,7 @@ export const NotificationCard = ({
         ) : status === "completed" ? (
           <View className="self-end">
             <CustomButton
-              onPress={() => console.log("valorar intercambio")}
+              onPress={onRatingsPress}
               title={"Valorar intercambio"}
               width="content"
             />
