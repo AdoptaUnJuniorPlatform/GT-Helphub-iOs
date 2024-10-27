@@ -26,19 +26,24 @@ export default function LoginScreen({ navigation }) {
   return (
     <SafeAreaView className="flex-1 bg-neutros-gris-fondo">
       <View className="flex-1 bg-neutros-gris-fondo">
-        <View className="bg-primarios-violeta-100 w-full items-center py-[30px] mb-[20px] rounded-b-3xl">
+        <View className="bg-primarios-violeta-100 w-full items-center py-[30px] mb-5 rounded-b-3xl">
           <LogoLight />
         </View>
 
-        <View className={`flex-1 px-4 ${isSmallScreen ? "pb-4" : "pb-8"}`}>
-          <Text className="text-primarios-violeta-100 text-[24px] font-roboto-regular mt-[30px] mb-[20px]">
+        <View
+          className={`
+          flex-1 px-4 
+          ${isSmallScreen ? "pb-4" : "pb-8"}
+          `}
+        >
+          <Text className="text-primarios-violeta-100 text-2xl font-roboto-regular mt-[30px] mb-5">
             Inicia Sesión
           </Text>
 
           <View className="flex-1">
             <View className="mb-2">
               <View className="gap-2 mb-4">
-                <Text className="font-poppins-medium text-[14px] text-neutros-negro-80">
+                <Text className="font-poppins-medium text-sm text-neutros-negro-80">
                   Email
                 </Text>
                 <TextInput
@@ -46,7 +51,7 @@ export default function LoginScreen({ navigation }) {
                   onChangeText={setEmail}
                   placeholder="ejemplo@gmail.com"
                   keyboardType="email-address"
-                  className="bg-[#E3E0F6] border-[1px] border-neutral-color-blue-gray-100 focus:border-[#455A64] rounded-[8px] h-[40px] font-roboto-regular text-[14px] text-neutral-color-gray-900  p-3"
+                  className="bg-[#E3E0F6] border-[1px] border-neutral-color-blue-gray-100 focus:border-[#455A64] rounded-lg h-[40px] font-roboto-regular text-sm text-neutral-color-gray-900 p-3"
                   placeholderTextColor={isEmailFocused ? "#212121" : "#696868"}
                   onFocus={() => setIsEmailFocused(true)}
                   onBlur={() => setIsEmailFocused(false)}
@@ -61,20 +66,20 @@ export default function LoginScreen({ navigation }) {
                   <TouchableOpacity>
                     <Text
                       onPress={() => navigation.navigate("ResetPasswordFlow")}
-                      className="text-primarios-celeste-100 font-roboto-medium text-[14px] underline"
+                      className="text-primarios-celeste-100 font-roboto-medium text-sm underline"
                     >
                       ¿Ha olvidado su contraseña?
                     </Text>
                   </TouchableOpacity>
                 </View>
-                <View className="relative border-[1px] border-neutral-color-blue-gray-100 focus:border-[#455A64] rounded-[8px] h-[40px] bg-[#E3E0F6] flex-row items-center justify-between">
+                <View className="relative border-[1px] border-neutral-color-blue-gray-100 focus:border-[#455A64] rounded-lg h-[40px] bg-[#E3E0F6] flex-row items-center justify-between">
                   <TextInput
                     value={password}
                     onChangeText={setPassword}
                     placeholder="********"
                     keyboardType="email-address"
                     secureTextEntry={!isPasswordVisible}
-                    className="bg-transparent flex-shrink rounded-[8px] h-[40px] font-roboto-regular text-[14px] text-neutral-color-gray-900  p-3"
+                    className="bg-transparent flex-shrink rounded-[8px] h-[40px] font-roboto-regular text-sm text-neutral-color-gray-900 p-3"
                     placeholderTextColor={
                       isPasswordFocused ? "#212121" : "#696868"
                     }
@@ -100,16 +105,14 @@ export default function LoginScreen({ navigation }) {
                     className="mr-2"
                     onPress={() => setRemember(!remember)}
                   >
-                    <View
-                      className={`w-[18px] h-[18px] bg-neutros-beige-fondo items-center justify-center`}
-                    >
+                    <View className="w-[18px] h-[18px] bg-neutros-beige-fondo items-center justify-center">
                       {remember && (
                         <Feather name="check" size={12} color="#7165d1" />
                       )}
                     </View>
                   </TouchableOpacity>
                   <View className="flex-row flex-wrap">
-                    <Text className="text-neutros-negro-80 font-roboto-regular text-[16px]">
+                    <Text className="text-neutros-negro-80 font-roboto-regular text-base">
                       Recuérdame
                     </Text>
                   </View>
@@ -119,22 +122,22 @@ export default function LoginScreen({ navigation }) {
           </View>
 
           <TouchableOpacity
-            className="h-[36px] items-center justify-center rounded-[8px] w-full bg-primarios-violeta-100"
+            className="h-[36px] items-center justify-center rounded-lg w-full bg-primarios-violeta-100"
             onPress={() => navigation.navigate("HomeTabs")}
           >
-            <Text className="font-roboto-bold text-[12px] uppercase text-white">
+            <Text className="font-roboto-bold text-xs uppercase text-white">
               Inicia Sesión
             </Text>
           </TouchableOpacity>
 
           <View className="flex-row gap-1 justify-center mt-3">
-            <Text className="text-neutros-negro-80 font-roboto-medium text-[14px]">
+            <Text className="text-neutros-negro-80 font-roboto-medium text-sm">
               ¿No tienes una cuenta?
             </Text>
             <TouchableOpacity>
               <Text
                 onPress={() => navigation.navigate("RegisterFlow")}
-                className="text-primarios-celeste-100 font-roboto-medium text-[14px] underline"
+                className="text-primarios-celeste-100 font-roboto-medium text-sm underline"
               >
                 Registrarse
               </Text>

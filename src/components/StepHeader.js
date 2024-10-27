@@ -19,7 +19,10 @@ export const StepHeader = ({
 
   return (
     <View
-      className={`h-[188px] mb-5 ${isBigScreen ? "mb-7" : isSmallScreen ? "mb-3" : "mb-5"}`}
+      className={`
+        h-[188px] mb-5 
+        ${isBigScreen ? "mb-7" : isSmallScreen ? "mb-3" : "mb-5"}
+        `}
     >
       <View className="flex-1 w-full items-center py-8">
         <LogoDark />
@@ -32,7 +35,7 @@ export const StepHeader = ({
           statusStepLabel2={statusStepLabel2}
         />
 
-        <View className="mt-[20px] w-full flex-row justify-between items-center">
+        <View className="mt-5 w-full flex-row justify-between items-center">
           <CustomChip label={label1} status={status1} />
           <CustomChip label={label2} status={status2} />
         </View>

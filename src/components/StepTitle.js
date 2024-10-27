@@ -9,12 +9,18 @@ export const StepTitle = ({ title, subtitle }) => {
   return (
     <View className="h-auto">
       <Text
-        className={`text-primarios-violeta-100 font-roboto-medium ${isBigScreen ? "text-[36px] mb-[6px]" : isSmallScreen ? "text-[30px] mb-[2px]" : "text-[34px] mb-[5px]"}`}
+        className={`
+          text-primarios-violeta-100 font-roboto-medium 
+          ${isBigScreen ? "text-[36px] mb-1.5" : isSmallScreen ? "text-[30px] mb-0.5" : "text-[34px] mb-[5px]"}
+          `}
       >
         {title}
       </Text>
       <Text
-        className={`text-[#7166D2] ${isBigScreen ? "text-[18px]" : "text-[16px]"} font-roboto-medium`}
+        className={`
+          text-[#7166D2] font-roboto-medium
+          ${isBigScreen ? "text-xs" : "text-base"}
+          `}
         style={{ opacity: 0.8 }}
       >
         {subtitle}

@@ -31,7 +31,7 @@ export const CustomRating = ({ rating = 0 }) => {
           />
         ))}
       </View>
-      <Text className="font-roboto-regular text-[14px] text-neutros-negro">
+      <Text className="font-roboto-regular text-sm text-neutros-negro">
         {getRatingLabel(rating)}
       </Text>
     </View>

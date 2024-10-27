@@ -15,12 +15,18 @@ export const Calendar = ({ selectedDays = [], onPress }) => {
         return (
           <TouchableOpacity
             key={index}
-            className={`${isSmallScreen ? "h-[20px] w-[15px]" : "h-[25px] w-[20px]"} items-center justify-center rounded-full ${isSelected ? "bg-primarios-violeta-100" : "bg-neutros-negro-6"
-              }`}
+            className={`
+              ${isSmallScreen ? "h-[20px] w-[15px]" : "h-[25px] w-[20px]"} 
+              ${isSelected ? "bg-primarios-violeta-100" : "bg-neutros-negro-6"} 
+              items-center justify-center rounded-full
+              `}
             onPress={() => onPress(index)}
           >
             <Text
-              className={`${isSelected ? "text-white" : "text-neutros-negro-80"} ${isSmallScreen ? "text-[12px]" : "text-[14px]"}`}
+              className={`
+                ${isSelected ? "text-white" : "text-neutros-negro-80"}
+                ${isSmallScreen ? "text-xs" : "text-sm"}
+                `}
             >
               {day}
             </Text>

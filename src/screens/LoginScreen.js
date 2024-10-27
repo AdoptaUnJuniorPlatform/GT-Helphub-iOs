@@ -88,21 +88,33 @@ export default function LoginScreen({ navigation }) {
         >
           <View className="flex-1">
             <View
-              className={`px-4 ${isSmallScreen ? "py-4" : isBigScreen ? "py-14" : "py-10"}`}
+              className={`
+                px-4 
+                ${isSmallScreen ? "py-4" : isBigScreen ? "py-14" : "py-10"}
+                `}
             >
               <LogoLight />
             </View>
             <View className="flex-1">
               <View
-                className={`px-4 ${isBigScreen ? "pb-8" : isSmallScreen ? "pb-4" : "pb-6"}`}
+                className={`
+                  px-4 
+                  ${isBigScreen ? "pb-8" : isSmallScreen ? "pb-4" : "pb-6"}
+                  `}
               >
                 <Text
-                  className={`font-roboto-light ${isSmallScreen ? "text-[30px]" : isBigScreen ? "text-[38px]" : "text-[35px]"} text-white`}
+                  className={`
+                    font-roboto-light text-white
+                    ${isSmallScreen ? "text-[30px]" : isBigScreen ? "text-[38px]" : "text-[35px]"}
+                    `}
                 >
                   Conecta y Comparte
                 </Text>
                 <Text
-                  className={`font-roboto-regular ${isSmallScreen ? "text-[30px]" : isBigScreen ? "text-[38px]" : "text-[35px]"} text-black`}
+                  className={`
+                    font-roboto-regular text-black
+                    ${isSmallScreen ? "text-[30px]" : isBigScreen ? "text-[38px]" : "text-[35px]"}
+                    `}
                 >
                   Habilidades
                 </Text>
@@ -131,15 +143,18 @@ export default function LoginScreen({ navigation }) {
               </View>
 
               <View
-                className={`flex-1 justify-start items-center bg-transparent px-4 ${isBigScreen ? "mt-8" : isSmallScreen ? "mt-4" : "mt-6"}`}
+                className={`
+                  flex-1 justify-start items-center bg-transparent px-4 
+                  ${isBigScreen ? "mt-8" : isSmallScreen ? "mt-4" : "mt-6"}
+                  `}
               >
                 <View className="w-full">
                   <View className={`${isSmallScreen ? "mb-2" : "mb-4"}`}>
                     <TouchableOpacity
-                      className="h-[36px] items-center justify-center rounded-[8px] w-full bg-white"
+                      className="h-[36px] items-center justify-center rounded-lg w-full bg-white"
                       onPress={() => navigation.navigate("RegisterFlow")}
                     >
-                      <Text className="font-roboto-bold text-[12px] uppercase text-primarios-violeta-100">
+                      <Text className="font-roboto-bold text-xs uppercase text-primarios-violeta-100">
                         Crear cuenta nueva
                       </Text>
                     </TouchableOpacity>
@@ -147,10 +162,10 @@ export default function LoginScreen({ navigation }) {
 
                   <View>
                     <TouchableOpacity
-                      className="h-[36px] items-center justify-center rounded-[8px] w-full bg-white"
+                      className="h-[36px] items-center justify-center rounded-lg w-full bg-white"
                       onPress={() => navigation.navigate("SessionStart")}
                     >
-                      <Text className="font-roboto-bold text-[12px] uppercase text-primarios-violeta-100">
+                      <Text className="font-roboto-bold text-xs uppercase text-primarios-violeta-100">
                         Iniciar sesión
                       </Text>
                     </TouchableOpacity>

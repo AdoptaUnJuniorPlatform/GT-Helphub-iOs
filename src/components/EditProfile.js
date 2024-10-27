@@ -89,7 +89,10 @@ export const EditProfile = ({ onRequestClose, visible }) => {
   return (
     <Modal transparent={true} visible={visible} onRequestClose={onRequestClose}>
       <View
-        className={`absolute w-full h-screen flex-1 justify-center ${isSmallScreen ? "pt-8" : "pt-16"} bg-neutros-gris-fondo`}
+        className={`
+          absolute w-full h-screen flex-1 justify-center bg-neutros-gris-fondo
+          ${isSmallScreen ? "pt-8" : "pt-16"} 
+          `}
       >
         <ScrollView showsVerticalScrollIndicator={false}>
           {/* Go Back Button */}
@@ -114,10 +117,10 @@ export const EditProfile = ({ onRequestClose, visible }) => {
           </View>
 
           {/* Info */}
-          <View className="bg-[#E5F6FD] rounded-[8px] mx-4 mt-2 px-4 py-3">
+          <View className="bg-terciario-celeste rounded-lg mx-4 mt-2 px-4 py-3">
             <View className="flex-row items-center gap-4">
               <MaterialIcons name="info-outline" size={15} color="#696868" />
-              <Text className="text-[14px] text-neutros-negro font-roboto-medium">
+              <Text className="text-sm text-neutros-negro font-roboto-medium">
                 Última actualización: 00/00/00
               </Text>
             </View>
@@ -125,13 +128,19 @@ export const EditProfile = ({ onRequestClose, visible }) => {
 
           {/* Form Section */}
           <View
-            className={`bg-[#f7f7f7] rounded-[8px] ${isSmallScreen ? "pt-3 pb-4 mx-4 my-2" : "py-3 m-4"} px-4`}
+            className={`
+              bg-[#f7f7f7] rounded-lg px-4
+              ${isSmallScreen ? "pt-3 pb-4 mx-4 my-2" : "py-3 m-4"}
+              `}
           >
             {/* Descripción... */}
             <View className="mt-2">
               <View className="flex-row justify-between items-center mb-2">
                 <Text
-                  className={`text-neutral-color-gray-900 font-roboto-medium ${isBigScreen ? "text-[21px]" : isSmallScreen ? "text-[16px]" : "text-[20px]"}`}
+                  className={`
+                    text-neutral-color-gray-900 font-roboto-medium 
+                    ${isBigScreen ? "text-[21px]" : isSmallScreen ? "text-base" : "text-lg"}
+                    `}
                 >
                   Descripción del usuario
                 </Text>
@@ -158,7 +167,7 @@ export const EditProfile = ({ onRequestClose, visible }) => {
                 placeholder="Código postal (CP)"
                 iconName="envelope"
               />
-              <Text className="text-neutros-negro-80 font-roboto-regular text-[12px]">
+              <Text className="text-neutros-negro-80 font-roboto-regular text-xs">
                 Introduce tu código postal (5 dígitos) para identificar tu
                 ubicación.
               </Text>
@@ -167,7 +176,10 @@ export const EditProfile = ({ onRequestClose, visible }) => {
             {/* Foto */}
             <View className="flex-row justify-between items-center mt-4 mb-2">
               <Text
-                className={`text-neutral-color-gray-900 font-roboto-medium ${isBigScreen ? "text-[21px]" : isSmallScreen ? "text-[16px]" : "text-[20px]"}`}
+                className={`
+                  text-neutral-color-gray-900 font-roboto-medium 
+                  ${isBigScreen ? "text-[21px]" : isSmallScreen ? "text-base" : "text-lg"}
+                  `}
               >
                 Foto de perfil
               </Text>
@@ -201,15 +213,24 @@ export const EditProfile = ({ onRequestClose, visible }) => {
             {/* Disponibilidad */}
             <View className={`${isSmallScreen ? "mt-2" : "mt-4"}`}>
               <Text
-                className={`text-neutros-negro font-roboto-medium ${isBigScreen ? "text-[21px]" : isSmallScreen ? "text-[16px]" : "text-[20px]"}`}
+                className={`
+                  text-neutros-negro font-roboto-medium 
+                  ${isBigScreen ? "text-[21px]" : isSmallScreen ? "text-base" : "text-lg"}
+                  `}
               >
                 Disponibilidad horaria
               </Text>
               <View
-                className={`flex flex-wrap flex-row ${isSmallScreen ? "justify-start" : "justify-between"} mt-2`}
+                className={`
+                  flex flex-wrap flex-row mt-2
+                  ${isSmallScreen ? "justify-start" : "justify-between"}
+                  `}
               >
                 <View
-                  className={`${isSmallScreen ? "w-[45%] mr-2" : "w-[48%]"} mb-2`}
+                  className={`
+                    ${isSmallScreen ? "w-[45%] mr-2" : "w-[48%]"}
+                    mb-2
+                    `}
                 >
                   <CustomRadio
                     label="8:00hs a 14:00hs"
@@ -218,7 +239,10 @@ export const EditProfile = ({ onRequestClose, visible }) => {
                   />
                 </View>
                 <View
-                  className={`${isSmallScreen ? "w-[45%] mr-2" : "w-[48%]"} mb-2`}
+                  className={`
+                    ${isSmallScreen ? "w-[45%] mr-2" : "w-[48%]"}
+                    mb-2
+                    `}
                 >
                   <CustomRadio
                     label="15:00hs a 17:00hs"
@@ -227,7 +251,10 @@ export const EditProfile = ({ onRequestClose, visible }) => {
                   />
                 </View>
                 <View
-                  className={`${isSmallScreen ? "w-[45%] mr-2" : "w-[48%]"} mb-2`}
+                  className={`
+                    ${isSmallScreen ? "w-[45%] mr-2" : "w-[48%]"}
+                    mb-2
+                    `}
                 >
                   <CustomRadio
                     label="17:00hs a 21:00hs"
@@ -236,7 +263,10 @@ export const EditProfile = ({ onRequestClose, visible }) => {
                   />
                 </View>
                 <View
-                  className={`${isSmallScreen ? "w-[45%] mr-2" : "w-[48%]"} mb-2`}
+                  className={`
+                    ${isSmallScreen ? "w-[45%] mr-2" : "w-[48%]"}
+                    mb-2
+                    `}
                 >
                   <CustomRadio
                     label="8:00hs a 17:00hs"
@@ -245,7 +275,10 @@ export const EditProfile = ({ onRequestClose, visible }) => {
                   />
                 </View>
                 <View
-                  className={`${isSmallScreen ? "w-[45%] mr-2" : "w-[48%]"} mb-2`}
+                  className={`
+                    ${isSmallScreen ? "w-[45%] mr-2" : "w-[48%]"}
+                    mb-2
+                    `}
                 >
                   <CustomRadio
                     label="Horario flexible"
@@ -258,15 +291,24 @@ export const EditProfile = ({ onRequestClose, visible }) => {
 
             {/* Días */}
             <View
-              className={`${isSmallScreen ? "mt-1" : "mt-4"} flex-grow mb-1`}
+              className={`
+                ${isSmallScreen ? "mt-1" : "mt-4"}
+                flex-grow mb-1
+                `}
             >
               <Text
-                className={`text-neutros-negro font-roboto-medium ${isBigScreen ? "text-[21px]" : isSmallScreen ? "text-[16px]" : "text-[20px]"}`}
+                className={`
+                  text-neutros-negro font-roboto-medium 
+                  ${isBigScreen ? "text-[21px]" : isSmallScreen ? "text-base" : "text-lg"}
+                  `}
               >
                 Días
               </Text>
               <Text
-                className={`text-neutros-negro-80 ${isSmallScreen ? "mb-2" : "mb-4"} font-roboto-medium text-[14px]`}
+                className={`
+                  text-neutros-negro-80 font-roboto-medium text-sm
+                  ${isSmallScreen ? "mb-2" : "mb-4"}
+                  `}
               >
                 Puedes seleccionar más de un día.
               </Text>
@@ -280,11 +322,14 @@ export const EditProfile = ({ onRequestClose, visible }) => {
             {/* ¿Qué te gustaría...? */}
             <View className={`${isSmallScreen ? "mt-2" : "mt-4"} mb-2`}>
               <Text
-                className={`text-neutros-negro font-roboto-medium ${isBigScreen ? "text-[21px]" : isSmallScreen ? "text-[16px]" : "text-[20px]"}`}
+                className={`
+                  text-neutros-negro font-roboto-medium 
+                  ${isBigScreen ? "text-[21px]" : isSmallScreen ? "text-base" : "text-lg"}
+                  `}
               >
                 ¿Qué te gustaría aprender?
               </Text>
-              <Text className="my-2 text-neutros-negro-80 font-roboto-medium text-[14px]">
+              <Text className="my-2 text-neutros-negro-80 font-roboto-medium text-sm">
                 Puedes seleccionar hasta 3 categorías
               </Text>
               <View className="flex flex-wrap flex-row justify-start align-center gap-2 mt-1">
@@ -307,7 +352,12 @@ export const EditProfile = ({ onRequestClose, visible }) => {
             </View>
           </View>
           {/* Save and Exit */}
-          <View className={`mx-4 ${isSmallScreen ? "mb-2" : "mb-10"} mt-2`}>
+          <View
+            className={`
+            mx-4 mt-2
+            ${isSmallScreen ? "mb-2" : "mb-10"}
+            `}
+          >
             <View className="flex-row justify-end">
               <CustomButton
                 onPress={() => console.log("save and navigate to profile")}

@@ -76,10 +76,13 @@ const MessagesStep2 = ({ navigation }) => {
         {/* Go To Messages */}
         <View className="bg-neutros-gris-fondo w-full py-2 flex-row justify-start items-center">
           <TouchableOpacity
-            className={`${isBigScreen ? "h-[42px]" : isSmallScreen ? "h-[30px]" : "h-[36px]"}  flex-row items-center justify-center pl-[8px] pr-[16px]`}
+            className={`
+              ${isBigScreen ? "h-[42px]" : isSmallScreen ? "h-[30px]" : "h-[36px]"} 
+              flex-row items-center justify-center pl-2 pr-4
+              `}
             onPress={() => navigation.navigate("HomeTabs", { tab: "Mensajes" })}
           >
-            <View className="mr-[8px]">
+            <View className="mr-2">
               <Feather
                 name="chevron-left"
                 size={isSmallScreen ? 24 : 28}
@@ -87,7 +90,10 @@ const MessagesStep2 = ({ navigation }) => {
               />
             </View>
             <Text
-              className={`font-roboto-medium ${isSmallScreen ? "text-[20px]" : "text-[22px]"} text-neutros-negro`}
+              className={`
+                font-roboto-medium text-neutros-negro
+                ${isSmallScreen ? "text-xl" : "text-[22px]"}
+                `}
             >
               Mensaje
             </Text>
@@ -108,10 +114,10 @@ const MessagesStep2 = ({ navigation }) => {
 
               <View className="w-2/3 overflow-ellipsis">
                 <View className="w-full">
-                  <Text className="mr-1 text-[14px] font-roboto-medium text-neutros-negro">
+                  <Text className="mr-1 text-sm font-roboto-medium text-neutros-negro">
                     Martina
                   </Text>
-                  <Text className="text-[14px] font-roboto-medium text-neutros-negro">
+                  <Text className="text-sm font-roboto-medium text-neutros-negro">
                     Farías
                   </Text>
                 </View>
@@ -120,13 +126,16 @@ const MessagesStep2 = ({ navigation }) => {
             {/* Intercambiar... */}
             <View className="items-start">
               <Text
-                className={`font-roboto-regular text-[14px] text-neutros-negro ${isSmallScreen ? "mb-1" : "mb-2"}`}
+                className={`
+                  font-roboto-regular text-sm text-neutros-negro 
+                  ${isSmallScreen ? "mb-1" : "mb-2"}
+                  `}
               >
                 Intercambiar habilidades:
               </Text>
               <View className="flex-row items-center">
-                <View className="flex-row w-content py-[4px] px-[8px] rounded-full items-center bg-transparent border-[1px] border-neutros-negro-80">
-                  <Text className="font-roboto-regular text-[12px] text-neutros-negro-80">
+                <View className="flex-row w-content py-1 px-2 rounded-full items-center bg-transparent border-[1px] border-neutros-negro-80">
+                  <Text className="font-roboto-regular text-xs text-neutros-negro-80">
                     Figma
                   </Text>
                 </View>
@@ -137,8 +146,8 @@ const MessagesStep2 = ({ navigation }) => {
                     color="#696868"
                   />
                 </View>
-                <View className="flex-row w-content py-[4px] px-[8px] rounded-full items-center bg-transparent border-[1px] border-neutros-negro-80">
-                  <Text className="font-roboto-regular text-[12px] text-neutros-negro-80">
+                <View className="flex-row w-content py-1 px-2 rounded-full items-center bg-transparent border-[1px] border-neutros-negro-80">
+                  <Text className="font-roboto-regular text-xs text-neutros-negro-80">
                     Diseño
                   </Text>
                 </View>
@@ -170,17 +179,20 @@ const MessagesStep2 = ({ navigation }) => {
               return (
                 <View
                   key={message.id}
-                  className={`w-full mb-1 ${message.isSender ? "items-end" : "items-start"}`}
+                  className={`
+                    w-full mb-1 
+                    ${message.isSender ? "items-end" : "items-start"}
+                    `}
                 >
                   <View className="py-[17px] px-[22px] mb-1 rounded-[5px] max-w-[70%] bg-neutros-beige-fondo">
-                    <Text className="text-neutros-negro text-[14px] font-roboto-regular">
+                    <Text className="text-neutros-negro text-sm font-roboto-regular">
                       {message.text}
                     </Text>
                   </View>
                   {isLastFromUser && (
                     <Image
                       source={require("../../assets/avatar11.png")}
-                      className="w-[55px] h-[55px] rounded-[20px] mt-[2px]"
+                      className="w-[55px] h-[55px] rounded-[20px] mt-0.5"
                       resizeMode="contain"
                     />
                   )}
@@ -193,17 +205,17 @@ const MessagesStep2 = ({ navigation }) => {
           </ScrollView>
 
           {/* Info */}
-          <View className="bg-terciario-celeste items-center rounded-[8px] mx-4 my-2 px-4 py-3">
+          <View className="bg-terciario-celeste items-center rounded-lg mx-4 my-2 px-4 py-3">
             <View className="flex-row items-center px-3">
               <MaterialIcons name="info-outline" size={15} color="#0F547A" />
-              <Text className="ml-3 text-wrap w-full text-[14px] text-terciario-celeste-muy-oscuro font-roboto-medium">
+              <Text className="ml-3 text-wrap w-full text-sm text-terciario-celeste-muy-oscuro font-roboto-medium">
                 Esta conversación estará disponible hasta el día 00/00/00
               </Text>
             </View>
 
             <View className="mt-2 justify-center items-end self-end">
-              <TouchableOpacity className="flex-row h-[36px] items-center justify-center rounded-[8px] w-fit px-[16px] bg-terciario-celeste-oscuro">
-                <Text className="font-roboto-medium text-[12px] uppercase terciario-celeste-muy-oscuro">
+              <TouchableOpacity className="flex-row h-[36px] items-center justify-center rounded-lg w-fit px-4 bg-terciario-celeste-oscuro">
+                <Text className="font-roboto-medium text-xs uppercase terciario-celeste-muy-oscuro">
                   Borrar mensaje
                 </Text>
               </TouchableOpacity>
@@ -213,7 +225,7 @@ const MessagesStep2 = ({ navigation }) => {
           {/* Send Message */}
           <View
             View
-            className={`flex-0 flex-row px-4 p-4 border-t-[1px] border-neutros-negro-50`}
+            className="flex-0 flex-row px-4 p-4 border-t-[1px] border-neutros-negro-50"
           >
             <View className="flex-1">
               <TextInput
@@ -221,13 +233,13 @@ const MessagesStep2 = ({ navigation }) => {
                 // onChangeText={setNewMessage}
                 placeholder="Escribe un mensaje..."
                 keyboardType="default"
-                className="bg-transparent h-[40px] font-roboto-regular text-[14px] text-neutral-color-gray-900 p-3"
+                className="bg-transparent h-[40px] font-roboto-regular text-sm text-neutral-color-gray-900 p-3"
                 placeholderTextColor={"#90A4AE"}
               />
             </View>
             <View className="flex-row justify-end">
               <TouchableOpacity
-                className="flex-row h-[36px] items-center justify-center rounded-[8px] w-fit px-[16px] bg-neutros-negro-50"
+                className="flex-row h-[36px] items-center justify-center rounded-lg w-fit px-4 bg-neutros-negro-50"
                 style={{
                   shadowColor: "#212121",
                   shadowOffset: { width: 0, height: 2 },
@@ -236,7 +248,7 @@ const MessagesStep2 = ({ navigation }) => {
                 }}
                 disabled
               >
-                <Text className="font-roboto-bold text-[12px] uppercase text-white">
+                <Text className="font-roboto-bold text-xs uppercase text-white">
                   Enviar mensaje
                 </Text>
               </TouchableOpacity>

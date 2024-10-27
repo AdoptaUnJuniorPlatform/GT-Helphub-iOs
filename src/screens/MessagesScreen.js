@@ -93,10 +93,16 @@ const MessagesScreen = ({ navigation }) => {
       <View className="absolute w-full h-screen flex-1 justify-center bg-neutros-gris-fondo">
         <View className="bg-neutros-gris-fondo w-full py-2 flex-row justify-start items-center">
           <View
-            className={`${isBigScreen ? "h-[42px]" : isSmallScreen ? "h-[30px]" : "h-[36px]"} flex-row items-center justify-center px-8`}
+            className={`
+              ${isBigScreen ? "h-[42px]" : isSmallScreen ? "h-[30px]" : "h-[36px]"} 
+              flex-row items-center justify-center px-8
+              `}
           >
             <Text
-              className={`font-roboto-medium ${isSmallScreen ? "text-[20px]" : "text-[22px]"} text-neutros-negro`}
+              className={`
+                font-roboto-medium text-neutros-negro 
+                ${isSmallScreen ? "text-xl" : "text-[22px]"}
+                `}
             >
               Bandeja de mensajes
             </Text>
@@ -106,15 +112,18 @@ const MessagesScreen = ({ navigation }) => {
         <View className="w-full flex-row justify-between items-center mt-2 px-6">
           <TouchableOpacity
             onPress={() => setActiveTab("Mensajes")}
-            className={`flex-row items-center py-4 border-b-[1px] ${activeTab === "Mensajes" ? "border-primarios-violeta-100" : "border-white"}`}
+            className={`
+              flex-row items-center py-4 border-b-[1px] 
+              ${activeTab === "Mensajes" ? "border-primarios-violeta-100" : "border-white"}
+              `}
           >
-            <Text className="font-roboto-medium text-[16px] text-neutros-negro-80">
+            <Text className="font-roboto-medium text-base text-neutros-negro-80">
               Activos
             </Text>
 
             {messages.length > 0 && (
               <View className="bg-primarios-violeta-100 rounded-full w-[23px] h-[23px] items-center justify-center ml-2">
-                <Text className="text-white text-[14px] font-roboto-medium">
+                <Text className="text-white text-sm font-roboto-medium">
                   {messages.length}
                 </Text>
               </View>
@@ -122,15 +131,18 @@ const MessagesScreen = ({ navigation }) => {
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => setActiveTab("Solicitudes")}
-            className={`flex-row items-center py-4 border-b-[1px] ${activeTab === "Solicitudes" ? "border-primarios-violeta-100" : "border-white"}`}
+            className={`
+              flex-row items-center py-4 border-b-[1px] 
+              ${activeTab === "Solicitudes" ? "border-primarios-violeta-100" : "border-white"}
+              `}
           >
-            <Text className="font-roboto-medium text-[16px] text-neutros-negro-80">
+            <Text className="font-roboto-medium text-base text-neutros-negro-80">
               Solicitudes
             </Text>
 
             {requests.length > 0 && (
               <View className="bg-primarios-rosa-100 rounded-full w-[23px] h-[23px] items-center justify-center ml-2">
-                <Text className="text-white text-[14px] font-roboto-medium">
+                <Text className="text-white text-sm font-roboto-medium">
                   {requests.length}
                 </Text>
               </View>
@@ -161,22 +173,22 @@ const MessagesScreen = ({ navigation }) => {
 
           {activeTab === "Mensajes" && messages.length === 0 && (
             <View className="flex-1 px-6 pb-6 mt-2">
-              <Text className="text-neutros-negro text-[20px] font-roboto-medium">
+              <Text className="text-neutros-negro text-xl font-roboto-medium">
                 Chats
               </Text>
               <View className="flex-1 h-full items-center justify-center mt-[180px]">
                 <AlertIcon />
-                <Text className="text-neutros-negro text-[16px] font-roboto-regular mt-1 mb-2">
+                <Text className="text-neutros-negro text-base font-roboto-regular mt-1 mb-2">
                   Sin conversaciones
                 </Text>
-                <Text className="text-neutros-negro-50 text-[14px] font-roboto-medium">
+                <Text className="text-neutros-negro-50 text-sm font-roboto-medium">
                   No hay conversaciones
                 </Text>
                 <TouchableOpacity
-                  className="flex-row h-[36px] mt-6 items-center justify-center rounded-[5px] bg-transparent w-fit px-[16px] border-[1px] border-neutros-negro-80"
+                  className="flex-row h-[36px] mt-6 items-center justify-center rounded-[5px] bg-transparent w-fit px-4 border-[1px] border-neutros-negro-80"
                   onPress={() => console.log("ver perfil")}
                 >
-                  <Text className="font-roboto-bold text-[14px] text-neutros-negro-80">
+                  <Text className="font-roboto-bold text-sm text-neutros-negro-80">
                     Buscar intercambio
                   </Text>
                 </TouchableOpacity>
@@ -200,24 +212,27 @@ const MessagesScreen = ({ navigation }) => {
 
           {activeTab === "Solicitudes" && requests.length === 0 && (
             <View className="flex-1 px-6 pb-6">
-              <Text className="text-neutros-negro text-[20px] font-roboto-medium">
+              <Text className="text-neutros-negro text-xl font-roboto-medium">
                 Chats
               </Text>
               <View
-                className={`flex-1 h-full items-center justify-center ${isSmallScreen ? "mt-[120px]" : "mt-[180px]"}`}
+                className={`
+                  flex-1 h-full items-center justify-center 
+                  ${isSmallScreen ? "mt-[120px]" : "mt-[180px]"}
+                  `}
               >
                 <AlertIcon />
-                <Text className="text-neutros-negro text-[16px] font-roboto-regular mt-1 mb-2">
+                <Text className="text-neutros-negro text-base font-roboto-regular mt-1 mb-2">
                   Sin solicitudes pendientes
                 </Text>
-                <Text className="text-neutros-negro-50 text-[14px] font-roboto-medium">
+                <Text className="text-neutros-negro-50 text-sm font-roboto-medium">
                   No hay conversaciones
                 </Text>
                 <TouchableOpacity
-                  className="flex-row h-[36px] mt-6 items-center justify-center rounded-[5px] bg-transparent w-fit px-[16px] border-[1px] border-neutros-negro-80"
+                  className="flex-row h-[36px] mt-6 items-center justify-center rounded-[5px] bg-transparent w-fit px-4 border-[1px] border-neutros-negro-80"
                   onPress={() => console.log("ver perfil")}
                 >
-                  <Text className="font-roboto-bold text-[14px] text-neutros-negro-80">
+                  <Text className="font-roboto-bold text-sm text-neutros-negro-80">
                     Buscar intercambio
                   </Text>
                 </TouchableOpacity>

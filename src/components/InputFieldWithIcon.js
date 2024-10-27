@@ -1,21 +1,31 @@
-/* eslint-disable prettier/prettier */
 import { useState } from "react";
 import { View, TextInput, Text } from "react-native";
 import EvilIcons from "@expo/vector-icons/EvilIcons";
 
-export const InputFieldWithIcon = ({ label, value, onChangeText, placeholder, iconName }) => {
+export const InputFieldWithIcon = ({
+  label,
+  value,
+  onChangeText,
+  placeholder,
+  iconName,
+}) => {
   const [isFocused, setIsFocused] = useState(false);
 
   return (
     <View className="gap-2 mb-2">
       <Text
-        className={`font-poppins-medium text-[14px] ${isFocused ? "text-neutral-color-blue-gray-400" : "text-neutral-color-blue-gray-900"}`}
+        className={`
+          font-poppins-medium text-sm 
+          ${isFocused ? "text-neutral-color-blue-gray-400" : "text-neutral-color-blue-gray-900"}
+          `}
       >
         {label}
       </Text>
       <View
-        className={`relative border-[1px] ${isFocused ? "border-[#212121]" : "border-neutral-color-blue-gray-100"
-          } rounded-[8px] h-[40px] bg-transparent flex-row items-center`}
+        className={`
+          relative border-[1px] rounded-lg h-[40px] bg-transparent flex-row items-center
+          ${isFocused ? "border-[#212121]" : "border-neutral-color-blue-gray-100"}
+          `}
       >
         <EvilIcons
           name={iconName}
@@ -28,7 +38,10 @@ export const InputFieldWithIcon = ({ label, value, onChangeText, placeholder, ic
           onChangeText={onChangeText}
           placeholder={placeholder}
           keyboardType="numeric"
-          className={`flex-1 font-roboto-regular text-[14px] ${isFocused ? "text-neutral-color-gray-900" : "text-[#90A4AE]"} p-3 pl-2`}
+          className={`
+            flex-1 font-roboto-regular text-sm p-3 pl-2
+            ${isFocused ? "text-neutral-color-gray-900" : "text-[#90A4AE]"}
+            `}
           placeholderTextColor={isFocused ? "#212121" : "#90a3ae"}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}

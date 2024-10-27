@@ -36,12 +36,12 @@ export const InfoIconWithTooltip = ({ title, text }) => {
           style={{
             opacity: opacity,
           }}
-          className="absolute bottom-8 -left-[115px] w-[252px] p-3 bg-neutros-negro-80 rounded-[8px]"
+          className="absolute bottom-8 -left-[115px] w-[252px] p-3 bg-neutros-negro-80 rounded-lg"
         >
-          <Text className="mb-[6px] text-white font-poppins-medium text-[14px]">
+          <Text className="mb-1.5 text-white font-poppins-medium text-sm">
             {title}
           </Text>
-          <Text className="text-[14px] font-poppins-regular text-white">
+          <Text className="text-sm font-poppins-regular text-white">
             {text}
           </Text>
         </Animated.View>

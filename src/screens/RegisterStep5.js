@@ -68,12 +68,15 @@ export default function RegisterStep5({ navigation }) {
               {/* ¿Qué te gustaría...? */}
               <View className="mt-4">
                 <Text
-                  className={`text-neutros-negro font-roboto-medium ${isBigScreen ? "text-[21px] mb-[8px]" : isSmallScreen ? "text-[18px] mb-[5px]" : "text-[20px] mb-[8px]"}`}
+                  className={`
+                    text-neutros-negro font-roboto-medium 
+                    ${isBigScreen ? "text-[21px] mb-2" : isSmallScreen ? "text-lg mb-[5px]" : "text-xl mb-2"}
+                    `}
                 >
                   ¿Qué te gustaría aprender?
                 </Text>
 
-                <Text className="text-neutros-negro-80 leading-6 font-roboto-regular text-[16px]">
+                <Text className="text-neutros-negro-80 leading-6 font-roboto-regular text-base">
                   Cuéntanos qué te gustaría aprender para que otros usuarios
                   puedan ayudarte.
                 </Text>
@@ -82,20 +85,26 @@ export default function RegisterStep5({ navigation }) {
               {/* Seleccionar */}
               <View className={`${isSmallScreen ? "mt-2" : "mt-4"}`}>
                 <Text
-                  className={`text-neutros-negro font-roboto-medium ${isBigScreen
+                  className={`
+                    text-neutros-negro font-roboto-medium 
+                    ${isBigScreen
                       ? "text-[21px]"
                       : isSmallScreen
-                        ? "text-[18px]"
-                        : "text-[20px]"
-                    }`}
+                        ? "text-lg"
+                        : "text-xl"
+                    }
+                    `}
                 >
                   Seleccionar categorías
                 </Text>
-                <Text className="mt-2 text-neutros-negro-80 font-roboto-medium text-[14px]">
+                <Text className="mt-2 text-neutros-negro-80 font-roboto-medium text-sm">
                   Puedes seleccionar hasta 3 categorías
                 </Text>
                 <View
-                  className={`flex flex-wrap flex-row justify-start align-center ${isSmallScreen ? "gap-1" : "gap-2"} mt-1`}
+                  className={`
+                    flex flex-wrap flex-row justify-start align-center mt-1 
+                    ${isSmallScreen ? "gap-1" : "gap-2"}
+                    `}
                 >
                   {categoriesPop.map((category) => (
                     <TouchableOpacity
@@ -120,7 +129,10 @@ export default function RegisterStep5({ navigation }) {
 
         {/* Navigation Button Set */}
         <View
-          className={`absolute ${isSmallScreen ? "pb-2" : ""} bottom-0 left-0 right-0 px-4 pt-2 bg-neutros-gris-fondo flex-row items-center justify-between`}
+          className={`
+            ${isSmallScreen ? "pb-2" : ""} 
+            absolute bottom-0 left-0 right-0 px-4 pt-2 bg-neutros-gris-fondo flex-row items-center justify-between
+            `}
         >
           <CustomButton
             title="Atrás"

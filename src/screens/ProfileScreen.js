@@ -43,14 +43,23 @@ export default function ProfileScreen({ navigation }) {
       <View className="flex-1 justify-center items-center justify-start bg-white">
         {/* Profile Card */}
         <View
-          className={`mx-4 bg-[#f7f7f7] rounded-[10px] px-[8px] ${isSmallScreen ? "py-[13px]" : "py-[15px]"}`}
+          className={`
+            mx-4 bg-[#f7f7f7] rounded-[10px] px-2 
+            ${isSmallScreen ? "py-[13px]" : "py-[15px]"}
+            `}
         >
           {/* Card Header */}
           <View
-            className={`w-full flex-row justify-between items-center ${isSmallScreen ? "mb-2" : "mb-3"}`}
+            className={`
+              w-full flex-row justify-between items-center 
+              ${isSmallScreen ? "mb-2" : "mb-3"}
+              `}
           >
             <Text
-              className={`font-roboto-medium ${isSmallScreen ? "text-[18px]" : "text-[20px]"} text-neutros-negro`}
+              className={`
+                font-roboto-medium text-neutros-negro
+                ${isSmallScreen ? "text-[18px]" : "text-xl"}
+                `}
             >
               Mi Perfil
             </Text>
@@ -61,10 +70,17 @@ export default function ProfileScreen({ navigation }) {
           </View>
 
           {/* Section With Image */}
-          <View className={`flex-row ${isSmallScreen ? "mb-2" : "mb-4"}`}>
+          <View
+            className={`
+            flex-row 
+            ${isSmallScreen ? "mb-2" : "mb-4"}
+            `}
+          >
             <View
-              className={`rounded-[10px] mr-4 ${isSmallScreen ? "h-[98px] w-[98px]" : "h-[124px] w-[120px]"
-                }`}
+              className={`
+                rounded-[10px] mr-4 
+                ${isSmallScreen ? "h-[98px] w-[98px]" : "h-[124px] w-[120px]"}
+                `}
             >
               <Image
                 source={require("../../assets/avatar5.png")}
@@ -74,27 +90,39 @@ export default function ProfileScreen({ navigation }) {
             </View>
             <View className="flex-1 justify-between">
               <Text
-                className={`text-neutros-negro ${isSmallScreen ? "text-[18px] mb-1" : "text-[20px]"} font-roboto-medium`}
+                className={`
+                  text-neutros-negro font-roboto-medium
+                  ${isSmallScreen ? "text-lg mb-1" : "text-xl"}
+                  `}
               >
                 Juanita Perez
               </Text>
               <View className="w-full">
                 <Text
-                  className={`text-neutros-negro ${isSmallScreen ? "text-[12px] mb-1" : "text-[14px] mb-3"} font-roboto-regular`}
+                  className={`
+                    text-neutros-negro font-roboto-regular 
+                    ${isSmallScreen ? "text-xs mb-1" : "text-sm mb-3"}
+                    `}
                 >
                   Disponibilidad horaria
                 </Text>
                 <View className="flex-row">
                   <View className="border-[1px] border-neutros-negro-50 mb-3 rounded-[5px] w-fit px-3 py-1">
                     <Text
-                      className={`text-neutros-negro ${isSmallScreen ? "text-[9px]" : "text-[12px]"} font-roboto-regular`}
+                      className={`
+                        text-neutros-negro font-roboto-regular 
+                        ${isSmallScreen ? "text-[9px]" : "text-xs"}
+                        `}
                     >
                       8:00hs a 17:00hs
                     </Text>
                   </View>
                 </View>
                 <View
-                  className={`flex-row ${isSmallScreen ? "gap-1" : "gap-3"}`}
+                  className={`
+                    flex-row 
+                    ${isSmallScreen ? "gap-1" : "gap-3"}
+                    `}
                 >
                   <View>
                     <Calendar selectedDays={[0, 3, 4]} />
@@ -106,13 +134,16 @@ export default function ProfileScreen({ navigation }) {
 
           {/* Description */}
           <View
-            className={`rounded-[10px] pl-[11px] pr-[45px] py-[12px] ${isSmallScreen ? "mb-2" : "mb-4"}`}
+            className={`
+              rounded-[10px] pl-[11px] pr-[45px] py-[12px] 
+              ${isSmallScreen ? "mb-2" : "mb-4"}
+              `}
             style={{ backgroundColor: "rgba(174, 174, 174, 0.1)" }}
           >
-            <Text className="text-neutros-negro font-roboto-regular text-[14px] mb-[5px]">
+            <Text className="text-neutros-negro font-roboto-regular text-sm mb-[5px]">
               Descripción
             </Text>
-            <Text className="text-neutros-negro-80 font-roboto-regular text-[12px]">
+            <Text className="text-neutros-negro-80 font-roboto-regular text-xs">
               Soy una artista que ama pintar, tengo 8 años de experiencia
               enseñando y pintando. Además me encantan los animales como las
               artes en general.
@@ -121,7 +152,7 @@ export default function ProfileScreen({ navigation }) {
 
           {/* Habilidades... */}
           <View className="w-full">
-            <Text className="text-[14px] font-roboto-regular text-neutros-negro mb-1">
+            <Text className="text-sm font-roboto-regular text-neutros-negro mb-1">
               Habilidades que me interesan
             </Text>
             <View className="flex-row gap-1">
@@ -156,20 +187,29 @@ export default function ProfileScreen({ navigation }) {
         {/* Content Switch */}
         <View className="flex-row mt-2 mx-4">
           <View
-            className={`w-full ${isSmallScreen ? "h-[25px]" : "h-[29px]"} flex-row items-center justify-start rounded-md`}
+            className={`
+              w-full flex-row items-center justify-start rounded-md
+              ${isSmallScreen ? "h-[25px]" : "h-[29px]"}
+              `}
           >
             <TouchableOpacity
               onPress={() => setSelected("Habilidades")}
-              className={`rounded-l-md h-full px-2  items-center justify-center border-[1px] ${selected === "Habilidades"
+              className={`
+                rounded-l-md h-full px-2 items-center justify-center border-[1px] 
+                ${selected === "Habilidades"
                   ? "border-primarios-violeta-100 bg-primarios-violeta-20"
                   : "border-neutros-negro-50 bg-white"
-                }`}
+                }
+                `}
             >
               <Text
-                className={`uppercase text-[10px] ${selected === "Habilidades"
+                className={`
+                  uppercase text-[10px] 
+                  ${selected === "Habilidades"
                     ? "text-primarios-violeta-100 font-roboto-medium"
                     : "text-neutros-negro-80 font-roboto-regular"
-                  }`}
+                  }
+                  `}
               >
                 Habilidades
               </Text>
@@ -177,16 +217,22 @@ export default function ProfileScreen({ navigation }) {
 
             <TouchableOpacity
               onPress={() => setSelected("Valoraciones")}
-              className={`rounded-r-md h-full items-center justify-center px-2 border-[1px] ${selected === "Valoraciones"
+              className={`
+                rounded-r-md h-full items-center justify-center px-2 border-[1px] 
+                ${selected === "Valoraciones"
                   ? "border-primarios-violeta-100 bg-primarios-violeta-20"
                   : "border-neutros-negro-50 border-l-white bg-white"
-                }`}
+                }
+                `}
             >
               <Text
-                className={`uppercase font-roboto-regular text-[10px] ${selected === "Valoraciones"
+                className={`
+                  uppercase font-roboto-regular text-[10px] 
+                  ${selected === "Valoraciones"
                     ? "text-primarios-violeta-100 font-roboto-medium"
                     : "text-neutros-negro-80 font-roboto-regular"
-                  }`}
+                  }
+                  `}
               >
                 Valoraciones
               </Text>
@@ -203,7 +249,10 @@ export default function ProfileScreen({ navigation }) {
                 className="flex-row justify-between items-center w-full px-4"
               >
                 <Text
-                  className={`text-neutros-negro font-roboto-medium ${isSmallScreen ? "text-[18px]" : "text-[20px]"}`}
+                  className={`
+                    text-neutros-negro font-roboto-medium 
+                    ${isSmallScreen ? "text-lg" : "text-xl"}
+                    `}
                 >
                   Mis habilidades
                 </Text>
@@ -245,14 +294,17 @@ export default function ProfileScreen({ navigation }) {
             <>
               <View className="flex-row items-center justify-start mb-3 mx-4">
                 <View
-                  className={`bg-primarios-violeta-100 rounded-[6px] justify-center items-center ${isSmallScreen ? "w-[30px] h-[30px]" : "w-[34px] h-[34px]"} mr-2`}
+                  className={`
+                    bg-primarios-violeta-100 rounded-[6px] justify-center items-center mr-2
+                    ${isSmallScreen ? "w-[30px] h-[30px]" : "w-[34px] h-[34px]"}
+                    `}
                 >
-                  <Text className="text-white text-[16px] font-roboto-regular">
+                  <Text className="text-white text-base font-roboto-regular">
                     5
                   </Text>
                 </View>
                 <View className="justify-center">
-                  <Text className="text-neutros-negro font-roboto-medium text-[14px]">
+                  <Text className="text-neutros-negro font-roboto-medium text-sm">
                     Valoración general
                   </Text>
                   <CustomRating rating={5} />
@@ -263,12 +315,20 @@ export default function ProfileScreen({ navigation }) {
                 className="flex-row justify-start items-center w-full px-4"
               >
                 <Text
-                  className={`text-neutros-negro font-roboto-medium ${isSmallScreen ? "text-[18px]" : "text-[20px]"}`}
+                  className={`
+                    text-neutros-negro font-roboto-medium 
+                    ${isSmallScreen ? "text-lg" : "text-xl"}
+                    `}
                 >
                   Mis reseñas
                 </Text>
               </View>
-              <View className={`pl-4 ${isSmallScreen ? "mt-2" : "mt-4"}`}>
+              <View
+                className={`
+                pl-4 
+                ${isSmallScreen ? "mt-2" : "mt-4"}
+                `}
+              >
                 <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                   <View>
                     <RatingCard />

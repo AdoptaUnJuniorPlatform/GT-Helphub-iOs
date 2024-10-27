@@ -27,16 +27,22 @@ const AddAbilityStep2 = ({ onRequestClose, visible, navigation }) => {
 
   return (
     <View
-      className={`absolute w-full h-screen flex-1 justify-center ${isSmallScreen ? "pt-8" : "pt-16"} bg-neutros-gris-fondo`}
+      className={`
+        absolute w-full h-screen flex-1 justify-center bg-neutros-gris-fondo
+        ${isSmallScreen ? "pt-8" : "pt-16"} 
+        `}
     >
       <ScrollView showsVerticalScrollIndicator={false}>
         {/* Go Back Button */}
         <View className="w-full py-2 flex-row justify-start items-center">
           <TouchableOpacity
             onPress={() => navigation.navigate("HomeTabs")}
-            className={`${isBigScreen ? "h-[42px]" : isSmallScreen ? "h-[30px]" : "h-[36px]"}  flex-row items-center justify-center pl-[8px] pr-[16px]`}
+            className={`
+              ${isBigScreen ? "h-[42px]" : isSmallScreen ? "h-[30px]" : "h-[36px]"} 
+              flex-row items-center justify-center pl-2 pr-4
+              `}
           >
-            <View className="mr-[8px]">
+            <View className="mr-2">
               <Feather
                 name="chevron-left"
                 size={isSmallScreen ? 24 : 28}
@@ -44,7 +50,10 @@ const AddAbilityStep2 = ({ onRequestClose, visible, navigation }) => {
               />
             </View>
             <Text
-              className={`font-roboto-medium ${isSmallScreen ? "text-[20px]" : "text-[22px]"} text-neutros-negro`}
+              className={`
+                font-roboto-medium text-neutros-negro 
+                ${isSmallScreen ? "text-xl" : "text-[22px]"}
+                `}
             >
               Habilidades
             </Text>
@@ -53,21 +62,27 @@ const AddAbilityStep2 = ({ onRequestClose, visible, navigation }) => {
 
         {/* Form Section */}
         <View
-          className={`bg-[#f7f7f7] rounded-[8px] ${isSmallScreen ? "pt-3 pb-4 px-4 mx-4 my-2" : "px-4 pt-2 m-4"}`}
+          className={`
+            bg-[#f7f7f7] rounded-lg 
+            ${isSmallScreen ? "pt-3 pb-4 px-4 mx-4 my-2" : "px-4 pt-2 m-4"}
+            `}
         >
           {/* ¿Qué ofreces? */}
           <View className={`${isSmallScreen ? "mt-2" : "mt-4"}`}>
             <View className="flex-row justify-between items-center mb-2">
               <Text
-                className={`text-neutral-color-gray-900 font-roboto-medium ${isBigScreen ? "text-[21px]" : isSmallScreen ? "text-[18px]" : "text-[20px]"}`}
+                className={`
+                  text-neutral-color-gray-900 font-roboto-medium 
+                  ${isBigScreen ? "text-[21px]" : isSmallScreen ? "text-lg" : "text-xl"}
+                  `}
               >
                 ¿Qué ofreces?
               </Text>
               <TouchableOpacity
                 onPress={toggleDialog}
-                className="h-[36px] flex-row items-center justify-center rounded-[8px]"
+                className="h-[36px] flex-row items-center justify-center rounded-lg"
               >
-                <Text className="uppercase font-roboto-bold text-[12px] text-primarios-celeste-100">
+                <Text className="uppercase font-roboto-bold text-xs text-primarios-celeste-100">
                   Consejos
                 </Text>
                 <View className="ml-2">
@@ -82,7 +97,7 @@ const AddAbilityStep2 = ({ onRequestClose, visible, navigation }) => {
 
             {isDialogVisible && (
               <View
-                className="rounded-[8px] bg-[#EEF1FF] p-[16px] mb-4"
+                className="rounded-lg bg-[#EEF1FF] p-4 mb-4"
                 style={{
                   shadowOffset: { width: 0, height: 1 },
                   shadowOpacity: 0.1,
@@ -90,22 +105,31 @@ const AddAbilityStep2 = ({ onRequestClose, visible, navigation }) => {
                   shadowColor: "#000000",
                 }}
               >
-                <Text className="text-neutral-color-blue-gray-900 font-roboto-bold text-[16px] mb-3">
+                <Text className="text-neutral-color-blue-gray-900 font-roboto-bold text-base mb-3">
                   Como generar un texto llamativo
                 </Text>
                 <Text
-                  className={`text-neutros-negro-80 font-roboto-regular text-[14px] ${isSmallScreen ? "mb-2" : "mb-3"}`}
+                  className={`
+                    text-neutros-negro-80 font-roboto-regular text-sm 
+                    ${isSmallScreen ? "mb-2" : "mb-3"}
+                    `}
                 >
                   Asegúrate de que tu mensaje sea fácil de entender y vaya
                   directo al punto.
                 </Text>
                 <Text
-                  className={`text-neutros-negro-80 font-roboto-regular text-[14px] ${isSmallScreen ? "mb-2" : "mb-3"}`}
+                  className={`
+                    text-neutros-negro-80 font-roboto-regular text-sm 
+                    ${isSmallScreen ? "mb-2" : "mb-3"}
+                    `}
                 >
                   Incluye detalles interesantes de tu intercambio.
                 </Text>
                 <Text
-                  className={`text-neutros-negro-80 font-roboto-regular text-[14px] ${isSmallScreen ? "mb-2" : "mb-3"}`}
+                  className={`
+                    text-neutros-negro-80 font-roboto-regular text-sm 
+                    ${isSmallScreen ? "mb-2" : "mb-3"}
+                    `}
                 >
                   Resalta las ventajas y el valor que obtendrán al participar.
                 </Text>
@@ -126,9 +150,17 @@ const AddAbilityStep2 = ({ onRequestClose, visible, navigation }) => {
           </View>
 
           {/* ¿Qué categoría...? */}
-          <View className={`${isSmallScreen ? "mt-1" : "mt-4"} flex-grow mb-6`}>
+          <View
+            className={`
+            ${isSmallScreen ? "mt-1" : "mt-4"} 
+            flex-grow mb-6
+            `}
+          >
             <Text
-              className={`text-neutral-color-gray-900 font-roboto-medium ${isBigScreen ? "text-[21px] mb-[8px]" : isSmallScreen ? "text-[18px] mb-[5px]" : "text-[20px] mb-[8px]"}`}
+              className={`
+                text-neutral-color-gray-900 font-roboto-medium 
+                ${isBigScreen ? "text-[21px] mb-2" : isSmallScreen ? "text-lg mb-[5px]" : "text-xl mb-2"}
+                `}
             >
               ¿Qué categoría se ajusta mejor a tu habilidad?
             </Text>
@@ -145,7 +177,10 @@ const AddAbilityStep2 = ({ onRequestClose, visible, navigation }) => {
 
       {/* Siguiente */}
       <View
-        className={`flex-row justify-between mx-4 ${isSmallScreen ? "mb-2" : "mb-10"} mt-2`}
+        className={`
+          flex-row justify-between mx-4 
+          ${isSmallScreen ? "mb-2" : "mb-10"} mt-2
+          `}
       >
         <CustomButton
           onPress={() => navigation.goBack()}
