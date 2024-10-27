@@ -18,7 +18,15 @@ export const HeroCard = ({
   const isBigScreen = width >= 430;
 
   return (
-    <View className="w-[280px] overflow-hidden bg-neutros-blanco mx-4 rounded-[6px] border-x-[1px] border-b-[1px] border-neutral-color-blue-gray-50 py-4">
+    <View
+      className="w-[280px] overflow-hidden bg-neutros-blanco mx-4 rounded-[6px] border-x-[1px] border-b-[1px] border-neutral-color-blue-gray-50 py-4"
+      style={{
+        shadowOffset: { width: 0, height: 3 },
+        shadowOpacity: 0.25,
+        shadowRadius: 3,
+        shadowColor: "#000000",
+      }}
+    >
       {/* Header */}
       <View className="w-full flex-row items-center gap-4 mx-2">
         <View className="w-[40px] h-[40px] rounded-full">

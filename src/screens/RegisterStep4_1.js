@@ -101,7 +101,15 @@ export default function RegisterStep4_1({ navigation }) {
             </View>
 
             {isDialogVisible && (
-              <View className="rounded-[8px] bg-[#EEF1FF] p-[16px] my-2">
+              <View
+                className="rounded-[8px] bg-[#EEF1FF] p-[16px] my-2"
+                style={{
+                  shadowOffset: { width: 0, height: 1 },
+                  shadowOpacity: 0.1,
+                  shadowRadius: 2,
+                  shadowColor: "#000000",
+                }}
+              >
                 <Text className="text-neutral-color-blue-gray-900 font-roboto-bold text-[16px] mb-3">
                   Ejemplos para crear tu título
                 </Text>

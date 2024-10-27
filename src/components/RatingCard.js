@@ -20,7 +20,13 @@ export const RatingCard = ({ onPress }) => {
 
   return (
     <View
-      className={`p-[20px] ${isSmallScreen ? "py-[15px]" : "pt-[25px]"} mr-4 rounded-[10px] border-x-[1px] border-b-[1px] border-neutral-color-blue-gray-50`}
+      className={`p-[20px] ${isSmallScreen ? "py-[15px]" : "pt-[25px]"} mr-4 ml-1 mb-2 rounded-[10px] bg-white`}
+      style={{
+        shadowOffset: { width: 0, height: 3 },
+        shadowOpacity: 0.25,
+        shadowRadius: 3,
+        shadowColor: "#000000",
+      }}
     >
       <View className={`w-[203px] h-[83px] ${isSmallScreen ? "mb-2" : "mb-4"}`}>
         {/* Scroll Text */}

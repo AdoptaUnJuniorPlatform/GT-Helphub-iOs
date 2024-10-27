@@ -61,7 +61,7 @@ export default function EmailVerificationScreen({ navigation }) {
           </View>
 
           <Text className="text-neutros-negro-80 text-[12px] font-roboto-regular mb-5">
-            Escribe aquí tu código (5 dígitos)
+            Escribe aquí tu código (6 dígitos)
           </Text>
 
           <View className="flex-row justify-between items-center">

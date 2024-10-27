@@ -81,7 +81,15 @@ const AddAbilityStep2 = ({ onRequestClose, visible, navigation }) => {
             </View>
 
             {isDialogVisible && (
-              <View className="rounded-[8px] bg-[#EEF1FF] p-[16px] mb-4">
+              <View
+                className="rounded-[8px] bg-[#EEF1FF] p-[16px] mb-4"
+                style={{
+                  shadowOffset: { width: 0, height: 1 },
+                  shadowOpacity: 0.1,
+                  shadowRadius: 2,
+                  shadowColor: "#000000",
+                }}
+              >
                 <Text className="text-neutral-color-blue-gray-900 font-roboto-bold text-[16px] mb-3">
                   Como generar un texto llamativo
                 </Text>

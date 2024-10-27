@@ -10,7 +10,13 @@ export const HomeCard = ({ onPress }) => {
 
   return (
     <View
-      className={`${isBigScreen ? "w-[325px] py-5" : isSmallScreen ? "w-[300px] py-4" : "w-[307px] py-5"} mr-4 rounded-[6px] border-x-[1px] border-neutral-color-blue-gray-50`}
+      className={`${isBigScreen ? "w-[325px] py-5" : isSmallScreen ? "w-[300px] py-4" : "w-[307px] py-5"} mr-4 rounded-[6px] bg-neutros-blanco mb-2 ml-2`}
+      style={{
+        shadowOffset: { width: 0, height: 3 },
+        shadowOpacity: 0.25,
+        shadowRadius: 3,
+        shadowColor: "#000000",
+      }}
     >
       {/* Header */}
       <View className="flex-row items-center gap-[25px] px-5">

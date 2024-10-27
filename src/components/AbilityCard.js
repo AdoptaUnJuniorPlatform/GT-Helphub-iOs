@@ -9,7 +9,13 @@ export const AbilityCard = ({ onDelete, onEdit }) => {
 
   return (
     <View
-      className={`bg-[#FBFBFF] pb-5 mr-4 rounded-[6px] ${isSmallScreen ? "w-[310px] h-[190px]" : "w-[244px] h-[220px]"} border-x-[1px] border-b-[1px] border-neutral-color-blue-gray-50`}
+      className={`bg-neutros-blanco pb-5 mr-4 ml-1 mb-2 rounded-[6px] ${isSmallScreen ? "w-[310px] h-[190px]" : "w-[244px] h-[220px]"}`}
+      style={{
+        shadowOffset: { width: 0, height: 3 },
+        shadowOpacity: 0.25,
+        shadowRadius: 3,
+        shadowColor: "#000000",
+      }}
     >
       {/* Header */}
       <View className="mt-2 px-2">

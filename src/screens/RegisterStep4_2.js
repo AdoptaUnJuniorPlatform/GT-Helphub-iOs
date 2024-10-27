@@ -87,7 +87,15 @@ export default function RegisterStep1({ navigation }) {
                 </View>
 
                 {isDialogVisible && (
-                  <View className="rounded-[8px] bg-[#EEF1FF] p-[16px] mb-4">
+                  <View
+                    className="rounded-[8px] bg-[#EEF1FF] p-[16px] mb-4"
+                    style={{
+                      shadowOffset: { width: 0, height: 1 },
+                      shadowOpacity: 0.1,
+                      shadowRadius: 2,
+                      shadowColor: "#000000",
+                    }}
+                  >
                     <Text className="text-neutral-color-blue-gray-900 font-roboto-bold text-[16px] mb-3">
                       Como generar un texto llamativo
                     </Text>
@@ -214,7 +222,15 @@ export default function RegisterStep1({ navigation }) {
                 </Text>
               </View>
 
-              <View className="mb-[24px] w-full">
+              <View
+                className="mb-[24px] w-full"
+                style={{
+                  shadowOffset: { width: 0, height: 3 },
+                  shadowOpacity: 0.25,
+                  shadowRadius: 3,
+                  shadowColor: "#000000",
+                }}
+              >
                 <View
                   className={`bg-neutros-blanco ${isBigScreen ? "py-5" : isSmallScreen ? "py-4" : "py-5"} rounded-[6px] border-x-[1px] border-b-[1px] border-neutral-color-blue-gray-50`}
                 >
