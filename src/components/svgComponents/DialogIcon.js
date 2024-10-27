@@ -1,6 +1,6 @@
 import Svg, { Path } from "react-native-svg";
 
-export default function DialogIcon(props) {
+export const DialogIcon = (props) => {
   return (
     <Svg
       width="36"
@@ -23,4 +23,4 @@ export default function DialogIcon(props) {
       />
     </Svg>
   );
-}
+};

@@ -1,7 +1,7 @@
 import { View, Text } from "react-native";
 import Entypo from "@expo/vector-icons/Entypo";
 
-const CustomRating = ({ rating = 0 }) => {
+export const CustomRating = ({ rating = 0 }) => {
   const getRatingLabel = (rating) => {
     switch (rating) {
       case 5:
@@ -31,11 +31,9 @@ const CustomRating = ({ rating = 0 }) => {
           />
         ))}
       </View>
-      <Text className="font-roboto-regular text-[14px] text-neutros-negro">
+      <Text className="font-roboto-regular text-sm text-neutros-negro">
         {getRatingLabel(rating)}
       </Text>
     </View>
   );
 };
-
-export default CustomRating;

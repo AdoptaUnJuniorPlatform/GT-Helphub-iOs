@@ -7,16 +7,16 @@ import {
   Dimensions,
   ScrollView,
 } from "react-native";
-import MaterialIcons from "@expo/vector-icons/MaterialIcons";
-import CustomButton from "./CustomButton";
-import Entypo from "@expo/vector-icons/Entypo";
-import RatingCard from "./RatingCard";
-import CustomRating from "./CustomRating";
+import { CustomButton } from "./CustomButton";
+import { RatingCard } from "./RatingCard";
+import { CustomRating } from "./CustomRating";
 // import DialogIcon from "./svgComponents/DialogIcon";
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+// import Entypo from "@expo/vector-icons/Entypo";
 
 const { width } = Dimensions.get("window");
 
-const ProfileCard = ({ isCardVisible, toggleCard }) => {
+export const ProfileCard = ({ isCardVisible, toggleCard }) => {
   const isSmallScreen = width <= 392;
   const isBigScreen = width >= 430;
 
@@ -34,7 +34,7 @@ const ProfileCard = ({ isCardVisible, toggleCard }) => {
         className="absolute w-full h-screen flex-1 justify-center px-4"
       >
         <View
-          className="bg-white p-[24px] rounded-[8px]"
+          className="bg-white p-6 rounded-lg"
           style={{
             shadowColor: "#212121",
             shadowOffset: { width: 0, height: 3 },
@@ -57,15 +57,15 @@ const ProfileCard = ({ isCardVisible, toggleCard }) => {
               />
             </View>
             <View className="h-[124px] py-4 justify-between">
-              <Text className="font-roboto-medium text-[20px] text-neutros-negro">
+              <Text className="font-roboto-medium text-xl text-neutros-negro">
                 Juanita Perez
               </Text>
               <CustomRating rating={5} />
               <View>
-                <Text className="font-roboto-medium text-[14px] text-neutros-negro">
+                <Text className="font-roboto-medium text-sm text-neutros-negro">
                   Valoración general
                 </Text>
-                <Text className="font-roboto-regular text-[12px] text-neutros-negro-80">
+                <Text className="font-roboto-regular text-xs text-neutros-negro-80">
                   3 reseñas
                 </Text>
               </View>
@@ -73,34 +73,37 @@ const ProfileCard = ({ isCardVisible, toggleCard }) => {
           </View>
 
           <View
-            className="w-full rounded-[10px] pl-[11px] pr-[45px] py-[12px] mb-5 gap-[5px]"
+            className="w-full rounded-[10px] pl-[11px] pr-[45px] py-3 mb-5 gap-[5px]"
             style={{ backgroundColor: "rgba(174, 174, 174, 0.1)" }}
           >
-            <Text className="text-neutros-negro font-roboto-regular text-[14px]">
+            <Text className="text-neutros-negro font-roboto-regular text-sm">
               Descripción
             </Text>
-            <Text className="text-neutros-negro-80 font-roboto-regular text-[12px]">
+            <Text className="text-neutros-negro-80 font-roboto-regular text-xs">
               Tengo una amplia experiencia en cuidar animales, he trabajado en
               una guardería de mascotas por 2 años.
             </Text>
           </View>
 
           <View className="mb-5 w-full">
-            <Text className="text-neutral-color-gray-900 font-roboto-regular text-[20px]">
+            <Text className="text-neutral-color-gray-900 font-roboto-regular text-xl">
               Valoraciones
             </Text>
           </View>
 
           {/* <View
-            className={`w-full mb-5 rounded-[8px] border-[1px] ${isBigScreen ? "py-[35px]" : isSmallScreen ? "py-[20px]" : "py-[30px]"} items-center justify-center border-neutral-color-blue-gray-100`}
+            className={`
+            w-full mb-5 rounded-lg border-[1px] items-center justify-center border-neutral-color-blue-gray-100
+            ${isBigScreen ? "py-[35px]" : isSmallScreen ? "py-[20px]" : "py-[30px]"} 
+            `}
           >
             <View>
               <DialogIcon />
             </View>
-            <Text className="text-neutros-negro font-roboto-medium text-[18px] my-3">
+            <Text className="text-neutros-negro font-roboto-medium text-lg my-3">
               Aún no hay valoraciones
             </Text>
-            <Text className="text-neutros-negro-80 w-[65%] text-center font-roboto-regular text-[14px]">
+            <Text className="text-neutros-negro-80 w-[65%] text-center font-roboto-regular text-sm">
               Comparte tu opinión y ayuda a que otros conozcan mejor a esta
               persona
             </Text>
@@ -131,5 +134,3 @@ const ProfileCard = ({ isCardVisible, toggleCard }) => {
     </Modal>
   );
 };
-
-export default ProfileCard;

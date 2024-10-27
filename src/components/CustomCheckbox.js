@@ -1,33 +1,39 @@
-/* eslint-disable prettier/prettier */
 import { TouchableOpacity, View, Text } from "react-native";
 import Feather from "@expo/vector-icons/Feather";
 
-const CustomCheckbox = ({ isChecked, onPress, label, labelLink, onLinkPress }) => {
+export const CustomCheckbox = ({
+  isChecked,
+  onPress,
+  label,
+  labelLink,
+  onLinkPress,
+}) => {
   return (
     <View className="flex-row items-start">
       <TouchableOpacity className="mr-2" onPress={onPress}>
         <View
-          className={`w-[18px] h-[18px] border-[1px] rounded ${isChecked
-            ? "bg-[#3F51B5] border-[#3F51B5]"
-            : "bg-transparent border-neutral-color-blue-gray-100"
-            } items-center justify-center`}
+          className={`
+            w-[18px] h-[18px] border-[1px] rounded items-center justify-center
+            ${isChecked
+              ? "bg-[#3F51B5] border-[#3F51B5]"
+              : "bg-transparent border-neutral-color-blue-gray-100"
+            } 
+            `}
         >
           {isChecked && <Feather name="check" size={14} color="white" />}
         </View>
       </TouchableOpacity>
 
       <View className="flex-row flex-wrap">
-        <Text className="text-neutral-color-blue-gray-400 font-poppins-medium text-[12px]">
+        <Text className="text-neutral-color-blue-gray-400 font-poppins-medium text-xs">
           {label}
         </Text>
 
         {labelLink && onLinkPress && (
           <>
-            <Text className="text-neutral-color-blue-gray-400 text-[12px]">
-              {" "}
-            </Text>
+            <Text className="text-neutral-color-blue-gray-400 text-xs"> </Text>
             <TouchableOpacity onPress={onLinkPress}>
-              <Text className="font-medium text-[12px] text-neutral-color-gray-900">
+              <Text className="font-medium text-xs text-neutral-color-gray-900">
                 {labelLink}
               </Text>
             </TouchableOpacity>
@@ -37,5 +43,3 @@ const CustomCheckbox = ({ isChecked, onPress, label, labelLink, onLinkPress }) =
     </View>
   );
 };
-
-export default CustomCheckbox;

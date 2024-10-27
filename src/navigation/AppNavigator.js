@@ -21,7 +21,7 @@ import ResetPasswordStep2 from "../screens/ResetPasswordStep2";
 import MessagesStep1 from "../screens/MessagesStep1";
 import MessagesStep2 from "../screens/MessagesStep2";
 import { Ionicons } from "@expo/vector-icons";
-import { Text, SafeAreaView } from "react-native";
+import { Text, SafeAreaView, View } from "react-native";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -105,7 +105,26 @@ const Tabs = () => {
             } else if (route.name === "Perfil") {
               iconName = "person";
             }
-            return <Ionicons name={iconName} size={iconSize} color={color} />;
+            return (
+              <View style={{ position: "relative" }}>
+                <Ionicons name={iconName} size={iconSize} color={color} />
+                {route.name === "Mensajes" && (
+                  <View
+                    style={{
+                      position: "absolute",
+                      top: -2,
+                      right: -6,
+                      backgroundColor: "#43a047",
+                      borderRadius: 6,
+                      borderWidth: 1.5,
+                      borderColor: "#fafafa",
+                      width: 12,
+                      height: 12,
+                    }}
+                  />
+                )}
+              </View>
+            );
           },
           tabBarLabel: ({ focused }) => {
             return focused ? (

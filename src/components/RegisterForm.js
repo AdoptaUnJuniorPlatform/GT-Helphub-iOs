@@ -1,13 +1,12 @@
-/* eslint-disable prettier/prettier */
 import { useState } from "react";
 import { View, Text, Linking, TextInput, Dimensions } from "react-native";
-import ToggleSwitch from "./ToggleSwitch";
-import CustomCheckbox from "./CustomCheckbox";
-import CustomButton from "./CustomButton";
+import { ToggleSwitch } from "./ToggleSwitch";
+import { CustomCheckbox } from "./CustomCheckbox";
+import { CustomButton } from "./CustomButton";
 
 const { width } = Dimensions.get("window");
 
-const RegisterForm = ({ navigation }) => {
+export const RegisterForm = ({ navigation }) => {
   const isSmallScreen = width <= 392;
   const isBigScreen = width >= 430;
 
@@ -40,7 +39,12 @@ const RegisterForm = ({ navigation }) => {
 
   return (
     <View>
-      <Text className={`font-roboto-regular text-[24px] text-neutros-negro ${isSmallScreen ? "mt-4 mb-2" : "my-[20px]"}`}>
+      <Text
+        className={`
+          font-roboto-regular text-[24px] text-neutros-negro 
+          ${isSmallScreen ? "mt-4 mb-2" : "my-5"}
+          `}
+      >
         Registro
       </Text>
 
@@ -50,7 +54,7 @@ const RegisterForm = ({ navigation }) => {
           onChangeText={setName}
           placeholder="Nombre"
           keyboardType="default"
-          className="bg-transparent border-[1px] border-neutral-color-blue-gray-100 focus:border-[#455A64] rounded-[8px] h-[40px] font-roboto-regular text-[14px] text-neutral-color-gray-900 p-3"
+          className="bg-transparent border-[1px] border-neutral-color-blue-gray-100 focus:border-[#455A64] rounded-lg h-[40px] font-roboto-regular text-sm text-neutral-color-gray-900 p-3"
           placeholderTextColor={isNameFocused ? "#212121" : "#90A4AE"}
           onFocus={() => setIsNameFocused(true)}
           onBlur={() => setIsNameFocused(false)}
@@ -63,7 +67,7 @@ const RegisterForm = ({ navigation }) => {
           onChangeText={setSurnameOne}
           placeholder="Apellido 1"
           keyboardType="default"
-          className="bg-transparent border-[1px] border-neutral-color-blue-gray-100 focus:border-[#455A64] rounded-[8px] h-[40px] font-roboto-regular text-[14px] text-neutral-color-gray-900 p-3"
+          className="bg-transparent border-[1px] border-neutral-color-blue-gray-100 focus:border-[#455A64] rounded-lg h-[40px] font-roboto-regular text-sm text-neutral-color-gray-900 p-3"
           placeholderTextColor={isSurnameOneFocused ? "#212121" : "#90A4AE"}
           onFocus={() => setIsSurnameOneFocused(true)}
           onBlur={() => setIsSurnameOneFocused(false)}
@@ -76,7 +80,7 @@ const RegisterForm = ({ navigation }) => {
           onChangeText={setSurnameTwo}
           placeholder="Apellido 2 (opcional)"
           keyboardType="default"
-          className="bg-transparent border-[1px] border-neutral-color-blue-gray-100 focus:border-[#455A64] rounded-[8px] h-[40px] font-roboto-regular text-[14px] text-neutral-color-gray-900 p-3"
+          className="bg-transparent border-[1px] border-neutral-color-blue-gray-100 focus:border-[#455A64] rounded-lg h-[40px] font-roboto-regular text-sm text-neutral-color-gray-900 p-3"
           placeholderTextColor={isSurnameTwoFocused ? "#212121" : "#90A4AE"}
           onFocus={() => setIsSurnameTwoFocused(true)}
           onBlur={() => setIsSurnameTwoFocused(false)}
@@ -84,27 +88,41 @@ const RegisterForm = ({ navigation }) => {
       </View>
 
       {/* Phone Input */}
-      <View className={`${isSmallScreen ? "mb-3" : "mb-4"} gap-2`}>
+      <View
+        className={`
+        ${isSmallScreen ? "mb-3" : "mb-4"}
+        gap-2
+        `}
+      >
         <View
-          className={`flex-row items-center border-[1px] ${isPhoneNumberFocused ? "border-[#455A64]" : "border-neutral-color-blue-gray-100"} rounded-[8px] h-[40px] bg-transparent`}
+          className={`
+            flex-row items-center border-[1px] rounded-lg h-[40px] bg-transparent
+            ${isPhoneNumberFocused ? "border-[#455A64]" : "border-neutral-color-blue-gray-100"} 
+            `}
         >
           <View className="flex-row items-center pl-3">
             <Text
-              className={`text-[12px] font-roboto-medium ${isPhoneNumberFocused ? "color-neutral-color-gray-900" : "color-neutral-color-blue-gray-300"} pr-1`}
+              className={`
+                text-xs font-roboto-medium pr-1
+                ${isPhoneNumberFocused ? "color-neutral-color-gray-900" : "color-neutral-color-blue-gray-300"} 
+                `}
             >
               {countryCode}
             </Text>
           </View>
 
           <View
-            className={`w-[1px] h-[25px] ${isPhoneNumberFocused ? "bg-neutral-color-gray-900" : "bg-neutral-color-blue-gray-100"} ml-2`}
+            className={`
+              w-[1px] h-[25px] ml-2
+              ${isPhoneNumberFocused ? "bg-neutral-color-gray-900" : "bg-neutral-color-blue-gray-100"}
+              `}
           />
 
           <TextInput
             value={phoneNumber}
             onChangeText={setPhoneNumber}
             placeholder="Móvil"
-            className="flex-1 text-[14px] font-roboto-regular text-neutral-color-blue-gray-300 bg-transparent p-3"
+            className="flex-1 text-sm font-roboto-regular text-neutral-color-blue-gray-300 bg-transparent p-3"
             placeholderTextColor={isPhoneNumberFocused ? "#212121" : "#90a3ae"}
             keyboardType="phone-pad"
             onFocus={() => setIsPhoneNumberFocused(true)}
@@ -119,7 +137,7 @@ const RegisterForm = ({ navigation }) => {
           onChangeText={setEmail}
           placeholder="Email"
           keyboardType="email-address"
-          className="bg-transparent border-[1px] border-neutral-color-blue-gray-100 focus:border-[#455A64] rounded-[8px] h-[40px] font-roboto-regular text-[14px] text-neutral-color-gray-900 p-3"
+          className="bg-transparent border-[1px] border-neutral-color-blue-gray-100 focus:border-[#455A64] rounded-lg h-[40px] font-roboto-regular text-sm text-neutral-color-gray-900 p-3"
           placeholderTextColor={isEmailFocused ? "#212121" : "#90A4AE"}
           onFocus={() => setIsEmailFocused(true)}
           onBlur={() => setIsEmailFocused(false)}
@@ -132,14 +150,19 @@ const RegisterForm = ({ navigation }) => {
           onChangeText={setPassword}
           placeholder="Contraseña"
           keyboardType="default"
-          className="bg-transparent border-[1px] border-neutral-color-blue-gray-100 focus:border-[#455A64] rounded-[8px] h-[40px] font-roboto-regular text-[14px] text-neutral-color-gray-900 p-3"
+          className="bg-transparent border-[1px] border-neutral-color-blue-gray-100 focus:border-[#455A64] rounded-lg h-[40px] font-roboto-regular text-sm text-neutral-color-gray-900 p-3"
           placeholderTextColor={isPasswordFocused ? "#212121" : "#90A4AE"}
           onFocus={() => setIsPasswordFocused(true)}
           onBlur={() => setIsPasswordFocused(false)}
         />
       </View>
 
-      <Text className={`text-neutros-negro-80 font-roboto-regular text-[12px] ${isSmallScreen ? "mb-3" : "mb-5"}`}>
+      <Text
+        className={`
+          text-neutros-negro-80 font-roboto-regular text-xs 
+          ${isSmallScreen ? "mb-3" : "mb-5"}
+          `}
+      >
         La contraseña debe incluir al menos 12 caracteres, una letra mayúscula y
         un número.
       </Text>
@@ -150,16 +173,18 @@ const RegisterForm = ({ navigation }) => {
           <ToggleSwitch isEnabled={isEnabled} onToggle={setIsEnabled} />
         </View>
         <View>
-          <Text className="text-neutros-negro font-roboto-medium font-[16px]">
+          <Text className="text-neutros-negro font-roboto-medium font-base">
             Activar la opción de llamada
           </Text>
-          <Text className="text-neutros-negro-80 font-roboto-regular font-[14px]">
+          <Text className="text-neutros-negro-80 font-roboto-regular font-sm">
             Mostrar teléfono al iniciar intercambio
           </Text>
         </View>
       </View>
 
-      <View className={`${isBigScreen ? "mt-5 mb-[100px]" : isSmallScreen ? "my-2" : "my-5"}`}>
+      <View
+        className={`${isBigScreen ? "mt-5 mb-[100px]" : isSmallScreen ? "my-2" : "my-5"}`}
+      >
         <CustomCheckbox
           isChecked={acceptTermsAndConditions}
           onPress={() => setAcceptTermsAndConditions(!acceptTermsAndConditions)}
@@ -169,8 +194,6 @@ const RegisterForm = ({ navigation }) => {
         />
       </View>
       <CustomButton onPress={onSubmit} title="Registrarse" />
-    </View >
+    </View>
   );
 };
-
-export default RegisterForm;

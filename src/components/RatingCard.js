@@ -5,7 +5,7 @@ import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 const { width } = Dimensions.get("window");
 const { height: screenHeight } = Dimensions.get("window");
 
-const RatingCard = ({ onPress }) => {
+export const RatingCard = ({ onPress }) => {
   const isSmallScreen = width <= 392;
   const isBigScreen = width >= 430;
 
@@ -20,9 +20,23 @@ const RatingCard = ({ onPress }) => {
 
   return (
     <View
-      className={`p-[20px] ${isSmallScreen ? "py-[15px]" : "pt-[25px]"} mr-4 rounded-[10px] border-x-[1px] border-b-[1px] border-neutral-color-blue-gray-50`}
+      className={`
+        p-5 mr-4 ml-1 mb-2 rounded-[10px] bg-white
+        ${isSmallScreen ? "py-[15px]" : "pt-[25px]"} 
+        `}
+      style={{
+        shadowOffset: { width: 0, height: 3 },
+        shadowOpacity: 0.25,
+        shadowRadius: 3,
+        shadowColor: "#000000",
+      }}
     >
-      <View className={`w-[203px] h-[83px] ${isSmallScreen ? "mb-2" : "mb-4"}`}>
+      <View
+        className={`
+        w-[203px] h-[83px] 
+        ${isSmallScreen ? "mb-2" : "mb-4"}
+        `}
+      >
         {/* Scroll Text */}
         <ScrollView
           ref={scrollViewRef}
@@ -31,7 +45,7 @@ const RatingCard = ({ onPress }) => {
           showsVerticalScrollIndicator={false}
           className="bg-white w-full"
         >
-          <Text className="w-[90%] font-roboto-regular text-[14px] text-neutros-negro">
+          <Text className="w-[90%] font-roboto-regular text-sm text-neutros-negro">
             Las clases de pintura al óleo han sido maravillosas. ¡Además,
             intercambiar habilidades de cocina vegetariana ha sido todo un
             acierto!"
@@ -54,20 +68,20 @@ const RatingCard = ({ onPress }) => {
           />
         </View>
         <View className="items-start justify-between">
-          <Text className="font-roboto-medium text-[14px] text-neutros-negro">
+          <Text className="font-roboto-medium text-sm text-neutros-negro">
             Laura García
           </Text>
           <View className="flex-row items-center">
-            <View className="flex-row w-content py-[4px] px-[8px] rounded-full items-center bg-transparent border-[1px] border-neutros-negro-80">
-              <Text className="font-roboto-regular text-[12px] text-neutros-negro-80">
+            <View className="flex-row w-content py-1 px-2 rounded-full items-center bg-transparent border-[1px] border-neutros-negro-80">
+              <Text className="font-roboto-regular text-xs text-neutros-negro-80">
                 Cocina
               </Text>
             </View>
             <View className="mx-1">
               <FontAwesome6 name="arrows-rotate" size={17} color="#696868" />
             </View>
-            <View className="flex-row w-content py-[4px] px-[8px] rounded-full items-center bg-transparent border-[1px] border-neutros-negro-80">
-              <Text className="font-roboto-regular text-[12px] text-neutros-negro-80">
+            <View className="flex-row w-content py-1 px-2 rounded-full items-center bg-transparent border-[1px] border-neutros-negro-80">
+              <Text className="font-roboto-regular text-xs text-neutros-negro-80">
                 Pintura
               </Text>
             </View>
@@ -77,5 +91,3 @@ const RatingCard = ({ onPress }) => {
     </View>
   );
 };
-
-export default RatingCard;

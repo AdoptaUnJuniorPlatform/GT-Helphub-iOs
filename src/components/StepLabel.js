@@ -1,6 +1,6 @@
 import { View, Text } from "react-native";
 
-const StepLabel = ({ status, title }) => {
+export const StepLabel = ({ status, title }) => {
   const labelStyle =
     status === "active"
       ? "bg-primarios-violeta-100"
@@ -8,11 +8,12 @@ const StepLabel = ({ status, title }) => {
 
   return (
     <View
-      className={`${labelStyle} w-[24px] h-[24px] rounded-full items-center justify-center`}
+      className={`
+        ${labelStyle}
+        w-[24px] h-[24px] rounded-full items-center justify-center
+        `}
     >
-      <Text className="text-white font-roboto-bold text-[12px]">{title}</Text>
+      <Text className="text-white font-roboto-bold text-xs">{title}</Text>
     </View>
   );
 };
-
-export default StepLabel;

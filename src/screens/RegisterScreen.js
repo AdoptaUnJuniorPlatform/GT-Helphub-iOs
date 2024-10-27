@@ -6,8 +6,7 @@ import {
   TouchableOpacity,
   Dimensions,
 } from "react-native";
-import LogoLight from "../components/svgComponents/LogoLight";
-import RegisterForm from "../components/RegisterForm";
+import { LogoLight, RegisterForm } from "../components";
 
 const { width } = Dimensions.get("window");
 
@@ -28,15 +27,18 @@ export default function RegisterScreen({ navigation }) {
         <RegisterForm navigation={navigation} />
 
         <View
-          className={`flex-row gap-1 justify-center ${isSmallScreen ? "mb-3 mt-2" : isBigScreen ? "mt-4" : "mt-2"}`}
+          className={`
+            flex-row gap-1 justify-center 
+            ${isSmallScreen ? "mb-3 mt-2" : isBigScreen ? "mt-4" : "mt-2"}
+            `}
         >
-          <Text className="text-neutros-negro-80 font-roboto-medium text-[14px]">
+          <Text className="text-neutros-negro-80 font-roboto-medium text-sm">
             ¿Ya tienes una cuenta?
           </Text>
           <TouchableOpacity>
             <Text
               onPress={() => navigation.navigate("SessionStart")}
-              className="text-primarios-celeste-100 font-roboto-medium text-[14px] underline"
+              className="text-primarios-celeste-100 font-roboto-medium text-sm underline"
             >
               Ingresar
             </Text>

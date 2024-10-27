@@ -1,6 +1,6 @@
 import Svg, { Path, Defs, Rect, G, ClipPath } from "react-native-svg";
 
-export default function UserCircle(props) {
+export const UserCircle = (props) => {
   return (
     <Svg
       width="118"
@@ -29,4 +29,4 @@ export default function UserCircle(props) {
       </Defs>
     </Svg>
   );
-}
+};

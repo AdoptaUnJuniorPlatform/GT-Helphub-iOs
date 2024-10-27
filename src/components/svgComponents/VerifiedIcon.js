@@ -1,6 +1,6 @@
 import Svg, { Path } from "react-native-svg";
 
-export default function VerifiedIcon(props) {
+export const VerifiedIcon = (props) => {
   return (
     <Svg
       width="22"
@@ -15,4 +15,4 @@ export default function VerifiedIcon(props) {
       />
     </Svg>
   );
-}
+};

@@ -1,10 +1,17 @@
 import { View, Text, Image, TouchableOpacity } from "react-native";
 
-const MessageCard = ({ image, name, surname, message, pending, onPress }) => {
+export const MessageCard = ({
+  image,
+  name,
+  surname,
+  message,
+  pending,
+  onPress,
+}) => {
   return (
     <TouchableOpacity
       onPress={onPress}
-      className="flex-1 flex-row w-full p-5 bg-[#f4f4f4] rounded-[6px] justify-between items-center mb-1"
+      className="flex-1 flex-row w-full p-5 bg-[#f4f4f4] rounded-md justify-between items-center mb-1"
     >
       <View className="flex-1 flex-row items-center">
         <View className="w-[59px] h-[59px] rounded-full mr-5">
@@ -16,10 +23,10 @@ const MessageCard = ({ image, name, surname, message, pending, onPress }) => {
         </View>
         <View className="w-2/3 overflow-ellipsis">
           <View className="flex-row mb-2 w-full">
-            <Text className="mr-1 text-[20px] font-roboto-medium text-neutros-negro">
+            <Text className="mr-1 text-xl font-roboto-medium text-neutros-negro">
               {name}
             </Text>
-            <Text className="text-[20px] font-roboto-medium text-neutros-negro">
+            <Text className="text-xl font-roboto-medium text-neutros-negro">
               {surname}
             </Text>
           </View>
@@ -38,5 +45,3 @@ const MessageCard = ({ image, name, surname, message, pending, onPress }) => {
     </TouchableOpacity>
   );
 };
-
-export default MessageCard;

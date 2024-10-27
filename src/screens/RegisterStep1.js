@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { View, SafeAreaView, Dimensions, Text } from "react-native";
-import CustomButton from "../components/CustomButton";
-import StepHeader from "../components/StepHeader";
-import StepTitle from "../components/StepTitle";
-import CustomTextarea from "../components/CustomTextarea";
-import InputFieldWithIcon from "../components/InputFieldWithIcon";
+import {
+  CustomButton,
+  StepHeader,
+  StepTitle,
+  CustomTextarea,
+  InputFieldWithIcon,
+} from "../components";
 
 const { width } = Dimensions.get("window");
 
@@ -31,7 +33,10 @@ export default function RegisterStep1({ navigation }) {
           <StepTitle title="Paso 1" subtitle="Cuéntanos un poco más sobre ti" />
           <View>
             <Text
-              className={`font-roboto-medium text-neutros-negro ${isBigScreen ? "text-[21px] mt-[25px] mb-[22px]" : isSmallScreen ? "text-[18px] my-[13px]" : "text-[20px] my-[20px]"}`}
+              className={`
+                font-roboto-medium text-neutros-negro 
+                ${isBigScreen ? "text-[21px] mt-[25px] mb-[22px]" : isSmallScreen ? "text-lg my-[13px]" : "text-xl my-5"}
+                `}
             >
               Breve descripción del usuario
             </Text>
@@ -52,7 +57,7 @@ export default function RegisterStep1({ navigation }) {
                 placeholder="Código postal (CP)"
                 iconName="envelope"
               />
-              <Text className="text-neutros-negro-80 font-roboto-regular text-[12px]">
+              <Text className="text-neutros-negro-80 font-roboto-regular text-xs">
                 Introduce tu código postal (5 dígitos) para identificar tu
                 ubicación.
               </Text>
@@ -62,7 +67,10 @@ export default function RegisterStep1({ navigation }) {
 
         {/* Navigation Button Set */}
         <View
-          className={`flex-row items-center justify-between ${isSmallScreen ? "mt-auto mb-2" : "mt-12"}`}
+          className={`
+            flex-row items-center justify-between 
+            ${isSmallScreen ? "mt-auto mb-2" : "mt-12"}
+            `}
         >
           <CustomButton
             title="Atrás"

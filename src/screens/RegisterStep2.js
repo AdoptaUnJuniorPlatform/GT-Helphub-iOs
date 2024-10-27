@@ -9,13 +9,15 @@ import {
   Dimensions,
   Image,
 } from "react-native";
-import StepHeader from "../components/StepHeader";
-import CustomButton from "../components/CustomButton";
-import { Ionicons } from "@expo/vector-icons";
-import AvatarChecked from "../components/AvatarChecked";
+import {
+  StepHeader,
+  CustomButton,
+  StepTitle,
+  UserCircle,
+  AvatarChecked,
+} from "../components";
 import * as ImagePicker from "expo-image-picker";
-import StepTitle from "../components/StepTitle";
-import UserCircle from "../components/svgComponents/UserCircle";
+import { Ionicons } from "@expo/vector-icons";
 import Feather from "@expo/vector-icons/Feather";
 
 const { width } = Dimensions.get("window");
@@ -88,14 +90,23 @@ export default function RegisterStep2({ navigation }) {
             />
 
             <View
-              className={`${isBigScreen ? "gap-[22px]" : isSmallScreen ? "gap-[18px]" : "gap-[20px]"} mt-1`}
+              className={`
+                ${isBigScreen ? "gap-[22px]" : isSmallScreen ? "gap-[18px]" : "gap-[20px]"} 
+                mt-1
+                `}
             >
               <View>
                 <View
-                  className={`flex-row justify-between items-center ${isSmallScreen ? "mb-[3px]" : "mb-[8px]"} mr-3`}
+                  className={`
+                    flex-row justify-between items-center mr-3
+                    ${isSmallScreen ? "mb-[3px]" : "mb-2"}
+                    `}
                 >
                   <Text
-                    className={`text-neutros-negro font-roboto-medium ${isBigScreen ? "text-[21px]" : isSmallScreen ? "text-[18px]" : "text-[20px]"}`}
+                    className={`
+                      text-neutros-negro font-roboto-medium 
+                      ${isBigScreen ? "text-[21px]" : isSmallScreen ? "text-base" : "text-xl"}
+                      `}
                   >
                     Escoger una foto
                   </Text>
@@ -109,13 +120,16 @@ export default function RegisterStep2({ navigation }) {
                       size={19}
                       color="#1945e2"
                     />
-                    <Text className="uppercase text-primarios-celeste-100 text-[12px] font-roboto-bold">
+                    <Text className="uppercase text-primarios-celeste-100 text-xs font-roboto-bold">
                       Consejos
                     </Text>
                   </Pressable>
                 </View>
                 <Text
-                  className={`text-neutros-negro-80 leading-6 font-roboto-regular ${isSmallScreen ? "text-[14px]" : "text-[16px]"}`}
+                  className={`
+                    text-neutros-negro-80 leading-6 font-roboto-regular 
+                    ${isSmallScreen ? "text-sm" : "text-base"}
+                    `}
                 >
                   En HelpHub, todas las personas deben tener una fotografía en
                   donde se muestre claramente su rostro.
@@ -153,14 +167,17 @@ export default function RegisterStep2({ navigation }) {
 
               <View>
                 <View
-                  className={`self-center flex-row justify-between items-center ${isSmallScreen ? "w-[50%] pt-5" : "w-[65%] pt-6"}`}
+                  className={`
+                    self-center flex-row justify-between items-center 
+                    ${isSmallScreen ? "w-[50%] pt-5" : "w-[65%] pt-6"}
+                    `}
                 >
                   <AvatarChecked source={require("../../assets/avatar1.png")} />
                   <AvatarChecked source={require("../../assets/avatar2.png")} />
                   <AvatarChecked source={require("../../assets/avatar3.png")} />
                 </View>
 
-                <Text className="mt-2 text-neutros-negro-80 text-center font-roboto-medium text-[14px]">
+                <Text className="mt-2 text-neutros-negro-80 text-center font-roboto-medium text-sm">
                   Si no lo tienes claro, aquí tienes unos ejemplos.
                 </Text>
               </View>
@@ -169,7 +186,10 @@ export default function RegisterStep2({ navigation }) {
 
           {/* Navigation Button Set */}
           <View
-            className={`flex-row items-center justify-between ${isSmallScreen ? "mt-auto mb-2" : "mt-8"}`}
+            className={`
+              flex-row items-center justify-between 
+              ${isSmallScreen ? "mt-auto mb-2" : "mt-8"}
+              `}
           >
             <CustomButton
               title="Atrás"

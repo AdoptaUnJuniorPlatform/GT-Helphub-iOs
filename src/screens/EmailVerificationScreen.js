@@ -9,11 +9,9 @@ import {
   Modal,
   Pressable,
 } from "react-native";
-import LogoDark from "../components/svgComponents/LogoDark";
-import CustomButton from "../components/CustomButton";
+import { LogoDark, CustomButton, CheckIcon } from "../components";
 import Feather from "@expo/vector-icons/Feather";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
-import CheckIcon from "../components/svgComponents/CheckIcon";
 
 const { width } = Dimensions.get("window");
 
@@ -40,10 +38,10 @@ export default function EmailVerificationScreen({ navigation }) {
         </View>
 
         <View className="flex-1 justify-start mt-8">
-          <Text className="text-neutros-negro text-[20px] font-roboto-medium mb-2">
+          <Text className="text-neutros-negro text-xl font-roboto-medium mb-2">
             Introduce el código que hemos enviado a {email}
           </Text>
-          <Text className="text-neutros-negro leading-6 text-[16px] font-roboto-regular mb-2">
+          <Text className="text-neutros-negro leading-6 text-base font-roboto-regular mb-2">
             Puede que tarde un minuto en recibir el correo.
           </Text>
 
@@ -53,7 +51,7 @@ export default function EmailVerificationScreen({ navigation }) {
               onChangeText={setVerificationCode}
               placeholder="Código email"
               keyboardType="email-address"
-              className="bg-transparent border-[1px] border-neutral-color-blue-gray-100 focus:border-[#455A64] rounded-[8px] h-[40px] font-roboto-regular text-[14px] text-neutral-color-gray-900 p-3"
+              className="bg-transparent border-[1px] border-neutral-color-blue-gray-100 focus:border-[#455A64] rounded-lg h-[40px] font-roboto-regular text-sm text-neutral-color-gray-900 p-3"
               placeholderTextColor={
                 isVerificationCodeFocused ? "#212121" : "#696868"
               }
@@ -62,19 +60,22 @@ export default function EmailVerificationScreen({ navigation }) {
             />
           </View>
 
-          <Text className="text-neutros-negro-80 text-[12px] font-roboto-regular mb-5">
-            Escribe aquí tu código (5 dígitos)
+          <Text className="text-neutros-negro-80 text-xs font-roboto-regular mb-5">
+            Escribe aquí tu código (6 dígitos)
           </Text>
 
           <View className="flex-row justify-between items-center">
-            <Text className="text-neutros-negro-80 font-roboto-medium text-[14px]">
+            <Text className="text-neutros-negro-80 font-roboto-medium text-sm">
               ¿Aún no recibes el código?
             </Text>
             <TouchableOpacity
               onPress={() => console.log("reenviar código")}
-              className={`${isBigScreen ? "h-[36px]" : ""} flex-row items-center justify-center rounded-[8px]`}
+              className={`
+                ${isBigScreen ? "h-[36px]" : ""}
+                flex-row items-center justify-center rounded-lg
+                `}
             >
-              <Text className="uppercase font-roboto-bold text-[12px] text-primarios-celeste-100">
+              <Text className="uppercase font-roboto-bold text-xs text-primarios-celeste-100">
                 Reenviar código
               </Text>
               <View className="ml-2">
@@ -84,11 +85,11 @@ export default function EmailVerificationScreen({ navigation }) {
           </View>
 
           <View className="flex-1 justify-center">
-            <View className="bg-[#eef1ff] rounded-[8px] p-[14px]">
-              <Text className="font-roboto-medium text-[16px] text-neutros-negro mb-3">
+            <View className="bg-[#eef1ff] rounded-lg p-3.5">
+              <Text className="font-roboto-medium text-base text-neutros-negro mb-3">
                 Verifica tu cuenta con tu mail
               </Text>
-              <Text className="font-roboto-medium text-[16px] text-primarios-violeta-100 mb-5">
+              <Text className="font-roboto-medium text-base text-primarios-violeta-100 mb-5">
                 ¡No compartas este código de verificación con nadie, este lo
                 utilizarás para autentificar tu cuenta!
               </Text>
@@ -97,7 +98,10 @@ export default function EmailVerificationScreen({ navigation }) {
         </View>
 
         <View
-          className={`flex-row items-center justify-between ${isSmallScreen ? "mt-auto mb-2" : "mt-8"}`}
+          className={`
+            flex-row items-center justify-between 
+            ${isSmallScreen ? "mt-auto mb-2" : "mt-8"}
+            `}
         >
           <CustomButton
             title="Atrás"
@@ -133,7 +137,7 @@ export default function EmailVerificationScreen({ navigation }) {
             className="absolute w-full h-screen flex-1 justify-center px-4"
           >
             <View
-              className="bg-white p-[24px] rounded-[8px] items-start"
+              className="bg-white p-6 rounded-lg items-start"
               style={{
                 shadowColor: "#212121",
                 shadowOffset: { width: 0, height: 3 },
@@ -155,17 +159,20 @@ export default function EmailVerificationScreen({ navigation }) {
 
                 <CheckIcon />
 
-                <Text className="text-primarios-violeta-100 font-roboto-bold text-[24px]">
+                <Text className="text-primarios-violeta-100 font-roboto-bold text-2xl">
                   ¡Felicidades!
                 </Text>
-                <Text className="text-neutros-negro-80 font-roboto-regular text-[16px] text-center">
+                <Text className="text-neutros-negro-80 font-roboto-regular text-base text-center">
                   Tu cuenta ha sido verificada con éxito
                 </Text>
               </View>
 
-              <View className="py-[11px] px-[24px] rounded-[8px] bg-[#eef1ff] w-full">
+              <View className="py-[11px] px-6 rounded-lg bg-[#eef1ff] w-full">
                 <Text
-                  className={`text-neutros-negro-80 font-roboto-regular text-[14px] ${isSmallScreen ? "w-[90%]" : ""}`}
+                  className={`
+                    text-neutros-negro-80 font-roboto-regular text-sm 
+                    ${isSmallScreen ? "w-[90%]" : ""}
+                    `}
                 >
                   Ingresa tus datos para navegar por la web
                 </Text>

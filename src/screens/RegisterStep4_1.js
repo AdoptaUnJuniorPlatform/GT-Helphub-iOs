@@ -7,11 +7,13 @@ import {
   Text,
   TouchableOpacity,
 } from "react-native";
-import CustomButton from "../components/CustomButton";
-import StepHeader from "../components/StepHeader";
-import StepTitle from "../components/StepTitle";
-import CustomRadio from "../components/CustomRadio";
-import CustomTextarea from "../components/CustomTextarea";
+import {
+  CustomButton,
+  StepHeader,
+  StepTitle,
+  CustomRadio,
+  CustomTextarea,
+} from "../components";
 import Feather from "@expo/vector-icons/Feather";
 
 const { width } = Dimensions.get("window");
@@ -59,13 +61,19 @@ export default function RegisterStep4_1({ navigation }) {
           {/* Carga... */}
           <View className={`${isSmallScreen ? "mt-2" : "mt-4"}`}>
             <Text
-              className={`text-neutros-negro font-roboto-medium ${isBigScreen ? "text-[21px] mb-[8px]" : isSmallScreen ? "text-[18px] mb-[3px]" : "text-[20px] mb-[5px]"}`}
+              className={`
+                text-neutros-negro font-roboto-medium 
+                ${isBigScreen ? "text-[21px] mb-2" : isSmallScreen ? "text-base mb-[3px]" : "text-xl mb-[5px]"}
+                `}
             >
               Añade tu primera habilidad
             </Text>
 
             <Text
-              className={`text-neutros-negro-80 ${isSmallScreen ? "" : "leading-6"} font-roboto-regular text-[16px]`}
+              className={`
+                text-neutros-negro-80 font-roboto-regular text-base
+                ${isSmallScreen ? "" : "leading-6"}
+                `}
             >
               Puedes agregar varias habilidades y editarlas más tarde.
             </Text>
@@ -74,18 +82,27 @@ export default function RegisterStep4_1({ navigation }) {
           {/* Título... */}
           <View className={`${isSmallScreen ? "mt-2" : "mt-4"}`}>
             <View
-              className={`flex-row justify-between items-center ${isBigScreen ? "mb-2" : isSmallScreen ? "" : "mb-1"}`}
+              className={`
+                flex-row justify-between items-center 
+                ${isBigScreen ? "mb-2" : isSmallScreen ? "" : "mb-1"}
+                `}
             >
               <Text
-                className={`text-neutros-negro font-roboto-medium ${isBigScreen ? "text-[21px] w-[35%] text-wrap" : isSmallScreen ? "text-[18px]" : "text-[20px]"}`}
+                className={`
+                  text-neutros-negro font-roboto-medium 
+                  ${isBigScreen ? "text-[21px] w-[35%] text-wrap" : isSmallScreen ? "text-base" : "text-xl"}
+                  `}
               >
                 Título de tu publicación
               </Text>
               <TouchableOpacity
                 onPress={toggleDialog}
-                className={`${isBigScreen ? "h-[36px]" : ""} flex-row items-center justify-center rounded-[8px]`}
+                className={`
+                  ${isBigScreen ? "h-[36px]" : ""} 
+                  flex-row items-center justify-center rounded-lg
+                  `}
               >
-                <Text className="uppercase font-roboto-bold text-[12px] text-primarios-celeste-100">
+                <Text className="uppercase font-roboto-bold text-xs text-primarios-celeste-100">
                   Ejemplos
                 </Text>
                 <View className="ml-2">
@@ -99,27 +116,47 @@ export default function RegisterStep4_1({ navigation }) {
             </View>
 
             {isDialogVisible && (
-              <View className="rounded-[8px] bg-[#EEF1FF] p-[16px] my-2">
-                <Text className="text-neutral-color-blue-gray-900 font-roboto-bold text-[16px] mb-3">
+              <View
+                className="rounded-lg bg-[#EEF1FF] p-4 my-2"
+                style={{
+                  shadowOffset: { width: 0, height: 1 },
+                  shadowOpacity: 0.1,
+                  shadowRadius: 2,
+                  shadowColor: "#000000",
+                }}
+              >
+                <Text className="text-neutral-color-blue-gray-900 font-roboto-bold text-base mb-3">
                   Ejemplos para crear tu título
                 </Text>
                 <Text
-                  className={`text-neutros-negro-80 font-poppins-medium text-[14px] ${isSmallScreen ? "mb-2" : "mb-3"}`}
+                  className={`
+                    text-neutros-negro-80 font-poppins-medium text-sm 
+                    ${isSmallScreen ? "mb-2" : "mb-3"}
+                    `}
                 >
                   Sesión grupal de meditación al aire libre.
                 </Text>
                 <Text
-                  className={`text-neutros-negro-80 font-poppins-medium text-[14px] ${isSmallScreen ? "mb-2" : "mb-3"}`}
+                  className={`
+                    text-neutros-negro-80 font-poppins-medium text-sm 
+                    ${isSmallScreen ? "mb-2" : "mb-3"}
+                    `}
                 >
                   Revisión de currículum vitae.
                 </Text>
                 <Text
-                  className={`text-neutros-negro-80 font-poppins-medium text-[14px] ${isSmallScreen ? "mb-2" : "mb-3"}`}
+                  className={`
+                    text-neutros-negro-80 font-poppins-medium text-sm 
+                    ${isSmallScreen ? "mb-2" : "mb-3"}
+                    `}
                 >
                   Clases de cocina italiana tradicional.
                 </Text>
                 <Text
-                  className={`text-neutros-negro-80 font-poppins-medium text-[14px] ${isSmallScreen ? "mb-2" : "mb-3"}`}
+                  className={`
+                    text-neutros-negro-80 font-poppins-medium text-sm 
+                    ${isSmallScreen ? "mb-2" : "mb-3"}
+                    `}
                 >
                   Entrenamiento personal en gimnasio.
                 </Text>
@@ -141,12 +178,18 @@ export default function RegisterStep4_1({ navigation }) {
           {/* Nivel */}
           <View className={`${isSmallScreen ? "mt-2" : "mt-4"}`}>
             <Text
-              className={`text-neutros-negro font-roboto-medium ${isBigScreen ? "text-[21px]" : isSmallScreen ? "text-[18px]" : "text-[20px]"}`}
+              className={`
+                text-neutros-negro font-roboto-medium 
+                ${isBigScreen ? "text-[21px]" : isSmallScreen ? "text-base" : "text-xl"}
+                `}
             >
               Nivel
             </Text>
             <View
-              className={`flex flex-wrap flex-row justify-start ${isSmallScreen ? "mt-1" : "mt-2"}`}
+              className={`
+                flex flex-wrap flex-row justify-start 
+                ${isSmallScreen ? "mt-1" : "mt-2"}
+                `}
             >
               <View className="mr-2 w-auto mb-2">
                 <CustomRadio
@@ -175,15 +218,24 @@ export default function RegisterStep4_1({ navigation }) {
           {/* Modalidad */}
           <View className={`${isSmallScreen ? "mt-0" : "mt-3"}`}>
             <Text
-              className={`text-neutros-negro font-roboto-medium ${isBigScreen ? "text-[21px]" : isSmallScreen ? "text-[18px]" : "text-[20px]"}`}
+              className={`
+                text-neutros-negro font-roboto-medium 
+                ${isBigScreen ? "text-[21px]" : isSmallScreen ? "text-base" : "text-xl"}
+                `}
             >
               Modalidad
             </Text>
             <View
-              className={`flex flex-wrap flex-row justify-start ${isSmallScreen ? "mt-1" : "mt-2"}`}
+              className={`
+                flex flex-wrap flex-row justify-start 
+                ${isSmallScreen ? "mt-1" : "mt-2"}
+                `}
             >
               <View
-                className={`mr-2 w-auto ${isSmallScreen ? "mb-1" : "mb-2"}`}
+                className={`
+                  mr-2 w-auto 
+                  ${isSmallScreen ? "mb-1" : "mb-2"}
+                  `}
               >
                 <CustomRadio
                   label="Online"
@@ -192,7 +244,10 @@ export default function RegisterStep4_1({ navigation }) {
                 />
               </View>
               <View
-                className={`mr-2 w-auto ${isSmallScreen ? "mb-1" : "mb-2"}`}
+                className={`
+                  mr-2 w-auto 
+                  ${isSmallScreen ? "mb-1" : "mb-2"}
+                  `}
               >
                 <CustomRadio
                   label="Presencial"
@@ -206,7 +261,10 @@ export default function RegisterStep4_1({ navigation }) {
           {/* Asterisc */}
           <View>
             <Text
-              className={`text-neutros-negro font-roboto-italic ${isSmallScreen ? "text-[9px]" : "text-[13px] leading-5"}`}
+              className={`
+                text-neutros-negro font-roboto-italic 
+                ${isSmallScreen ? "text-[9px]" : "text-[13px] leading-5"}
+                `}
             >
               Recomendamos una reunión online antes de un encuentro presencial
               por seguridad.
@@ -216,7 +274,10 @@ export default function RegisterStep4_1({ navigation }) {
 
         {/* Navigation Button Set */}
         <View
-          className={`absolute ${isSmallScreen ? "pb-2" : ""} bottom-0 left-0 right-0 px-4 pt-2 bg-neutros-gris-fondo flex-row items-center justify-between`}
+          className={` 
+            ${isSmallScreen ? "pb-2" : ""} 
+            absolute bottom-0 left-0 right-0 px-4 pt-2 bg-neutros-gris-fondo flex-row items-center justify-between
+            `}
         >
           <CustomButton
             title="Atrás"

@@ -1,7 +1,7 @@
 import { View, Text, TouchableOpacity } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 
-const CustomChip = ({
+export const CustomChip = ({
   label,
   status,
   color = "purple",
@@ -20,11 +20,9 @@ const CustomChip = ({
 
   return (
     <View
-      className={`flex-row w-content px-[12px] py-[6px] rounded-[28px] items-end ${chipStyle}`}
+      className={`flex-row w-content px-3 py-1.5 rounded-[28px] items-end ${chipStyle}`}
     >
-      <Text className={`${textStyle} font-roboto-medium text-[12px]`}>
-        {label}
-      </Text>
+      <Text className={`${textStyle} font-roboto-medium text-xs`}>{label}</Text>
       {isActive && iconName && (
         <TouchableOpacity onPress={onIconPress} style={{ marginLeft: 8 }}>
           <MaterialIcons name={iconName} size={13} color="white" />
@@ -33,5 +31,3 @@ const CustomChip = ({
     </View>
   );
 };
-
-export default CustomChip;

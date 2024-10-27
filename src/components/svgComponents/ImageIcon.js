@@ -1,6 +1,6 @@
 import Svg, { Path } from "react-native-svg";
 
-export default function LogoDark(props) {
+export const ImageIcon = (props) => {
   return (
     <Svg
       width="38"
@@ -15,4 +15,4 @@ export default function LogoDark(props) {
       />
     </Svg>
   );
-}
+};

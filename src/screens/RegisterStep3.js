@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { Text, View, SafeAreaView, ScrollView, Dimensions } from "react-native";
-import CustomButton from "../components/CustomButton";
-import StepHeader from "../components/StepHeader";
-import CustomDropdown from "../components/CustomDropdown";
-import CustomRadio from "../components/CustomRadio";
-import StepTitle from "../components/StepTitle";
+import {
+  CustomButton,
+  StepHeader,
+  CustomDropdown,
+  CustomRadio,
+  StepTitle,
+} from "../components";
 import { daysOfTheWeek } from "../data/data";
 
 const { width } = Dimensions.get("window");
@@ -44,12 +46,15 @@ export default function RegisterStep1({ navigation }) {
               {/* ¿Qué día...? */}
               <View className="mt-4">
                 <Text
-                  className={`text-neutros-negro font-roboto-medium ${isBigScreen ? "text-[21px] mb-[8px]" : isSmallScreen ? "text-[18px] mb-[5px]" : "text-[20px] mb-[8px]"}`}
+                  className={`
+                    text-neutros-negro font-roboto-medium 
+                    ${isBigScreen ? "text-[21px] mb-2" : isSmallScreen ? "text-base mb-[5px]" : "text-xl mb-2"}
+                    `}
                 >
                   ¿Qué día estás disponible?
                 </Text>
 
-                <Text className="text-neutros-negro leading-6 font-roboto-regular text-[16px]">
+                <Text className="text-neutros-negro leading-6 font-roboto-regular text-base">
                   En HelpHub, queremos facilitar a los usuarios la coordinación
                   de horarios.
                 </Text>
@@ -58,15 +63,24 @@ export default function RegisterStep1({ navigation }) {
               {/* Disponibilidad horaria */}
               <View className={`${isSmallScreen ? "mt-2" : "mt-4"}`}>
                 <Text
-                  className={`text-neutros-negro font-roboto-medium ${isBigScreen ? "text-[21px]" : isSmallScreen ? "text-[18px]" : "text-[20px]"}`}
+                  className={`
+                    text-neutros-negro font-roboto-medium 
+                    ${isBigScreen ? "text-[21px]" : isSmallScreen ? "text-base" : "text-xl"}
+                    `}
                 >
                   Disponibilidad horaria
                 </Text>
                 <View
-                  className={`flex flex-wrap flex-row ${isSmallScreen ? "justify-start" : "justify-between"} mt-2`}
+                  className={`
+                    flex flex-wrap flex-row mt-2
+                    ${isSmallScreen ? "justify-start" : "justify-between"}
+                    `}
                 >
                   <View
-                    className={`${isSmallScreen ? "w-[28%] mr-2" : "w-[48%]"} mb-2`}
+                    className={`
+                      ${isSmallScreen ? "w-[28%] mr-2" : "w-[48%]"} 
+                      mb-2
+                      `}
                   >
                     <CustomRadio
                       label="8:00hs a 14:00hs"
@@ -75,7 +89,10 @@ export default function RegisterStep1({ navigation }) {
                     />
                   </View>
                   <View
-                    className={`${isSmallScreen ? "w-[28%] mr-2" : "w-[48%]"} mb-2`}
+                    className={`
+                      ${isSmallScreen ? "w-[28%] mr-2" : "w-[48%]"} 
+                      mb-2
+                      `}
                   >
                     <CustomRadio
                       label="15:00hs a 17:00hs"
@@ -84,7 +101,10 @@ export default function RegisterStep1({ navigation }) {
                     />
                   </View>
                   <View
-                    className={`${isSmallScreen ? "w-[28%] mr-2" : "w-[48%]"} mb-2`}
+                    className={`
+                      ${isSmallScreen ? "w-[28%] mr-2" : "w-[48%]"} 
+                      mb-2
+                      `}
                   >
                     <CustomRadio
                       label="17:00hs a 21:00hs"
@@ -93,7 +113,10 @@ export default function RegisterStep1({ navigation }) {
                     />
                   </View>
                   <View
-                    className={`${isSmallScreen ? "w-[28%] mr-2" : "w-[48%]"} mb-2`}
+                    className={`
+                      ${isSmallScreen ? "w-[28%] mr-2" : "w-[48%]"} 
+                      mb-2
+                      `}
                   >
                     <CustomRadio
                       label="8:00hs a 17:00hs"
@@ -102,7 +125,10 @@ export default function RegisterStep1({ navigation }) {
                     />
                   </View>
                   <View
-                    className={`${isSmallScreen ? "w-[28%] mr-2" : "w-[48%]"} mb-2`}
+                    className={`
+                      ${isSmallScreen ? "w-[28%] mr-2" : "w-[48%]"} 
+                      mb-2
+                      `}
                   >
                     <CustomRadio
                       label="Horario flexible"
@@ -115,15 +141,24 @@ export default function RegisterStep1({ navigation }) {
 
               {/* Días */}
               <View
-                className={`${isSmallScreen ? "mt-1" : "mt-4"} flex-grow mb-[60px]`}
+                className={`
+                  ${isSmallScreen ? "mt-1" : "mt-4"} 
+                  flex-grow mb-[60px]
+                  `}
               >
                 <Text
-                  className={`text-neutros-negro font-roboto-medium ${isBigScreen ? "text-[21px] mb-[8px]" : isSmallScreen ? "text-[18px] mb-[5px]" : "text-[20px] mb-[8px]"}`}
+                  className={`
+                    text-neutros-negro font-roboto-medium 
+                    ${isBigScreen ? "text-[21px] mb-2" : isSmallScreen ? "text-base mb-[5px]" : "text-xl mb-2"}
+                    `}
                 >
                   Días
                 </Text>
                 <Text
-                  className={`text-neutros-negro-80 ${isSmallScreen ? "mb-2" : "mb-4"} font-roboto-medium text-[14px]`}
+                  className={`
+                    text-neutros-negro-80 font-roboto-medium text-sm 
+                    ${isSmallScreen ? "mb-2" : "mb-4"} 
+                    `}
                 >
                   Puedes seleccionar más de un día.
                 </Text>
@@ -139,7 +174,10 @@ export default function RegisterStep1({ navigation }) {
 
         {/* Navigation Button Set */}
         <View
-          className={`bg-neutros-gris-fondo absolute ${isSmallScreen ? "pb-2" : ""} bottom-0 left-0 right-0 px-4 pt-2 flex-row items-center justify-between`}
+          className={`
+            bg-neutros-gris-fondo absolute bottom-0 left-0 right-0 px-4 pt-2 flex-row items-center justify-between 
+            ${isSmallScreen ? "pb-2" : ""} 
+            `}
         >
           <CustomButton
             title="Atrás"
