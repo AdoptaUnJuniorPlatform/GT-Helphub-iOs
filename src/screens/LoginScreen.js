@@ -120,7 +120,7 @@ export default function LoginScreen({ navigation }) {
                 </Text>
               </View>
 
-              <View className="flex-row justify-end mt-6 mb-4">
+              <View className="flex-row justify-end mt-6 mb-4 mr-4">
                 <ScrollView
                   horizontal
                   showsHorizontalScrollIndicator={false}

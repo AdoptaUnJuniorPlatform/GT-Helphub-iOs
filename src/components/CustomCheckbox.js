@@ -9,7 +9,7 @@ export const CustomCheckbox = ({
   onLinkPress,
 }) => {
   return (
-    <View className="flex-row items-start">
+    <View className="flex-row items-center">
       <TouchableOpacity className="mr-2" onPress={onPress}>
         <View
           className={`

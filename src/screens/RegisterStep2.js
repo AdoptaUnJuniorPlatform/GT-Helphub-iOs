@@ -1,4 +1,5 @@
 import { useState, useRef } from "react";
+import { useForm, Controller } from "react-hook-form";
 import {
   Text,
   View,
@@ -27,8 +28,20 @@ export default function RegisterStep2({ navigation }) {
   const isBigScreen = width >= 430;
 
   const [visible, setVisible] = useState(false);
-  const [image, setImage] = useState(null);
   const opacity = useRef(new Animated.Value(0)).current;
+
+  const { control, handleSubmit, setValue, watch } = useForm({
+    defaultValues: {
+      profilePicture: null,
+    },
+  });
+
+  const imageValue = watch("image");
+
+  const onSubmit = (data) => {
+    console.log(data);
+    navigation.navigate("RegisterStep3");
+  };
 
   const toggleDialog = () => {
     if (visible) {
@@ -66,7 +79,7 @@ export default function RegisterStep2({ navigation }) {
     });
 
     if (!result.canceled) {
-      setImage(result.assets[0].uri);
+      setValue("image", result.assets[0].uri);
     }
   };
 
@@ -138,23 +151,31 @@ export default function RegisterStep2({ navigation }) {
 
               <View className="justify-center items-center">
                 <View className="relative">
-                  {image ? (
-                    <>
-                      <Image
-                        source={{ uri: image }}
-                        style={{
-                          width: isSmallScreen ? 100 : 120,
-                          height: isSmallScreen ? 100 : 120,
-                          borderRadius: isSmallScreen ? 50 : 60,
-                        }}
-                      />
-                      <View className="absolute right-1 top-1 bg-primarios-violeta-100 h-[22px] w-[22px] rounded-full border-[1px] border-white justify-center items-center">
-                        <Feather name="check" size={14} color="white" />
-                      </View>
-                    </>
-                  ) : (
-                    <UserCircle />
-                  )}
+                  <Controller
+                    control={control}
+                    name="profilePicture"
+                    render={({ field: { value } }) => (
+                      <>
+                        {value ? (
+                          <>
+                            <Image
+                              source={{ uri: value }}
+                              style={{
+                                width: isSmallScreen ? 100 : 120,
+                                height: isSmallScreen ? 100 : 120,
+                                borderRadius: isSmallScreen ? 50 : 60,
+                              }}
+                            />
+                            <View className="absolute right-1 top-1 bg-primarios-violeta-100 h-[22px] w-[22px] rounded-full border-[1px] border-white justify-center items-center">
+                              <Feather name="check" size={14} color="white" />
+                            </View>
+                          </>
+                        ) : (
+                          <UserCircle />
+                        )}
+                      </>
+                    )}
+                  />
                 </View>
                 <View className="absolute -bottom-6">
                   <CustomButton
@@ -199,14 +220,10 @@ export default function RegisterStep2({ navigation }) {
             />
             <CustomButton
               title="Continuar"
-              onPress={() => {
-                if (image) {
-                  navigation.navigate("RegisterStep3");
-                }
-              }}
+              onPress={handleSubmit(onSubmit)}
               variant="white"
               width="content"
-              disabled={!image}
+              disabled={!imageValue}
             />
           </View>
         </View>

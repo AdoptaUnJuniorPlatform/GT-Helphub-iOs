@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useForm, Controller } from "react-hook-form";
 import {
   Text,
   View,
@@ -21,13 +22,22 @@ export default function EmailVerificationScreen({ navigation }) {
 
   const email = "usuario@gmail.com";
 
-  const [verificationCode, setVerificationCode] = useState("");
-  const [isVerificationCodeFocused, setIsVerificationCodeFocused] =
-    useState(false);
+  const [isTwoFaFocused, setIsTwoFaFocused] = useState(false);
   const [isPopUpVisible, setPopUpVisible] = useState(false);
+
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
   const togglePopUp = () => {
     setPopUpVisible(!isPopUpVisible);
+  };
+
+  const onSubmit = (data) => {
+    console.log(data);
+    togglePopUp();
   };
 
   return (
@@ -46,21 +56,43 @@ export default function EmailVerificationScreen({ navigation }) {
           </Text>
 
           <View className="mb-3">
-            <TextInput
-              value={verificationCode}
-              onChangeText={setVerificationCode}
-              placeholder="Código email"
-              keyboardType="email-address"
-              className="bg-transparent border-[1px] border-neutral-color-blue-gray-100 focus:border-[#455A64] rounded-lg h-[40px] font-roboto-regular text-sm text-neutral-color-gray-900 p-3"
-              placeholderTextColor={
-                isVerificationCodeFocused ? "#212121" : "#696868"
-              }
-              onFocus={() => setIsVerificationCodeFocused(true)}
-              onBlur={() => setIsVerificationCodeFocused(false)}
+            <Controller
+              control={control}
+              name="twoFa"
+              rules={{
+                required: "El código de verificación es obligatorio",
+                pattern: {
+                  value: /^[0-9]{6}$/,
+                  message:
+                    "El código debe ser de 6 dígitos y solo contener números",
+                },
+              }}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <TextInput
+                  onBlur={() => {
+                    setIsTwoFaFocused(false);
+                    onBlur();
+                  }}
+                  onFocus={() => setIsTwoFaFocused(true)}
+                  onChangeText={onChange}
+                  value={value}
+                  placeholder="Código email"
+                  className={`
+                bg-transparent border-[1px] rounded-lg h-[40px] font-roboto-regular text-sm text-neutral-color-gray-900 px-3 pb-1 
+                ${errors.twoFa ? "border-red-error" : isTwoFaFocused ? "border-[#455A64]" : "border-neutral-color-blue-gray-100"}
+                `}
+                  placeholderTextColor={isTwoFaFocused ? "#212121" : "#90a3ae"}
+                />
+              )}
             />
           </View>
 
-          <Text className="text-neutros-negro-80 text-xs font-roboto-regular mb-5">
+          <Text
+            className={`
+    text-xs font-roboto-regular mb-5 
+    ${errors.twoFa ? "text-red-error" : "text-neutros-negro-80"}
+          `}
+          >
             Escribe aquí tu código (6 dígitos)
           </Text>
 
@@ -113,12 +145,10 @@ export default function EmailVerificationScreen({ navigation }) {
 
           <CustomButton
             title="Continuar"
-            onPress={() => {
-              if (verificationCode) togglePopUp();
-            }}
+            onPress={handleSubmit(onSubmit)}
             variant="white"
             width="content"
-            disabled={!verificationCode}
+            disabled={!!errors.twoFa}
           />
         </View>
       </View>
@@ -177,17 +207,6 @@ export default function EmailVerificationScreen({ navigation }) {
                   Ingresa tus datos para navegar por la web
                 </Text>
               </View>
-
-              {/* <View className="flex-row w-full justify-end">
-                <CustomButton
-                  onPress={() => {
-                    togglePopUp();
-                    navigation.navigate("RegisterStep1");
-                  }}
-                  title={"Continuar"}
-                  width="content"
-                />
-              </View> */}
             </View>
           </View>
         </Modal>

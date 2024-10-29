@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useForm, Controller } from "react-hook-form";
 import { Text, View, SafeAreaView, ScrollView, Dimensions } from "react-native";
 import {
   CustomButton,
@@ -15,11 +15,21 @@ export default function RegisterStep1({ navigation }) {
   const isSmallScreen = width <= 392;
   const isBigScreen = width >= 430;
 
-  const [timeSlot, setTimeSlot] = useState("");
-  const [days, setDays] = useState("");
+  const {
+    control,
+    handleSubmit,
+    formState: { isValid },
+  } = useForm({
+    defaultValues: {
+      selectedDays: [],
+      preferredTimeRange: "",
+    },
+    mode: "onChange",
+  });
 
-  const handleTimeSlotChange = (selectedSlot) => {
-    setTimeSlot(selectedSlot);
+  const onSubmit = (data) => {
+    console.log(data);
+    navigation.navigate("RegisterStep4_1");
   };
 
   return (
@@ -70,73 +80,41 @@ export default function RegisterStep1({ navigation }) {
                 >
                   Disponibilidad horaria
                 </Text>
-                <View
-                  className={`
-                    flex flex-wrap flex-row mt-2
-                    ${isSmallScreen ? "justify-start" : "justify-between"}
-                    `}
-                >
-                  <View
-                    className={`
-                      ${isSmallScreen ? "w-[28%] mr-2" : "w-[48%]"} 
-                      mb-2
-                      `}
-                  >
-                    <CustomRadio
-                      label="8:00hs a 14:00hs"
-                      isSelected={timeSlot === "8:00hs a 14:00hs"}
-                      onPress={() => handleTimeSlotChange("8:00hs a 14:00hs")}
-                    />
-                  </View>
-                  <View
-                    className={`
-                      ${isSmallScreen ? "w-[28%] mr-2" : "w-[48%]"} 
-                      mb-2
-                      `}
-                  >
-                    <CustomRadio
-                      label="15:00hs a 17:00hs"
-                      isSelected={timeSlot === "15:00hs a 17:00hs"}
-                      onPress={() => handleTimeSlotChange("15:00hs a 17:00hs")}
-                    />
-                  </View>
-                  <View
-                    className={`
-                      ${isSmallScreen ? "w-[28%] mr-2" : "w-[48%]"} 
-                      mb-2
-                      `}
-                  >
-                    <CustomRadio
-                      label="17:00hs a 21:00hs"
-                      isSelected={timeSlot === "17:00hs a 21:00hs"}
-                      onPress={() => handleTimeSlotChange("17:00hs a 21:00hs")}
-                    />
-                  </View>
-                  <View
-                    className={`
-                      ${isSmallScreen ? "w-[28%] mr-2" : "w-[48%]"} 
-                      mb-2
-                      `}
-                  >
-                    <CustomRadio
-                      label="8:00hs a 17:00hs"
-                      isSelected={timeSlot === "8:00hs a 17:00hs"}
-                      onPress={() => handleTimeSlotChange("8:00hs a 17:00hs")}
-                    />
-                  </View>
-                  <View
-                    className={`
-                      ${isSmallScreen ? "w-[28%] mr-2" : "w-[48%]"} 
-                      mb-2
-                      `}
-                  >
-                    <CustomRadio
-                      label="Horario flexible"
-                      isSelected={timeSlot === "Horario flexible"}
-                      onPress={() => handleTimeSlotChange("Horario flexible")}
-                    />
-                  </View>
-                </View>
+                <Controller
+                  control={control}
+                  name="preferredTimeRange"
+                  rules={{ required: "Selecciona un horario" }}
+                  render={({ field: { onChange, value } }) => (
+                    <View
+                      className={`
+                  flex flex-wrap flex-row mt-2
+                  ${isSmallScreen ? "justify-start" : "justify-between"}
+                  `}
+                    >
+                      {[
+                        "8:00hs a 14:00hs",
+                        "15:00hs a 17:00hs",
+                        "17:00hs a 21:00hs",
+                        "8:00hs a 17:00hs",
+                        "Horario flexible",
+                      ].map((label) => (
+                        <View
+                          key={label}
+                          className={`
+                        ${isSmallScreen ? "w-[28%] mr-2" : "w-[48%]"} 
+                        mb-2
+                        `}
+                        >
+                          <CustomRadio
+                            label={label}
+                            isSelected={value === label}
+                            onPress={() => onChange(label)}
+                          />
+                        </View>
+                      ))}
+                    </View>
+                  )}
+                />
               </View>
 
               {/* Días */}
@@ -162,10 +140,19 @@ export default function RegisterStep1({ navigation }) {
                 >
                   Puedes seleccionar más de un día.
                 </Text>
-                <CustomDropdown
-                  label="Seleccionar días"
-                  items={daysOfTheWeek}
-                  backgroundColor={"bg-[#fbfbff]"}
+                <Controller
+                  control={control}
+                  name="selectedDays"
+                  rules={{ required: "Selecciona al menos un día" }}
+                  render={({ field: { onChange, value } }) => (
+                    <CustomDropdown
+                      label="Seleccionar días"
+                      items={daysOfTheWeek}
+                      backgroundColor={"bg-neutros-blanco"}
+                      selectedItems={value}
+                      onItemsChange={(selectedDays) => onChange(selectedDays)}
+                    />
+                  )}
                 />
               </View>
             </View>
@@ -187,11 +174,10 @@ export default function RegisterStep1({ navigation }) {
           />
           <CustomButton
             title="Continuar"
-            onPress={() => navigation.navigate("RegisterStep4_1")}
+            onPress={handleSubmit(onSubmit)}
             variant="white"
             width="content"
-            // disabled={!timeSlot || !days}
-            disabled={!timeSlot}
+            disabled={!isValid}
           />
         </View>
       </View>

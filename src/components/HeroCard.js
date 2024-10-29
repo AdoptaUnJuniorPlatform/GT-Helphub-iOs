@@ -19,7 +19,7 @@ export const HeroCard = ({
 
   return (
     <View
-      className="w-[280px] overflow-hidden bg-neutros-blanco mx-4 rounded-md border-x-[1px] border-b-[1px] border-neutral-color-blue-gray-50 py-4"
+      className="w-[280px] overflow-hidden bg-neutros-blanco ml-4 rounded-md border-x-[1px] border-b-[1px] border-neutral-color-blue-gray-50 py-4"
       style={{
         shadowOffset: { width: 0, height: 3 },
         shadowOpacity: 0.25,
