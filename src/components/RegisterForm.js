@@ -28,13 +28,54 @@ export const RegisterForm = ({ navigation }) => {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {
+  const generateRandomCode = () => {
+    return Math.floor(100000 + Math.random() * 900000).toString();
+  };
+
+  const onSubmit = async (data) => {
     if (!acceptTermsAndConditions) {
       alert("Debes aceptar los términos y condiciones.");
       return;
     }
-    console.log(data);
-    navigation.navigate("EmailVerification");
+
+    const twoFaCode = generateRandomCode();
+
+    const payload = {
+      email: data.email,
+      password: data.password,
+      nameUser: data.nameUser,
+      surnameUser: data.surnameUser,
+      phone: data.phone,
+      optionCall: data.optionCall,
+      showPhone: false,
+      blocked: false,
+      twoFa: twoFaCode,
+      role: "user",
+    };
+
+    try {
+      const response = await fetch(
+        "http://localhost:4002/api/helphub/email-service/emailAcount",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload),
+        },
+      );
+
+      if (response.ok) {
+        console.log("Success", await response.json());
+        navigation.navigate("EmailVerification", { ...data, twoFa: twoFaCode });
+      } else {
+        const errorData = await response.json();
+        alert("Error: " + errorData.message);
+      }
+    } catch (error) {
+      console.error("Error sending data:", error);
+      alert("Se ha producido un error, intenta de nuevo.");
+    }
   };
 
   return (

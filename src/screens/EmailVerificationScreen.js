@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import {
   Text,
   View,
@@ -16,14 +17,17 @@ import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 
 const { width } = Dimensions.get("window");
 
-export default function EmailVerificationScreen({ navigation }) {
+export default function EmailVerificationScreen() {
   const isSmallScreen = width <= 392;
   const isBigScreen = width >= 430;
 
-  const email = "usuario@gmail.com";
+  // const email = "usuario@gmail.com";
 
   const [isTwoFaFocused, setIsTwoFaFocused] = useState(false);
   const [isPopUpVisible, setPopUpVisible] = useState(false);
+
+  const navigation = useNavigation();
+  const route = useRoute();
 
   const {
     control,
@@ -31,13 +35,50 @@ export default function EmailVerificationScreen({ navigation }) {
     formState: { errors },
   } = useForm();
 
+  const { email, nameUser, surnameUser, phone, password, optionCall } =
+    route.params;
+
   const togglePopUp = () => {
     setPopUpVisible(!isPopUpVisible);
   };
 
-  const onSubmit = (data) => {
-    console.log(data);
-    togglePopUp();
+  const onSubmit = async (data) => {
+    const payload = {
+      email,
+      password,
+      nameUser,
+      surnameUser,
+      phone,
+      optionCall,
+      showPhone: false,
+      blocked: false,
+      twoFa: data.twoFa,
+      role: "user",
+    };
+
+    try {
+      const response = await fetch(
+        "http://localhost:4002/api/helphub/user/register",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload),
+        },
+      );
+
+      const result = await response.json();
+
+      if (response.ok) {
+        console.log("Data sent to register: ", data);
+        togglePopUp();
+      } else {
+        console.error("Error:", result);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
 
   return (
@@ -180,7 +221,7 @@ export default function EmailVerificationScreen({ navigation }) {
                   <Pressable
                     onPress={() => {
                       togglePopUp();
-                      navigation.navigate("RegisterStep1");
+                      navigation.navigate("SessionStart");
                     }}
                   >
                     <MaterialIcons name="close" size={18} color="#212121" />
