@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useForm, Controller } from "react-hook-form";
 import {
   Text,
   View,
@@ -29,8 +30,23 @@ export default function RegisterStep1({ navigation }) {
 
   const [isDialogVisible, setDialogVisible] = useState(false);
   const [isPopUpVisible, setPopUpVisible] = useState(false);
-  const [ability, setAbility] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("");
+
+  const onSubmit = (data) => {
+    console.log(data);
+    togglePopUp();
+  };
+
+  const {
+    control,
+    handleSubmit,
+    formState: { isValid },
+  } = useForm({
+    defaultValues: {
+      description: "",
+      category: "",
+    },
+    mode: "onChange",
+  });
 
   const toggleDialog = () => {
     setDialogVisible(!isDialogVisible);
@@ -131,16 +147,28 @@ export default function RegisterStep1({ navigation }) {
                   </View>
                 )}
 
-                <CustomTextarea
-                  value={ability}
-                  onChange={setAbility}
-                  placeholder={
-                    "Ej: Clases de pintura al óleo desde cero. Nivel inicial y avanzado."
-                  }
-                  multiline={true}
-                  numberOfLines={7}
-                  maxLength={160}
-                  height={146}
+                <Controller
+                  control={control}
+                  name="description"
+                  rules={{
+                    required: "La descripción es obligatoria",
+                    maxLength: {
+                      value: 160,
+                      message: "Máximo 160 caracteres",
+                    },
+                  }}
+                  render={({ field: { onChange, onBlur, value } }) => (
+                    <CustomTextarea
+                      value={value}
+                      onChange={onChange}
+                      onBlur={onBlur}
+                      placeholder="Ej: Clases de pintura al óleo desde cero. Nivel inicial y avanzado."
+                      multiline={true}
+                      numberOfLines={7}
+                      maxLength={160}
+                      height={146}
+                    />
+                  )}
                 />
               </View>
 
@@ -160,10 +188,19 @@ export default function RegisterStep1({ navigation }) {
                   ¿Qué categoría se ajusta mejor a tu habilidad?
                 </Text>
                 <View className="mt-1">
-                  <CustomDropdown
-                    label="Categorías"
-                    items={categories}
-                    backgroundColor={"bg-[#fbfbff]"}
+                  <Controller
+                    control={control}
+                    name="category"
+                    rules={{ required: "Selecciona una categoría" }}
+                    render={({ field: { onChange, value } }) => (
+                      <CustomDropdown
+                        label="Categorías"
+                        items={categories}
+                        backgroundColor={"bg-neutros-blanco"}
+                        selectedItems={value}
+                        onItemsChange={(category) => onChange(category)}
+                      />
+                    )}
                   />
                 </View>
               </View>
@@ -186,11 +223,10 @@ export default function RegisterStep1({ navigation }) {
           />
           <CustomButton
             title="Continuar"
-            onPress={togglePopUp}
+            onPress={handleSubmit(onSubmit)}
             variant="white"
             width="content"
-            // disabled={!ability || !selectedCategory}
-            disabled={!ability}
+            disabled={!isValid}
           />
         </View>
       </View>

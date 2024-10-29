@@ -3,20 +3,24 @@ import { View, Text, TouchableOpacity, ScrollView } from "react-native";
 import { CustomCheckbox } from "./CustomCheckbox";
 import Feather from "@expo/vector-icons/Feather";
 
-export const CustomDropdown = ({ label, items, backgroundColor }) => {
+export const CustomDropdown = ({
+  label,
+  items,
+  backgroundColor,
+  selectedItems,
+  onItemsChange,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedItems, setSelectedItems] = useState([]);
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
 
   const handleCheckboxPress = (item) => {
-    setSelectedItems((prevSelectedItems) =>
-      prevSelectedItems.includes(item)
-        ? prevSelectedItems.filter((i) => i !== item)
-        : [...prevSelectedItems, item],
-    );
+    const newSelectedItems = selectedItems.includes(item)
+      ? selectedItems.filter((i) => i !== item)
+      : [...selectedItems, item];
+    onItemsChange(newSelectedItems);
   };
 
   const getSelectedLabel = () => {

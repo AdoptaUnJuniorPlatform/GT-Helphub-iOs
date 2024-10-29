@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useForm, Controller } from "react-hook-form";
 import {
   View,
   TouchableOpacity,
@@ -18,8 +19,23 @@ const AddAbilityStep2 = ({ onRequestClose, visible, navigation }) => {
   const isBigScreen = width >= 430;
 
   const [isDialogVisible, setDialogVisible] = useState(false);
-  const [ability, setAbility] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("");
+
+  const onSubmit = (data) => {
+    console.log(data);
+    navigation.navigate("HomeTabs");
+  };
+
+  const {
+    control,
+    handleSubmit,
+    formState: { isValid },
+  } = useForm({
+    defaultValues: {
+      description: "",
+      category: "",
+    },
+    mode: "onChange",
+  });
 
   const toggleDialog = () => {
     setDialogVisible(!isDialogVisible);
@@ -136,16 +152,28 @@ const AddAbilityStep2 = ({ onRequestClose, visible, navigation }) => {
               </View>
             )}
 
-            <CustomTextarea
-              value={ability}
-              onChange={setAbility}
-              placeholder={
-                "Ej: Clases de pintura al óleo desde cero. Nivel inicial y avanzado."
-              }
-              multiline={true}
-              numberOfLines={7}
-              maxLength={160}
-              height={146}
+            <Controller
+              control={control}
+              name="description"
+              rules={{
+                required: "La descripción es obligatoria",
+                maxLength: {
+                  value: 160,
+                  message: "Máximo 160 caracteres",
+                },
+              }}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <CustomTextarea
+                  value={value}
+                  onChange={onChange}
+                  onBlur={onBlur}
+                  placeholder="Ej: Clases de pintura al óleo desde cero. Nivel inicial y avanzado."
+                  multiline={true}
+                  numberOfLines={7}
+                  maxLength={160}
+                  height={146}
+                />
+              )}
             />
           </View>
 
@@ -165,10 +193,19 @@ const AddAbilityStep2 = ({ onRequestClose, visible, navigation }) => {
               ¿Qué categoría se ajusta mejor a tu habilidad?
             </Text>
             <View className="mt-1">
-              <CustomDropdown
-                label="Categorías"
-                items={categories}
-                backgroundColor={"bg-[#fbfbff]"}
+              <Controller
+                control={control}
+                name="category"
+                rules={{ required: "Selecciona una categoría" }}
+                render={({ field: { onChange, value } }) => (
+                  <CustomDropdown
+                    label="Categorías"
+                    items={categories}
+                    backgroundColor={"bg-neutros-blanco"}
+                    selectedItems={value}
+                    onItemsChange={(category) => onChange(category)}
+                  />
+                )}
               />
             </View>
           </View>
@@ -189,12 +226,11 @@ const AddAbilityStep2 = ({ onRequestClose, visible, navigation }) => {
           isBackButton
         />
         <CustomButton
-          onPress={() => navigation.navigate("HomeTabs")}
+          onPress={handleSubmit(onSubmit)}
           title={"Guardar"}
           width="content"
           variant="white"
-          // disabled={!ability || !selectedCategory}
-          disabled={!ability}
+          disabled={!isValid}
         />
       </View>
     </View>

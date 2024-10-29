@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useForm, Controller } from "react-hook-form";
 import {
   View,
   Modal,
@@ -20,19 +20,25 @@ export const EditAbility = ({ onRequestClose, visible }) => {
   const isSmallScreen = width <= 392;
   const isBigScreen = width >= 430;
 
-  const [title, setTitle] = useState("");
-  const [level, setLevel] = useState("");
-  const [mode, setMode] = useState("");
-  const [ability, setAbility] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("");
-
-  const handleLevelChange = (selectedLevel) => {
-    setLevel(selectedLevel);
+  const onSubmit = (data) => {
+    console.log(data);
+    onRequestClose(onRequestClose);
   };
 
-  const handleModeChange = (selectedMode) => {
-    setMode(selectedMode);
-  };
+  const {
+    control,
+    handleSubmit,
+    formState: { isValid },
+  } = useForm({
+    defaultValues: {
+      title: "",
+      level: "",
+      mode: "",
+      description: "",
+      category: "",
+    },
+    mode: "onChange",
+  });
 
   return (
     <Modal transparent={true} visible={visible} onRequestClose={onRequestClose}>
@@ -89,13 +95,27 @@ export const EditAbility = ({ onRequestClose, visible }) => {
                 </Text>
               </View>
               <View className={`${isSmallScreen ? "mt-0" : "mt-2"}`}>
-                <CustomTextarea
-                  value={title}
-                  onChange={setTitle}
-                  placeholder={"Ej: Pintar óleo"}
-                  multiline={false}
-                  numberOfLines={1}
-                  maxLength={20}
+                <Controller
+                  control={control}
+                  name="title"
+                  rules={{
+                    required: "El título es obligatorio",
+                    maxLength: {
+                      value: 20,
+                      message: "Máximo 20 caracteres",
+                    },
+                  }}
+                  render={({ field: { onChange, onBlur, value } }) => (
+                    <CustomTextarea
+                      value={value}
+                      onChange={onChange}
+                      onBlur={onBlur}
+                      placeholder={"Ej: Pintar óleo"}
+                      multiline={true}
+                      numberOfLines={1}
+                      maxLength={20}
+                    />
+                  )}
                 />
               </View>
             </View>
@@ -110,34 +130,48 @@ export const EditAbility = ({ onRequestClose, visible }) => {
               >
                 Nivel
               </Text>
-              <View
-                className={`
+
+              <Controller
+                control={control}
+                name="level"
+                rules={{ required: "Selecciona un nivel" }}
+                render={({ field: { onChange, value } }) => (
+                  <View
+                    className={`
                   flex flex-wrap flex-row justify-start 
                   ${isSmallScreen ? "mt-1" : "mt-2"}
                   `}
-              >
-                <View className="mr-2 w-auto mb-2">
-                  <CustomRadio
-                    label="Básico"
-                    isSelected={level === "Básico"}
-                    onPress={() => handleLevelChange("Básico")}
-                  />
-                </View>
-                <View className="mr-2 w-auto mb-2">
-                  <CustomRadio
-                    label="Medio"
-                    isSelected={level === "Medio"}
-                    onPress={() => handleLevelChange("Medio")}
-                  />
-                </View>
-                <View className="mr-2 w-auto mb-2">
-                  <CustomRadio
-                    label="Avanzado"
-                    isSelected={level === "Avanzado"}
-                    onPress={() => handleLevelChange("Avanzado")}
-                  />
-                </View>
-              </View>
+                  >
+                    <View className="mr-2 w-auto mb-2">
+                      <CustomRadio
+                        label="Básico"
+                        isSelected={value === "Básico"}
+                        onPress={() => {
+                          onChange("Básico");
+                        }}
+                      />
+                    </View>
+                    <View className="mr-2 w-auto mb-2">
+                      <CustomRadio
+                        label="Medio"
+                        isSelected={value === "Medio"}
+                        onPress={() => {
+                          onChange("Medio");
+                        }}
+                      />
+                    </View>
+                    <View className="mr-2 w-auto mb-2">
+                      <CustomRadio
+                        label="Avanzado"
+                        isSelected={value === "Avanzado"}
+                        onPress={() => {
+                          onChange("Avanzado");
+                        }}
+                      />
+                    </View>
+                  </View>
+                )}
+              />
             </View>
 
             {/* Modalidad */}
@@ -150,22 +184,48 @@ export const EditAbility = ({ onRequestClose, visible }) => {
               >
                 Modalidad
               </Text>
-              <View className="flex flex-wrap flex-row justify-start mt-2">
-                <View className="mr-2 w-auto mb-2">
-                  <CustomRadio
-                    label="Online"
-                    isSelected={mode === "Online"}
-                    onPress={() => handleModeChange("Online")}
-                  />
-                </View>
-                <View className="mr-2 w-auto mb-2">
-                  <CustomRadio
-                    label="Presencial"
-                    isSelected={mode === "Presemcial"}
-                    onPress={() => handleModeChange("Presemcial")}
-                  />
-                </View>
-              </View>
+              <Controller
+                control={control}
+                name="mode"
+                rules={{ required: "Selecciona una modalidad" }}
+                render={({ field: { onChange, value } }) => (
+                  <View
+                    className={`
+                  flex flex-wrap flex-row justify-start 
+                  ${isSmallScreen ? "mt-1" : "mt-2"}
+                  `}
+                  >
+                    <View
+                      className={`
+                    mr-2 w-auto 
+                    ${isSmallScreen ? "mb-1" : "mb-2"}
+                    `}
+                    >
+                      <CustomRadio
+                        label="Online"
+                        isSelected={value === "Online"}
+                        onPress={() => {
+                          onChange("Online");
+                        }}
+                      />
+                    </View>
+                    <View
+                      className={`
+                    mr-2 w-auto 
+                    ${isSmallScreen ? "mb-1" : "mb-2"}
+                    `}
+                    >
+                      <CustomRadio
+                        label="Presencial"
+                        isSelected={value === "Presencial"}
+                        onPress={() => {
+                          onChange("Presencial");
+                        }}
+                      />
+                    </View>
+                  </View>
+                )}
+              />
             </View>
 
             {/* ¿Qué ofreces? */}
@@ -181,16 +241,28 @@ export const EditAbility = ({ onRequestClose, visible }) => {
                 </Text>
               </View>
 
-              <CustomTextarea
-                value={ability}
-                onChange={setAbility}
-                placeholder={
-                  "Ej: Clases de pintura al óleo desde cero. Nivel inicial y avanzado."
-                }
-                multiline={true}
-                numberOfLines={7}
-                maxLength={160}
-                height={100}
+              <Controller
+                control={control}
+                name="description"
+                rules={{
+                  required: "La descripción es obligatoria",
+                  maxLength: {
+                    value: 160,
+                    message: "Máximo 160 caracteres",
+                  },
+                }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <CustomTextarea
+                    value={value}
+                    onChange={onChange}
+                    onBlur={onBlur}
+                    placeholder="Ej: Clases de pintura al óleo desde cero. Nivel inicial y avanzado."
+                    multiline={true}
+                    numberOfLines={7}
+                    maxLength={160}
+                    height={100}
+                  />
+                )}
               />
             </View>
 
@@ -210,10 +282,19 @@ export const EditAbility = ({ onRequestClose, visible }) => {
                 ¿Qué categoría se ajusta mejor a tu habilidad?
               </Text>
               <View className="mt-1">
-                <CustomDropdown
-                  label="Categorías"
-                  items={categories}
-                  backgroundColor={"bg-neutros-blanco"}
+                <Controller
+                  control={control}
+                  name="category"
+                  rules={{ required: "Selecciona una categoría" }}
+                  render={({ field: { onChange, value } }) => (
+                    <CustomDropdown
+                      label="Categorías"
+                      items={categories}
+                      backgroundColor={"bg-neutros-blanco"}
+                      selectedItems={value}
+                      onItemsChange={(category) => onChange(category)}
+                    />
+                  )}
                 />
               </View>
             </View>
@@ -229,12 +310,11 @@ export const EditAbility = ({ onRequestClose, visible }) => {
         >
           <View className="flex-row justify-end">
             <CustomButton
-              onPress={() => console.log("save and navigate to profile")}
+              onPress={handleSubmit(onSubmit)}
               title={"Guardar"}
               width="content"
               variant="white"
-              // disabled={!title || !level || !mode || !ability || !selectedCategory}
-              disabled={!title || !level || !mode || !ability}
+              disabled={!isValid}
             />
           </View>
         </View>

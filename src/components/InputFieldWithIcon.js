@@ -8,6 +8,7 @@ export const InputFieldWithIcon = ({
   onChangeText,
   placeholder,
   iconName,
+  error,
 }) => {
   const [isFocused, setIsFocused] = useState(false);
 
@@ -24,13 +25,14 @@ export const InputFieldWithIcon = ({
       <View
         className={`
           relative border-[1px] rounded-lg h-[40px] bg-transparent flex-row items-center
-          ${isFocused ? "border-[#212121]" : "border-neutral-color-blue-gray-100"}
+          ${isFocused ? "border-[#212121]" : error ? "border-red-error" : "border-neutral-color-blue-gray-100"}
+          
           `}
       >
         <EvilIcons
           name={iconName}
           size={16}
-          color={isFocused ? "#212121" : "#90a3ae"}
+          color={isFocused ? "#212121" : error ? "#f22929" : "#90a3ae"}
           style={{ marginLeft: 10 }}
         />
         <TextInput
@@ -39,7 +41,7 @@ export const InputFieldWithIcon = ({
           placeholder={placeholder}
           keyboardType="numeric"
           className={`
-            flex-1 font-roboto-regular text-sm p-3 pl-2
+            flex-1 font-roboto-regular text-sm px-3 pb-1 pl-2
             ${isFocused ? "text-neutral-color-gray-900" : "text-[#90A4AE]"}
             `}
           placeholderTextColor={isFocused ? "#212121" : "#90a3ae"}

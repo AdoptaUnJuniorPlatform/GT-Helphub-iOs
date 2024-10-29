@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useForm, Controller } from "react-hook-form";
 import {
   Text,
   View,
@@ -12,11 +13,21 @@ import { LogoLight } from "../components";
 const { width } = Dimensions.get("window");
 
 export default function ResetPasswordStep1({ navigation }) {
-  const [email, setEmail] = useState("");
-  const [isEmailFocused, setIsEmailFocused] = useState(false);
-
   const isSmallScreen = width <= 392;
   const isBigScreen = width >= 430;
+
+  const [isEmailFocused, setIsEmailFocused] = useState(false);
+
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = (data) => {
+    console.log(data);
+    navigation.navigate("ResetPasswordStep2");
+  };
 
   return (
     <SafeAreaView className="flex-1 bg-neutros-gris-fondo">
@@ -40,16 +51,36 @@ export default function ResetPasswordStep1({ navigation }) {
           </Text>
 
           <View className="flex-1 mt-8">
-            <View className="gap-2 mb-4">
-              <TextInput
-                value={email}
-                onChangeText={setEmail}
-                placeholder="Email"
-                keyboardType="email-address"
-                className="bg-transparent border-[1px] border-neutral-color-blue-gray-100 focus:border-[#455A64] rounded-lg h-[40px] font-roboto-regular text-sm text-neutral-color-gray-900 p-3"
-                placeholderTextColor={isEmailFocused ? "#212121" : "#90A4AE"}
-                onFocus={() => setIsEmailFocused(true)}
-                onBlur={() => setIsEmailFocused(false)}
+            <View className="mb-4">
+              <Controller
+                control={control}
+                name="email"
+                rules={{
+                  required: "Email es obligatorio",
+                  pattern: {
+                    value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                    message: "Debe ser un correo válido",
+                  },
+                }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <TextInput
+                    onBlur={() => {
+                      setIsEmailFocused(false);
+                      onBlur();
+                    }}
+                    onFocus={() => setIsEmailFocused(true)}
+                    onChangeText={onChange}
+                    value={value}
+                    placeholder="Email"
+                    className={`
+                bg-transparent border-[1px] rounded-lg h-[40px] font-roboto-regular text-sm text-neutral-color-gray-900 px-3 pb-1 
+                ${errors.email ? "border-red-error" : isEmailFocused ? "border-[#455A64]" : "border-neutral-color-blue-gray-100"}
+                `}
+                    placeholderTextColor={
+                      isEmailFocused ? "#212121" : "#90a3ae"
+                    }
+                  />
+                )}
               />
             </View>
           </View>
@@ -59,7 +90,7 @@ export default function ResetPasswordStep1({ navigation }) {
               h-[36px] items-center justify-center rounded-[8px] w-full bg-primarios-violeta-100 
               ${isSmallScreen ? "mb-8" : ""}
               `}
-            onPress={() => navigation.navigate("ResetPasswordStep2")}
+            onPress={handleSubmit(onSubmit)}
           >
             <Text className="font-roboto-bold text-xs uppercase text-white">
               Restablecer contraseña

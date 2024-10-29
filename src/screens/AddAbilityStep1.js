@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useForm, Controller } from "react-hook-form";
 import {
   View,
   TouchableOpacity,
@@ -17,20 +18,27 @@ const AddAbilityStep1 = ({ onRequestClose, visible, navigation }) => {
   const isBigScreen = width >= 430;
 
   const [isDialogVisible, setDialogVisible] = useState(false);
-  const [title, setTitle] = useState("");
-  const [level, setLevel] = useState("");
-  const [mode, setMode] = useState("");
+
+  const onSubmit = (data) => {
+    console.log(data);
+    navigation.navigate("AddAbilityStep2");
+  };
+
+  const {
+    control,
+    handleSubmit,
+    formState: { isValid },
+  } = useForm({
+    defaultValues: {
+      title: "",
+      level: "",
+      mode: "",
+    },
+    mode: "onChange",
+  });
 
   const toggleDialog = () => {
     setDialogVisible(!isDialogVisible);
-  };
-
-  const handleLevelChange = (selectedLevel) => {
-    setLevel(selectedLevel);
-  };
-
-  const handleModeChange = (selectedMode) => {
-    setMode(selectedMode);
   };
 
   return (
@@ -193,13 +201,27 @@ const AddAbilityStep1 = ({ onRequestClose, visible, navigation }) => {
             )}
 
             <View className="mt-2">
-              <CustomTextarea
-                value={title}
-                onChange={setTitle}
-                placeholder={"Ej: Pintar óleo"}
-                multiline={false}
-                numberOfLines={1}
-                maxLength={20}
+              <Controller
+                control={control}
+                name="title"
+                rules={{
+                  required: "El título es obligatorio",
+                  maxLength: {
+                    value: 20,
+                    message: "Máximo 20 caracteres",
+                  },
+                }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <CustomTextarea
+                    value={value}
+                    onChange={onChange}
+                    onBlur={onBlur}
+                    placeholder={"Ej: Pintar óleo"}
+                    multiline={true}
+                    numberOfLines={1}
+                    maxLength={20}
+                  />
+                )}
               />
             </View>
           </View>
@@ -214,34 +236,48 @@ const AddAbilityStep1 = ({ onRequestClose, visible, navigation }) => {
             >
               Nivel
             </Text>
-            <View
-              className={`
-                flex flex-wrap flex-row justify-start 
-                ${isSmallScreen ? "mt-1" : "mt-2"}
-                `}
-            >
-              <View className="mr-2 w-auto mb-2">
-                <CustomRadio
-                  label="Básico"
-                  isSelected={level === "Básico"}
-                  onPress={() => handleLevelChange("Básico")}
-                />
-              </View>
-              <View className="mr-2 w-auto mb-2">
-                <CustomRadio
-                  label="Medio"
-                  isSelected={level === "Medio"}
-                  onPress={() => handleLevelChange("Medio")}
-                />
-              </View>
-              <View className="mr-2 w-auto mb-2">
-                <CustomRadio
-                  label="Avanzado"
-                  isSelected={level === "Avanzado"}
-                  onPress={() => handleLevelChange("Avanzado")}
-                />
-              </View>
-            </View>
+
+            <Controller
+              control={control}
+              name="level"
+              rules={{ required: "Selecciona un nivel" }}
+              render={({ field: { onChange, value } }) => (
+                <View
+                  className={`
+                  flex flex-wrap flex-row justify-start 
+                  ${isSmallScreen ? "mt-1" : "mt-2"}
+                  `}
+                >
+                  <View className="mr-2 w-auto mb-2">
+                    <CustomRadio
+                      label="Básico"
+                      isSelected={value === "Básico"}
+                      onPress={() => {
+                        onChange("Básico");
+                      }}
+                    />
+                  </View>
+                  <View className="mr-2 w-auto mb-2">
+                    <CustomRadio
+                      label="Medio"
+                      isSelected={value === "Medio"}
+                      onPress={() => {
+                        onChange("Medio");
+                      }}
+                    />
+                  </View>
+                  <View className="mr-2 w-auto mb-2">
+                    <CustomRadio
+                      label="Avanzado"
+                      isSelected={value === "Avanzado"}
+                      onPress={() => {
+                        onChange("Avanzado");
+                      }}
+                    />
+                  </View>
+                </View>
+              )}
+            />
           </View>
 
           {/* Modalidad */}
@@ -254,22 +290,49 @@ const AddAbilityStep1 = ({ onRequestClose, visible, navigation }) => {
             >
               Modalidad
             </Text>
-            <View className="flex flex-wrap flex-row justify-start mt-2">
-              <View className="mr-2 w-auto mb-2">
-                <CustomRadio
-                  label="Online"
-                  isSelected={mode === "Online"}
-                  onPress={() => handleModeChange("Online")}
-                />
-              </View>
-              <View className="mr-2 w-auto mb-2">
-                <CustomRadio
-                  label="Presencial"
-                  isSelected={mode === "Presemcial"}
-                  onPress={() => handleModeChange("Presemcial")}
-                />
-              </View>
-            </View>
+
+            <Controller
+              control={control}
+              name="mode"
+              rules={{ required: "Selecciona una modalidad" }}
+              render={({ field: { onChange, value } }) => (
+                <View
+                  className={`
+                  flex flex-wrap flex-row justify-start 
+                  ${isSmallScreen ? "mt-1" : "mt-2"}
+                  `}
+                >
+                  <View
+                    className={`
+                    mr-2 w-auto 
+                    ${isSmallScreen ? "mb-1" : "mb-2"}
+                    `}
+                  >
+                    <CustomRadio
+                      label="Online"
+                      isSelected={value === "Online"}
+                      onPress={() => {
+                        onChange("Online");
+                      }}
+                    />
+                  </View>
+                  <View
+                    className={`
+                    mr-2 w-auto 
+                    ${isSmallScreen ? "mb-1" : "mb-2"}
+                    `}
+                  >
+                    <CustomRadio
+                      label="Presencial"
+                      isSelected={value === "Presencial"}
+                      onPress={() => {
+                        onChange("Presencial");
+                      }}
+                    />
+                  </View>
+                </View>
+              )}
+            />
           </View>
 
           {/* Asterisc */}
@@ -296,11 +359,11 @@ const AddAbilityStep1 = ({ onRequestClose, visible, navigation }) => {
       >
         <View className="flex-row justify-end">
           <CustomButton
-            onPress={() => navigation.navigate("AddAbilityStep2")}
+            onPress={handleSubmit(onSubmit)}
             title={"Siguiente"}
             width="content"
             variant="white"
-            disabled={!title || !level || !mode}
+            disabled={!isValid}
           />
         </View>
       </View>

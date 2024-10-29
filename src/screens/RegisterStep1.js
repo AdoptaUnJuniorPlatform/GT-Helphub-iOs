@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useForm, Controller } from "react-hook-form";
 import { View, SafeAreaView, Dimensions, Text } from "react-native";
 import {
   CustomButton,
@@ -14,8 +14,22 @@ export default function RegisterStep1({ navigation }) {
   const isSmallScreen = width <= 392;
   const isBigScreen = width >= 430;
 
-  const [description, setDescription] = useState("");
-  const [postalCode, setPostalCode] = useState("");
+  const onSubmit = (data) => {
+    console.log(data);
+    navigation.navigate("RegisterStep2");
+  };
+
+  const {
+    control,
+    handleSubmit,
+    formState: { errors, isValid },
+  } = useForm({
+    defaultValues: {
+      description: "",
+      location: "",
+    },
+    mode: "onChange",
+  });
 
   return (
     <SafeAreaView className="flex-1 bg-neutros-gris-fondo">
@@ -40,24 +54,62 @@ export default function RegisterStep1({ navigation }) {
             >
               Breve descripción del usuario
             </Text>
-            <CustomTextarea
-              value={description}
-              onChange={setDescription}
-              placeholder="Por Ej: Soy una joven estudiante de enfermería, tengo 22 años vivo en Madrid con unas amigas. Soy una apasionada por la música, y que desea aprender a tocar el piano."
-              multiline={true}
-              numberOfLines={7}
-              maxLength={160}
-              height={146}
+            <Controller
+              control={control}
+              name="description"
+              rules={{
+                required: "La descripción es obligatoria",
+                maxLength: {
+                  value: 160,
+                  message: "Máximo 160 caracteres",
+                },
+              }}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <CustomTextarea
+                  value={value}
+                  onChange={onChange}
+                  onBlur={onBlur}
+                  placeholder="Por Ej: Soy una joven estudiante de enfermería, tengo 22 años vivo en Madrid con unas amigas. Soy una apasionada por la música, y que desea aprender a tocar el piano."
+                  multiline={true}
+                  numberOfLines={7}
+                  maxLength={160}
+                  height={146}
+                />
+              )}
             />
+
             <View className={`${isBigScreen ? "mt-6" : "mt-4"}`}>
-              <InputFieldWithIcon
-                label="Ubicación"
-                value={postalCode}
-                onChangeText={setPostalCode}
-                placeholder="Código postal (CP)"
-                iconName="envelope"
+              <Controller
+                control={control}
+                name="location"
+                rules={{
+                  required: "La ubicación es obligatoria",
+                  pattern: {
+                    value: /^[0-9]{5}$/,
+                    message: "El código postal debe ser de 5 dígitos",
+                  },
+                }}
+                render={({
+                  field: { onChange, onBlur, value },
+                  fieldState: { error },
+                }) => (
+                  <InputFieldWithIcon
+                    label="Ubicación"
+                    value={value}
+                    onChangeText={onChange}
+                    onBlur={onBlur}
+                    placeholder="Código postal (CP)"
+                    iconName="envelope"
+                    error={error}
+                  />
+                )}
               />
-              <Text className="text-neutros-negro-80 font-roboto-regular text-xs">
+              <Text
+                className={`
+              text-neutros-negro-80 font-roboto-regular text-xs
+              ${errors.location ? "text-red-error" : "text-neutros-negro-80"}
+              `}
+              >
                 Introduce tu código postal (5 dígitos) para identificar tu
                 ubicación.
               </Text>
@@ -80,10 +132,10 @@ export default function RegisterStep1({ navigation }) {
           />
           <CustomButton
             title="Continuar"
-            onPress={() => navigation.navigate("RegisterStep2")}
+            onPress={handleSubmit(onSubmit)}
             variant="white"
             width="content"
-            disabled={!description || !postalCode}
+            disabled={!isValid}
           />
         </View>
       </View>

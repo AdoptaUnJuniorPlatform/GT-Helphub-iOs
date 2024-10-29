@@ -31,6 +31,7 @@ module.exports = {
         "neutral-color-blue-gray-100": "#cfd8dc",
         "neutral-color-blue-gray-50": "#eceff1",
         "gray-500": "#6a7280",
+        "red-error": "#f22929",
       },
       fontFamily: {
         "roboto-light": ["Roboto-Light", "sans-serif"],

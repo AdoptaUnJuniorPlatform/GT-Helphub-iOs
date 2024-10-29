@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useForm, Controller } from "react-hook-form";
 import {
   Text,
   View,
@@ -13,19 +14,26 @@ import AntDesign from "@expo/vector-icons/AntDesign";
 const { width } = Dimensions.get("window");
 
 export default function ResetPasswordStep1({ navigation }) {
-  const [verificationCode, setVerificationCode] = useState("");
-  const [oldPassword, setOldPassword] = useState("");
-  const [newPassword, setNewPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [isVerificationCodeFocused, setVerificationCodeFocused] =
-    useState(false);
+  const isSmallScreen = width <= 392;
+  const isBigScreen = width >= 430;
+
+  const [isTwoFaFocused, setIsTwoFaFocused] = useState(false);
   const [isOldPasswordFocused, setIsOldPasswordFocused] = useState(false);
   const [isNewPasswordFocused, setIsNewPasswordFocused] = useState(false);
   const [isConfirmPasswordFocused, setIsConfirmPasswordFocused] =
     useState(false);
 
-  const isSmallScreen = width <= 392;
-  const isBigScreen = width >= 430;
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    getValues,
+  } = useForm();
+
+  const onSubmit = (data) => {
+    console.log(data);
+    navigation.navigate("SessionStart");
+  };
 
   return (
     <SafeAreaView className="flex-1 bg-neutros-gris-fondo">
@@ -74,62 +82,150 @@ export default function ResetPasswordStep1({ navigation }) {
             `}
           >
             <View className="mb-4">
-              <TextInput
-                value={verificationCode}
-                onChangeText={setVerificationCode}
-                placeholder="Código"
-                keyboardType="numeric"
-                className="bg-transparent border-[1px] border-neutral-color-blue-gray-100 focus:border-[#455A64] rounded-lg h-[40px] font-roboto-regular text-sm text-neutral-color-gray-900 p-3"
-                placeholderTextColor={
-                  isVerificationCodeFocused ? "#212121" : "#90A4AE"
-                }
-                onFocus={() => setVerificationCodeFocused(true)}
-                onBlur={() => setVerificationCodeFocused(false)}
+              <Controller
+                control={control}
+                name="twoFa"
+                rules={{
+                  required: "El código de verificación es obligatorio",
+                  pattern: {
+                    value: /^[0-9]{6}$/,
+                    message:
+                      "El código debe ser de 6 dígitos y solo contener números",
+                  },
+                }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <TextInput
+                    onBlur={() => {
+                      setIsTwoFaFocused(false);
+                      onBlur();
+                    }}
+                    onFocus={() => setIsTwoFaFocused(true)}
+                    onChangeText={onChange}
+                    value={value}
+                    placeholder="Código"
+                    className={`
+                bg-transparent border-[1px] focus:border-[#455A64] rounded-lg h-[40px] font-roboto-regular text-sm text-neutral-color-gray-900 px-3 pb-1 
+                ${errors.twoFa ? "border-red-error" : isTwoFaFocused ? "border-[#455A64]" : "border-neutral-color-blue-gray-100"}
+                `}
+                    placeholderTextColor={
+                      isTwoFaFocused ? "#212121" : "#90a3ae"
+                    }
+                  />
+                )}
               />
             </View>
 
             <View className="mb-4">
-              <TextInput
-                value={oldPassword}
-                onChangeText={setOldPassword}
-                placeholder="Contraseña antigua"
-                keyboardType="default"
-                className="bg-transparent border-[1px] border-neutral-color-blue-gray-100 focus:border-[#455A64] rounded-lg h-[40px] font-roboto-regular text-sm text-neutral-color-gray-900 p-3"
-                placeholderTextColor={
-                  isOldPasswordFocused ? "#212121" : "#90A4AE"
-                }
-                onFocus={() => setIsOldPasswordFocused(true)}
-                onBlur={() => setIsOldPasswordFocused(false)}
+              <Controller
+                control={control}
+                name="oldPassword"
+                rules={{
+                  required: "Contraseña es obligatoria",
+                  pattern: {
+                    value:
+                      /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{6,}$/,
+                    message:
+                      "Debe tener al menos una mayúscula, un número, un símbolo y 6 caracteres",
+                  },
+                }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <TextInput
+                    onBlur={() => {
+                      setIsOldPasswordFocused(false);
+                      onBlur();
+                    }}
+                    onFocus={() => setIsOldPasswordFocused(true)}
+                    onChangeText={onChange}
+                    value={value}
+                    placeholder="Contraseña antigua"
+                    className={`
+                bg-transparent border-[1px] focus:border-[#455A64] rounded-lg h-[40px] font-roboto-regular text-sm text-neutral-color-gray-900 px-3 pb-1 
+                ${errors.oldPassword ? "border-red-error" : isOldPasswordFocused ? "border-[#455A64]" : "border-neutral-color-blue-gray-100"}
+                `}
+                    placeholderTextColor={
+                      isOldPasswordFocused ? "#212121" : "#90a3ae"
+                    }
+                    secureTextEntry
+                  />
+                )}
               />
             </View>
 
             <View className="mb-4">
-              <TextInput
-                value={newPassword}
-                onChangeText={setNewPassword}
-                placeholder="Nueva contraseña"
-                keyboardType="default"
-                className="bg-transparent border-[1px] border-neutral-color-blue-gray-100 focus:border-[#455A64] rounded-lg h-[40px] font-roboto-regular text-sm text-neutral-color-gray-900 p-3"
-                placeholderTextColor={
-                  isNewPasswordFocused ? "#212121" : "#90A4AE"
-                }
-                onFocus={() => setIsNewPasswordFocused(true)}
-                onBlur={() => setIsConfirmPasswordFocused(false)}
+              <Controller
+                control={control}
+                name="newPassword"
+                rules={{
+                  required: "Contraseña es obligatoria",
+                  pattern: {
+                    value:
+                      /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{6,}$/,
+                    message:
+                      "Debe tener al menos una mayúscula, un número, un símbolo y 6 caracteres",
+                  },
+                }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <TextInput
+                    onBlur={() => {
+                      setIsNewPasswordFocused(false);
+                      onBlur();
+                    }}
+                    onFocus={() => setIsNewPasswordFocused(true)}
+                    onChangeText={onChange}
+                    value={value}
+                    placeholder="Nueva contraseña"
+                    className={`
+                bg-transparent border-[1px] focus:border-[#455A64] rounded-lg h-[40px] font-roboto-regular text-sm text-neutral-color-gray-900 px-3 pb-1 
+                ${errors.newPassword ? "border-red-error" : isNewPasswordFocused ? "border-[#455A64]" : "border-neutral-color-blue-gray-100"}
+                `}
+                    placeholderTextColor={
+                      isNewPasswordFocused ? "#212121" : "#90a3ae"
+                    }
+                    secureTextEntry
+                  />
+                )}
               />
             </View>
 
             <View className="mb-4">
-              <TextInput
-                value={confirmPassword}
-                onChangeText={setConfirmPassword}
-                placeholder="Confirmar nueva contraseña"
-                keyboardType="default"
-                className="bg-transparent border-[1px] border-neutral-color-blue-gray-100 focus:border-[#455A64] rounded-lg h-[40px] font-roboto-regular text-sm text-neutral-color-gray-900 p-3"
-                placeholderTextColor={
-                  isConfirmPasswordFocused ? "#212121" : "#90A4AE"
-                }
-                onFocus={() => setIsConfirmPasswordFocused(true)}
-                onBlur={() => setIsConfirmPasswordFocused(false)}
+              <Controller
+                control={control}
+                name="confirmPassword"
+                rules={{
+                  required: "La confirmación de contraseña es obligatoria",
+                  validate: (value) => {
+                    const { newPassword } = getValues();
+                    return (
+                      value === newPassword || "Las contraseñas no coinciden"
+                    );
+                  },
+                  pattern: {
+                    value:
+                      /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{6,}$/,
+                    message:
+                      "Debe tener al menos una mayúscula, un número, un símbolo y 6 caracteres",
+                  },
+                }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <TextInput
+                    onBlur={() => {
+                      setIsConfirmPasswordFocused(false);
+                      onBlur();
+                    }}
+                    onFocus={() => setIsConfirmPasswordFocused(true)}
+                    onChangeText={onChange}
+                    value={value}
+                    placeholder="Confirmar nueva contraseña"
+                    className={`
+          bg-transparent border-[1px] focus:border-[#455A64] rounded-lg h-[40px] font-roboto-regular text-sm text-neutral-color-gray-900 px-3 pb-1 
+          ${errors.confirmPassword ? "border-red-error" : isConfirmPasswordFocused ? "border-[#455A64]" : "border-neutral-color-blue-gray-100"}
+          `}
+                    placeholderTextColor={
+                      isConfirmPasswordFocused ? "#212121" : "#90a3ae"
+                    }
+                    secureTextEntry
+                  />
+                )}
               />
             </View>
           </View>
@@ -139,7 +235,7 @@ export default function ResetPasswordStep1({ navigation }) {
               h-[36px] items-center justify-center rounded-lg w-full bg-primarios-violeta-100 
               ${isSmallScreen ? "mb-8" : ""}
               `}
-            onPress={() => navigation.navigate("SessionStart")}
+            onPress={handleSubmit(onSubmit)}
           >
             <Text className="font-roboto-bold text-xs uppercase text-white">
               Continuar

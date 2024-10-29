@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useForm, Controller } from "react-hook-form";
 import {
   Text,
   View,
@@ -13,15 +14,26 @@ import Feather from "@expo/vector-icons/Feather";
 const { width } = Dimensions.get("window");
 
 export default function LoginScreen({ navigation }) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const isSmallScreen = width <= 392;
+  const isBigScreen = width >= 430;
+
   const [remember, setRemember] = useState(false);
+
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+
   const [isEmailFocused, setIsEmailFocused] = useState(false);
   const [isPasswordFocused, setIsPasswordFocused] = useState(false);
 
-  const isSmallScreen = width <= 392;
-  const isBigScreen = width >= 430;
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = (data) => {
+    console.log(data);
+    navigation.navigate("HomeTabs");
+  };
 
   return (
     <SafeAreaView className="flex-1 bg-neutros-gris-fondo">
@@ -42,19 +54,38 @@ export default function LoginScreen({ navigation }) {
 
           <View className="flex-1">
             <View className="mb-2">
-              <View className="gap-2 mb-4">
-                <Text className="font-poppins-medium text-sm text-neutros-negro-80">
+              <View className="mb-4">
+                <Text className="font-poppins-medium text-sm text-neutros-negro-80 mb-2">
                   Email
                 </Text>
-                <TextInput
-                  value={email}
-                  onChangeText={setEmail}
-                  placeholder="ejemplo@gmail.com"
-                  keyboardType="email-address"
-                  className="bg-[#E3E0F6] border-[1px] border-neutral-color-blue-gray-100 focus:border-[#455A64] rounded-lg h-[40px] font-roboto-regular text-sm text-neutral-color-gray-900 p-3"
-                  placeholderTextColor={isEmailFocused ? "#212121" : "#696868"}
-                  onFocus={() => setIsEmailFocused(true)}
-                  onBlur={() => setIsEmailFocused(false)}
+                <Controller
+                  control={control}
+                  name="email"
+                  rules={{
+                    required: "Email es obligatorio",
+                    pattern: {
+                      value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                      message: "Debe ser un correo válido",
+                    },
+                  }}
+                  render={({ field: { onChange, onBlur, value } }) => (
+                    <TextInput
+                      onBlur={() => {
+                        setIsEmailFocused(false);
+                        onBlur();
+                      }}
+                      onFocus={() => setIsEmailFocused(true)}
+                      onChangeText={onChange}
+                      value={value}
+                      placeholder="Email"
+                      className={`
+                bg-[#E3E0F6] border-[1px] focus:border-[#455A64] rounded-lg h-[40px] font-roboto-regular text-sm text-neutral-color-gray-900 px-3 pb-1 
+                ${isEmailFocused ? "border-[#455A64]" : errors.email ? "border-red-error" : "border-neutral-color-blue-gray-100"}`}
+                      placeholderTextColor={
+                        isEmailFocused ? "#212121" : "#696868"
+                      }
+                    />
+                  )}
                 />
               </View>
 
@@ -72,19 +103,43 @@ export default function LoginScreen({ navigation }) {
                     </Text>
                   </TouchableOpacity>
                 </View>
-                <View className="relative border-[1px] border-neutral-color-blue-gray-100 focus:border-[#455A64] rounded-lg h-[40px] bg-[#E3E0F6] flex-row items-center justify-between">
-                  <TextInput
-                    value={password}
-                    onChangeText={setPassword}
-                    placeholder="********"
-                    keyboardType="email-address"
-                    secureTextEntry={!isPasswordVisible}
-                    className="bg-transparent flex-shrink rounded-[8px] h-[40px] font-roboto-regular text-sm text-neutral-color-gray-900 p-3"
-                    placeholderTextColor={
-                      isPasswordFocused ? "#212121" : "#696868"
-                    }
-                    onFocus={() => setIsPasswordFocused(true)}
-                    onBlur={() => setIsPasswordFocused(false)}
+                <View
+                  className={`
+                relative border-[1px] focus:border-[#455A64] rounded-lg h-[40px] bg-[#E3E0F6] flex-row items-center justify-between
+                ${isPasswordFocused ? "border-[#455A64]" : errors.password ? "border-red-error" : "border-neutral-color-blue-gray-100"}
+                `}
+                >
+                  <Controller
+                    control={control}
+                    name="password"
+                    rules={{
+                      required: "Contraseña es obligatoria",
+                      pattern: {
+                        value:
+                          /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{6,}$/,
+                        message:
+                          "Debe tener al menos una mayúscula, un número, un símbolo y 6 caracteres",
+                      },
+                    }}
+                    render={({ field: { onChange, onBlur, value } }) => (
+                      <TextInput
+                        onBlur={() => {
+                          setIsPasswordFocused(false);
+                          onBlur();
+                        }}
+                        onFocus={() => setIsPasswordFocused(true)}
+                        onChangeText={onChange}
+                        value={value}
+                        placeholder="********"
+                        secureTextEntry={!isPasswordVisible}
+                        className={`
+                w-full flex-shrink rounded-[8px] h-[40px] font-roboto-regular text-sm text-neutral-color-gray-900 px-3 pb-1
+                ${errors.password ? "border-red-error" : "border-neutral-color-blue-gray-100"}`}
+                        placeholderTextColor={
+                          isPasswordFocused ? "#212121" : "#696868"
+                        }
+                      />
+                    )}
                   />
                   <TouchableOpacity
                     className="px-3"
@@ -123,7 +178,7 @@ export default function LoginScreen({ navigation }) {
 
           <TouchableOpacity
             className="h-[36px] items-center justify-center rounded-lg w-full bg-primarios-violeta-100"
-            onPress={() => navigation.navigate("HomeTabs")}
+            onPress={handleSubmit(onSubmit)}
           >
             <Text className="font-roboto-bold text-xs uppercase text-white">
               Inicia Sesión

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useForm, Controller } from "react-hook-form";
 import {
   View,
   SafeAreaView,
@@ -15,7 +16,7 @@ export default function RegisterStep5({ navigation }) {
   const isSmallScreen = width <= 392;
   const isBigScreen = width >= 430;
 
-  const [categoriesPop, setCategoriesPop] = useState([
+  const [allCategories, setAllCategories] = useState([
     { label: "Idiomas", active: false },
     { label: "Fitness", active: false },
     { label: "Diseño", active: false },
@@ -28,22 +29,49 @@ export default function RegisterStep5({ navigation }) {
     { label: "Cuidado personal", active: false },
   ]);
 
-  const [selectedCategories, setSelectedcategories] = useState([]);
+  const onSubmit = (data) => {
+    console.log(data);
+    navigation.navigate("HomeTabs");
+  };
 
-  const toggleCategory = (label) => {
-    setCategoriesPop((prevCategories) =>
-      prevCategories.map((category) =>
+  const {
+    control,
+    handleSubmit,
+    formState: { isValid },
+  } = useForm({
+    defaultValues: {
+      interestedSkills: [],
+    },
+    mode: "onChange",
+  });
+
+  const toggleCategory = (label, onChange) => {
+    setAllCategories((prevCategories) => {
+      const activeCategories = prevCategories.filter(
+        (category) => category.active,
+      );
+
+      if (
+        activeCategories.length >= 3 &&
+        !prevCategories.find((category) => category.label === label).active
+      ) {
+        return prevCategories;
+      }
+
+      const updatedCategories = prevCategories.map((category) =>
         category.label === label
           ? { ...category, active: !category.active }
           : category,
-      ),
-    );
-  };
+      );
 
-  const deleteCategory = (label) => {
-    setCategoriesPop((prevCategories) =>
-      prevCategories.filter((category) => category.label !== label),
-    );
+      onChange(
+        updatedCategories
+          .filter((category) => category.active)
+          .map((cat) => cat.label),
+      );
+
+      return updatedCategories;
+    });
   };
 
   return (
@@ -97,31 +125,43 @@ export default function RegisterStep5({ navigation }) {
                 >
                   Seleccionar categorías
                 </Text>
-                <Text className="mt-2 text-neutros-negro-80 font-roboto-medium text-sm">
+                <Text className="my-2 text-neutros-negro-80 font-roboto-medium text-sm">
                   Puedes seleccionar hasta 3 categorías
                 </Text>
-                <View
-                  className={`
-                    flex flex-wrap flex-row justify-start align-center mt-1 
-                    ${isSmallScreen ? "gap-1" : "gap-2"}
-                    `}
-                >
-                  {categoriesPop.map((category) => (
-                    <TouchableOpacity
-                      key={category.label}
-                      onPress={() => toggleCategory(category.label)}
+                <Controller
+                  control={control}
+                  name="interestedSkills"
+                  rules={{
+                    validate: (value) =>
+                      value.length > 0 ||
+                      "Debes seleccionar al menos una categoría.",
+                  }}
+                  render={({ field: { onChange, value } }) => (
+                    <View
+                      className={`${isSmallScreen ? "gap-1" : "gap-2"} flex flex-wrap flex-row justify-start align-center mt-1`}
                     >
-                      <CustomChip
-                        label={category.label}
-                        status={category.active ? "active" : "inactive"}
-                        color={category.active ? "blue" : "white"}
-                        iconName={category.active ? "close" : null}
-                        showBorder
-                        onIconPress={() => deleteCategory(category.label)}
-                      />
-                    </TouchableOpacity>
-                  ))}
-                </View>
+                      {allCategories.map((category) => (
+                        <TouchableOpacity
+                          key={category.label}
+                          onPress={() =>
+                            toggleCategory(category.label, onChange)
+                          }
+                        >
+                          <CustomChip
+                            label={category.label}
+                            status={category.active ? "active" : "inactive"}
+                            color={category.active ? "blue" : "white"}
+                            iconName={category.active ? "close" : null}
+                            showBorder
+                            onIconPress={() =>
+                              toggleCategory(category.label, onChange)
+                            }
+                          />
+                        </TouchableOpacity>
+                      ))}
+                    </View>
+                  )}
+                />
               </View>
             </View>
           </View>
@@ -142,10 +182,10 @@ export default function RegisterStep5({ navigation }) {
           />
           <CustomButton
             title="Siguiente"
-            onPress={() => navigation.navigate("HomeTabs")}
+            onPress={handleSubmit(onSubmit)}
             variant="white"
             width="content"
-          // disabled={!selectedCategories}
+            disabled={!isValid}
           />
         </View>
       </View>

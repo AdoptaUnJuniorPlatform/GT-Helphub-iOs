@@ -20,7 +20,7 @@ export const CustomChip = ({
 
   return (
     <View
-      className={`flex-row w-content px-3 py-1.5 rounded-[28px] items-end ${chipStyle}`}
+      className={`flex-row w-content px-3 py-1.5 rounded-[28px] items-center ${chipStyle}`}
     >
       <Text className={`${textStyle} font-roboto-medium text-xs`}>{label}</Text>
       {isActive && iconName && (

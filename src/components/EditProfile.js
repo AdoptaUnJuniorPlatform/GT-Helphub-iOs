@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useForm, Controller } from "react-hook-form";
 import {
   View,
   Modal,
@@ -26,7 +27,7 @@ export const EditProfile = ({ onRequestClose, visible }) => {
   const isSmallScreen = width <= 392;
   const isBigScreen = width >= 430;
 
-  const [categoriesPop, setCategoriesPop] = useState([
+  const [allCategories, setAllCategories] = useState([
     { label: "Idiomas", active: false },
     { label: "Fitness", active: false },
     { label: "Diseño", active: false },
@@ -39,11 +40,30 @@ export const EditProfile = ({ onRequestClose, visible }) => {
     { label: "Cuidado personal", active: false },
   ]);
 
-  const [description, setDescription] = useState("");
-  const [postalCode, setPostalCode] = useState("");
-  const [image, setImage] = useState("");
-  const [timeSlot, setTimeSlot] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("");
+  const onSubmit = (data) => {
+    console.log(data);
+    onRequestClose(onRequestClose);
+  };
+
+  const {
+    control,
+    handleSubmit,
+    setValue,
+    watch,
+    formState: { errors, isValid },
+  } = useForm({
+    defaultValues: {
+      description: "",
+      location: "",
+      profilePicture: null,
+      preferredTimeRange: "",
+      selectedDays: [],
+      interestedSkills: [],
+    },
+    mode: "onChange",
+  });
+
+  const imageValue = watch("image");
 
   const pickImage = async () => {
     const permissionResult =
@@ -62,28 +82,37 @@ export const EditProfile = ({ onRequestClose, visible }) => {
     });
 
     if (!result.canceled) {
-      setImage(result.assets[0].uri);
+      setValue("profilePicture", result.assets[0].uri);
     }
   };
 
-  const handleTimeSlotChange = (selectedSlot) => {
-    setTimeSlot(selectedSlot);
-  };
+  const toggleCategory = (label, onChange) => {
+    setAllCategories((prevCategories) => {
+      const activeCategories = prevCategories.filter(
+        (category) => category.active,
+      );
 
-  const toggleCategory = (label) => {
-    setCategoriesPop((prevCategories) =>
-      prevCategories.map((category) =>
+      if (
+        activeCategories.length >= 3 &&
+        !prevCategories.find((category) => category.label === label).active
+      ) {
+        return prevCategories;
+      }
+
+      const updatedCategories = prevCategories.map((category) =>
         category.label === label
           ? { ...category, active: !category.active }
           : category,
-      ),
-    );
-  };
+      );
 
-  const deleteCategory = (label) => {
-    setCategoriesPop((prevCategories) =>
-      prevCategories.filter((category) => category.label !== label),
-    );
+      onChange(
+        updatedCategories
+          .filter((category) => category.active)
+          .map((cat) => cat.label),
+      );
+
+      return updatedCategories;
+    });
   };
 
   return (
@@ -145,29 +174,64 @@ export const EditProfile = ({ onRequestClose, visible }) => {
                   Descripción del usuario
                 </Text>
               </View>
-              <CustomTextarea
-                value={description}
-                onChange={setDescription}
-                placeholder={
-                  "Soy una joven estudiante de enfermería, tengo 22 años vivo en Madrid con unas amigas. Soy una apasionada por la música, y que desea aprender a tocar el piano."
-                }
-                multiline={true}
-                numberOfLines={7}
-                maxLength={160}
-                height={146}
+              <Controller
+                control={control}
+                name="description"
+                rules={{
+                  required: "La descripción es obligatoria",
+                  maxLength: {
+                    value: 160,
+                    message: "Máximo 160 caracteres",
+                  },
+                }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <CustomTextarea
+                    value={value}
+                    onChange={onChange}
+                    onBlur={onBlur}
+                    placeholder="Soy una joven estudiante de enfermería, tengo 22 años vivo en Madrid con unas amigas. Soy una apasionada por la música, y que desea aprender a tocar el piano."
+                    multiline={true}
+                    numberOfLines={7}
+                    maxLength={160}
+                    height={146}
+                  />
+                )}
               />
             </View>
 
             {/* Postal Code */}
             <View className={`${isBigScreen ? "mt-6" : "mt-4"}`}>
-              <InputFieldWithIcon
-                label="Ubicación"
-                value={postalCode}
-                onChangeText={setPostalCode}
-                placeholder="Código postal (CP)"
-                iconName="envelope"
+              <Controller
+                control={control}
+                name="location"
+                rules={{
+                  required: "La ubicación es obligatoria",
+                  pattern: {
+                    value: /^[0-9]{5}$/,
+                    message: "El código postal debe ser de 5 dígitos",
+                  },
+                }}
+                render={({
+                  field: { onChange, onBlur, value },
+                  fieldState: { error },
+                }) => (
+                  <InputFieldWithIcon
+                    label="Ubicación"
+                    value={value}
+                    onChangeText={onChange}
+                    onBlur={onBlur}
+                    placeholder="Código postal (CP)"
+                    iconName="envelope"
+                    error={error}
+                  />
+                )}
               />
-              <Text className="text-neutros-negro-80 font-roboto-regular text-xs">
+              <Text
+                className={`
+              text-neutros-negro-80 font-roboto-regular text-xs
+              ${errors.location ? "text-red-error" : "text-neutros-negro-80"}
+              `}
+              >
                 Introduce tu código postal (5 dígitos) para identificar tu
                 ubicación.
               </Text>
@@ -186,20 +250,26 @@ export const EditProfile = ({ onRequestClose, visible }) => {
             </View>
             <View className="justify-center items-center mb-8">
               <View className="relative">
-                {image ? (
-                  <>
-                    <Image
-                      source={{ uri: image }}
-                      style={{
-                        width: isSmallScreen ? 100 : 120,
-                        height: isSmallScreen ? 100 : 120,
-                        borderRadius: isSmallScreen ? 50 : 60,
-                      }}
-                    />
-                  </>
-                ) : (
-                  <UserCircle />
-                )}
+                <Controller
+                  control={control}
+                  name="profilePicture"
+                  render={({ field: { value } }) => (
+                    <>
+                      {value ? (
+                        <Image
+                          source={{ uri: value }}
+                          style={{
+                            width: isSmallScreen ? 100 : 120,
+                            height: isSmallScreen ? 100 : 120,
+                            borderRadius: isSmallScreen ? 50 : 60,
+                          }}
+                        />
+                      ) : (
+                        <UserCircle />
+                      )}
+                    </>
+                  )}
+                />
               </View>
               <View className="absolute -bottom-6">
                 <CustomButton
@@ -220,73 +290,41 @@ export const EditProfile = ({ onRequestClose, visible }) => {
               >
                 Disponibilidad horaria
               </Text>
-              <View
-                className={`
+              <Controller
+                control={control}
+                name="preferredTimeRange"
+                rules={{ required: "Selecciona un horario" }}
+                render={({ field: { onChange, value } }) => (
+                  <View
+                    className={`
                   flex flex-wrap flex-row mt-2
                   ${isSmallScreen ? "justify-start" : "justify-between"}
                   `}
-              >
-                <View
-                  className={`
-                    ${isSmallScreen ? "w-[45%] mr-2" : "w-[48%]"}
-                    mb-2
-                    `}
-                >
-                  <CustomRadio
-                    label="8:00hs a 14:00hs"
-                    isSelected={timeSlot === "8:00hs a 14:00hs"}
-                    onPress={() => handleTimeSlotChange("8:00hs a 14:00hs")}
-                  />
-                </View>
-                <View
-                  className={`
-                    ${isSmallScreen ? "w-[45%] mr-2" : "w-[48%]"}
-                    mb-2
-                    `}
-                >
-                  <CustomRadio
-                    label="15:00hs a 17:00hs"
-                    isSelected={timeSlot === "15:00hs a 17:00hs"}
-                    onPress={() => handleTimeSlotChange("15:00hs a 17:00hs")}
-                  />
-                </View>
-                <View
-                  className={`
-                    ${isSmallScreen ? "w-[45%] mr-2" : "w-[48%]"}
-                    mb-2
-                    `}
-                >
-                  <CustomRadio
-                    label="17:00hs a 21:00hs"
-                    isSelected={timeSlot === "17:00hs a 21:00hs"}
-                    onPress={() => handleTimeSlotChange("17:00hs a 21:00hs")}
-                  />
-                </View>
-                <View
-                  className={`
-                    ${isSmallScreen ? "w-[45%] mr-2" : "w-[48%]"}
-                    mb-2
-                    `}
-                >
-                  <CustomRadio
-                    label="8:00hs a 17:00hs"
-                    isSelected={timeSlot === "8:00hs a 17:00hs"}
-                    onPress={() => handleTimeSlotChange("8:00hs a 17:00hs")}
-                  />
-                </View>
-                <View
-                  className={`
-                    ${isSmallScreen ? "w-[45%] mr-2" : "w-[48%]"}
-                    mb-2
-                    `}
-                >
-                  <CustomRadio
-                    label="Horario flexible"
-                    isSelected={timeSlot === "Horario flexible"}
-                    onPress={() => handleTimeSlotChange("Horario flexible")}
-                  />
-                </View>
-              </View>
+                  >
+                    {[
+                      "8:00hs a 14:00hs",
+                      "15:00hs a 17:00hs",
+                      "17:00hs a 21:00hs",
+                      "8:00hs a 17:00hs",
+                      "Horario flexible",
+                    ].map((label) => (
+                      <View
+                        key={label}
+                        className={`
+                        ${isSmallScreen ? "w-[28%] mr-2" : "w-[48%]"} 
+                        mb-2
+                        `}
+                      >
+                        <CustomRadio
+                          label={label}
+                          isSelected={value === label}
+                          onPress={() => onChange(label)}
+                        />
+                      </View>
+                    ))}
+                  </View>
+                )}
+              />
             </View>
 
             {/* Días */}
@@ -312,10 +350,19 @@ export const EditProfile = ({ onRequestClose, visible }) => {
               >
                 Puedes seleccionar más de un día.
               </Text>
-              <CustomDropdown
-                label="Seleccionar días"
-                items={daysOfTheWeek}
-                backgroundColor={"bg-[#fbfbff]"}
+              <Controller
+                control={control}
+                name="selectedDays"
+                rules={{ required: "Selecciona al menos un día" }}
+                render={({ field: { onChange, value } }) => (
+                  <CustomDropdown
+                    label="Seleccionar días"
+                    items={daysOfTheWeek}
+                    backgroundColor={"bg-neutros-blanco"}
+                    selectedItems={value}
+                    onItemsChange={(selectedDays) => onChange(selectedDays)}
+                  />
+                )}
               />
             </View>
 
@@ -332,23 +379,36 @@ export const EditProfile = ({ onRequestClose, visible }) => {
               <Text className="my-2 text-neutros-negro-80 font-roboto-medium text-sm">
                 Puedes seleccionar hasta 3 categorías
               </Text>
-              <View className="flex flex-wrap flex-row justify-start align-center gap-2 mt-1">
-                {categoriesPop.map((category) => (
-                  <TouchableOpacity
-                    key={category.label}
-                    onPress={() => toggleCategory(category.label)}
-                  >
-                    <CustomChip
-                      label={category.label}
-                      status={category.active ? "active" : "inactive"}
-                      color={category.active ? "blue" : "white"}
-                      iconName={category.active ? "close" : null}
-                      showBorder
-                      onIconPress={() => deleteCategory(category.label)}
-                    />
-                  </TouchableOpacity>
-                ))}
-              </View>
+              <Controller
+                control={control}
+                name="interestedSkills"
+                rules={{
+                  validate: (value) =>
+                    value.length > 0 ||
+                    "Debes seleccionar al menos una categoría.",
+                }}
+                render={({ field: { onChange, value } }) => (
+                  <View className="flex flex-wrap flex-row justify-start align-center gap-2 mt-1">
+                    {allCategories.map((category) => (
+                      <TouchableOpacity
+                        key={category.label}
+                        onPress={() => toggleCategory(category.label, onChange)}
+                      >
+                        <CustomChip
+                          label={category.label}
+                          status={category.active ? "active" : "inactive"}
+                          color={category.active ? "blue" : "white"}
+                          iconName={category.active ? "close" : null}
+                          showBorder
+                          onIconPress={() =>
+                            toggleCategory(category.label, onChange)
+                          }
+                        />
+                      </TouchableOpacity>
+                    ))}
+                  </View>
+                )}
+              />
             </View>
           </View>
           {/* Save and Exit */}
@@ -360,7 +420,7 @@ export const EditProfile = ({ onRequestClose, visible }) => {
           >
             <View className="flex-row justify-end">
               <CustomButton
-                onPress={() => console.log("save and navigate to profile")}
+                onPress={handleSubmit(onSubmit)}
                 title={"Guardar"}
                 width="content"
                 variant="white"
