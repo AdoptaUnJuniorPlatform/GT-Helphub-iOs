@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import {
   Text,
   View,
@@ -13,15 +14,17 @@ import AntDesign from "@expo/vector-icons/AntDesign";
 
 const { width } = Dimensions.get("window");
 
-export default function ResetPasswordStep1({ navigation }) {
+export default function ResetPasswordStep1() {
   const isSmallScreen = width <= 392;
   const isBigScreen = width >= 430;
 
   const [isTwoFaFocused, setIsTwoFaFocused] = useState(false);
-  const [isOldPasswordFocused, setIsOldPasswordFocused] = useState(false);
   const [isNewPasswordFocused, setIsNewPasswordFocused] = useState(false);
   const [isConfirmPasswordFocused, setIsConfirmPasswordFocused] =
     useState(false);
+
+  const navigation = useNavigation();
+  const route = useRoute();
 
   const {
     control,
@@ -30,9 +33,43 @@ export default function ResetPasswordStep1({ navigation }) {
     getValues,
   } = useForm();
 
-  const onSubmit = (data) => {
-    console.log(data);
-    navigation.navigate("SessionStart");
+  const { email } = route.params;
+
+  // const onSubmit = (data) => {
+  //   console.log(data);
+  //   navigation.navigate("SessionStart");
+  // };
+
+  const onSubmit = async (data) => {
+    const payload = {
+      email,
+      password: data.newPassword,
+      // twoFa: data.twoFa,
+    };
+
+    try {
+      const response = await fetch(
+        "http://localhost:4002/api/helphub/auth/reset-password",
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload),
+        },
+      );
+
+      const result = await response.json();
+
+      if (response.ok) {
+        console.log("New password sent to reset: ", data);
+        navigation.navigate("SessionStart");
+      } else {
+        console.error("Error:", result);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
 
   return (
@@ -110,42 +147,6 @@ export default function ResetPasswordStep1({ navigation }) {
                     placeholderTextColor={
                       isTwoFaFocused ? "#212121" : "#90a3ae"
                     }
-                  />
-                )}
-              />
-            </View>
-
-            <View className="mb-4">
-              <Controller
-                control={control}
-                name="oldPassword"
-                rules={{
-                  required: "Contraseña es obligatoria",
-                  pattern: {
-                    value:
-                      /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{6,}$/,
-                    message:
-                      "Debe tener al menos una mayúscula, un número, un símbolo y 6 caracteres",
-                  },
-                }}
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <TextInput
-                    onBlur={() => {
-                      setIsOldPasswordFocused(false);
-                      onBlur();
-                    }}
-                    onFocus={() => setIsOldPasswordFocused(true)}
-                    onChangeText={onChange}
-                    value={value}
-                    placeholder="Contraseña antigua"
-                    className={`
-                bg-transparent border-[1px] focus:border-[#455A64] rounded-lg h-[40px] font-roboto-regular text-sm text-neutral-color-gray-900 px-3 pb-1 
-                ${errors.oldPassword ? "border-red-error" : isOldPasswordFocused ? "border-[#455A64]" : "border-neutral-color-blue-gray-100"}
-                `}
-                    placeholderTextColor={
-                      isOldPasswordFocused ? "#212121" : "#90a3ae"
-                    }
-                    secureTextEntry
                   />
                 )}
               />

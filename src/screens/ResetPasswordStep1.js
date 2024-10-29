@@ -9,6 +9,7 @@ import {
   Dimensions,
 } from "react-native";
 import { LogoLight } from "../components";
+import { generateRandomCode } from "../utils/twoFaCodeGenerator";
 
 const { width } = Dimensions.get("window");
 
@@ -24,9 +25,40 @@ export default function ResetPasswordStep1({ navigation }) {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {
-    console.log(data);
-    navigation.navigate("ResetPasswordStep2");
+  const onSubmit = async (data) => {
+    const twoFaCode = generateRandomCode();
+
+    const payload = {
+      email: data.email,
+      twoFa: twoFaCode,
+    };
+
+    try {
+      const response = await fetch(
+        "http://localhost:4002/api/helphub/email-service/resetEmail",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload),
+        },
+      );
+
+      if (response.ok) {
+        console.log("Success", await response.json());
+        navigation.navigate("ResetPasswordStep2", {
+          ...data,
+          twoFa: twoFaCode,
+        });
+      } else {
+        const errorData = await response.json();
+        alert("Error: " + errorData.message);
+      }
+    } catch (error) {
+      console.error("Error sending data:", error);
+      alert("Se ha producido un error, intenta de nuevo.");
+    }
   };
 
   return (
