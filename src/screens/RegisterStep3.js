@@ -7,6 +7,7 @@ import {
   CustomRadio,
   StepTitle,
 } from "../components";
+import { useProfile } from "../profile/ProfileContext";
 import { daysOfTheWeek } from "../data/data";
 
 const { width } = Dimensions.get("window");
@@ -14,6 +15,8 @@ const { width } = Dimensions.get("window");
 export default function RegisterStep1({ navigation }) {
   const isSmallScreen = width <= 392;
   const isBigScreen = width >= 430;
+
+  const { setProfileData } = useProfile();
 
   const {
     control,
@@ -29,7 +32,13 @@ export default function RegisterStep1({ navigation }) {
 
   const onSubmit = (data) => {
     console.log(data);
-    navigation.navigate("RegisterStep4_1");
+    setProfileData((prevData) => ({
+      ...prevData,
+      selectedDays: data.selectedDays,
+      preferredTimeRange: data.preferredTimeRange,
+    }));
+
+    navigation.navigate("RegisterStep5");
   };
 
   return (
@@ -92,10 +101,10 @@ export default function RegisterStep1({ navigation }) {
                   `}
                     >
                       {[
-                        "8:00hs a 14:00hs",
-                        "15:00hs a 17:00hs",
-                        "17:00hs a 21:00hs",
-                        "8:00hs a 17:00hs",
+                        "8:00 a 14:00",
+                        "15:00 a 17:00",
+                        "17:00 a 21:00",
+                        "8:00 a 17:00",
                         "Horario flexible",
                       ].map((label) => (
                         <View

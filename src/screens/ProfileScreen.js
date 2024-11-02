@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useRef, useCallback } from "react";
+import { useFocusEffect } from "@react-navigation/native";
 import {
   Text,
   View,
@@ -7,6 +8,8 @@ import {
   Dimensions,
   TouchableOpacity,
   ScrollView,
+  Animated,
+  Easing,
 } from "react-native";
 import {
   CustomButton,
@@ -19,6 +22,9 @@ import {
   EditIcon,
 } from "../components";
 import AntDesign from "@expo/vector-icons/AntDesign";
+import { getToken } from "../auth/authService";
+import { useProfile } from "../profile/ProfileContext";
+import { useUser } from "../user/UserContext";
 
 const { width } = Dimensions.get("window");
 
@@ -26,9 +32,15 @@ export default function ProfileScreen({ navigation }) {
   const isSmallScreen = width <= 392;
   const isBigScreen = width >= 430;
 
+  const { profileData, setProfileData } = useProfile();
+  const { userData } = useUser();
+
   const [selected, setSelected] = useState("Habilidades");
   const [isEditAbilityVisible, setEditAbilityVisible] = useState(false);
   const [isEditProfileVisible, setEditProfileVisible] = useState(false);
+  const [isCreateProfileWarningVisible, setCreateProfileWarningVisible] =
+    useState(false);
+  const opacity = useRef(new Animated.Value(0)).current;
 
   const toggleEditAbility = () => {
     setEditAbilityVisible(!isEditAbilityVisible);
@@ -37,6 +49,62 @@ export default function ProfileScreen({ navigation }) {
   const toggleEditProfile = () => {
     setEditProfileVisible(!isEditProfileVisible);
   };
+
+  const toggleCreateProfileWarning = () => {
+    if (isCreateProfileWarningVisible) {
+      Animated.timing(opacity, {
+        toValue: 0,
+        duration: 300,
+        easing: Easing.out(Easing.ease),
+        useNativeDriver: true,
+      }).start(() => setCreateProfileWarningVisible(false));
+    } else {
+      setCreateProfileWarningVisible(true);
+      Animated.timing(opacity, {
+        toValue: 1,
+        duration: 300,
+        easing: Easing.out(Easing.ease),
+        useNativeDriver: true,
+      }).start();
+    }
+  };
+
+  useFocusEffect(
+    useCallback(() => {
+      const fetchProfile = async () => {
+        try {
+          const token = await getToken();
+          const response = await fetch(
+            "http://localhost:4002/api/helphub/profile",
+            {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+              },
+            },
+          );
+
+          if (response.status === 200) {
+            setCreateProfileWarningVisible(false);
+            const data = await response.json();
+            setProfileData(data);
+          } else if (response.status === 404) {
+            toggleCreateProfileWarning();
+          } else {
+            const errorData = await response.json();
+            console.error(errorData.message);
+            alert("Se ha producido un error, intenta de nuevo.");
+          }
+        } catch (error) {
+          console.error(error);
+          alert("Se ha producido un error, intenta de nuevo.");
+        }
+      };
+
+      fetchProfile();
+    }, []),
+  );
 
   return (
     <SafeAreaView className="flex-1 bg-neutros-gris-fondo">
@@ -78,15 +146,18 @@ export default function ProfileScreen({ navigation }) {
           >
             <View
               className={`
-                rounded-[10px] mr-4 
+                rounded-[10px] mr-4
                 ${isSmallScreen ? "h-[98px] w-[98px]" : "h-[124px] w-[120px]"}
                 `}
             >
-              <Image
-                source={require("../../assets/avatar5.png")}
-                style={{ width: "100%", height: "100%" }}
-                resizeMode="contain"
-              />
+              {profileData?.profilePicture && (
+                <Image
+                  source={{ uri: profileData.profilePicture }}
+                  style={{ width: "100%", height: "100%" }}
+                  resizeMode="cover"
+                  className="rounded-[10px]"
+                />
+              )}
             </View>
             <View className="flex-1 justify-between">
               <Text
@@ -95,26 +166,26 @@ export default function ProfileScreen({ navigation }) {
                   ${isSmallScreen ? "text-lg mb-1" : "text-xl"}
                   `}
               >
-                Juanita Perez
+                {userData?.nameUser || ""} {userData?.surnameUser || ""}
               </Text>
               <View className="w-full">
                 <Text
                   className={`
-                    text-neutros-negro font-roboto-regular 
-                    ${isSmallScreen ? "text-xs mb-1" : "text-sm mb-3"}
+                    text-neutros-negro font-roboto-regular
+                    ${isSmallScreen ? "text-xs mb-1" : "text-sm mb-2"}
                     `}
                 >
                   Disponibilidad horaria
                 </Text>
                 <View className="flex-row">
-                  <View className="border-[1px] border-neutros-negro-50 mb-3 rounded-[5px] w-fit px-3 py-1">
+                  <View className="border-[1px] border-neutros-negro-50 mb-2 rounded-[5px] w-fit px-3 py-1">
                     <Text
                       className={`
                         text-neutros-negro font-roboto-regular 
                         ${isSmallScreen ? "text-[9px]" : "text-xs"}
                         `}
                     >
-                      8:00hs a 17:00hs
+                      {profileData?.preferredTimeRange || ""}
                     </Text>
                   </View>
                 </View>
@@ -125,7 +196,7 @@ export default function ProfileScreen({ navigation }) {
                     `}
                 >
                   <View>
-                    <Calendar selectedDays={[0, 3, 4]} />
+                    <Calendar selectedDays={profileData?.selectedDays || []} />
                   </View>
                 </View>
               </View>
@@ -144,9 +215,7 @@ export default function ProfileScreen({ navigation }) {
               Descripción
             </Text>
             <Text className="text-neutros-negro-80 font-roboto-regular text-xs">
-              Soy una artista que ama pintar, tengo 8 años de experiencia
-              enseñando y pintando. Además me encantan los animales como las
-              artes en general.
+              {profileData?.description || ""}
             </Text>
           </View>
 
@@ -156,30 +225,26 @@ export default function ProfileScreen({ navigation }) {
               Habilidades que me interesan
             </Text>
             <View className="flex-row gap-1">
-              <View
-                className="rounded-full w-fit px-2 py-1"
-                style={{ backgroundColor: "rgba(174, 174, 174, 0.1)" }}
-              >
-                <Text className="text-neutros-negro-80 text-[10px] font-roboto-regular">
-                  Informática
-                </Text>
-              </View>
-              <View
-                className="rounded-full w-fit px-2 py-1"
-                style={{ backgroundColor: "rgba(174, 174, 174, 0.1)" }}
-              >
-                <Text className="text-neutros-negro-80 text-[10px] font-roboto-regular">
-                  Idiomas
-                </Text>
-              </View>
-              <View
-                className="rounded-full w-fit px-2 py-1"
-                style={{ backgroundColor: "rgba(174, 174, 174, 0.1)" }}
-              >
-                <Text className="text-neutros-negro-80 text-[10px] font-roboto-regular">
-                  Tutorías
-                </Text>
-              </View>
+              {profileData.interestedSkills ? (
+                profileData.interestedSkills.map((skill, index) => (
+                  <View
+                    key={index}
+                    className="rounded-full w-fit px-2 py-1"
+                    style={{ backgroundColor: "rgba(174, 174, 174, 0.1)" }}
+                  >
+                    <Text className="text-neutros-negro-80 text-[10px] font-roboto-regular">
+                      {skill}
+                    </Text>
+                  </View>
+                ))
+              ) : (
+                <View
+                  className="rounded-full w-[80px] px-2 py-1"
+                  style={{ backgroundColor: "rgba(174, 174, 174, 0.1)" }}
+                >
+                  <Text className="text-neutros-negro-80 text-[10px] font-roboto-regular"></Text>
+                </View>
+              )}
             </View>
           </View>
         </View>
@@ -345,6 +410,41 @@ export default function ProfileScreen({ navigation }) {
           )}
         </View>
       </View>
+
+      {isCreateProfileWarningVisible && (
+        <Animated.View
+          style={{
+            opacity: opacity,
+            backgroundColor: "rgba(144, 145, 146, 0.6)",
+          }}
+          className="absolute w-full h-screen flex-1 justify-center px-4"
+        >
+          <View
+            className="bg-white p-[24px] rounded-[8px]"
+            style={{
+              shadowColor: "#212121",
+              shadowOffset: { width: 0, height: 3 },
+              shadowOpacity: 0.4,
+              shadowRadius: 4,
+            }}
+          >
+            <View className="mb-[24px]">
+              <Text
+                className={`text-neutral-color-gray-900 font-poppins-semibold w-[90%] ${isBigScreen ? "text-[26px] mb-[12px]" : isSmallScreen ? "text-[22px] mb-[8px]" : "text-[24px] mb-[8px]"}`}
+              >
+                Vamos a crear tu perfil
+              </Text>
+            </View>
+            <View className="items-end">
+              <CustomButton
+                onPress={() => navigation.navigate("CreateProfileFlow")}
+                title="Continuar"
+                width="content"
+              />
+            </View>
+          </View>
+        </Animated.View>
+      )}
 
       {isEditAbilityVisible && (
         <EditAbility

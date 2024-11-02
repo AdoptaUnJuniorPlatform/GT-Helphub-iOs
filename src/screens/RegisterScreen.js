@@ -37,7 +37,7 @@ export default function RegisterScreen({ navigation }) {
           </Text>
           <TouchableOpacity>
             <Text
-              onPress={() => navigation.navigate("SessionStart")}
+              onPress={() => navigation.navigate("SessionStartFlow")}
               className="text-primarios-celeste-100 font-roboto-medium text-sm underline"
             >
               Ingresar

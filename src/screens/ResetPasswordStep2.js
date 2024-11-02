@@ -62,13 +62,15 @@ export default function ResetPasswordStep1() {
       const result = await response.json();
 
       if (response.ok) {
-        console.log("New password sent to reset: ", data);
+        console.log("New password confirmed", data);
         navigation.navigate("SessionStart");
       } else {
-        console.error("Error:", result);
+        console.error(result);
+        alert("Se ha producido un error, intenta de nuevo.");
       }
     } catch (error) {
-      console.error("Error:", error);
+      console.error(error);
+      alert("Se ha producido un error, intenta de nuevo.");
     }
   };
 

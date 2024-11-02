@@ -17,6 +17,7 @@ import {
   UserCircle,
   AvatarChecked,
 } from "../components";
+import { useProfile } from "../profile/ProfileContext";
 import * as ImagePicker from "expo-image-picker";
 import { Ionicons } from "@expo/vector-icons";
 import Feather from "@expo/vector-icons/Feather";
@@ -30,16 +31,23 @@ export default function RegisterStep2({ navigation }) {
   const [visible, setVisible] = useState(false);
   const opacity = useRef(new Animated.Value(0)).current;
 
+  const { setProfileData } = useProfile();
+
   const { control, handleSubmit, setValue, watch } = useForm({
     defaultValues: {
       profilePicture: null,
     },
   });
 
-  const imageValue = watch("image");
+  const imageValue = watch("profilePicture");
 
   const onSubmit = (data) => {
     console.log(data);
+    setProfileData((prevData) => ({
+      ...prevData,
+      profilePicture: data.profilePicture,
+    }));
+
     navigation.navigate("RegisterStep3");
   };
 
@@ -79,7 +87,7 @@ export default function RegisterStep2({ navigation }) {
     });
 
     if (!result.canceled) {
-      setValue("image", result.assets[0].uri);
+      setValue("profilePicture", result.assets[0].uri);
     }
   };
 

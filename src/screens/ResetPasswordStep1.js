@@ -53,10 +53,11 @@ export default function ResetPasswordStep1({ navigation }) {
         });
       } else {
         const errorData = await response.json();
-        alert("Error: " + errorData.message);
+        console.error(errorData.message);
+        alert("Se ha producido un error, intenta de nuevo.");
       }
     } catch (error) {
-      console.error("Error sending data:", error);
+      console.error(error);
       alert("Se ha producido un error, intenta de nuevo.");
     }
   };
@@ -104,6 +105,7 @@ export default function ResetPasswordStep1({ navigation }) {
                     onChangeText={onChange}
                     value={value}
                     placeholder="Email"
+                    autoCapitalize="none"
                     className={`
                 bg-transparent border-[1px] rounded-lg h-[40px] font-roboto-regular text-sm text-neutral-color-gray-900 px-3 pb-1 
                 ${errors.email ? "border-red-error" : isEmailFocused ? "border-[#455A64]" : "border-neutral-color-blue-gray-100"}

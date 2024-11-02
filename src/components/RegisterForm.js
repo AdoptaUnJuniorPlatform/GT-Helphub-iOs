@@ -4,12 +4,16 @@ import { View, Text, Linking, TextInput, Dimensions } from "react-native";
 import { ToggleSwitch } from "./ToggleSwitch";
 import { CustomCheckbox } from "./CustomCheckbox";
 import { CustomButton } from "./CustomButton";
+import { generateRandomCode } from "../utils/twoFaCodeGenerator";
+import { useUser } from "../user/UserContext";
 
 const { width } = Dimensions.get("window");
 
 export const RegisterForm = ({ navigation }) => {
   const isSmallScreen = width <= 392;
   const isBigScreen = width >= 430;
+
+  const { userData, setUserData } = useUser();
 
   const countryCode = "🇪🇸  +34";
   const [acceptTermsAndConditions, setAcceptTermsAndConditions] =
@@ -28,15 +32,13 @@ export const RegisterForm = ({ navigation }) => {
     formState: { errors },
   } = useForm();
 
-  const generateRandomCode = () => {
-    return Math.floor(100000 + Math.random() * 900000).toString();
-  };
-
   const onSubmit = async (data) => {
     if (!acceptTermsAndConditions) {
       alert("Debes aceptar los términos y condiciones.");
       return;
     }
+
+    setUserData(data);
 
     const twoFaCode = generateRandomCode();
 
@@ -70,13 +72,16 @@ export const RegisterForm = ({ navigation }) => {
         navigation.navigate("EmailVerification", { ...data, twoFa: twoFaCode });
       } else {
         const errorData = await response.json();
-        alert("Error: " + errorData.message);
+        console.error(errorData.message);
+        alert("Se ha producido un error, intenta de nuevo.");
       }
     } catch (error) {
-      console.error("Error sending data:", error);
+      console.error(error);
       alert("Se ha producido un error, intenta de nuevo.");
     }
   };
+
+  console.log("User Context: ", userData);
 
   return (
     <View>
@@ -107,7 +112,7 @@ export const RegisterForm = ({ navigation }) => {
               className={`
                 bg-transparent border-[1px] rounded-lg h-[40px] font-roboto-regular text-sm text-neutral-color-gray-900 px-3 pb-1 
                 ${errors.nameUser ? "border-red-error" : "border-neutral-color-blue-gray-100"}
-                ${isNameUserFocused ? "border-[#455A64]" : "border-neutral-color-blue-gray-100"}
+                ${isNameUserFocused ? "border-[#455A64]" : ""}
                 `}
               placeholderTextColor={isNameUserFocused ? "#212121" : "#90a3ae"}
             />
@@ -133,7 +138,7 @@ export const RegisterForm = ({ navigation }) => {
               className={`
                 bg-transparent border-[1px] rounded-lg h-[40px] font-roboto-regular text-sm text-neutral-color-gray-900 px-3 pb-1 
                 ${errors.surnameUser ? "border-red-error" : "border-neutral-color-blue-gray-100"}
-                ${isSurnameUserFocused ? "border-[#455A64]" : "border-neutral-color-blue-gray-100"}
+                ${isSurnameUserFocused ? "border-[#455A64]" : ""}
                 `}
               placeholderTextColor={
                 isSurnameUserFocused ? "#212121" : "#90a3ae"
@@ -235,10 +240,11 @@ export const RegisterForm = ({ navigation }) => {
               onChangeText={onChange}
               value={value}
               placeholder="Email"
+              autoCapitalize="none"
               className={`
                 bg-transparent border-[1px] rounded-lg h-[40px] font-roboto-regular text-sm text-neutral-color-gray-900 px-3 pb-1 
                 ${errors.email ? "border-red-error" : "border-neutral-color-blue-gray-100"}
-                ${isEmailFocused ? "border-[#455A64]" : "border-neutral-color-blue-gray-100"}
+                ${isEmailFocused ? "border-[#455A64]" : ""}
                 `}
               placeholderTextColor={isEmailFocused ? "#212121" : "#90a3ae"}
             />
@@ -272,7 +278,7 @@ export const RegisterForm = ({ navigation }) => {
               className={`
                 bg-transparent border-[1px] rounded-lg h-[40px] font-roboto-regular text-sm text-neutral-color-gray-900 px-3 pb-1 
                 ${errors.password ? "border-red-error" : "border-neutral-color-blue-gray-100"}
-                ${isPasswordFocused ? "border-[#455A64]" : "border-neutral-color-blue-gray-100"}
+                ${isPasswordFocused ? "border-[#455A64]" : ""}
                 `}
               placeholderTextColor={isPasswordFocused ? "#212121" : "#90a3ae"}
               secureTextEntry
