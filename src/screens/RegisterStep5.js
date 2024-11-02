@@ -9,6 +9,8 @@ import {
   Dimensions,
 } from "react-native";
 import { CustomButton, StepHeader, StepTitle, CustomChip } from "../components";
+import { useProfile } from "../profile/ProfileContext";
+import { getToken } from "../auth/authService";
 
 const { width } = Dimensions.get("window");
 
@@ -16,23 +18,20 @@ export default function RegisterStep5({ navigation }) {
   const isSmallScreen = width <= 392;
   const isBigScreen = width >= 430;
 
-  const [allCategories, setAllCategories] = useState([
-    { label: "Idiomas", active: false },
-    { label: "Fitness", active: false },
-    { label: "Diseño", active: false },
-    { label: "Tutorías", active: false },
-    { label: "Ayuda", active: false },
-    { label: "Animales", active: false },
-    { label: "Bricolaje", active: false },
-    { label: "Consultoría", active: false },
-    { label: "Informática", active: false },
-    { label: "Cuidado personal", active: false },
-  ]);
+  const { profileData, setProfileData } = useProfile();
 
-  const onSubmit = (data) => {
-    console.log(data);
-    navigation.navigate("HomeTabs");
-  };
+  const [allCategories, setAllCategories] = useState([
+    { label: "Animales", active: false },
+    { label: "Ayuda", active: false },
+    { label: "Consultoría", active: false },
+    { label: "Diseño", active: false },
+    { label: "Idiomas", active: false },
+    { label: "Informática", active: false },
+    { label: "Reparaciones", active: false },
+    { label: "Salud", active: false },
+    { label: "Tutorías", active: false },
+    { label: "Otros", active: false },
+  ]);
 
   const {
     control,
@@ -44,6 +43,67 @@ export default function RegisterStep5({ navigation }) {
     },
     mode: "onChange",
   });
+
+  const onSubmit = async (data) => {
+    const token = await getToken();
+
+    setProfileData((prevData) => ({
+      ...prevData,
+      interestedSkills: data.interestedSkills,
+    }));
+
+    const formData = {
+      ...profileData,
+      interestedSkills: data.interestedSkills,
+    };
+
+    const {
+      description,
+      interestedSkills,
+      location,
+      preferredTimeRange,
+      profilePicture,
+      selectedDays,
+    } = formData;
+
+    const requestData = {
+      description,
+      interestedSkills,
+      location,
+      preferredTimeRange,
+      profilePicture,
+      selectedDays,
+    };
+
+    try {
+      const response = await fetch(
+        "http://localhost:4002/api/helphub/profile",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(requestData),
+        },
+      );
+
+      if (!response.ok) {
+        console.log("Request Data", requestData);
+        throw new Error("Error sending data");
+      }
+
+      const result = await response.json();
+      console.log(result);
+      setProfileData(result);
+      navigation.navigate("HomeTabs");
+    } catch (error) {
+      console.error(error.message);
+      alert("Se ha producido un error, intenta de nuevo.");
+    }
+  };
+
+  console.log("Profile Context: ", profileData);
 
   const toggleCategory = (label, onChange) => {
     setAllCategories((prevCategories) => {

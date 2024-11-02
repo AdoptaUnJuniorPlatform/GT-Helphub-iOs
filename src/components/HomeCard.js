@@ -110,7 +110,7 @@ export const HomeCard = ({ onPress }) => {
               ${isSmallScreen ? "text-xs" : "text-sm"}
               `}
           >
-            9:00hs a 14:00hs
+            9:00 a 14:00
           </Text>
         </View>
       </View>

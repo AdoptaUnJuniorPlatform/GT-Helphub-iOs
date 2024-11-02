@@ -25,11 +25,6 @@ export default function RegisterStep4_1({ navigation }) {
 
   const [isDialogVisible, setDialogVisible] = useState(false);
 
-  const onSubmit = (data) => {
-    console.log(data);
-    navigation.navigate("RegisterStep4_2");
-  };
-
   const {
     control,
     handleSubmit,
@@ -42,6 +37,11 @@ export default function RegisterStep4_1({ navigation }) {
     },
     mode: "onChange",
   });
+
+  const onSubmit = (data) => {
+    console.log(data);
+    navigation.navigate("RegisterStep4_2");
+  };
 
   const toggleDialog = () => {
     setDialogVisible(!isDialogVisible);

@@ -1,6 +1,9 @@
 import { StatusBar } from "expo-status-bar";
 import { NavigationContainer } from "@react-navigation/native";
 import AppNavigator from "./src/navigation/AppNavigator";
+import { AuthProvider } from "./src/auth/authContext";
+import { ProfileProvider } from "./src/profile/ProfileContext";
+import { UserProvider } from "./src/user/UserContext";
 import { useFonts } from "expo-font";
 import {
   Roboto_300Light,
@@ -31,9 +34,15 @@ export default function App() {
   if (!fontsLoaded && !error) return null;
 
   return (
-    <NavigationContainer>
-      <StatusBar style="dark" />
-      <AppNavigator />
-    </NavigationContainer>
+    <AuthProvider>
+      <UserProvider>
+        <ProfileProvider>
+          <NavigationContainer>
+            <StatusBar style="dark" />
+            <AppNavigator />
+          </NavigationContainer>
+        </ProfileProvider>
+      </UserProvider>
+    </AuthProvider>
   );
 }

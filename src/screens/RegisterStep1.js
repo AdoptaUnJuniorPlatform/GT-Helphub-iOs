@@ -7,6 +7,7 @@ import {
   CustomTextarea,
   InputFieldWithIcon,
 } from "../components";
+import { useProfile } from "../profile/ProfileContext";
 
 const { width } = Dimensions.get("window");
 
@@ -14,10 +15,7 @@ export default function RegisterStep1({ navigation }) {
   const isSmallScreen = width <= 392;
   const isBigScreen = width >= 430;
 
-  const onSubmit = (data) => {
-    console.log(data);
-    navigation.navigate("RegisterStep2");
-  };
+  const { setProfileData } = useProfile();
 
   const {
     control,
@@ -30,6 +28,17 @@ export default function RegisterStep1({ navigation }) {
     },
     mode: "onChange",
   });
+
+  const onSubmit = (data) => {
+    console.log(data);
+    setProfileData((prevData) => ({
+      ...prevData,
+      description: data.description,
+      location: data.location,
+    }));
+
+    navigation.navigate("RegisterStep2");
+  };
 
   return (
     <SafeAreaView className="flex-1 bg-neutros-gris-fondo">

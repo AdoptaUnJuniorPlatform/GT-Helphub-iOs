@@ -4,14 +4,28 @@ const { width } = Dimensions.get("window");
 
 const daysOfTheWeek = ["L", "M", "X", "J", "V", "S", "D"];
 
+const dayMapping = {
+  Lunes: 0,
+  Martes: 1,
+  Miércoles: 2,
+  Jueves: 3,
+  Viernes: 4,
+  Sábado: 5,
+  Domingo: 6,
+};
+
 export const Calendar = ({ selectedDays = [], onPress }) => {
   const isSmallScreen = width <= 392;
   const isBigScreen = width >= 430;
 
+  const selectedIndices = selectedDays
+    .map((day) => dayMapping[day])
+    .filter((index) => index !== undefined);
+
   return (
     <View className="flex-row gap-1">
       {daysOfTheWeek.map((day, index) => {
-        const isSelected = selectedDays.includes(index);
+        const isSelected = selectedIndices.includes(index);
         return (
           <TouchableOpacity
             key={index}

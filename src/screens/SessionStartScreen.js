@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
+import { useAuth } from "../auth/authContext";
 import {
   Text,
   View,
@@ -17,8 +18,6 @@ export default function LoginScreen({ navigation }) {
   const isSmallScreen = width <= 392;
   const isBigScreen = width >= 430;
 
-  const [remember, setRemember] = useState(false);
-
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
   const [isEmailFocused, setIsEmailFocused] = useState(false);
@@ -30,9 +29,16 @@ export default function LoginScreen({ navigation }) {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {
-    console.log(data);
-    navigation.navigate("HomeTabs");
+  const { login } = useAuth();
+
+  const onSubmit = async (data) => {
+    try {
+      await login(data.email, data.password);
+      navigation.navigate("SessionStartVerification", { ...data });
+    } catch (error) {
+      console.log("Error: " + error.message);
+      alert("Se ha producido un error, intenta de nuevo.");
+    }
   };
 
   return (
@@ -78,6 +84,7 @@ export default function LoginScreen({ navigation }) {
                       onChangeText={onChange}
                       value={value}
                       placeholder="Email"
+                      autoCapitalize="none"
                       className={`
                 bg-[#E3E0F6] border-[1px] focus:border-[#455A64] rounded-lg h-[40px] font-roboto-regular text-sm text-neutral-color-gray-900 px-3 pb-1 
                 ${isEmailFocused ? "border-[#455A64]" : errors.email ? "border-red-error" : "border-neutral-color-blue-gray-100"}`}
@@ -151,26 +158,6 @@ export default function LoginScreen({ navigation }) {
                       color={isPasswordFocused ? "#212121" : "#90a3ae"}
                     />
                   </TouchableOpacity>
-                </View>
-              </View>
-
-              <View className="w-full pl-4">
-                <View className="flex-row items-start">
-                  <TouchableOpacity
-                    className="mr-2"
-                    onPress={() => setRemember(!remember)}
-                  >
-                    <View className="w-[18px] h-[18px] bg-neutros-beige-fondo items-center justify-center">
-                      {remember && (
-                        <Feather name="check" size={12} color="#7165d1" />
-                      )}
-                    </View>
-                  </TouchableOpacity>
-                  <View className="flex-row flex-wrap">
-                    <Text className="text-neutros-negro-80 font-roboto-regular text-base">
-                      Recuérdame
-                    </Text>
-                  </View>
                 </View>
               </View>
             </View>

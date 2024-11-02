@@ -163,7 +163,7 @@ export default function LoginScreen({ navigation }) {
                   <View>
                     <TouchableOpacity
                       className="h-[36px] items-center justify-center rounded-lg w-full bg-white"
-                      onPress={() => navigation.navigate("SessionStart")}
+                      onPress={() => navigation.navigate("SessionStartFlow")}
                     >
                       <Text className="font-roboto-bold text-xs uppercase text-primarios-violeta-100">
                         Iniciar sesión

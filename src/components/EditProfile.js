@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import {
   View,
@@ -10,16 +10,19 @@ import {
   Image,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useProfile } from "../profile/ProfileContext";
+import { getToken } from "../auth/authService";
 import { CustomButton } from "./CustomButton";
 import { CustomTextarea } from "./CustomTextarea";
 import { InputFieldWithIcon } from "./InputFieldWithIcon";
-import { UserCircle } from "./svgComponents/UserCircle";
 import { CustomRadio } from "./CustomRadio";
-import { CustomChip } from "../components/CustomChip";
-import { CustomDropdown } from "../components/CustomDropdown";
+import { CustomChip } from "./CustomChip";
+import { CustomDropdown } from "./CustomDropdown";
 import Feather from "@expo/vector-icons/Feather";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { daysOfTheWeek } from "../data/data";
+import { formatDate } from "../utils/formatDate";
 
 const { width } = Dimensions.get("window");
 
@@ -27,29 +30,43 @@ export const EditProfile = ({ onRequestClose, visible }) => {
   const isSmallScreen = width <= 392;
   const isBigScreen = width >= 430;
 
+  const { profileData, setProfileData } = useProfile();
+
   const [allCategories, setAllCategories] = useState([
-    { label: "Idiomas", active: false },
-    { label: "Fitness", active: false },
-    { label: "Diseño", active: false },
-    { label: "Tutorías", active: false },
-    { label: "Ayuda", active: false },
     { label: "Animales", active: false },
-    { label: "Bricolaje", active: false },
+    { label: "Ayuda", active: false },
     { label: "Consultoría", active: false },
+    { label: "Diseño", active: false },
+    { label: "Idiomas", active: false },
     { label: "Informática", active: false },
-    { label: "Cuidado personal", active: false },
+    { label: "Reparaciones", active: false },
+    { label: "Salud", active: false },
+    { label: "Tutorías", active: false },
+    { label: "Otros", active: false },
   ]);
 
-  const onSubmit = (data) => {
-    console.log(data);
-    onRequestClose(onRequestClose);
-  };
+  const [savedDate, setSavedDate] = useState("00/00/00");
+
+  useEffect(() => {
+    const fetchSavedDate = async () => {
+      try {
+        const savedData = await AsyncStorage.getItem("formData");
+        if (savedData) {
+          const { timestamp } = JSON.parse(savedData);
+          setSavedDate(timestamp);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchSavedDate();
+  }, []);
 
   const {
     control,
     handleSubmit,
     setValue,
-    watch,
     formState: { errors, isValid },
   } = useForm({
     defaultValues: {
@@ -62,8 +79,6 @@ export const EditProfile = ({ onRequestClose, visible }) => {
     },
     mode: "onChange",
   });
-
-  const imageValue = watch("image");
 
   const pickImage = async () => {
     const permissionResult =
@@ -115,6 +130,64 @@ export const EditProfile = ({ onRequestClose, visible }) => {
     });
   };
 
+  const profileId = profileData._id;
+
+  const onSubmit = async (data) => {
+    const token = await getToken();
+
+    const timestamp = formatDate(new Date());
+    const formData = { ...data, timestamp };
+
+    const payload = {
+      description: data.description,
+      interestedSkills: data.interestedSkills,
+      location: data.location,
+      preferredTimeRange: data.preferredTimeRange,
+      profilePicture: data.profilePicture,
+      selectedDays: data.selectedDays,
+    };
+
+    // const payload = {
+    //   description: "Soy un desarrollador...",
+    //   interestedSkills: ["Computing", "Languages", "Tutoring"],
+    //   location: "12345",
+    //   profilePicture: data.profilePicture,
+    //   preferredTimeRange: "08:00hs a 14:00hs",
+    //   selectedDays: ["Lunes", "Miércoles", "Viernes"],
+    // };
+
+    try {
+      await AsyncStorage.setItem("formData", JSON.stringify(formData));
+
+      const response = await fetch(
+        `http://localhost:4002/api/helphub/profile/${profileId}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(payload),
+        },
+      );
+
+      if (!response.ok) {
+        throw new Error(`Error: ${response.statusText}`);
+      }
+
+      alert("¡Perfil editado con éxito!");
+
+      const result = await response.json();
+      console.log(result);
+      setProfileData(result);
+
+      onRequestClose(onRequestClose);
+    } catch (error) {
+      console.error(error.message);
+      alert("Se ha producido un error, intenta de nuevo.");
+    }
+  };
+
   return (
     <Modal transparent={true} visible={visible} onRequestClose={onRequestClose}>
       <View
@@ -150,7 +223,7 @@ export const EditProfile = ({ onRequestClose, visible }) => {
             <View className="flex-row items-center gap-4">
               <MaterialIcons name="info-outline" size={15} color="#696868" />
               <Text className="text-sm text-neutros-negro font-roboto-medium">
-                Última actualización: 00/00/00
+                {`Última actualización: ${savedDate || "00/00/00"}`}
               </Text>
             </View>
           </View>
@@ -249,7 +322,12 @@ export const EditProfile = ({ onRequestClose, visible }) => {
               </Text>
             </View>
             <View className="justify-center items-center mb-8">
-              <View className="relative">
+              <View
+                className={`
+                relative rounded-full
+                ${isSmallScreen ? "h-[98px] w-[98px]" : "h-[124px] w-[120px]"}
+                `}
+              >
                 <Controller
                   control={control}
                   name="profilePicture"
@@ -265,7 +343,12 @@ export const EditProfile = ({ onRequestClose, visible }) => {
                           }}
                         />
                       ) : (
-                        <UserCircle />
+                        <Image
+                          source={{ uri: profileData.profilePicture }}
+                          style={{ width: "100%", height: "100%" }}
+                          resizeMode="cover"
+                          className="rounded-full"
+                        />
                       )}
                     </>
                   )}
@@ -302,10 +385,10 @@ export const EditProfile = ({ onRequestClose, visible }) => {
                   `}
                   >
                     {[
-                      "8:00hs a 14:00hs",
-                      "15:00hs a 17:00hs",
-                      "17:00hs a 21:00hs",
-                      "8:00hs a 17:00hs",
+                      "8:00 a 14:00",
+                      "15:00 a 17:00",
+                      "17:00 a 21:00",
+                      "8:00 a 17:00",
                       "Horario flexible",
                     ].map((label) => (
                       <View
@@ -424,6 +507,7 @@ export const EditProfile = ({ onRequestClose, visible }) => {
                 title={"Guardar"}
                 width="content"
                 variant="white"
+                disabled={!isValid}
               />
             </View>
           </View>

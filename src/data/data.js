@@ -1,7 +1,7 @@
 export const daysOfTheWeek = [
   "Lunes",
   "Martes",
-  "Miercoles",
+  "Miércoles",
   "Jueves",
   "Viernes",
   "Sábado",
@@ -17,7 +17,8 @@ export const categories = [
   "Informática",
   "Reparaciones",
   "Salud",
-  "Tutorias",
+  "Tutorías",
+  "Otros",
 ];
 
 export const subcategories = [

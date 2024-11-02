@@ -19,6 +19,7 @@ import {
   CustomChip,
   CelebrateIcon,
 } from "../components";
+import { useProfile } from "../profile/ProfileContext";
 import { categories } from "../data/data";
 import Feather from "@expo/vector-icons/Feather";
 
@@ -28,13 +29,10 @@ export default function RegisterStep1({ navigation }) {
   const isSmallScreen = width <= 392;
   const isBigScreen = width >= 430;
 
+  const { setProfileData } = useProfile();
+
   const [isDialogVisible, setDialogVisible] = useState(false);
   const [isPopUpVisible, setPopUpVisible] = useState(false);
-
-  const onSubmit = (data) => {
-    console.log(data);
-    togglePopUp();
-  };
 
   const {
     control,
@@ -47,6 +45,17 @@ export default function RegisterStep1({ navigation }) {
     },
     mode: "onChange",
   });
+
+  const onSubmit = (data) => {
+    console.log(data);
+    // setProfileData((prevData) => ({
+    //   ...prevData,
+    //   description: data.description,
+    //   category: data.category,
+    // }));
+
+    togglePopUp();
+  };
 
   const toggleDialog = () => {
     setDialogVisible(!isDialogVisible);

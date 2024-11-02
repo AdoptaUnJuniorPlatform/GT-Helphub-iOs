@@ -1,6 +1,7 @@
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import LoginScreen from "../screens/LoginScreen";
+import SessionStartVerificationScreen from "../screens/SessionStartVerificationScreen";
 import RegisterScreen from "../screens/RegisterScreen";
 import EmailVerificationScreen from "../screens/EmailVerificationScreen";
 import RegisterStep1 from "../screens/RegisterStep1";
@@ -26,6 +27,23 @@ import { Text, SafeAreaView, View } from "react-native";
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
+const SessionStartFlow = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="SessionStart"
+        component={SessionStartScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="SessionStartVerification"
+        component={SessionStartVerificationScreen}
+        options={{ headerShown: false }}
+      />
+    </Stack.Navigator>
+  );
+};
+
 const RegisterFlow = () => {
   return (
     <Stack.Navigator>
@@ -37,36 +55,6 @@ const RegisterFlow = () => {
       <Stack.Screen
         name="EmailVerification"
         component={EmailVerificationScreen}
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        name="RegisterStep1"
-        component={RegisterStep1}
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        name="RegisterStep2"
-        component={RegisterStep2}
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        name="RegisterStep3"
-        component={RegisterStep3}
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        name="RegisterStep4_1"
-        component={RegisterStep4_1}
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        name="RegisterStep4_2"
-        component={RegisterStep4_2}
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        name="RegisterStep5"
-        component={RegisterStep5}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>
@@ -169,6 +157,43 @@ const Tabs = () => {
   );
 };
 
+const CreateProfileFlow = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="RegisterStep1"
+        component={RegisterStep1}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="RegisterStep2"
+        component={RegisterStep2}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="RegisterStep3"
+        component={RegisterStep3}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="RegisterStep4_1"
+        component={RegisterStep4_1}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="RegisterStep4_2"
+        component={RegisterStep4_2}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="RegisterStep5"
+        component={RegisterStep5}
+        options={{ headerShown: false }}
+      />
+    </Stack.Navigator>
+  );
+};
+
 const AddAbilityFlow = () => {
   return (
     <Stack.Navigator>
@@ -229,8 +254,8 @@ const AppNavigator = () => {
         options={{ headerShown: false }}
       />
       <Stack.Screen
-        name="SessionStart"
-        component={SessionStartScreen}
+        name="SessionStartFlow"
+        component={SessionStartFlow}
         options={{ headerShown: false }}
       />
       <Stack.Screen
@@ -246,6 +271,11 @@ const AppNavigator = () => {
       <Stack.Screen
         name="HomeTabs"
         component={Tabs}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="CreateProfileFlow"
+        component={CreateProfileFlow}
         options={{ headerShown: false }}
       />
       <Stack.Screen

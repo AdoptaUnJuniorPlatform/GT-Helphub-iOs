@@ -208,8 +208,8 @@ const MessagesStep2 = ({ navigation }) => {
           <View className="bg-terciario-celeste items-center rounded-lg mx-4 my-2 px-4 py-3">
             <View className="flex-row items-center px-3">
               <MaterialIcons name="info-outline" size={15} color="#0F547A" />
-              <Text className="ml-3 text-wrap w-full text-sm text-terciario-celeste-muy-oscuro font-roboto-medium">
-                Esta conversación estará disponible hasta el día 00/00/00
+              <Text className="ml-3 text-wrap w-full text-sm text-terciario-celeste-muy-oscuro font-roboto-regular">
+                Esta conversación se borrará automáticamente el día 00/00/00
               </Text>
             </View>
 
