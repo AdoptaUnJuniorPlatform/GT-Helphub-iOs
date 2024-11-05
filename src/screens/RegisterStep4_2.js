@@ -19,8 +19,11 @@ import {
   CustomChip,
   CelebrateIcon,
 } from "../components";
+import { useAbility } from "../ability/AbilityContext";
 import { useProfile } from "../profile/ProfileContext";
+import { useUser } from "../user/UserContext";
 import { categories } from "../data/data";
+import { getToken } from "../auth/authService";
 import Feather from "@expo/vector-icons/Feather";
 
 const { width } = Dimensions.get("window");
@@ -29,7 +32,9 @@ export default function RegisterStep1({ navigation }) {
   const isSmallScreen = width <= 392;
   const isBigScreen = width >= 430;
 
-  const { setProfileData } = useProfile();
+  const { abilityData, setAbilityData } = useAbility();
+  const { profileData, setProfileData } = useProfile();
+  const { userData, setUserData } = useUser();
 
   const [isDialogVisible, setDialogVisible] = useState(false);
   const [isPopUpVisible, setPopUpVisible] = useState(false);
@@ -46,15 +51,57 @@ export default function RegisterStep1({ navigation }) {
     mode: "onChange",
   });
 
-  const onSubmit = (data) => {
-    console.log(data);
-    // setProfileData((prevData) => ({
-    //   ...prevData,
-    //   description: data.description,
-    //   category: data.category,
-    // }));
+  const onSubmit = async (data) => {
+    const token = await getToken();
 
-    togglePopUp();
+    setAbilityData((prevData) => ({
+      ...prevData,
+      description: data.description,
+      category: data.category[0],
+    }));
+
+    const formData = {
+      ...abilityData,
+      description: data.description,
+      category: data.category[0],
+    };
+
+    const { title, level, mode, description, category } = formData;
+
+    const requestData = {
+      title,
+      level,
+      mode,
+      description,
+      category,
+    };
+
+    try {
+      const response = await fetch(
+        "http://localhost:4002/api/helphub/hability",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(requestData),
+        },
+      );
+
+      if (!response.ok) {
+        console.log("Request Data", requestData);
+        throw new Error("Error sending data");
+      }
+
+      const result = await response.json();
+      console.log(result);
+      setAbilityData(result);
+      togglePopUp();
+    } catch (error) {
+      console.error(error.message);
+      alert("Se ha producido un error, intenta de nuevo.");
+    }
   };
 
   const toggleDialog = () => {
@@ -321,11 +368,14 @@ export default function RegisterStep1({ navigation }) {
                   {/* Header */}
                   <View className="flex-row items-center gap-[25px] px-5">
                     <View className="w-[59px] h-[59px] rounded-full">
-                      <Image
-                        source={require("../../assets/avatar4.png")}
-                        style={{ width: "100%", height: "100%" }}
-                        resizeMode="contain"
-                      />
+                      {profileData?.profilePicture && (
+                        <Image
+                          source={{ uri: profileData.profilePicture }}
+                          style={{ width: "100%", height: "100%" }}
+                          resizeMode="cover"
+                          className="rounded-full"
+                        />
+                      )}
                     </View>
                     <Text
                       className={`
@@ -333,7 +383,7 @@ export default function RegisterStep1({ navigation }) {
                         ${isSmallScreen ? "text-lg" : "text-xl"}
                         `}
                     >
-                      Juanita Perez
+                      {userData?.nameUser || ""} {userData?.surnameUser || ""}
                     </Text>
                   </View>
 
@@ -350,7 +400,7 @@ export default function RegisterStep1({ navigation }) {
                         ${isSmallScreen ? "text-lg" : "text-xl"}
                         `}
                     >
-                      Cuidado de animales
+                      {abilityData?.title}
                     </Text>
                   </View>
 
@@ -362,7 +412,9 @@ export default function RegisterStep1({ navigation }) {
                       `}
                   >
                     <Text className="font-roboto-regular text-sm text-neutros-negro">
-                      14011 Córdoba, Córdoba provincia
+                      {abilityData?.mode === "online"
+                        ? "Online"
+                        : profileData?.location}
                     </Text>
                   </View>
 
@@ -375,25 +427,71 @@ export default function RegisterStep1({ navigation }) {
                   ></View>
 
                   {/* Level */}
-                  <View className="flex-row gap-2 px-4">
-                    <View className="flex-row w-content px-[11px] h-[22px] rounded-full items-center bg-neutral-color-blue-gray-50">
-                      <Text className="font-roboto-regular text-xs text-neutros-negro-80">
-                        Básico
-                      </Text>
-                    </View>
+                  {abilityData?.mode === "basic" && (
+                    <View className="flex-row gap-2 px-4">
+                      <View className="flex-row w-content px-[11px] h-[22px] rounded-full items-center bg-primarios-celeste-100">
+                        <Text className="font-roboto-regular text-xs text-white">
+                          Básico
+                        </Text>
+                      </View>
 
-                    <View className="flex-row w-content px-[11px] h-[22px] rounded-full items-center bg-primarios-celeste-100">
-                      <Text className="font-roboto-regular text-xs text-white">
-                        Medio
-                      </Text>
-                    </View>
+                      <View className="flex-row w-content px-[11px] h-[22px] rounded-full items-center bg-neutral-color-blue-gray-50">
+                        <Text className="font-roboto-regular text-xs text-neutros-negro-80">
+                          Medio
+                        </Text>
+                      </View>
 
-                    <View className="flex-row w-content px-[11px] h-[22px] rounded-full items-center bg-neutral-color-blue-gray-50">
-                      <Text className="font-roboto-regular text-xs text-neutros-negro-80">
-                        Avanzado
-                      </Text>
+                      <View className="flex-row w-content px-[11px] h-[22px] rounded-full items-center bg-neutral-color-blue-gray-50">
+                        <Text className="font-roboto-regular text-xs text-neutros-negro-80">
+                          Avanzado
+                        </Text>
+                      </View>
                     </View>
-                  </View>
+                  )}
+
+                  {abilityData?.mode === "medium" && (
+                    <View className="flex-row gap-2 px-4">
+                      <View className="flex-row w-content px-[11px] h-[22px] rounded-full items-center bg-neutral-color-blue-gray-50">
+                        <Text className="font-roboto-regular text-xs text-neutros-negro-80">
+                          Básico
+                        </Text>
+                      </View>
+
+                      <View className="flex-row w-content px-[11px] h-[22px] rounded-full items-center bg-primarios-celeste-100">
+                        <Text className="font-roboto-regular text-xs text-white">
+                          Medio
+                        </Text>
+                      </View>
+
+                      <View className="flex-row w-content px-[11px] h-[22px] rounded-full items-center bg-neutral-color-blue-gray-50">
+                        <Text className="font-roboto-regular text-xs text-neutros-negro-80">
+                          Avanzado
+                        </Text>
+                      </View>
+                    </View>
+                  )}
+
+                  {abilityData?.mode === "high" && (
+                    <View className="flex-row gap-2 px-4">
+                      <View className="flex-row w-content px-[11px] h-[22px] rounded-full items-center bg-neutral-color-blue-gray-50">
+                        <Text className="font-roboto-regular text-xs text-neutros-negro-80">
+                          Básico
+                        </Text>
+                      </View>
+
+                      <View className="flex-row w-content px-[11px] h-[22px] rounded-full items-center bg-neutral-color-blue-gray-50">
+                        <Text className="font-roboto-regular text-xs text-neutros-negro-80">
+                          Medio
+                        </Text>
+                      </View>
+
+                      <View className="flex-row w-content px-[11px] h-[22px] rounded-full items-center bg-primarios-celeste-100">
+                        <Text className="font-roboto-regular text-xs text-white">
+                          Avanzado
+                        </Text>
+                      </View>
+                    </View>
+                  )}
 
                   {/* Availability */}
                   <View
@@ -412,15 +510,14 @@ export default function RegisterStep1({ navigation }) {
                           ${isSmallScreen ? "text-xs" : "text-sm"}
                           `}
                       >
-                        9:00hs a 14:00hs
+                        {profileData?.preferredTimeRange}
                       </Text>
                     </View>
                   </View>
 
                   {/* Descripción */}
                   <Text className="my-2 px-4 text-neutros-negro-80 text-sm font-roboto-regular">
-                    Aprende a preparar un plato vegano delicioso y nutritivo
-                    (desde entrantes hasta postres)
+                    {abilityData?.description}
                   </Text>
 
                   {/* Separator */}
@@ -435,14 +532,7 @@ export default function RegisterStep1({ navigation }) {
                   <View className="flex-row gap-2 px-4">
                     <View>
                       <CustomChip
-                        label={"Animales"}
-                        status={"inactive"}
-                        showBorder
-                      />
-                    </View>
-                    <View>
-                      <CustomChip
-                        label={"Consultoría"}
+                        label={abilityData?.category}
                         status={"inactive"}
                         showBorder
                       />

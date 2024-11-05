@@ -13,6 +13,7 @@ module.exports = {
         "neutros-blanco": "#fbfbff",
         "primarios-rosa-100": "#d2298e",
         "primarios-violeta-100": "#7166d2",
+        "primarios-violeta-80": "rgba(113, 102, 210, 0.8)",
         "primarios-violeta-20": "rgba(113, 102, 210, 0.2)",
         "primarios-celeste-100": "#496ceb",
         "primarios-celeste-20": "rgba(73, 108, 235, 0.2)",

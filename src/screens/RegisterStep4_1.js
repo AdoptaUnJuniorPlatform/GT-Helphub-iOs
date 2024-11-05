@@ -15,6 +15,7 @@ import {
   CustomRadio,
   CustomTextarea,
 } from "../components";
+import { useAbility } from "../ability/AbilityContext";
 import Feather from "@expo/vector-icons/Feather";
 
 const { width } = Dimensions.get("window");
@@ -22,6 +23,8 @@ const { width } = Dimensions.get("window");
 export default function RegisterStep4_1({ navigation }) {
   const isSmallScreen = width <= 392;
   const isBigScreen = width >= 430;
+
+  const { setAbilityData } = useAbility();
 
   const [isDialogVisible, setDialogVisible] = useState(false);
 
@@ -40,6 +43,12 @@ export default function RegisterStep4_1({ navigation }) {
 
   const onSubmit = (data) => {
     console.log(data);
+    setAbilityData((prevData) => ({
+      ...prevData,
+      title: data.title,
+      level: data.level,
+      mode: data.mode,
+    }));
     navigation.navigate("RegisterStep4_2");
   };
 
@@ -221,28 +230,28 @@ export default function RegisterStep4_1({ navigation }) {
                 >
                   <View className="mr-2 w-auto mb-2">
                     <CustomRadio
-                      label="Básico"
-                      isSelected={value === "Básico"}
+                      label="basic"
+                      isSelected={value === "basic"}
                       onPress={() => {
-                        onChange("Básico");
+                        onChange("basic");
                       }}
                     />
                   </View>
                   <View className="mr-2 w-auto mb-2">
                     <CustomRadio
-                      label="Medio"
-                      isSelected={value === "Medio"}
+                      label="medium"
+                      isSelected={value === "medium"}
                       onPress={() => {
-                        onChange("Medio");
+                        onChange("medium");
                       }}
                     />
                   </View>
                   <View className="mr-2 w-auto mb-2">
                     <CustomRadio
-                      label="Avanzado"
-                      isSelected={value === "Avanzado"}
+                      label="high"
+                      isSelected={value === "high"}
                       onPress={() => {
-                        onChange("Avanzado");
+                        onChange("high");
                       }}
                     />
                   </View>
@@ -280,10 +289,10 @@ export default function RegisterStep4_1({ navigation }) {
                     `}
                   >
                     <CustomRadio
-                      label="Online"
-                      isSelected={value === "Online"}
+                      label="online"
+                      isSelected={value === "online"}
                       onPress={() => {
-                        onChange("Online");
+                        onChange("online");
                       }}
                     />
                   </View>
@@ -294,10 +303,10 @@ export default function RegisterStep4_1({ navigation }) {
                     `}
                   >
                     <CustomRadio
-                      label="Presencial"
-                      isSelected={value === "Presencial"}
+                      label="presential"
+                      isSelected={value === "presential"}
                       onPress={() => {
-                        onChange("Presencial");
+                        onChange("presential");
                       }}
                     />
                   </View>

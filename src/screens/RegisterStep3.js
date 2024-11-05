@@ -38,7 +38,7 @@ export default function RegisterStep1({ navigation }) {
       preferredTimeRange: data.preferredTimeRange,
     }));
 
-    navigation.navigate("RegisterStep5");
+    navigation.navigate("RegisterStep4_1");
   };
 
   return (
@@ -92,35 +92,68 @@ export default function RegisterStep1({ navigation }) {
                 <Controller
                   control={control}
                   name="preferredTimeRange"
-                  rules={{ required: "Selecciona un horario" }}
+                  rules={{
+                    required: {
+                      value: true,
+                      message: "Selecciona un horario",
+                    },
+                  }}
                   render={({ field: { onChange, value } }) => (
                     <View
                       className={`
-                  flex flex-wrap flex-row mt-2
-                  ${isSmallScreen ? "justify-start" : "justify-between"}
-                  `}
+        flex flex-wrap flex-row mt-2
+        ${isSmallScreen ? "justify-start" : "justify-between"}
+      `}
                     >
-                      {[
-                        "8:00 a 14:00",
-                        "15:00 a 17:00",
-                        "17:00 a 21:00",
-                        "8:00 a 17:00",
-                        "Horario flexible",
-                      ].map((label) => (
-                        <View
-                          key={label}
-                          className={`
-                        ${isSmallScreen ? "w-[28%] mr-2" : "w-[48%]"} 
-                        mb-2
-                        `}
-                        >
-                          <CustomRadio
-                            label={label}
-                            isSelected={value === label}
-                            onPress={() => onChange(label)}
-                          />
-                        </View>
-                      ))}
+                      <View
+                        className={`${isSmallScreen ? "w-[28%] mr-2" : "w-[48%]"} mb-2`}
+                      >
+                        <CustomRadio
+                          label="08:00hs a 14:00hs"
+                          isSelected={value === "08:00hs a 14:00hs"}
+                          onPress={() => onChange("08:00hs a 14:00hs")}
+                        />
+                      </View>
+
+                      <View
+                        className={`${isSmallScreen ? "w-[28%] mr-2" : "w-[48%]"} mb-2`}
+                      >
+                        <CustomRadio
+                          label="15:00hs a 17:00hs"
+                          isSelected={value === "15:00hs a 17:00hs"}
+                          onPress={() => onChange("15:00hs a 17:00hs")}
+                        />
+                      </View>
+
+                      <View
+                        className={`${isSmallScreen ? "w-[28%] mr-2" : "w-[48%]"} mb-2`}
+                      >
+                        <CustomRadio
+                          label="17:00hs a 21:00hs"
+                          isSelected={value === "17:00hs a 21:00hs"}
+                          onPress={() => onChange("17:00hs a 21:00hs")}
+                        />
+                      </View>
+
+                      <View
+                        className={`${isSmallScreen ? "w-[28%] mr-2" : "w-[48%]"} mb-2`}
+                      >
+                        <CustomRadio
+                          label="08:00hs a 21:00hs"
+                          isSelected={value === "08:00hs a 21:00hs"}
+                          onPress={() => onChange("08:00hs a 21:00hs")}
+                        />
+                      </View>
+
+                      <View
+                        className={`${isSmallScreen ? "w-[28%] mr-2" : "w-[48%]"} mb-2`}
+                      >
+                        <CustomRadio
+                          label="Flexible schedule"
+                          isSelected={value === "Flexible schedule"}
+                          onPress={() => onChange("Flexible schedule")}
+                        />
+                      </View>
                     </View>
                   )}
                 />

@@ -13,17 +13,16 @@ import { CustomRadio } from "./CustomRadio";
 import { CustomDropdown } from "./CustomDropdown";
 import Feather from "@expo/vector-icons/Feather";
 import { categories } from "../data/data";
+import { useAbility } from "../ability/AbilityContext";
+import { getToken } from "../auth/authService";
 
 const { width } = Dimensions.get("window");
 
-export const EditAbility = ({ onRequestClose, visible }) => {
+export const EditAbility = ({ onRequestClose, visible, ability }) => {
   const isSmallScreen = width <= 392;
   const isBigScreen = width >= 430;
 
-  const onSubmit = (data) => {
-    console.log(data);
-    onRequestClose(onRequestClose);
-  };
+  const { setAbilityData } = useAbility();
 
   const {
     control,
@@ -39,6 +38,61 @@ export const EditAbility = ({ onRequestClose, visible }) => {
     },
     mode: "onChange",
   });
+
+  const onSubmit = async (data) => {
+    const token = await getToken();
+
+    setAbilityData(() => ({
+      title: data.title,
+      level: data.level,
+      mode: data.mode,
+      description: data.description,
+      category: data.category[0],
+    }));
+
+    const formData = {
+      title: data.title,
+      level: data.level,
+      mode: data.mode,
+      description: data.description,
+      category: data.category[0],
+    };
+
+    const { title, level, mode, description, category } = formData;
+
+    const requestData = {
+      title,
+      level,
+      mode,
+      description,
+      category,
+    };
+
+    try {
+      const response = await fetch(
+        `http://localhost:4002/api/helphub/hability/${ability._id}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(requestData),
+        },
+      );
+
+      if (!response.ok) {
+        console.log("Request Data", requestData);
+        throw new Error("Error sending data");
+      }
+
+      onRequestClose(onRequestClose);
+      alert("¡Habilidad editada con éxito!");
+    } catch (error) {
+      console.error(error.message);
+      alert("Se ha producido un error, intenta de nuevo.");
+    }
+  };
 
   return (
     <Modal transparent={true} visible={visible} onRequestClose={onRequestClose}>
@@ -144,28 +198,28 @@ export const EditAbility = ({ onRequestClose, visible }) => {
                   >
                     <View className="mr-2 w-auto mb-2">
                       <CustomRadio
-                        label="Básico"
-                        isSelected={value === "Básico"}
+                        label="basic"
+                        isSelected={value === "basic"}
                         onPress={() => {
-                          onChange("Básico");
+                          onChange("basic");
                         }}
                       />
                     </View>
                     <View className="mr-2 w-auto mb-2">
                       <CustomRadio
-                        label="Medio"
-                        isSelected={value === "Medio"}
+                        label="medium"
+                        isSelected={value === "medium"}
                         onPress={() => {
-                          onChange("Medio");
+                          onChange("medium");
                         }}
                       />
                     </View>
                     <View className="mr-2 w-auto mb-2">
                       <CustomRadio
-                        label="Avanzado"
-                        isSelected={value === "Avanzado"}
+                        label="high"
+                        isSelected={value === "high"}
                         onPress={() => {
-                          onChange("Avanzado");
+                          onChange("high");
                         }}
                       />
                     </View>
@@ -202,10 +256,10 @@ export const EditAbility = ({ onRequestClose, visible }) => {
                     `}
                     >
                       <CustomRadio
-                        label="Online"
-                        isSelected={value === "Online"}
+                        label="online"
+                        isSelected={value === "online"}
                         onPress={() => {
-                          onChange("Online");
+                          onChange("online");
                         }}
                       />
                     </View>
@@ -216,10 +270,10 @@ export const EditAbility = ({ onRequestClose, visible }) => {
                     `}
                     >
                       <CustomRadio
-                        label="Presencial"
-                        isSelected={value === "Presencial"}
+                        label="presential"
+                        isSelected={value === "presential"}
                         onPress={() => {
-                          onChange("Presencial");
+                          onChange("presential");
                         }}
                       />
                     </View>
