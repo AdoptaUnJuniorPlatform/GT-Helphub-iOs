@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import { useFocusEffect } from "@react-navigation/native";
 import {
   Text,
@@ -20,6 +20,7 @@ import {
   Calendar,
   CustomRating,
   EditIcon,
+  CheckIcon,
 } from "../components";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { getToken } from "../auth/authService";
@@ -35,14 +36,19 @@ export default function ProfileScreen({ navigation }) {
   const { profileData, setProfileData } = useProfile();
   const { userData } = useUser();
 
+  const [abilities, setAbilities] = useState([]);
   const [selected, setSelected] = useState("Habilidades");
   const [isEditAbilityVisible, setEditAbilityVisible] = useState(false);
   const [isEditProfileVisible, setEditProfileVisible] = useState(false);
   const [isCreateProfileWarningVisible, setCreateProfileWarningVisible] =
     useState(false);
+  const [selectedAbility, setSelectedAbility] = useState(null);
   const opacity = useRef(new Animated.Value(0)).current;
 
-  const toggleEditAbility = () => {
+  const user_id = profileData.userId._id;
+
+  const toggleEditAbility = (ability) => {
+    setSelectedAbility(ability);
     setEditAbilityVisible(!isEditAbilityVisible);
   };
 
@@ -105,6 +111,69 @@ export default function ProfileScreen({ navigation }) {
       fetchProfile();
     }, []),
   );
+
+  useEffect(() => {
+    const fetchAbilities = async () => {
+      try {
+        const token = await getToken();
+
+        const response = await fetch(
+          `http://localhost:4002/api/helphub/hability/user-habilities/${user_id}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          },
+        );
+
+        if (response.status === 200) {
+          const data = await response.json();
+          setAbilities(data);
+        } else {
+          const errorData = await response.json();
+          console.error(errorData.message);
+          alert("Se ha producido un error, intenta de nuevo.");
+        }
+      } catch (error) {
+        console.error(error);
+        alert("Se ha producido un error, intenta de nuevo.");
+      }
+    };
+
+    fetchAbilities();
+  }, [user_id, abilities]);
+
+  const deleteAbility = async (abilityId) => {
+    try {
+      const token = await getToken();
+      const response = await fetch(
+        `http://localhost:4002/api/helphub/hability/${abilityId}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      if (response.status === 200) {
+        setAbilities((prevAbilities) =>
+          prevAbilities.filter((ability) => ability._id !== abilityId),
+        );
+        alert("Habilidad eliminada correctamente.");
+      } else {
+        const errorData = await response.json();
+        console.error(errorData.message);
+        alert("Se ha producido un error al eliminar la habilidad.");
+      }
+    } catch (error) {
+      console.error(error);
+      alert("Se ha producido un error, intenta de nuevo.");
+    }
+  };
 
   return (
     <SafeAreaView className="flex-1 bg-neutros-gris-fondo">
@@ -322,7 +391,12 @@ export default function ProfileScreen({ navigation }) {
                   Mis habilidades
                 </Text>
                 <CustomButton
-                  onPress={() => navigation.navigate("AddAbilityFlow")}
+                  onPress={() =>
+                    navigation.navigate("AddAbilityFlow", {
+                      screen: "AddAbilityStep1",
+                      params: { abilitiesCount: abilities.length },
+                    })
+                  }
                   title="Nueva Habilidad"
                   width="content"
                   children={
@@ -334,24 +408,15 @@ export default function ProfileScreen({ navigation }) {
               </View>
               <View className="pl-4 mt-4">
                 <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-                  <View>
-                    <AbilityCard
-                      onDelete={() => console.log("delete ability")}
-                      onEdit={toggleEditAbility}
-                    />
-                  </View>
-                  <View>
-                    <AbilityCard
-                      onDelete={() => console.log("delete ability")}
-                      onEdit={toggleEditAbility}
-                    />
-                  </View>
-                  <View>
-                    <AbilityCard
-                      onDelete={() => console.log("delete ability")}
-                      onEdit={toggleEditAbility}
-                    />
-                  </View>
+                  {abilities.map((ability) => (
+                    <View key={ability._id}>
+                      <AbilityCard
+                        ability={ability}
+                        onDelete={() => deleteAbility(ability._id)}
+                        onEdit={() => toggleEditAbility(ability)}
+                      />
+                    </View>
+                  ))}
                 </ScrollView>
               </View>
             </>
@@ -429,16 +494,42 @@ export default function ProfileScreen({ navigation }) {
             }}
           >
             <View className="mb-[24px]">
-              <Text
-                className={`text-neutral-color-gray-900 font-poppins-semibold w-[90%] ${isBigScreen ? "text-[26px] mb-[12px]" : isSmallScreen ? "text-[22px] mb-[8px]" : "text-[24px] mb-[8px]"}`}
-              >
-                Vamos a crear tu perfil
+              <View className="flex-row justify-center">
+                <CheckIcon />
+              </View>
+
+              <Text className="my-2 text-primarios-violeta-100 font-roboto-bold text-2xl text-center">
+                Personaliza tu Experiencia
               </Text>
+              <Text className="mb-2 text-primarios-violeta-80 font-roboto-medium text-base text-center">
+                Cuéntanos de ti y activa tu primera habilidad.
+              </Text>
+              <View className="mb-2 py-[11px] px-6 rounded-lg bg-neutros-beige-fondo w-full">
+                <Text
+                  className={`
+                    text-neutros-negro-80 font-roboto-regular text-sm 
+                    ${isSmallScreen ? "w-[90%]" : ""}
+                    `}
+                >
+                  Completa los detalles y recibe recomendaciones personalizadas.
+                </Text>
+              </View>
+              <View className="py-[11px] px-6 rounded-lg bg-neutros-beige-fondo w-full">
+                <Text
+                  className={`
+                    text-neutros-negro-80 font-roboto-regular text-sm 
+                    ${isSmallScreen ? "w-[90%]" : ""}
+                    `}
+                >
+                  Añade al menos una habilidad para iniciar tu experiencia de
+                  intercambio.
+                </Text>
+              </View>
             </View>
             <View className="items-end">
               <CustomButton
                 onPress={() => navigation.navigate("CreateProfileFlow")}
-                title="Continuar"
+                title="Completar perfil"
                 width="content"
               />
             </View>
@@ -448,6 +539,7 @@ export default function ProfileScreen({ navigation }) {
 
       {isEditAbilityVisible && (
         <EditAbility
+          ability={selectedAbility}
           visible={isEditAbilityVisible}
           onRequestClose={toggleEditAbility}
         />

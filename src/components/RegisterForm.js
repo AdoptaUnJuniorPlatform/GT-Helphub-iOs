@@ -294,8 +294,8 @@ export const RegisterForm = ({ navigation }) => {
     ${errors.password ? "text-red-error" : "text-neutros-negro-80"}
           `}
       >
-        La contraseña debe incluir al menos 6 caracteres, una letra mayúscula,
-        un número y un símbolo.
+        La contraseña debe incluir al menos 6 caracteres, una letra mayúscula,
+        un carácter especial (ej: @) y un número.
       </Text>
 
       {/* ToggleSwitch */}

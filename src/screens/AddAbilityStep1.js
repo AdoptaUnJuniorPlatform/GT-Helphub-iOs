@@ -10,19 +10,19 @@ import {
 import { CustomButton, CustomTextarea, CustomRadio } from "../components";
 import Feather from "@expo/vector-icons/Feather";
 import AntDesign from "@expo/vector-icons/AntDesign";
+import { useAbility } from "../ability/AbilityContext";
 
 const { width } = Dimensions.get("window");
 
-const AddAbilityStep1 = ({ onRequestClose, visible, navigation }) => {
+const AddAbilityStep1 = ({ onRequestClose, visible, route, navigation }) => {
   const isSmallScreen = width <= 392;
   const isBigScreen = width >= 430;
 
-  const [isDialogVisible, setDialogVisible] = useState(false);
+  const { setAbilityData } = useAbility();
 
-  const onSubmit = (data) => {
-    console.log(data);
-    navigation.navigate("AddAbilityStep2");
-  };
+  const { abilitiesCount } = route.params;
+
+  const [isDialogVisible, setDialogVisible] = useState(false);
 
   const {
     control,
@@ -36,6 +36,17 @@ const AddAbilityStep1 = ({ onRequestClose, visible, navigation }) => {
     },
     mode: "onChange",
   });
+
+  const onSubmit = (data) => {
+    console.log(data);
+    setAbilityData((prevData) => ({
+      ...prevData,
+      title: data.title,
+      level: data.level,
+      mode: data.mode,
+    }));
+    navigation.navigate("AddAbilityStep2");
+  };
 
   const toggleDialog = () => {
     setDialogVisible(!isDialogVisible);
@@ -81,7 +92,11 @@ const AddAbilityStep1 = ({ onRequestClose, visible, navigation }) => {
           <View className="flex-row items-center gap-4 mb-2">
             <AntDesign name="checkcircleo" size={24} color="#43A047" />
             <Text className="text-sm text-terciario-verde-oscuro font-roboto-medium">
-              ¡Ya tienes 2 habilidades!
+              ¡Ya tienes {JSON.stringify(abilitiesCount)}{" "}
+              {JSON.stringify(abilitiesCount) !== "1"
+                ? "habilidades"
+                : "habilidad"}
+              !
             </Text>
           </View>
           <Text className="text-xs text-terciario-verde-oscuro font-roboto-400">
@@ -250,28 +265,28 @@ const AddAbilityStep1 = ({ onRequestClose, visible, navigation }) => {
                 >
                   <View className="mr-2 w-auto mb-2">
                     <CustomRadio
-                      label="Básico"
-                      isSelected={value === "Básico"}
+                      label="basic"
+                      isSelected={value === "basic"}
                       onPress={() => {
-                        onChange("Básico");
+                        onChange("basic");
                       }}
                     />
                   </View>
                   <View className="mr-2 w-auto mb-2">
                     <CustomRadio
-                      label="Medio"
-                      isSelected={value === "Medio"}
+                      label="medium"
+                      isSelected={value === "medium"}
                       onPress={() => {
-                        onChange("Medio");
+                        onChange("medium");
                       }}
                     />
                   </View>
                   <View className="mr-2 w-auto mb-2">
                     <CustomRadio
-                      label="Avanzado"
-                      isSelected={value === "Avanzado"}
+                      label="high"
+                      isSelected={value === "high"}
                       onPress={() => {
-                        onChange("Avanzado");
+                        onChange("high");
                       }}
                     />
                   </View>
@@ -309,10 +324,10 @@ const AddAbilityStep1 = ({ onRequestClose, visible, navigation }) => {
                     `}
                   >
                     <CustomRadio
-                      label="Online"
-                      isSelected={value === "Online"}
+                      label="online"
+                      isSelected={value === "online"}
                       onPress={() => {
-                        onChange("Online");
+                        onChange("online");
                       }}
                     />
                   </View>
@@ -323,10 +338,10 @@ const AddAbilityStep1 = ({ onRequestClose, visible, navigation }) => {
                     `}
                   >
                     <CustomRadio
-                      label="Presencial"
-                      isSelected={value === "Presencial"}
+                      label="presential"
+                      isSelected={value === "presential"}
                       onPress={() => {
-                        onChange("Presencial");
+                        onChange("presential");
                       }}
                     />
                   </View>

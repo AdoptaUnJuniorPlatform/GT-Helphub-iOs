@@ -9,8 +9,9 @@ import {
 } from "react-native";
 import { CustomButton, CustomTextarea, CustomDropdown } from "../components";
 import Feather from "@expo/vector-icons/Feather";
-import AntDesign from "@expo/vector-icons/AntDesign";
 import { categories } from "../data/data";
+import { getToken } from "../auth/authService";
+import { useAbility } from "../ability/AbilityContext";
 
 const { width } = Dimensions.get("window");
 
@@ -18,12 +19,9 @@ const AddAbilityStep2 = ({ onRequestClose, visible, navigation }) => {
   const isSmallScreen = width <= 392;
   const isBigScreen = width >= 430;
 
-  const [isDialogVisible, setDialogVisible] = useState(false);
+  const { abilityData, setAbilityData } = useAbility();
 
-  const onSubmit = (data) => {
-    console.log(data);
-    navigation.navigate("HomeTabs");
-  };
+  const [isDialogVisible, setDialogVisible] = useState(false);
 
   const {
     control,
@@ -36,6 +34,59 @@ const AddAbilityStep2 = ({ onRequestClose, visible, navigation }) => {
     },
     mode: "onChange",
   });
+
+  const onSubmit = async (data) => {
+    const token = await getToken();
+
+    setAbilityData((prevData) => ({
+      ...prevData,
+      description: data.description,
+      category: data.category[0],
+    }));
+
+    const formData = {
+      ...abilityData,
+      description: data.description,
+      category: data.category[0],
+    };
+
+    const { title, level, mode, description, category } = formData;
+
+    const requestData = {
+      title,
+      level,
+      mode,
+      description,
+      category,
+    };
+
+    try {
+      const response = await fetch(
+        "http://localhost:4002/api/helphub/hability",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(requestData),
+        },
+      );
+
+      if (!response.ok) {
+        console.log("Request Data", requestData);
+        throw new Error("Error sending data");
+      }
+
+      const result = await response.json();
+      console.log(result);
+      setAbilityData(result);
+      navigation.navigate("HomeTabs");
+    } catch (error) {
+      console.error(error.message);
+      alert("Se ha producido un error, intenta de nuevo.");
+    }
+  };
 
   const toggleDialog = () => {
     setDialogVisible(!isDialogVisible);

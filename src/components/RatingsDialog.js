@@ -184,7 +184,7 @@ a Evangelina."
           </View>
 
           <View className="flex-row justify-end">
-            <View className="mr-2">
+            {/* <View className="mr-2">
               <TouchableOpacity
                 onPress={() => console.log("reportar perfil")}
                 className="h-[36px] flex-row items-center justify-center rounded-lg px-4 border-[1px] border-neutros-negro-80"
@@ -193,7 +193,7 @@ a Evangelina."
                   Reportar perfil
                 </Text>
               </TouchableOpacity>
-            </View>
+            </View> */}
             <CustomButton
               onPress={() => console.log("enviar")}
               title={"Enviar"}

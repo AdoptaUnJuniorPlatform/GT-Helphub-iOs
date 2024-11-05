@@ -103,8 +103,6 @@ export default function RegisterStep5({ navigation }) {
     }
   };
 
-  console.log("Profile Context: ", profileData);
-
   const toggleCategory = (label, onChange) => {
     setAllCategories((prevCategories) => {
       const activeCategories = prevCategories.filter(

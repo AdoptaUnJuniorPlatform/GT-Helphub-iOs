@@ -147,15 +147,6 @@ export const EditProfile = ({ onRequestClose, visible }) => {
       selectedDays: data.selectedDays,
     };
 
-    // const payload = {
-    //   description: "Soy un desarrollador...",
-    //   interestedSkills: ["Computing", "Languages", "Tutoring"],
-    //   location: "12345",
-    //   profilePicture: data.profilePicture,
-    //   preferredTimeRange: "08:00hs a 14:00hs",
-    //   selectedDays: ["Lunes", "Miércoles", "Viernes"],
-    // };
-
     try {
       await AsyncStorage.setItem("formData", JSON.stringify(formData));
 
@@ -251,7 +242,10 @@ export const EditProfile = ({ onRequestClose, visible }) => {
                 control={control}
                 name="description"
                 rules={{
-                  required: "La descripción es obligatoria",
+                  required: {
+                    value: true,
+                    message: "Descripción es obligatoria",
+                  },
                   maxLength: {
                     value: 160,
                     message: "Máximo 160 caracteres",
@@ -278,7 +272,10 @@ export const EditProfile = ({ onRequestClose, visible }) => {
                 control={control}
                 name="location"
                 rules={{
-                  required: "La ubicación es obligatoria",
+                  required: {
+                    value: true,
+                    message: "Código postal es obligatorio",
+                  },
                   pattern: {
                     value: /^[0-9]{5}$/,
                     message: "El código postal debe ser de 5 dígitos",
@@ -331,6 +328,12 @@ export const EditProfile = ({ onRequestClose, visible }) => {
                 <Controller
                   control={control}
                   name="profilePicture"
+                  rules={{
+                    required: {
+                      value: true,
+                      message: "Foto es obligatorio",
+                    },
+                  }}
                   render={({ field: { value } }) => (
                     <>
                       {value ? (
@@ -376,35 +379,68 @@ export const EditProfile = ({ onRequestClose, visible }) => {
               <Controller
                 control={control}
                 name="preferredTimeRange"
-                rules={{ required: "Selecciona un horario" }}
+                rules={{
+                  required: {
+                    value: true,
+                    message: "Disponibilidad horaria es obligatoria",
+                  },
+                }}
                 render={({ field: { onChange, value } }) => (
                   <View
                     className={`
-                  flex flex-wrap flex-row mt-2
-                  ${isSmallScreen ? "justify-start" : "justify-between"}
-                  `}
+        flex flex-wrap flex-row mt-2
+        ${isSmallScreen ? "justify-start" : "justify-between"}
+      `}
                   >
-                    {[
-                      "8:00 a 14:00",
-                      "15:00 a 17:00",
-                      "17:00 a 21:00",
-                      "8:00 a 17:00",
-                      "Horario flexible",
-                    ].map((label) => (
-                      <View
-                        key={label}
-                        className={`
-                        ${isSmallScreen ? "w-[28%] mr-2" : "w-[48%]"} 
-                        mb-2
-                        `}
-                      >
-                        <CustomRadio
-                          label={label}
-                          isSelected={value === label}
-                          onPress={() => onChange(label)}
-                        />
-                      </View>
-                    ))}
+                    <View
+                      className={`${isSmallScreen ? "w-[28%] mr-2" : "w-[48%]"} mb-2`}
+                    >
+                      <CustomRadio
+                        label="08:00hs a 14:00hs"
+                        isSelected={value === "08:00hs a 14:00hs"}
+                        onPress={() => onChange("08:00hs a 14:00hs")}
+                      />
+                    </View>
+
+                    <View
+                      className={`${isSmallScreen ? "w-[28%] mr-2" : "w-[48%]"} mb-2`}
+                    >
+                      <CustomRadio
+                        label="15:00hs a 17:00hs"
+                        isSelected={value === "15:00hs a 17:00hs"}
+                        onPress={() => onChange("15:00hs a 17:00hs")}
+                      />
+                    </View>
+
+                    <View
+                      className={`${isSmallScreen ? "w-[28%] mr-2" : "w-[48%]"} mb-2`}
+                    >
+                      <CustomRadio
+                        label="17:00hs a 21:00hs"
+                        isSelected={value === "17:00hs a 21:00hs"}
+                        onPress={() => onChange("17:00hs a 21:00hs")}
+                      />
+                    </View>
+
+                    <View
+                      className={`${isSmallScreen ? "w-[28%] mr-2" : "w-[48%]"} mb-2`}
+                    >
+                      <CustomRadio
+                        label="08:00hs a 21:00hs"
+                        isSelected={value === "08:00hs a 21:00hs"}
+                        onPress={() => onChange("08:00hs a 21:00hs")}
+                      />
+                    </View>
+
+                    <View
+                      className={`${isSmallScreen ? "w-[28%] mr-2" : "w-[48%]"} mb-2`}
+                    >
+                      <CustomRadio
+                        label="Flexible schedule"
+                        isSelected={value === "Flexible schedule"}
+                        onPress={() => onChange("Flexible schedule")}
+                      />
+                    </View>
                   </View>
                 )}
               />
@@ -436,7 +472,12 @@ export const EditProfile = ({ onRequestClose, visible }) => {
               <Controller
                 control={control}
                 name="selectedDays"
-                rules={{ required: "Selecciona al menos un día" }}
+                rules={{
+                  required: {
+                    value: true,
+                    message: "Días son obligatorios",
+                  },
+                }}
                 render={({ field: { onChange, value } }) => (
                   <CustomDropdown
                     label="Seleccionar días"
@@ -460,15 +501,16 @@ export const EditProfile = ({ onRequestClose, visible }) => {
                 ¿Qué te gustaría aprender?
               </Text>
               <Text className="my-2 text-neutros-negro-80 font-roboto-medium text-sm">
-                Puedes seleccionar hasta 3 categorías
+                Puedes seleccionar hasta 3 categorías.
               </Text>
               <Controller
                 control={control}
                 name="interestedSkills"
                 rules={{
-                  validate: (value) =>
-                    value.length > 0 ||
-                    "Debes seleccionar al menos una categoría.",
+                  required: {
+                    value: true,
+                    message: "Categorías son obligatorias",
+                  },
                 }}
                 render={({ field: { onChange, value } }) => (
                   <View className="flex flex-wrap flex-row justify-start align-center gap-2 mt-1">

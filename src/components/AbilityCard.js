@@ -3,7 +3,7 @@ import { CustomButton } from "./CustomButton";
 
 const { width } = Dimensions.get("window");
 
-export const AbilityCard = ({ onDelete, onEdit }) => {
+export const AbilityCard = ({ onDelete, onEdit, ability }) => {
   const isSmallScreen = width <= 392;
   const isBigScreen = width >= 430;
 
@@ -28,7 +28,7 @@ export const AbilityCard = ({ onDelete, onEdit }) => {
             font-roboto-regular text-neutros-negro
             `}
         >
-          Pintura al óleo
+          {ability?.title}
         </Text>
       </View>
 
@@ -40,75 +40,156 @@ export const AbilityCard = ({ onDelete, onEdit }) => {
           `}
       ></View>
 
-      {/* Level */}
-      <View className="flex-row w-content gap-2 px-4">
-        <View className="flex-row w-content px-[11px] rounded-full items-center bg-neutral-color-blue-gray-50">
-          <Text
-            className={`
-              ${isSmallScreen ? "text-[10px]" : "text-xs"}
-              font-roboto-regular text-neutros-negro-80
-              `}
-          >
-            Básico
-          </Text>
-        </View>
-
-        <View className="flex-row w-content px-[11px] h-[22px] rounded-full items-center bg-primarios-celeste-100">
-          <Text
-            className={`
+      <View className="flex-1 justify-between">
+        <View>
+          {/* Level */}
+          {ability?.level === "basic" && (
+            <View className="flex-row w-content gap-2 px-4">
+              <View className="flex-row w-content px-[11px] h-[22px] rounded-full items-center bg-primarios-celeste-100">
+                <Text
+                  className={`
               font-roboto-regular text-white 
               ${isSmallScreen ? "text-[10px]" : "text-xs"}
               `}
-          >
-            Medio
-          </Text>
-        </View>
+                >
+                  Básico
+                </Text>
+              </View>
 
-        <View className="flex-row w-content px-[11px] h-[22px] rounded-full items-center bg-neutral-color-blue-gray-50">
-          <Text
-            className={`
+              <View className="flex-row w-content px-[11px] rounded-full items-center bg-neutral-color-blue-gray-50">
+                <Text
+                  className={`
+              ${isSmallScreen ? "text-[10px]" : "text-xs"}
+              font-roboto-regular text-neutros-negro-80
+              `}
+                >
+                  Medio
+                </Text>
+              </View>
+
+              <View className="flex-row w-content px-[11px] h-[22px] rounded-full items-center bg-neutral-color-blue-gray-50">
+                <Text
+                  className={`
               ${isSmallScreen ? "text-[10px]" : "text-xs"}
               text-neutros-negro-80 font-roboto-regular
               `}
-          >
-            Avanzado
-          </Text>
-        </View>
-      </View>
+                >
+                  Avanzado
+                </Text>
+              </View>
+            </View>
+          )}
 
-      {/* Description */}
-      <View
-        className={`
+          {ability?.level === "medium" && (
+            <View className="flex-row w-content gap-2 px-4">
+              <View className="flex-row w-content px-[11px] rounded-full items-center bg-neutral-color-blue-gray-50">
+                <Text
+                  className={`
+              ${isSmallScreen ? "text-[10px]" : "text-xs"}
+              font-roboto-regular text-neutros-negro-80
+              `}
+                >
+                  Básico
+                </Text>
+              </View>
+
+              <View className="flex-row w-content px-[11px] h-[22px] rounded-full items-center bg-primarios-celeste-100">
+                <Text
+                  className={`
+              font-roboto-regular text-white 
+              ${isSmallScreen ? "text-[10px]" : "text-xs"}
+              `}
+                >
+                  Medio
+                </Text>
+              </View>
+
+              <View className="flex-row w-content px-[11px] h-[22px] rounded-full items-center bg-neutral-color-blue-gray-50">
+                <Text
+                  className={`
+              ${isSmallScreen ? "text-[10px]" : "text-xs"}
+              text-neutros-negro-80 font-roboto-regular
+              `}
+                >
+                  Avanzado
+                </Text>
+              </View>
+            </View>
+          )}
+
+          {ability?.level === "high" && (
+            <View className="flex-row w-content gap-2 px-4">
+              <View className="flex-row w-content px-[11px] rounded-full items-center bg-neutral-color-blue-gray-50">
+                <Text
+                  className={`
+              ${isSmallScreen ? "text-[10px]" : "text-xs"}
+              font-roboto-regular text-neutros-negro-80
+              `}
+                >
+                  Básico
+                </Text>
+              </View>
+
+              <View className="flex-row w-content px-[11px] h-[22px] rounded-full items-center bg-neutral-color-blue-gray-50">
+                <Text
+                  className={`
+              ${isSmallScreen ? "text-[10px]" : "text-xs"}
+              text-neutros-negro-80 font-roboto-regular
+              `}
+                >
+                  Medio
+                </Text>
+              </View>
+
+              <View className="flex-row w-content px-[11px] h-[22px] rounded-full items-center bg-primarios-celeste-100">
+                <Text
+                  className={`
+              font-roboto-regular text-white 
+              ${isSmallScreen ? "text-[10px]" : "text-xs"}
+              `}
+                >
+                  Avanzado
+                </Text>
+              </View>
+            </View>
+          )}
+
+          {/* Description */}
+          <View
+            className={`
         px-4 
         ${isSmallScreen ? "mt-1" : "mt-6"}
         `}
-      >
-        <Text className="text-neutros-negro leading-5 font-roboto-regular text-sm">
-          Aprende a preparar un plato vegano delicioso y nutritivo (desde
-          entrantes hasta postres)
-        </Text>
-      </View>
+          >
+            <Text className="text-neutros-negro leading-5 font-roboto-regular text-sm">
+              {ability?.description}
+            </Text>
+          </View>
+        </View>
 
-      {/* Separator */}
-      <View className="my-2 border-b-[0.5px] border-b-neutral-color-blue-gray-50"></View>
-
-      {/* Button Set */}
-      <View className="flex-1 flex-row justify-start px-4">
-        <TouchableOpacity
-          onPress={onDelete}
-          className="mr-2 px-3 flex-row h-[36px] items-center justify-center rounded-lg border-[1px] border-neutros-negro bg-white"
-        >
-          <Text className="font-roboto-bold text-xs uppercase text-neutros-negro">
-            Borrar
-          </Text>
-        </TouchableOpacity>
         <View>
-          <CustomButton
-            onPress={onEdit}
-            title={"Editar"}
-            variant="filled"
-            width="content"
-          />
+          {/* Separator */}
+          <View className="my-2 border-b-[0.5px] border-b-neutral-color-blue-gray-50"></View>
+
+          {/* Button Set */}
+          <View className="flex-row justify-start px-4">
+            <TouchableOpacity
+              onPress={onDelete}
+              className="mr-2 px-3 flex-row h-[36px] items-center justify-center rounded-lg border-[1px] border-neutros-negro bg-white"
+            >
+              <Text className="font-roboto-bold text-xs uppercase text-neutros-negro">
+                Borrar
+              </Text>
+            </TouchableOpacity>
+            <View>
+              <CustomButton
+                onPress={onEdit}
+                title={"Editar"}
+                variant="filled"
+                width="content"
+              />
+            </View>
+          </View>
         </View>
       </View>
     </View>
