@@ -5,7 +5,6 @@ import {
   View,
   SafeAreaView,
   ScrollView,
-  Dimensions,
   TouchableOpacity,
   Modal,
   Image,
@@ -24,13 +23,11 @@ import { useProfile } from "../profile/ProfileContext";
 import { useUser } from "../user/UserContext";
 import { categories } from "../data/data";
 import { getToken } from "../auth/authService";
+import { getScreenSize } from "../utils/screenSize";
 import Feather from "@expo/vector-icons/Feather";
 
-const { width } = Dimensions.get("window");
-
 export default function RegisterStep1({ navigation }) {
-  const isSmallScreen = width <= 392;
-  const isBigScreen = width >= 430;
+  const { isSmallScreen, isBigScreen } = getScreenSize();
 
   const { abilityData, setAbilityData } = useAbility();
   const { profileData, setProfileData } = useProfile();

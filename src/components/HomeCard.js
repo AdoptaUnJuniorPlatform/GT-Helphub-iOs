@@ -1,12 +1,10 @@
-import { View, Text, Image, Dimensions } from "react-native";
+import { View, Text, Image } from "react-native";
 import { CustomChip } from "./CustomChip";
 import { CustomButton } from "./CustomButton";
+import { getScreenSize } from "../utils/screenSize";
 
-const { width } = Dimensions.get("window");
-
-export const HomeCard = ({ onPress }) => {
-  const isSmallScreen = width <= 392;
-  const isBigScreen = width >= 430;
+export const HomeCard = ({ onPress, data }) => {
+  const { isSmallScreen, isBigScreen } = getScreenSize();
 
   return (
     <View
@@ -50,7 +48,7 @@ export const HomeCard = ({ onPress }) => {
             ${isSmallScreen ? "text-lg" : "text-xl"}
             `}
         >
-          Cuidado de animales
+          {data?.title}
         </Text>
       </View>
 
@@ -75,22 +73,78 @@ export const HomeCard = ({ onPress }) => {
       ></View>
 
       {/* Level */}
-      <View className="flex-row gap-2 px-4">
-        <View className="flex-row w-content px-[11px] h-[22px] rounded-full items-center bg-neutral-color-blue-gray-50">
-          <Text className="font-roboto-regular text-[12px] text-neutros-negro-80">
-            Básico
-          </Text>
-        </View>
+      <View className="flex-row w-content gap-2 px-4">
+        {data?.level === "basic" ? (
+          <View className="flex-row w-content px-[11px] h-[22px] rounded-full items-center bg-primarios-celeste-100">
+            <Text
+              className={`
+              font-roboto-regular text-white 
+              ${isSmallScreen ? "text-[10px]" : "text-xs"}
+              `}
+            >
+              Básico
+            </Text>
+          </View>
+        ) : (
+          <View className="flex-row w-content px-[11px] rounded-full items-center bg-neutral-color-blue-gray-50">
+            <Text
+              className={`
+              ${isSmallScreen ? "text-[10px]" : "text-xs"}
+              font-roboto-regular text-neutros-negro-80
+              `}
+            >
+              Básico
+            </Text>
+          </View>
+        )}
 
-        <View className="flex-row w-content px-[11px] h-[22px] rounded-full items-center bg-primarios-celeste-100">
-          <Text className="font-roboto-regular text-xs text-white">Medio</Text>
-        </View>
+        {data?.level === "medium" ? (
+          <View className="flex-row w-content px-[11px] h-[22px] rounded-full items-center bg-primarios-celeste-100">
+            <Text
+              className={`
+          font-roboto-regular text-white 
+          ${isSmallScreen ? "text-[10px]" : "text-xs"}
+          `}
+            >
+              Medio
+            </Text>
+          </View>
+        ) : (
+          <View className="flex-row w-content px-[11px] rounded-full items-center bg-neutral-color-blue-gray-50">
+            <Text
+              className={`
+              ${isSmallScreen ? "text-[10px]" : "text-xs"}
+              font-roboto-regular text-neutros-negro-80
+              `}
+            >
+              Medio
+            </Text>
+          </View>
+        )}
 
-        <View className="flex-row w-content px-[11px] h-[22px] rounded-full items-center bg-neutral-color-blue-gray-50">
-          <Text className="font-roboto-regular text-xs text-neutros-negro-80">
-            Avanzado
-          </Text>
-        </View>
+        {data?.level === "high" ? (
+          <View className="flex-row w-content px-[11px] h-[22px] rounded-full items-center bg-primarios-celeste-100">
+            <Text
+              className={`
+              font-roboto-regular text-white 
+              ${isSmallScreen ? "text-[10px]" : "text-xs"}
+              `}
+            >
+              Avanzado
+            </Text>
+          </View>
+        ) : (
+          <View className="flex-row w-content px-[11px] h-[22px] rounded-full items-center bg-neutral-color-blue-gray-50">
+            <Text
+              className={`
+              ${isSmallScreen ? "text-[10px]" : "text-xs"}
+              text-neutros-negro-80 font-roboto-regular
+              `}
+            >
+              Avanzado
+            </Text>
+          </View>
+        )}
       </View>
 
       {/* Availability */}
@@ -117,8 +171,7 @@ export const HomeCard = ({ onPress }) => {
 
       {/* Descripción */}
       <Text className="my-2 px-4 text-neutros-negro-80 text-sm font-roboto-regular">
-        Aprende a preparar un plato vegano delicioso y nutritivo (desde
-        entrantes hasta postres)
+        {data?.description}
       </Text>
 
       {/* Separator */}
@@ -132,10 +185,7 @@ export const HomeCard = ({ onPress }) => {
       {/* Categories */}
       <View className="flex-row gap-2 px-4">
         <View>
-          <CustomChip label={"Animales"} status={"inactive"} showBorder />
-        </View>
-        <View>
-          <CustomChip label={"Consultoría"} status={"inactive"} showBorder />
+          <CustomChip label={data?.category} status={"inactive"} showBorder />
         </View>
       </View>
 

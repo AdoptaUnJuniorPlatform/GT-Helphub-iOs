@@ -1,17 +1,15 @@
 import { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
-import { View, Text, Linking, TextInput, Dimensions } from "react-native";
+import { View, Text, Linking, TextInput } from "react-native";
 import { ToggleSwitch } from "./ToggleSwitch";
 import { CustomCheckbox } from "./CustomCheckbox";
 import { CustomButton } from "./CustomButton";
 import { generateRandomCode } from "../utils/twoFaCodeGenerator";
 import { useUser } from "../user/UserContext";
-
-const { width } = Dimensions.get("window");
+import { getScreenSize } from "../utils/screenSize";
 
 export const RegisterForm = ({ navigation }) => {
-  const isSmallScreen = width <= 392;
-  const isBigScreen = width >= 430;
+  const { isSmallScreen, isBigScreen } = getScreenSize();
 
   const { userData, setUserData } = useUser();
 

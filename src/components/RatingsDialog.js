@@ -5,20 +5,17 @@ import {
   Pressable,
   Text,
   Image,
-  Dimensions,
   TouchableOpacity,
 } from "react-native";
 import { CustomButton } from "./CustomButton";
 import { CustomTextarea } from "./CustomTextarea";
+import { getScreenSize } from "../utils/screenSize";
 import Entypo from "@expo/vector-icons/Entypo";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 
-const { width } = Dimensions.get("window");
-
 export const RatingsDialog = ({ isDialogVisible, toggleDialog }) => {
-  const isSmallScreen = width <= 392;
-  const isBigScreen = width >= 430;
+  const { isSmallScreen } = getScreenSize();
 
   const [description, setDescription] = useState("");
   const [rating, setRating] = useState(0);

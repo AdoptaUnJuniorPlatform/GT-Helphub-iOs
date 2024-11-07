@@ -6,16 +6,13 @@ import {
   SafeAreaView,
   TouchableOpacity,
   TextInput,
-  Dimensions,
 } from "react-native";
 import { LogoLight } from "../components";
 import { generateRandomCode } from "../utils/twoFaCodeGenerator";
-
-const { width } = Dimensions.get("window");
+import { getScreenSize } from "../utils/screenSize";
 
 export default function ResetPasswordStep1({ navigation }) {
-  const isSmallScreen = width <= 392;
-  const isBigScreen = width >= 430;
+  const { isSmallScreen } = getScreenSize();
 
   const [isEmailFocused, setIsEmailFocused] = useState(false);
 

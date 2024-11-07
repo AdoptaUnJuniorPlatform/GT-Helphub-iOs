@@ -7,7 +7,6 @@ import {
   Pressable,
   Animated,
   Easing,
-  Dimensions,
   Image,
 } from "react-native";
 import {
@@ -18,15 +17,13 @@ import {
   AvatarChecked,
 } from "../components";
 import { useProfile } from "../profile/ProfileContext";
-import * as ImagePicker from "expo-image-picker";
 import { Ionicons } from "@expo/vector-icons";
+import { getScreenSize } from "../utils/screenSize";
+import * as ImagePicker from "expo-image-picker";
 import Feather from "@expo/vector-icons/Feather";
 
-const { width } = Dimensions.get("window");
-
 export default function RegisterStep2({ navigation }) {
-  const isSmallScreen = width <= 392;
-  const isBigScreen = width >= 430;
+  const { isSmallScreen, isBigScreen } = getScreenSize();
 
   const [visible, setVisible] = useState(false);
   const opacity = useRef(new Animated.Value(0)).current;

@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
-  Dimensions,
   ScrollView,
   TouchableOpacity,
   SafeAreaView,
@@ -16,13 +15,11 @@ import {
   AlertDialogIcon,
   RatingsDialog,
 } from "../components";
+import { getScreenSize } from "../utils/screenSize";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 
-const { width } = Dimensions.get("window");
-
 const NotificationsScreen = ({ navigation }) => {
-  const isSmallScreen = width <= 392;
-  const isBigScreen = width >= 430;
+  const { isSmallScreen, isBigScreen } = getScreenSize();
 
   const [activeTab, setActiveTab] = useState("Activos");
   const [isDialogVisible, setDialogVisible] = useState(false);

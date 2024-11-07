@@ -6,17 +6,14 @@ import {
   ScrollView,
   Text,
   TouchableOpacity,
-  Dimensions,
 } from "react-native";
 import { CustomButton, StepHeader, StepTitle, CustomChip } from "../components";
 import { useProfile } from "../profile/ProfileContext";
 import { getToken } from "../auth/authService";
-
-const { width } = Dimensions.get("window");
+import { getScreenSize } from "../utils/screenSize";
 
 export default function RegisterStep5({ navigation }) {
-  const isSmallScreen = width <= 392;
-  const isBigScreen = width >= 430;
+  const { isSmallScreen, isBigScreen } = getScreenSize();
 
   const { profileData, setProfileData } = useProfile();
 

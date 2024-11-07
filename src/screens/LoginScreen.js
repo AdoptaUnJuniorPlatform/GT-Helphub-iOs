@@ -4,79 +4,14 @@ import {
   SafeAreaView,
   ImageBackground,
   TouchableOpacity,
-  Dimensions,
   ScrollView,
 } from "react-native";
 import { LogoLight, HeroCard } from "../components";
-
-const { width } = Dimensions.get("window");
+import { getScreenSize } from "../utils/screenSize";
+import { profiles } from "../data/data";
 
 export default function LoginScreen({ navigation }) {
-  const isSmallScreen = width <= 392;
-  const isBigScreen = width >= 430;
-
-  const profiles = [
-    {
-      id: 1,
-      image: require("../../assets/avatar14.png"),
-      name: "Pedro",
-      surname: "García",
-      ability: "Clases de Guitarra",
-      mode: "Online",
-      timeSlot: "17:00 a 21:00",
-      description:
-        "Me apasiona el análisis e identificación de errores y el diseño de soluciones creativas principalmente en aplicaciones móviles.",
-      category: "Tutorías",
-    },
-    {
-      id: 2,
-      image: require("../../assets/avatar15.png"),
-      name: "Laura",
-      surname: "Martínez",
-      ability: "Fotografía de Paisajes",
-      mode: "28001 Madrid, Madrid",
-      timeSlot: "08:00 a 17:00",
-      description:
-        "Descubre cómo capturar la luz natural, elegir los mejores ángulos y ajustar la configuración de la cámara para obtener fotos impresionantes.",
-      category: "Diseño",
-    },
-    {
-      id: 3,
-      image: require("../../assets/avatar16.png"),
-      name: "Joaquín",
-      surname: "Rodríguez",
-      ability: "Clases de Cocina Vegana",
-      mode: "Online",
-      timeSlot: "17:00 a 21:00",
-      description:
-        "Aprende a preparar un plato vegano delicioso y nutritivo (desde entrantes hasta postres)",
-      category: "Tutorías",
-    },
-    {
-      id: 4,
-      image: require("../../assets/avatar17.png"),
-      name: "Marta",
-      surname: "Fernández",
-      ability: "Paseo de Perros",
-      mode: "08007 Barcelona, Cataluña",
-      timeSlot: "Horario flexible",
-      description:
-        "Paseo de perros con atención personalizada, garantizando que tu mascota reciba el ejercicio adecuado, relajante y seguro.",
-      category: "Animales",
-    },
-    {
-      id: 5,
-      image: require("../../assets/avatar18.png"),
-      name: "Diego",
-      surname: "Torres",
-      ability: "Entrenamiento Personal",
-      mode: "03001 Alicante, Valencia",
-      timeSlot: "08:00 a 17:00",
-      description:
-        "Sesiones de entrenamiento personal en la playa enfocadas en mejorar tu resistencia y fuerza, con rutinas sencillas.",
-      category: "Fitness",
-    },
-  ];
+  const { isSmallScreen, isBigScreen } = getScreenSize();
 
   return (
     <SafeAreaView className="flex-1 bg-primarios-violeta-100">
@@ -126,19 +61,31 @@ export default function LoginScreen({ navigation }) {
                   showsHorizontalScrollIndicator={false}
                   contentContainerStyle={{ flexDirection: "row" }}
                 >
-                  {profiles.map((profile) => (
-                    <HeroCard
-                      key={profile.id}
-                      image={profile.image}
-                      name={profile.name}
-                      surname={profile.surname}
-                      ability={profile.ability}
-                      mode={profile.mode}
-                      timeSlot={profile.timeSlot}
-                      description={profile.description}
-                      category={profile.category}
-                    />
-                  ))}
+                  {profiles.map(
+                    ({
+                      id,
+                      image,
+                      name,
+                      surname,
+                      ability,
+                      mode,
+                      timeSlot,
+                      description,
+                      category,
+                    }) => (
+                      <HeroCard
+                        key={id}
+                        image={image}
+                        name={name}
+                        surname={surname}
+                        ability={ability}
+                        mode={mode}
+                        timeSlot={timeSlot}
+                        description={description}
+                        category={category}
+                      />
+                    ),
+                  )}
                 </ScrollView>
               </View>
 

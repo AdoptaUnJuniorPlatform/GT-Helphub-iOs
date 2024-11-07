@@ -1,9 +1,8 @@
-import { View, Dimensions } from "react-native";
+import { View } from "react-native";
 import { LogoDark } from "./svgComponents/LogoDark";
 import { Stepper } from "./Stepper";
 import { CustomChip } from "./CustomChip";
-
-const { width } = Dimensions.get("window");
+import { getScreenSize } from "../utils/screenSize";
 
 export const StepHeader = ({
   step,
@@ -14,8 +13,7 @@ export const StepHeader = ({
   status1,
   status2,
 }) => {
-  const isSmallScreen = width <= 392;
-  const isBigScreen = width >= 430;
+  const { isSmallScreen, isBigScreen } = getScreenSize();
 
   return (
     <View

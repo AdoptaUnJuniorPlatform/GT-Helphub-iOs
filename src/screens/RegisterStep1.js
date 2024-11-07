@@ -1,5 +1,5 @@
 import { useForm, Controller } from "react-hook-form";
-import { View, SafeAreaView, Dimensions, Text } from "react-native";
+import { View, SafeAreaView, Text } from "react-native";
 import {
   CustomButton,
   StepHeader,
@@ -8,12 +8,10 @@ import {
   InputFieldWithIcon,
 } from "../components";
 import { useProfile } from "../profile/ProfileContext";
-
-const { width } = Dimensions.get("window");
+import { getScreenSize } from "../utils/screenSize";
 
 export default function RegisterStep1({ navigation }) {
-  const isSmallScreen = width <= 392;
-  const isBigScreen = width >= 430;
+  const { isSmallScreen, isBigScreen } = getScreenSize();
 
   const { setProfileData } = useProfile();
 

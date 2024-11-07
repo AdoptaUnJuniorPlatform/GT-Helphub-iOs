@@ -1,11 +1,9 @@
-import { View, Text, TouchableOpacity, Dimensions } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 import { CustomButton } from "./CustomButton";
-
-const { width } = Dimensions.get("window");
+import { getScreenSize } from "../utils/screenSize";
 
 export const AbilityCard = ({ onDelete, onEdit, ability }) => {
-  const isSmallScreen = width <= 392;
-  const isBigScreen = width >= 430;
+  const { isSmallScreen, isBigScreen } = getScreenSize();
 
   return (
     <View
@@ -43,8 +41,8 @@ export const AbilityCard = ({ onDelete, onEdit, ability }) => {
       <View className="flex-1 justify-between">
         <View>
           {/* Level */}
-          {ability?.level === "basic" && (
-            <View className="flex-row w-content gap-2 px-4">
+          <View className="flex-row w-content gap-2 px-4">
+            {ability?.level === "basic" ? (
               <View className="flex-row w-content px-[11px] h-[22px] rounded-full items-center bg-primarios-celeste-100">
                 <Text
                   className={`
@@ -55,33 +53,7 @@ export const AbilityCard = ({ onDelete, onEdit, ability }) => {
                   Básico
                 </Text>
               </View>
-
-              <View className="flex-row w-content px-[11px] rounded-full items-center bg-neutral-color-blue-gray-50">
-                <Text
-                  className={`
-              ${isSmallScreen ? "text-[10px]" : "text-xs"}
-              font-roboto-regular text-neutros-negro-80
-              `}
-                >
-                  Medio
-                </Text>
-              </View>
-
-              <View className="flex-row w-content px-[11px] h-[22px] rounded-full items-center bg-neutral-color-blue-gray-50">
-                <Text
-                  className={`
-              ${isSmallScreen ? "text-[10px]" : "text-xs"}
-              text-neutros-negro-80 font-roboto-regular
-              `}
-                >
-                  Avanzado
-                </Text>
-              </View>
-            </View>
-          )}
-
-          {ability?.level === "medium" && (
-            <View className="flex-row w-content gap-2 px-4">
+            ) : (
               <View className="flex-row w-content px-[11px] rounded-full items-center bg-neutral-color-blue-gray-50">
                 <Text
                   className={`
@@ -92,33 +64,20 @@ export const AbilityCard = ({ onDelete, onEdit, ability }) => {
                   Básico
                 </Text>
               </View>
+            )}
 
+            {ability?.level === "medium" ? (
               <View className="flex-row w-content px-[11px] h-[22px] rounded-full items-center bg-primarios-celeste-100">
                 <Text
                   className={`
-              font-roboto-regular text-white 
-              ${isSmallScreen ? "text-[10px]" : "text-xs"}
-              `}
+          font-roboto-regular text-white 
+          ${isSmallScreen ? "text-[10px]" : "text-xs"}
+          `}
                 >
                   Medio
                 </Text>
               </View>
-
-              <View className="flex-row w-content px-[11px] h-[22px] rounded-full items-center bg-neutral-color-blue-gray-50">
-                <Text
-                  className={`
-              ${isSmallScreen ? "text-[10px]" : "text-xs"}
-              text-neutros-negro-80 font-roboto-regular
-              `}
-                >
-                  Avanzado
-                </Text>
-              </View>
-            </View>
-          )}
-
-          {ability?.level === "high" && (
-            <View className="flex-row w-content gap-2 px-4">
+            ) : (
               <View className="flex-row w-content px-[11px] rounded-full items-center bg-neutral-color-blue-gray-50">
                 <Text
                   className={`
@@ -126,21 +85,12 @@ export const AbilityCard = ({ onDelete, onEdit, ability }) => {
               font-roboto-regular text-neutros-negro-80
               `}
                 >
-                  Básico
-                </Text>
-              </View>
-
-              <View className="flex-row w-content px-[11px] h-[22px] rounded-full items-center bg-neutral-color-blue-gray-50">
-                <Text
-                  className={`
-              ${isSmallScreen ? "text-[10px]" : "text-xs"}
-              text-neutros-negro-80 font-roboto-regular
-              `}
-                >
                   Medio
                 </Text>
               </View>
+            )}
 
+            {ability?.level === "high" ? (
               <View className="flex-row w-content px-[11px] h-[22px] rounded-full items-center bg-primarios-celeste-100">
                 <Text
                   className={`
@@ -151,8 +101,19 @@ export const AbilityCard = ({ onDelete, onEdit, ability }) => {
                   Avanzado
                 </Text>
               </View>
-            </View>
-          )}
+            ) : (
+              <View className="flex-row w-content px-[11px] h-[22px] rounded-full items-center bg-neutral-color-blue-gray-50">
+                <Text
+                  className={`
+              ${isSmallScreen ? "text-[10px]" : "text-xs"}
+              text-neutros-negro-80 font-roboto-regular
+              `}
+                >
+                  Avanzado
+                </Text>
+              </View>
+            )}
+          </View>
 
           {/* Description */}
           <View

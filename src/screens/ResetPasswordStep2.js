@@ -7,16 +7,13 @@ import {
   SafeAreaView,
   TouchableOpacity,
   TextInput,
-  Dimensions,
 } from "react-native";
 import { LogoLight } from "../components";
 import AntDesign from "@expo/vector-icons/AntDesign";
-
-const { width } = Dimensions.get("window");
+import { getScreenSize } from "../utils/screenSize";
 
 export default function ResetPasswordStep1() {
-  const isSmallScreen = width <= 392;
-  const isBigScreen = width >= 430;
+  const { isSmallScreen } = getScreenSize();
 
   const [isTwoFaFocused, setIsTwoFaFocused] = useState(false);
   const [isNewPasswordFocused, setIsNewPasswordFocused] = useState(false);
@@ -35,16 +32,10 @@ export default function ResetPasswordStep1() {
 
   const { email } = route.params;
 
-  // const onSubmit = (data) => {
-  //   console.log(data);
-  //   navigation.navigate("SessionStart");
-  // };
-
   const onSubmit = async (data) => {
     const payload = {
       email,
       password: data.newPassword,
-      // twoFa: data.twoFa,
     };
 
     try {

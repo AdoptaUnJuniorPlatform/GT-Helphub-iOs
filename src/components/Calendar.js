@@ -1,22 +1,9 @@
-import { TouchableOpacity, View, Text, Dimensions } from "react-native";
-
-const { width } = Dimensions.get("window");
-
-const daysOfTheWeek = ["L", "M", "X", "J", "V", "S", "D"];
-
-const dayMapping = {
-  Lunes: 0,
-  Martes: 1,
-  Miércoles: 2,
-  Jueves: 3,
-  Viernes: 4,
-  Sábado: 5,
-  Domingo: 6,
-};
+import { TouchableOpacity, View, Text } from "react-native";
+import { getScreenSize } from "../utils/screenSize";
+import { daysOfTheWeekShort, dayMapping } from "../data/data";
 
 export const Calendar = ({ selectedDays = [], onPress }) => {
-  const isSmallScreen = width <= 392;
-  const isBigScreen = width >= 430;
+  const { isSmallScreen } = getScreenSize();
 
   const selectedIndices = selectedDays
     .map((day) => dayMapping[day])
@@ -24,7 +11,7 @@ export const Calendar = ({ selectedDays = [], onPress }) => {
 
   return (
     <View className="flex-row gap-1">
-      {daysOfTheWeek.map((day, index) => {
+      {daysOfTheWeekShort.map((day, index) => {
         const isSelected = selectedIndices.includes(index);
         return (
           <TouchableOpacity

@@ -1,23 +1,14 @@
-import {
-  View,
-  Modal,
-  TouchableOpacity,
-  Text,
-  Dimensions,
-  Image,
-} from "react-native";
+import { View, Modal, TouchableOpacity, Text, Image } from "react-native";
 import { CustomButton } from "./CustomButton";
 import { VerifiedIcon } from "../components/svgComponents/VerifiedIcon";
 import { CustomChip } from "./CustomChip";
 import { CustomRating } from "../components/CustomRating";
+import { getScreenSize } from "../utils/screenSize";
 import Feather from "@expo/vector-icons/Feather";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 
-const { width } = Dimensions.get("window");
-
 export const MessagesProfile = ({ onRequestClose, visible, navigation }) => {
-  const isSmallScreen = width <= 392;
-  const isBigScreen = width >= 430;
+  const { isSmallScreen, isBigScreen } = getScreenSize();
 
   const goToMessagesFlow = () => {
     onRequestClose();

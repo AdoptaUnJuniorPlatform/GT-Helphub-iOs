@@ -1,24 +1,14 @@
-import {
-  View,
-  Modal,
-  Pressable,
-  Text,
-  Image,
-  Dimensions,
-  ScrollView,
-} from "react-native";
+import { View, Modal, Pressable, Text, Image, ScrollView } from "react-native";
 import { CustomButton } from "./CustomButton";
 import { RatingCard } from "./RatingCard";
 import { CustomRating } from "./CustomRating";
+import { getScreenSize } from "../utils/screenSize";
 // import DialogIcon from "./svgComponents/DialogIcon";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 // import Entypo from "@expo/vector-icons/Entypo";
 
-const { width } = Dimensions.get("window");
-
 export const ProfileCard = ({ isCardVisible, toggleCard }) => {
-  const isSmallScreen = width <= 392;
-  const isBigScreen = width >= 430;
+  const { isSmallScreen, isBigScreen } = getScreenSize();
 
   return (
     <Modal

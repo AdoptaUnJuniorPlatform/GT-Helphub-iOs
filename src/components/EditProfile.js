@@ -5,7 +5,6 @@ import {
   Modal,
   TouchableOpacity,
   Text,
-  Dimensions,
   ScrollView,
   Image,
 } from "react-native";
@@ -19,16 +18,14 @@ import { InputFieldWithIcon } from "./InputFieldWithIcon";
 import { CustomRadio } from "./CustomRadio";
 import { CustomChip } from "./CustomChip";
 import { CustomDropdown } from "./CustomDropdown";
-import Feather from "@expo/vector-icons/Feather";
-import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { daysOfTheWeek } from "../data/data";
 import { formatDate } from "../utils/formatDate";
-
-const { width } = Dimensions.get("window");
+import { getScreenSize } from "../utils/screenSize";
+import Feather from "@expo/vector-icons/Feather";
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 
 export const EditProfile = ({ onRequestClose, visible }) => {
-  const isSmallScreen = width <= 392;
-  const isBigScreen = width >= 430;
+  const { isSmallScreen, isBigScreen } = getScreenSize();
 
   const { profileData, setProfileData } = useProfile();
 

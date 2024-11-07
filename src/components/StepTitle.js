@@ -1,10 +1,8 @@
-import { View, Text, Dimensions } from "react-native";
-
-const { width } = Dimensions.get("window");
+import { View, Text } from "react-native";
+import { getScreenSize } from "../utils/screenSize";
 
 export const StepTitle = ({ title, subtitle }) => {
-  const isSmallScreen = width <= 392;
-  const isBigScreen = width >= 430;
+  const { isSmallScreen, isBigScreen } = getScreenSize();
 
   return (
     <View className="h-auto">

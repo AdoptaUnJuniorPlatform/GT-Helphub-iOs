@@ -7,16 +7,13 @@ import {
   SafeAreaView,
   TouchableOpacity,
   TextInput,
-  Dimensions,
 } from "react-native";
 import { LogoLight } from "../components";
 import Feather from "@expo/vector-icons/Feather";
-
-const { width } = Dimensions.get("window");
+import { getScreenSize } from "../utils/screenSize";
 
 export default function LoginScreen({ navigation }) {
-  const isSmallScreen = width <= 392;
-  const isBigScreen = width >= 430;
+  const { isSmallScreen } = getScreenSize();
 
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 

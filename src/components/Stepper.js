@@ -4,9 +4,7 @@ import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 
 export const Stepper = ({ step, statusStepLabel1, statusStepLabel2 }) => {
   const progressPercentage = ((step - 1) / 4) * 100;
-
   const constrainedLeft = Math.min(Math.max(progressPercentage, 4), 96);
-
   const progressBarWidth = ((step - 1) / 4) * 100;
 
   return (

@@ -1,26 +1,17 @@
 import { useForm, Controller } from "react-hook-form";
-import {
-  View,
-  Modal,
-  TouchableOpacity,
-  Text,
-  Dimensions,
-  ScrollView,
-} from "react-native";
+import { View, Modal, TouchableOpacity, Text, ScrollView } from "react-native";
 import { CustomButton } from "./CustomButton";
 import { CustomTextarea } from "./CustomTextarea";
 import { CustomRadio } from "./CustomRadio";
 import { CustomDropdown } from "./CustomDropdown";
-import Feather from "@expo/vector-icons/Feather";
 import { categories } from "../data/data";
 import { useAbility } from "../ability/AbilityContext";
 import { getToken } from "../auth/authService";
-
-const { width } = Dimensions.get("window");
+import { getScreenSize } from "../utils/screenSize";
+import Feather from "@expo/vector-icons/Feather";
 
 export const EditAbility = ({ onRequestClose, visible, ability }) => {
-  const isSmallScreen = width <= 392;
-  const isBigScreen = width >= 430;
+  const { isSmallScreen, isBigScreen } = getScreenSize();
 
   const { setAbilityData } = useAbility();
 

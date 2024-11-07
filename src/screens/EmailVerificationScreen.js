@@ -6,21 +6,18 @@ import {
   View,
   SafeAreaView,
   TextInput,
-  Dimensions,
   TouchableOpacity,
   Modal,
   Pressable,
 } from "react-native";
 import { LogoDark, CustomButton, CheckIcon } from "../components";
+import { generateRandomCode } from "../utils/twoFaCodeGenerator";
+import { getScreenSize } from "../utils/screenSize";
 import Feather from "@expo/vector-icons/Feather";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
-import { generateRandomCode } from "../utils/twoFaCodeGenerator";
-
-const { width } = Dimensions.get("window");
 
 export default function EmailVerificationScreen() {
-  const isSmallScreen = width <= 392;
-  const isBigScreen = width >= 430;
+  const { isSmallScreen, isBigScreen } = getScreenSize();
 
   const [isTwoFaFocused, setIsTwoFaFocused] = useState(false);
   const [isPopUpVisible, setPopUpVisible] = useState(false);

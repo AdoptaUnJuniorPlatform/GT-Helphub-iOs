@@ -1,23 +1,15 @@
 import { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
-import {
-  View,
-  TouchableOpacity,
-  Text,
-  Dimensions,
-  ScrollView,
-} from "react-native";
+import { View, TouchableOpacity, Text, ScrollView } from "react-native";
 import { CustomButton, CustomTextarea, CustomDropdown } from "../components";
-import Feather from "@expo/vector-icons/Feather";
 import { categories } from "../data/data";
 import { getToken } from "../auth/authService";
 import { useAbility } from "../ability/AbilityContext";
-
-const { width } = Dimensions.get("window");
+import { getScreenSize } from "../utils/screenSize";
+import Feather from "@expo/vector-icons/Feather";
 
 const AddAbilityStep2 = ({ onRequestClose, visible, navigation }) => {
-  const isSmallScreen = width <= 392;
-  const isBigScreen = width >= 430;
+  const { isSmallScreen, isBigScreen } = getScreenSize();
 
   const { abilityData, setAbilityData } = useAbility();
 

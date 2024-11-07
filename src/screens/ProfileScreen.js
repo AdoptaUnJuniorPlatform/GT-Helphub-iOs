@@ -5,7 +5,6 @@ import {
   View,
   SafeAreaView,
   Image,
-  Dimensions,
   TouchableOpacity,
   ScrollView,
   Animated,
@@ -20,18 +19,16 @@ import {
   Calendar,
   CustomRating,
   EditIcon,
-  CheckIcon,
+  WarningIcon,
 } from "../components";
-import AntDesign from "@expo/vector-icons/AntDesign";
 import { getToken } from "../auth/authService";
 import { useProfile } from "../profile/ProfileContext";
 import { useUser } from "../user/UserContext";
-
-const { width } = Dimensions.get("window");
+import { getScreenSize } from "../utils/screenSize";
+import AntDesign from "@expo/vector-icons/AntDesign";
 
 export default function ProfileScreen({ navigation }) {
-  const isSmallScreen = width <= 392;
-  const isBigScreen = width >= 430;
+  const { isSmallScreen } = getScreenSize();
 
   const { profileData, setProfileData } = useProfile();
   const { userData } = useUser();
@@ -495,7 +492,7 @@ export default function ProfileScreen({ navigation }) {
           >
             <View className="mb-[24px]">
               <View className="flex-row justify-center">
-                <CheckIcon />
+                <WarningIcon />
               </View>
 
               <Text className="my-2 text-primarios-violeta-100 font-roboto-bold text-2xl text-center">
