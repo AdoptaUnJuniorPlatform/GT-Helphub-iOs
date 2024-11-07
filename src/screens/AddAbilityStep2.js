@@ -3,10 +3,10 @@ import { useForm, Controller } from "react-hook-form";
 import { View, TouchableOpacity, Text, ScrollView } from "react-native";
 import { CustomButton, CustomTextarea, CustomDropdown } from "../components";
 import { categories } from "../data/data";
-import { getToken } from "../auth/authService";
 import { useAbility } from "../ability/AbilityContext";
 import { getScreenSize } from "../utils/screenSize";
 import Feather from "@expo/vector-icons/Feather";
+import apiClient from "../api/apiClient";
 
 const AddAbilityStep2 = ({ onRequestClose, visible, navigation }) => {
   const { isSmallScreen, isBigScreen } = getScreenSize();
@@ -28,8 +28,6 @@ const AddAbilityStep2 = ({ onRequestClose, visible, navigation }) => {
   });
 
   const onSubmit = async (data) => {
-    const token = await getToken();
-
     setAbilityData((prevData) => ({
       ...prevData,
       description: data.description,
@@ -53,30 +51,17 @@ const AddAbilityStep2 = ({ onRequestClose, visible, navigation }) => {
     };
 
     try {
-      const response = await fetch(
-        "http://localhost:4002/api/helphub/hability",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(requestData),
-        },
-      );
-
-      if (!response.ok) {
-        console.log("Request Data", requestData);
-        throw new Error("Error sending data");
-      }
-
-      const result = await response.json();
-      console.log(result);
-      setAbilityData(result);
+      const response = await apiClient.post("/hability", requestData);
+      setAbilityData(response.data);
       navigation.navigate("HomeTabs");
     } catch (error) {
-      console.error(error.message);
-      alert("Se ha producido un error, intenta de nuevo.");
+      if (error.response) {
+        console.error(error.response.data.message);
+        alert("Se ha producido un error, intenta de nuevo.");
+      } else {
+        console.error(error.message);
+        alert("Se ha producido un error, intenta de nuevo.");
+      }
     }
   };
 

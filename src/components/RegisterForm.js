@@ -7,11 +7,12 @@ import { CustomButton } from "./CustomButton";
 import { generateRandomCode } from "../utils/twoFaCodeGenerator";
 import { useUser } from "../user/UserContext";
 import { getScreenSize } from "../utils/screenSize";
+import apiClient from "../api/apiClient";
 
 export const RegisterForm = ({ navigation }) => {
   const { isSmallScreen, isBigScreen } = getScreenSize();
 
-  const { userData, setUserData } = useUser();
+  const { setUserData } = useUser();
 
   const countryCode = "🇪🇸  +34";
   const [acceptTermsAndConditions, setAcceptTermsAndConditions] =
@@ -54,32 +55,27 @@ export const RegisterForm = ({ navigation }) => {
     };
 
     try {
-      const response = await fetch(
-        "http://localhost:4002/api/helphub/email-service/emailAcount",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(payload),
-        },
+      const response = await apiClient.post(
+        "/email-service/emailAcount",
+        payload,
       );
 
-      if (response.ok) {
-        console.log("Success", await response.json());
+      if (response.status === 200) {
         navigation.navigate("EmailVerification", { ...data, twoFa: twoFaCode });
       } else {
-        const errorData = await response.json();
-        console.error(errorData.message);
+        console.error(response.data);
         alert("Se ha producido un error, intenta de nuevo.");
       }
     } catch (error) {
-      console.error(error);
-      alert("Se ha producido un error, intenta de nuevo.");
+      if (error.response) {
+        console.error(error.response.data.message);
+        alert("Se ha producido un error, intenta de nuevo.");
+      } else {
+        console.error(error.message);
+        alert("Se ha producido un error, intenta de nuevo.");
+      }
     }
   };
-
-  console.log("User Context: ", userData);
 
   return (
     <View>

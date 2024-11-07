@@ -9,8 +9,8 @@ import {
 } from "react-native";
 import { CustomButton, StepHeader, StepTitle, CustomChip } from "../components";
 import { useProfile } from "../profile/ProfileContext";
-import { getToken } from "../auth/authService";
 import { getScreenSize } from "../utils/screenSize";
+import apiClient from "../api/apiClient";
 
 export default function RegisterStep5({ navigation }) {
   const { isSmallScreen, isBigScreen } = getScreenSize();
@@ -42,8 +42,6 @@ export default function RegisterStep5({ navigation }) {
   });
 
   const onSubmit = async (data) => {
-    const token = await getToken();
-
     setProfileData((prevData) => ({
       ...prevData,
       interestedSkills: data.interestedSkills,
@@ -73,27 +71,15 @@ export default function RegisterStep5({ navigation }) {
     };
 
     try {
-      const response = await fetch(
-        "http://localhost:4002/api/helphub/profile",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(requestData),
-        },
-      );
+      const response = await apiClient.post("/profile", requestData);
 
-      if (!response.ok) {
-        console.log("Request Data", requestData);
+      if (response.status === 200) {
+        setProfileData(response.data);
+        navigation.navigate("HomeTabs");
+      } else {
+        console.error(response.data);
         throw new Error("Error sending data");
       }
-
-      const result = await response.json();
-      console.log(result);
-      setProfileData(result);
-      navigation.navigate("HomeTabs");
     } catch (error) {
       console.error(error.message);
       alert("Se ha producido un error, intenta de nuevo.");

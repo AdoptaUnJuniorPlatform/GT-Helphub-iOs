@@ -21,10 +21,10 @@ import {
   EditIcon,
   WarningIcon,
 } from "../components";
-import { getToken } from "../auth/authService";
 import { useProfile } from "../profile/ProfileContext";
 import { useUser } from "../user/UserContext";
 import { getScreenSize } from "../utils/screenSize";
+import apiClient from "../api/apiClient";
 import AntDesign from "@expo/vector-icons/AntDesign";
 
 export default function ProfileScreen({ navigation }) {
@@ -40,6 +40,7 @@ export default function ProfileScreen({ navigation }) {
   const [isCreateProfileWarningVisible, setCreateProfileWarningVisible] =
     useState(false);
   const [selectedAbility, setSelectedAbility] = useState(null);
+
   const opacity = useRef(new Animated.Value(0)).current;
 
   const user_id = profileData.userId._id;
@@ -72,89 +73,56 @@ export default function ProfileScreen({ navigation }) {
     }
   };
 
-  useFocusEffect(
-    useCallback(() => {
-      const fetchProfile = async () => {
-        try {
-          const token = await getToken();
-          const response = await fetch(
-            "http://localhost:4002/api/helphub/profile",
-            {
-              method: "GET",
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
-              },
-            },
-          );
+  const fetchProfile = async () => {
+    try {
+      const response = await apiClient.get("/profile");
 
-          if (response.status === 200) {
-            setCreateProfileWarningVisible(false);
-            const data = await response.json();
-            setProfileData(data);
-          } else if (response.status === 404) {
-            toggleCreateProfileWarning();
-          } else {
-            const errorData = await response.json();
-            console.error(errorData.message);
-            alert("Se ha producido un error, intenta de nuevo.");
-          }
-        } catch (error) {
-          console.error(error);
-          alert("Se ha producido un error, intenta de nuevo.");
-        }
-      };
-
-      fetchProfile();
-    }, []),
-  );
-
-  useEffect(() => {
-    const fetchAbilities = async () => {
-      try {
-        const token = await getToken();
-
-        const response = await fetch(
-          `http://localhost:4002/api/helphub/hability/user-habilities/${user_id}`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-          },
-        );
-
-        if (response.status === 200) {
-          const data = await response.json();
-          setAbilities(data);
-        } else {
-          const errorData = await response.json();
-          console.error(errorData.message);
-          alert("Se ha producido un error, intenta de nuevo.");
-        }
-      } catch (error) {
-        console.error(error);
+      if (response.status === 200) {
+        setCreateProfileWarningVisible(false);
+        setProfileData(response.data);
+      } else if (response.status === 404) {
+        toggleCreateProfileWarning();
+      } else {
+        console.error(response.data.message);
         alert("Se ha producido un error, intenta de nuevo.");
       }
-    };
+    } catch (error) {
+      if (error.response) {
+        console.error(error.response.data.message);
+        alert("Se ha producido un error, intenta de nuevo.");
+      } else {
+        console.error(error.message);
+        alert("Se ha producido un error, intenta de nuevo.");
+      }
+    }
+  };
 
-    fetchAbilities();
-  }, [user_id, abilities]);
+  const fetchAbilities = async () => {
+    try {
+      const response = await apiClient.get(
+        `/hability/user-habilities/${user_id}`,
+      );
+
+      if (response.status === 200) {
+        setAbilities(response.data);
+      } else {
+        console.error(response.data.message);
+        alert("Se ha producido un error, intenta de nuevo.");
+      }
+    } catch (error) {
+      if (error.response) {
+        console.error(error.response.data.message);
+        alert("Se ha producido un error, intenta de nuevo.");
+      } else {
+        console.error(error.message);
+        alert("Se ha producido un error, intenta de nuevo.");
+      }
+    }
+  };
 
   const deleteAbility = async (abilityId) => {
     try {
-      const token = await getToken();
-      const response = await fetch(
-        `http://localhost:4002/api/helphub/hability/${abilityId}`,
-        {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
+      const response = await apiClient.delete(`/hability/${abilityId}`);
 
       if (response.status === 200) {
         setAbilities((prevAbilities) =>
@@ -162,19 +130,33 @@ export default function ProfileScreen({ navigation }) {
         );
         alert("Habilidad eliminada correctamente.");
       } else {
-        const errorData = await response.json();
-        console.error(errorData.message);
+        console.error(response.data.message);
         alert("Se ha producido un error al eliminar la habilidad.");
       }
     } catch (error) {
-      console.error(error);
-      alert("Se ha producido un error, intenta de nuevo.");
+      if (error.response) {
+        console.error(error.response.data.message);
+        alert("Se ha producido un error, intenta de nuevo.");
+      } else {
+        console.error(error.message);
+        alert("Se ha producido un error, intenta de nuevo.");
+      }
     }
   };
 
+  useFocusEffect(
+    useCallback(() => {
+      fetchProfile();
+    }, []),
+  );
+
+  useEffect(() => {
+    fetchAbilities();
+  }, [user_id, abilities]);
+
   return (
     <SafeAreaView className="flex-1 bg-neutros-gris-fondo">
-      <View className="flex-1 justify-center items-center justify-start bg-white">
+      <View className="flex-1 justify-start items-center bg-white">
         {/* Profile Card */}
         <View
           className={`

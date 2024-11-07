@@ -6,9 +6,9 @@ import { CustomRadio } from "./CustomRadio";
 import { CustomDropdown } from "./CustomDropdown";
 import { categories } from "../data/data";
 import { useAbility } from "../ability/AbilityContext";
-import { getToken } from "../auth/authService";
 import { getScreenSize } from "../utils/screenSize";
 import Feather from "@expo/vector-icons/Feather";
+import apiClient from "../api/apiClient";
 
 export const EditAbility = ({ onRequestClose, visible, ability }) => {
   const { isSmallScreen, isBigScreen } = getScreenSize();
@@ -31,8 +31,6 @@ export const EditAbility = ({ onRequestClose, visible, ability }) => {
   });
 
   const onSubmit = async (data) => {
-    const token = await getToken();
-
     setAbilityData(() => ({
       title: data.title,
       level: data.level,
@@ -60,28 +58,17 @@ export const EditAbility = ({ onRequestClose, visible, ability }) => {
     };
 
     try {
-      const response = await fetch(
-        `http://localhost:4002/api/helphub/hability/${ability._id}`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(requestData),
-        },
-      );
-
-      if (!response.ok) {
-        console.log("Request Data", requestData);
-        throw new Error("Error sending data");
-      }
-
+      await apiClient.patch(`/hability/${ability._id}`, requestData);
       onRequestClose(onRequestClose);
       alert("¡Habilidad editada con éxito!");
     } catch (error) {
-      console.error(error.message);
-      alert("Se ha producido un error, intenta de nuevo.");
+      if (error.response) {
+        console.error(error.response.data.message);
+        alert("Se ha producido un error, intenta de nuevo.");
+      } else {
+        console.error(error.message);
+        alert("Se ha producido un error, intenta de nuevo.");
+      }
     }
   };
 

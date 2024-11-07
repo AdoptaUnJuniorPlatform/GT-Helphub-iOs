@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, ScrollView } from "react-native";
 import { CustomButton } from "./CustomButton";
 import { getScreenSize } from "../utils/screenSize";
 
@@ -116,16 +116,17 @@ export const AbilityCard = ({ onDelete, onEdit, ability }) => {
           </View>
 
           {/* Description */}
-          <View
+          <ScrollView
+            showsVerticalScrollIndicator={false}
             className={`
-        px-4 
+        px-4 max-h-[50px]
         ${isSmallScreen ? "mt-1" : "mt-6"}
         `}
           >
             <Text className="text-neutros-negro leading-5 font-roboto-regular text-sm">
               {ability?.description}
             </Text>
-          </View>
+          </ScrollView>
         </View>
 
         <View>

@@ -2,6 +2,7 @@ import { View, Text, Image } from "react-native";
 import { CustomChip } from "./CustomChip";
 import { CustomButton } from "./CustomButton";
 import { getScreenSize } from "../utils/screenSize";
+import { ScrollView } from "react-native-gesture-handler";
 
 export const HomeCard = ({ onPress, data }) => {
   const { isSmallScreen, isBigScreen } = getScreenSize();
@@ -170,9 +171,11 @@ export const HomeCard = ({ onPress, data }) => {
       </View>
 
       {/* Descripción */}
-      <Text className="my-2 px-4 text-neutros-negro-80 text-sm font-roboto-regular">
-        {data?.description}
-      </Text>
+      <ScrollView showsVerticalScrollIndicator={false} className="max-h-[50px]">
+        <Text className="my-2 px-4 text-neutros-negro-80 text-sm font-roboto-regular">
+          {data?.description}
+        </Text>
+      </ScrollView>
 
       {/* Separator */}
       <View

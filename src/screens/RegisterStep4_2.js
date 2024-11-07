@@ -22,16 +22,16 @@ import { useAbility } from "../ability/AbilityContext";
 import { useProfile } from "../profile/ProfileContext";
 import { useUser } from "../user/UserContext";
 import { categories } from "../data/data";
-import { getToken } from "../auth/authService";
 import { getScreenSize } from "../utils/screenSize";
 import Feather from "@expo/vector-icons/Feather";
+import apiClient from "../api/apiClient";
 
 export default function RegisterStep1({ navigation }) {
   const { isSmallScreen, isBigScreen } = getScreenSize();
 
   const { abilityData, setAbilityData } = useAbility();
-  const { profileData, setProfileData } = useProfile();
-  const { userData, setUserData } = useUser();
+  const { profileData } = useProfile();
+  const { userData } = useUser();
 
   const [isDialogVisible, setDialogVisible] = useState(false);
   const [isPopUpVisible, setPopUpVisible] = useState(false);
@@ -49,8 +49,6 @@ export default function RegisterStep1({ navigation }) {
   });
 
   const onSubmit = async (data) => {
-    const token = await getToken();
-
     setAbilityData((prevData) => ({
       ...prevData,
       description: data.description,
@@ -74,27 +72,15 @@ export default function RegisterStep1({ navigation }) {
     };
 
     try {
-      const response = await fetch(
-        "http://localhost:4002/api/helphub/hability",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(requestData),
-        },
-      );
+      const response = await apiClient.post("/hability", requestData);
 
-      if (!response.ok) {
-        console.log("Request Data", requestData);
+      if (response.status === 200) {
+        setAbilityData(response.data);
+        togglePopUp();
+      } else {
+        console.error(response.data);
         throw new Error("Error sending data");
       }
-
-      const result = await response.json();
-      console.log(result);
-      setAbilityData(result);
-      togglePopUp();
     } catch (error) {
       console.error(error.message);
       alert("Se ha producido un error, intenta de nuevo.");

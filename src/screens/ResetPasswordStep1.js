@@ -10,6 +10,7 @@ import {
 import { LogoLight } from "../components";
 import { generateRandomCode } from "../utils/twoFaCodeGenerator";
 import { getScreenSize } from "../utils/screenSize";
+import apiClient from "../api/apiClient";
 
 export default function ResetPasswordStep1({ navigation }) {
   const { isSmallScreen } = getScreenSize();
@@ -31,31 +32,29 @@ export default function ResetPasswordStep1({ navigation }) {
     };
 
     try {
-      const response = await fetch(
-        "http://localhost:4002/api/helphub/email-service/resetEmail",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(payload),
-        },
+      const response = await apiClient.post(
+        "/email-service/resetEmail",
+        payload,
       );
 
-      if (response.ok) {
-        console.log("Success", await response.json());
+      if (response.status === 200) {
+        console.log("Success", response.data);
         navigation.navigate("ResetPasswordStep2", {
           ...data,
           twoFa: twoFaCode,
         });
       } else {
-        const errorData = await response.json();
-        console.error(errorData.message);
+        console.error(response.data.message);
         alert("Se ha producido un error, intenta de nuevo.");
       }
     } catch (error) {
-      console.error(error);
-      alert("Se ha producido un error, intenta de nuevo.");
+      if (error.response) {
+        console.error(error.response.data.message);
+        alert("Se ha producido un error, intenta de nuevo.");
+      } else {
+        console.error(error.message);
+        alert("Se ha producido un error, intenta de nuevo.");
+      }
     }
   };
 

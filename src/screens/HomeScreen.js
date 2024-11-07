@@ -18,11 +18,11 @@ import {
   ProfileCard,
 } from "../components";
 import { categories } from "../data/data";
-import { getToken } from "../auth/authService";
 import { getScreenSize } from "../utils/screenSize";
 import Entypo from "@expo/vector-icons/Entypo";
 import Feather from "@expo/vector-icons/Feather";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import apiClient from "../api/apiClient";
 
 export default function HomeScreen() {
   const { isSmallScreen, isBigScreen } = getScreenSize();
@@ -33,38 +33,24 @@ export default function HomeScreen() {
 
   const [categoriesData, setCategoriesData] = useState([]);
 
+  const fetchCategories = async () => {
+    try {
+      const dataPromises = categories.map(async (category) => {
+        const response = await apiClient.get(
+          `/hability/category-habilities/${category}`,
+        );
+        return { category, items: response.data };
+      });
+
+      const results = await Promise.all(dataPromises);
+      setCategoriesData(results);
+    } catch (error) {
+      console.error("Error fetching category data:", error);
+    }
+  };
+
   useFocusEffect(
     useCallback(() => {
-      const fetchCategories = async () => {
-        try {
-          const dataPromises = categories.map(async (category) => {
-            const token = await getToken();
-            const response = await fetch(
-              `http://localhost:4002/api/helphub/hability/category-habilities/${category}`,
-              {
-                method: "GET",
-                headers: {
-                  "Content-Type": "application/json",
-                  Authorization: `Bearer ${token}`,
-                },
-              },
-            );
-
-            if (!response.ok) {
-              throw new Error(`Failed to fetch data for category: ${category}`);
-            }
-
-            const data = await response.json();
-            return { category, items: data };
-          });
-
-          const results = await Promise.all(dataPromises);
-          setCategoriesData(results);
-        } catch (error) {
-          console.error("Error fetching category data:", error);
-        }
-      };
-
       fetchCategories();
     }, []),
   );

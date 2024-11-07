@@ -12,16 +12,15 @@ import {
 } from "react-native";
 import { LogoDark, CustomButton } from "../components";
 import { generateRandomCode } from "../utils/twoFaCodeGenerator";
-import { getToken } from "../auth/authService";
 import { getScreenSize } from "../utils/screenSize";
 import Feather from "@expo/vector-icons/Feather";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import AntDesign from "@expo/vector-icons/AntDesign";
+import apiClient from "../api/apiClient";
 
 export default function SessionStartVerificationScreen() {
   const { isSmallScreen, isBigScreen } = getScreenSize();
 
-  // const [isTwoFaFocused, setIsTwoFaFocused] = useState(false);
   const [isPopUpVisible, setPopUpVisible] = useState(false);
   const [isSending, setIsSending] = useState(false);
 
@@ -68,7 +67,6 @@ export default function SessionStartVerificationScreen() {
   };
 
   const onCodeSet = async () => {
-    const token = await getToken();
     setIsSending(true);
     const twoFaCode = generateRandomCode();
 
@@ -78,28 +76,15 @@ export default function SessionStartVerificationScreen() {
     };
 
     try {
-      const response = await fetch(
-        "http://localhost:4002/api/helphub/email-service/loginEmail",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(payload),
-        },
-      );
-
-      if (response.ok) {
-        console.log("Success", await response.json());
-      } else {
-        const errorData = await response.json();
-        console.error(errorData.message);
-        alert("Se ha producido un error, intenta de nuevo.");
-      }
+      await apiClient.post("/email-service/loginEmail", payload);
     } catch (error) {
-      console.error(error);
-      alert("Se ha producido un error, intenta de nuevo.");
+      if (error.response) {
+        console.error("Error:", error.response.data.message);
+        alert("Se ha producido un error, intenta de nuevo.");
+      } else {
+        console.error("Error:", error);
+        alert("Se ha producido un error inesperado, intenta de nuevo.");
+      }
     } finally {
       setIsSending(false);
     }
@@ -110,8 +95,6 @@ export default function SessionStartVerificationScreen() {
   }, []);
 
   const onSubmit = async (data) => {
-    const token = await getToken();
-
     const verificationCode = data.code.join("");
 
     const payload = {
@@ -120,28 +103,17 @@ export default function SessionStartVerificationScreen() {
     };
 
     try {
-      const response = await fetch(
+      await apiClient.post(
         "http://localhost:4002/api/helphub/email-service/loginEmail",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(payload),
-          Authorization: `Bearer ${token}`,
-        },
+        payload,
       );
-
-      const result = await response.json();
-
-      if (response.ok) {
-        console.log("Login successful", payload);
-        togglePopUp();
-      } else {
-        console.error("Error:", result);
-      }
+      togglePopUp();
     } catch (error) {
-      console.error("Error:", error);
+      if (error.response) {
+        console.error("Error:", error.response.data);
+      } else {
+        console.error("Error:", error);
+      }
     }
   };
 
