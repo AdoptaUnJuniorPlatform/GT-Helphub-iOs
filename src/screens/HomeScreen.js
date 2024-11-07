@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
+import { useFocusEffect } from "@react-navigation/native";
 import {
   View,
   Text,
@@ -7,7 +8,6 @@ import {
   TouchableOpacity,
   Modal,
   Pressable,
-  Dimensions,
   SafeAreaView,
 } from "react-native";
 import {
@@ -17,20 +17,57 @@ import {
   CustomButton,
   ProfileCard,
 } from "../components";
+import { categories } from "../data/data";
+import { getToken } from "../auth/authService";
+import { getScreenSize } from "../utils/screenSize";
 import Entypo from "@expo/vector-icons/Entypo";
 import Feather from "@expo/vector-icons/Feather";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
-import { categories, postalCodes } from "../data/data";
-
-const { width } = Dimensions.get("window");
 
 export default function HomeScreen() {
-  const isSmallScreen = width <= 392;
-  const isBigScreen = width >= 430;
+  const { isSmallScreen, isBigScreen } = getScreenSize();
 
   const [isFilterVisible, setFilterVisible] = useState(false);
   const [isCardVisible, setCardVisible] = useState(false);
   const [selected, setSelected] = useState(null);
+
+  const [categoriesData, setCategoriesData] = useState([]);
+
+  useFocusEffect(
+    useCallback(() => {
+      const fetchCategories = async () => {
+        try {
+          const dataPromises = categories.map(async (category) => {
+            const token = await getToken();
+            const response = await fetch(
+              `http://localhost:4002/api/helphub/hability/category-habilities/${category}`,
+              {
+                method: "GET",
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: `Bearer ${token}`,
+                },
+              },
+            );
+
+            if (!response.ok) {
+              throw new Error(`Failed to fetch data for category: ${category}`);
+            }
+
+            const data = await response.json();
+            return { category, items: data };
+          });
+
+          const results = await Promise.all(dataPromises);
+          setCategoriesData(results);
+        } catch (error) {
+          console.error("Error fetching category data:", error);
+        }
+      };
+
+      fetchCategories();
+    }, []),
+  );
 
   const toggleFilter = () => {
     setFilterVisible(!isFilterVisible);
@@ -66,7 +103,7 @@ export default function HomeScreen() {
               <View className="flex-1">
                 <TextInput
                   placeholder="¿Qué estás buscando?"
-                  className="flex-1 h-full mr-4 text-base font-roboto-regular text-neutros-negro"
+                  className="flex-1 h-full mr-4 mb-1 text-base font-roboto-regular text-neutros-negro"
                   placeholderTextColor="rgba(113, 102, 210, 0.5)"
                 />
               </View>
@@ -106,52 +143,30 @@ export default function HomeScreen() {
           </View>
 
           {/* Cards Section */}
-          <View>
-            <View className="pl-4 mb-6">
-              <Text
-                className={`
-                  font-roboto-regular text-neutral-color-gray-900
-                  ${isBigScreen ? "text-[22px] mb-7" : isSmallScreen ? "text-lg mb-2" : "text-xl mb-6"}
-                  `}
-              >
-                Recomendados
-              </Text>
-              <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-                <View>
-                  <HomeCard onPress={toggleCard} />
-                </View>
-                <View>
-                  <HomeCard onPress={toggleCard} />
-                </View>
-                <View>
-                  <HomeCard onPress={toggleCard} />
-                </View>
-              </ScrollView>
-            </View>
-          </View>
-
-          <View>
-            <View className="pl-4 mb-6">
-              <Text
-                className={`
-                  font-roboto-regular text-neutral-color-gray-900
-                  ${isBigScreen ? "text-[22px] mb-7" : isSmallScreen ? "text-lg mb-2" : "text-xl mb-6"}
-                  `}
-              >
-                Animales
-              </Text>
-              <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-                <View>
-                  <HomeCard onPress={toggleCard} />
-                </View>
-                <View>
-                  <HomeCard onPress={toggleCard} />
-                </View>
-                <View>
-                  <HomeCard onPress={toggleCard} />
-                </View>
-              </ScrollView>
-            </View>
+          <View className="mb-12">
+            {categoriesData.map((categoryData, index) => (
+              <View key={index} className="pl-4 mb-6">
+                <Text
+                  className={`
+              font-roboto-regular text-neutral-color-gray-900
+              ${isBigScreen ? "text-[22px] mb-7" : isSmallScreen ? "text-lg mb-2" : "text-xl mb-6"}
+            `}
+                >
+                  {categoryData.category}
+                </Text>
+                <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                  <View className="flex-row">
+                    {categoryData.items.map((item, cardIndex) => (
+                      <HomeCard
+                        key={cardIndex}
+                        data={item}
+                        onPress={() => toggleCard(item)}
+                      />
+                    ))}
+                  </View>
+                </ScrollView>
+              </View>
+            ))}
           </View>
         </View>
 
@@ -201,15 +216,24 @@ export default function HomeScreen() {
                     </Text>
                     <View className="gap-3 flex-grow-0">
                       <View>
-                        <CustomDropdown
+                        {/* <CustomDropdown
                           label={"Categorías"}
                           items={categories}
+                          backgroundColor={"transparent"}
+                        /> */}
+                        <TextInput
+                          placeholder="Categorías"
+                          autoCapitalize="none"
+                          className="bg-transparent border-[1px] border-neutros-negro-50 rounded-lg h-[40px] font-roboto-regular text-sm text-neutral-color-gray-900 px-3 pb-1"
+                          placeholderTextColor={"#b8b8b8"}
                         />
                       </View>
                       <View>
-                        <CustomDropdown
-                          label={"Ubicación (CP)"}
-                          items={postalCodes}
+                        <TextInput
+                          placeholder="Ubicación (CP)"
+                          autoCapitalize="none"
+                          className="bg-transparent border-[1px] border-neutros-negro-50 rounded-lg h-[40px] font-roboto-regular text-sm text-neutral-color-gray-900 px-3 pb-1"
+                          placeholderTextColor={"#b8b8b8"}
                         />
                       </View>
                     </View>
