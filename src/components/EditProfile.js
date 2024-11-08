@@ -5,30 +5,27 @@ import {
   Modal,
   TouchableOpacity,
   Text,
-  Dimensions,
   ScrollView,
   Image,
 } from "react-native";
-import * as ImagePicker from "expo-image-picker";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useProfile } from "../profile/ProfileContext";
-import { getToken } from "../auth/authService";
 import { CustomButton } from "./CustomButton";
 import { CustomTextarea } from "./CustomTextarea";
 import { InputFieldWithIcon } from "./InputFieldWithIcon";
 import { CustomRadio } from "./CustomRadio";
 import { CustomChip } from "./CustomChip";
 import { CustomDropdown } from "./CustomDropdown";
-import Feather from "@expo/vector-icons/Feather";
-import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { daysOfTheWeek } from "../data/data";
 import { formatDate } from "../utils/formatDate";
-
-const { width } = Dimensions.get("window");
+import { getScreenSize } from "../utils/screenSize";
+import * as ImagePicker from "expo-image-picker";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import Feather from "@expo/vector-icons/Feather";
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import apiClient from "../api/apiClient";
 
 export const EditProfile = ({ onRequestClose, visible }) => {
-  const isSmallScreen = width <= 392;
-  const isBigScreen = width >= 430;
+  const { isSmallScreen, isBigScreen } = getScreenSize();
 
   const { profileData, setProfileData } = useProfile();
 
@@ -47,19 +44,19 @@ export const EditProfile = ({ onRequestClose, visible }) => {
 
   const [savedDate, setSavedDate] = useState("00/00/00");
 
-  useEffect(() => {
-    const fetchSavedDate = async () => {
-      try {
-        const savedData = await AsyncStorage.getItem("formData");
-        if (savedData) {
-          const { timestamp } = JSON.parse(savedData);
-          setSavedDate(timestamp);
-        }
-      } catch (error) {
-        console.error(error);
+  const fetchSavedDate = async () => {
+    try {
+      const savedData = await AsyncStorage.getItem("formData");
+      if (savedData) {
+        const { timestamp } = JSON.parse(savedData);
+        setSavedDate(timestamp);
       }
-    };
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
+  useEffect(() => {
     fetchSavedDate();
   }, []);
 
@@ -133,49 +130,23 @@ export const EditProfile = ({ onRequestClose, visible }) => {
   const profileId = profileData._id;
 
   const onSubmit = async (data) => {
-    const token = await getToken();
-
     const timestamp = formatDate(new Date());
     const formData = { ...data, timestamp };
 
-    const payload = {
-      description: data.description,
-      interestedSkills: data.interestedSkills,
-      location: data.location,
-      preferredTimeRange: data.preferredTimeRange,
-      profilePicture: data.profilePicture,
-      selectedDays: data.selectedDays,
-    };
-
     try {
       await AsyncStorage.setItem("formData", JSON.stringify(formData));
-
-      const response = await fetch(
-        `http://localhost:4002/api/helphub/profile/${profileId}`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(payload),
-        },
-      );
-
-      if (!response.ok) {
-        throw new Error(`Error: ${response.statusText}`);
-      }
-
+      const response = await apiClient.patch(`/profile/${profileId}`, data);
       alert("¡Perfil editado con éxito!");
-
-      const result = await response.json();
-      console.log(result);
-      setProfileData(result);
-
+      setProfileData(response.data);
       onRequestClose(onRequestClose);
     } catch (error) {
-      console.error(error.message);
-      alert("Se ha producido un error, intenta de nuevo.");
+      if (error.response) {
+        console.error(error.response.data.message);
+        // alert("Se ha producido un error, intenta de nuevo.");
+      } else {
+        console.error(error.message);
+        // alert("Se ha producido un error, intenta de nuevo.");
+      }
     }
   };
 
@@ -393,7 +364,7 @@ export const EditProfile = ({ onRequestClose, visible }) => {
       `}
                   >
                     <View
-                      className={`${isSmallScreen ? "w-[28%] mr-2" : "w-[48%]"} mb-2`}
+                      className={`${isSmallScreen ? "w-[30%] mr-2" : "w-[48%]"} mb-2`}
                     >
                       <CustomRadio
                         label="08:00hs a 14:00hs"
@@ -403,7 +374,7 @@ export const EditProfile = ({ onRequestClose, visible }) => {
                     </View>
 
                     <View
-                      className={`${isSmallScreen ? "w-[28%] mr-2" : "w-[48%]"} mb-2`}
+                      className={`${isSmallScreen ? "w-[30%] mr-2" : "w-[48%]"} mb-2`}
                     >
                       <CustomRadio
                         label="15:00hs a 17:00hs"
@@ -413,7 +384,7 @@ export const EditProfile = ({ onRequestClose, visible }) => {
                     </View>
 
                     <View
-                      className={`${isSmallScreen ? "w-[28%] mr-2" : "w-[48%]"} mb-2`}
+                      className={`${isSmallScreen ? "w-[30%] mr-2" : "w-[48%]"} mb-2`}
                     >
                       <CustomRadio
                         label="17:00hs a 21:00hs"
@@ -423,7 +394,7 @@ export const EditProfile = ({ onRequestClose, visible }) => {
                     </View>
 
                     <View
-                      className={`${isSmallScreen ? "w-[28%] mr-2" : "w-[48%]"} mb-2`}
+                      className={`${isSmallScreen ? "w-[30%] mr-2" : "w-[48%]"} mb-2`}
                     >
                       <CustomRadio
                         label="08:00hs a 21:00hs"
@@ -433,7 +404,7 @@ export const EditProfile = ({ onRequestClose, visible }) => {
                     </View>
 
                     <View
-                      className={`${isSmallScreen ? "w-[28%] mr-2" : "w-[48%]"} mb-2`}
+                      className={`${isSmallScreen ? "w-[30%] mr-2" : "w-[48%]"} mb-2`}
                     >
                       <CustomRadio
                         label="Flexible schedule"

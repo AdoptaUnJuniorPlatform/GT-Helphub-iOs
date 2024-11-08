@@ -1,5 +1,5 @@
 import { useForm, Controller } from "react-hook-form";
-import { Text, View, SafeAreaView, ScrollView, Dimensions } from "react-native";
+import { Text, View, SafeAreaView, ScrollView } from "react-native";
 import {
   CustomButton,
   StepHeader,
@@ -9,12 +9,10 @@ import {
 } from "../components";
 import { useProfile } from "../profile/ProfileContext";
 import { daysOfTheWeek } from "../data/data";
-
-const { width } = Dimensions.get("window");
+import { getScreenSize } from "../utils/screenSize";
 
 export default function RegisterStep1({ navigation }) {
-  const isSmallScreen = width <= 392;
-  const isBigScreen = width >= 430;
+  const { isSmallScreen, isBigScreen } = getScreenSize();
 
   const { setProfileData } = useProfile();
 
@@ -63,7 +61,7 @@ export default function RegisterStep1({ navigation }) {
           <View className="flex-1">
             <View>
               {/* ¿Qué día...? */}
-              <View className="mt-4">
+              <View className={`${isSmallScreen ? "mt-2" : "mt-4"}`}>
                 <Text
                   className={`
                     text-neutros-negro font-roboto-medium 

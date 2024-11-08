@@ -1,8 +1,7 @@
-import { View, Text, Image, Dimensions } from "react-native";
+import { View, Text, Image } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { CustomChip } from "./CustomChip";
-
-const { width } = Dimensions.get("window");
+import { getScreenSize } from "../utils/screenSize";
 
 export const HeroCard = ({
   image,
@@ -14,8 +13,7 @@ export const HeroCard = ({
   description,
   category,
 }) => {
-  const isSmallScreen = width <= 392;
-  const isBigScreen = width >= 430;
+  const { isSmallScreen, isBigScreen } = getScreenSize();
 
   return (
     <View

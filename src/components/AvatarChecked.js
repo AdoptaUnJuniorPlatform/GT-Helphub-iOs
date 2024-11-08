@@ -1,11 +1,9 @@
-import { View, Image, Dimensions } from "react-native";
+import { View, Image } from "react-native";
 import Feather from "@expo/vector-icons/Feather";
-
-const { width } = Dimensions.get("window");
+import { getScreenSize } from "../utils/screenSize";
 
 export const AvatarChecked = ({ source }) => {
-  const isSmallScreen = width <= 392;
-  const isBigScreen = width >= 430;
+  const { isSmallScreen } = getScreenSize();
 
   return (
     <View>

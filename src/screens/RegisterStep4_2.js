@@ -5,7 +5,6 @@ import {
   View,
   SafeAreaView,
   ScrollView,
-  Dimensions,
   TouchableOpacity,
   Modal,
   Image,
@@ -23,18 +22,16 @@ import { useAbility } from "../ability/AbilityContext";
 import { useProfile } from "../profile/ProfileContext";
 import { useUser } from "../user/UserContext";
 import { categories } from "../data/data";
-import { getToken } from "../auth/authService";
+import { getScreenSize } from "../utils/screenSize";
 import Feather from "@expo/vector-icons/Feather";
-
-const { width } = Dimensions.get("window");
+import apiClient from "../api/apiClient";
 
 export default function RegisterStep1({ navigation }) {
-  const isSmallScreen = width <= 392;
-  const isBigScreen = width >= 430;
+  const { isSmallScreen, isBigScreen } = getScreenSize();
 
   const { abilityData, setAbilityData } = useAbility();
-  const { profileData, setProfileData } = useProfile();
-  const { userData, setUserData } = useUser();
+  const { profileData } = useProfile();
+  const { userData } = useUser();
 
   const [isDialogVisible, setDialogVisible] = useState(false);
   const [isPopUpVisible, setPopUpVisible] = useState(false);
@@ -52,8 +49,6 @@ export default function RegisterStep1({ navigation }) {
   });
 
   const onSubmit = async (data) => {
-    const token = await getToken();
-
     setAbilityData((prevData) => ({
       ...prevData,
       description: data.description,
@@ -76,27 +71,11 @@ export default function RegisterStep1({ navigation }) {
       category,
     };
 
+    console.log(requestData);
+
     try {
-      const response = await fetch(
-        "http://localhost:4002/api/helphub/hability",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(requestData),
-        },
-      );
-
-      if (!response.ok) {
-        console.log("Request Data", requestData);
-        throw new Error("Error sending data");
-      }
-
-      const result = await response.json();
-      console.log(result);
-      setAbilityData(result);
+      const response = await apiClient.post("/hability", requestData);
+      setAbilityData(response.data);
       togglePopUp();
     } catch (error) {
       console.error(error.message);

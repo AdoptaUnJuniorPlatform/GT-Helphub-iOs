@@ -4,7 +4,6 @@ import {
   View,
   SafeAreaView,
   ScrollView,
-  Dimensions,
   Text,
   TouchableOpacity,
 } from "react-native";
@@ -16,13 +15,11 @@ import {
   CustomTextarea,
 } from "../components";
 import { useAbility } from "../ability/AbilityContext";
+import { getScreenSize } from "../utils/screenSize";
 import Feather from "@expo/vector-icons/Feather";
 
-const { width } = Dimensions.get("window");
-
 export default function RegisterStep4_1({ navigation }) {
-  const isSmallScreen = width <= 392;
-  const isBigScreen = width >= 430;
+  const { isSmallScreen, isBigScreen } = getScreenSize();
 
   const { setAbilityData } = useAbility();
 

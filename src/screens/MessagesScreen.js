@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   View,
   Text,
-  Dimensions,
   ScrollView,
   TouchableOpacity,
   SafeAreaView,
@@ -13,13 +12,12 @@ import {
   MessagesProfile,
   AlertIcon,
 } from "../components";
-
-const { width } = Dimensions.get("window");
+import { getScreenSize } from "../utils/screenSize";
 
 const MessagesScreen = ({ navigation }) => {
   const [activeTab, setActiveTab] = useState("Mensajes");
-  const isSmallScreen = width <= 392;
-  const isBigScreen = width >= 430;
+
+  const { isSmallScreen, isBigScreen } = getScreenSize();
 
   const [isProfileVisible, setProfileVisible] = useState(false);
 
@@ -80,9 +78,6 @@ const MessagesScreen = ({ navigation }) => {
       surname: "Pino",
     },
   ];
-
-  // const messages = [];
-  // const requests = [];
 
   const toggleProfile = () => {
     setProfileVisible(!isProfileVisible);

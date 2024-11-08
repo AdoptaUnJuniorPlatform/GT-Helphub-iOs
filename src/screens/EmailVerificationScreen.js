@@ -6,21 +6,19 @@ import {
   View,
   SafeAreaView,
   TextInput,
-  Dimensions,
   TouchableOpacity,
   Modal,
   Pressable,
 } from "react-native";
 import { LogoDark, CustomButton, CheckIcon } from "../components";
+import { generateRandomCode } from "../utils/twoFaCodeGenerator";
+import { getScreenSize } from "../utils/screenSize";
 import Feather from "@expo/vector-icons/Feather";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
-import { generateRandomCode } from "../utils/twoFaCodeGenerator";
-
-const { width } = Dimensions.get("window");
+import apiClient from "../api/apiClient";
 
 export default function EmailVerificationScreen() {
-  const isSmallScreen = width <= 392;
-  const isBigScreen = width >= 430;
+  const { isSmallScreen, isBigScreen } = getScreenSize();
 
   const [isTwoFaFocused, setIsTwoFaFocused] = useState(false);
   const [isPopUpVisible, setPopUpVisible] = useState(false);
@@ -63,27 +61,15 @@ export default function EmailVerificationScreen() {
     };
 
     try {
-      const response = await fetch(
-        "http://localhost:4002/api/helphub/email-service/emailAcount",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(payload),
-        },
-      );
-
-      if (response.ok) {
-        console.log("Success", await response.json());
-      } else {
-        const errorData = await response.json();
-        console.error(errorData.message);
-        alert("Se ha producido un error, intenta de nuevo.");
-      }
+      await apiClient.post("/email-service/emailAcount", payload);
     } catch (error) {
-      console.error(error);
-      alert("Se ha producido un error, intenta de nuevo.");
+      if (error.response) {
+        console.error("Error:", error.response.data.message);
+        alert("Se ha producido un error, intenta de nuevo.");
+      } else {
+        console.error("Error:", error);
+        alert("Se ha producido un error inesperado, intenta de nuevo.");
+      }
     } finally {
       setIsResending(false);
     }

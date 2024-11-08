@@ -1,4 +1,3 @@
-// Svgs
 export { AlertDialogIcon } from "./svgComponents/AlertDialogIcon";
 export { AlertIcon } from "./svgComponents/AlertIcon";
 export { CelebrateIcon } from "./svgComponents/CelebrateIcon";
@@ -10,8 +9,8 @@ export { LogoDark } from "./svgComponents/LogoDark";
 export { LogoLight } from "./svgComponents/LogoLight";
 export { UserCircle } from "./svgComponents/UserCircle";
 export { VerifiedIcon } from "./svgComponents/VerifiedIcon";
+export { WarningIcon } from "./svgComponents/WarningIcon";
 
-// Molecules
 export { AvatarChecked } from "./AvatarChecked";
 export { Calendar } from "./Calendar";
 export { CustomButton } from "./CustomButton";
@@ -29,7 +28,6 @@ export { Stepper } from "./Stepper";
 export { StepTitle } from "./StepTitle";
 export { ToggleSwitch } from "./ToggleSwitch";
 
-// Organisms
 export { AbilityCard } from "./AbilityCard";
 export { EditAbility } from "./EditAbility";
 export { EditProfile } from "./EditProfile";

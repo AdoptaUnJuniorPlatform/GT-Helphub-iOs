@@ -4,15 +4,12 @@ import {
   SafeAreaView,
   ScrollView,
   TouchableOpacity,
-  Dimensions,
 } from "react-native";
 import { LogoLight, RegisterForm } from "../components";
-
-const { width } = Dimensions.get("window");
+import { getScreenSize } from "../utils/screenSize";
 
 export default function RegisterScreen({ navigation }) {
-  const isSmallScreen = width <= 392;
-  const isBigScreen = width >= 430;
+  const { isSmallScreen, isBigScreen } = getScreenSize();
 
   return (
     <SafeAreaView className="flex-1 bg-neutros-gris-fondo">

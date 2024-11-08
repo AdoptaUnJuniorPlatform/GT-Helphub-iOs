@@ -4,7 +4,6 @@ import {
   SafeAreaView,
   TouchableOpacity,
   Text,
-  Dimensions,
   Image,
   TextInput,
   ScrollView,
@@ -12,15 +11,13 @@ import {
   Platform,
 } from "react-native";
 import { CustomButton, RatingsDialog } from "../components";
+import { getScreenSize } from "../utils/screenSize";
 import Feather from "@expo/vector-icons/Feather";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 
-const { width } = Dimensions.get("window");
-
 const MessagesStep2 = ({ navigation }) => {
-  const isSmallScreen = width <= 392;
-  const isBigScreen = width >= 430;
+  const { isSmallScreen, isBigScreen } = getScreenSize();
 
   const [isDialogVisible, setDialogVisible] = useState(false);
 

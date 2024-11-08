@@ -4,7 +4,6 @@ import {
   SafeAreaView,
   TouchableOpacity,
   Text,
-  Dimensions,
   Image,
   TextInput,
   ScrollView,
@@ -12,14 +11,12 @@ import {
   Platform,
 } from "react-native";
 import { CustomButton } from "../components";
+import { getScreenSize } from "../utils/screenSize";
 import Feather from "@expo/vector-icons/Feather";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 
-const { width } = Dimensions.get("window");
-
 const MessagesStep1 = ({ navigation }) => {
-  const isSmallScreen = width <= 392;
-  const isBigScreen = width >= 430;
+  const { isSmallScreen, isBigScreen } = getScreenSize();
 
   const [messages, setMessages] = useState([
     {

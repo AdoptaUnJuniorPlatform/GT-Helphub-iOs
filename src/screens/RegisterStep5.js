@@ -6,17 +6,14 @@ import {
   ScrollView,
   Text,
   TouchableOpacity,
-  Dimensions,
 } from "react-native";
 import { CustomButton, StepHeader, StepTitle, CustomChip } from "../components";
 import { useProfile } from "../profile/ProfileContext";
-import { getToken } from "../auth/authService";
-
-const { width } = Dimensions.get("window");
+import { getScreenSize } from "../utils/screenSize";
+import apiClient from "../api/apiClient";
 
 export default function RegisterStep5({ navigation }) {
-  const isSmallScreen = width <= 392;
-  const isBigScreen = width >= 430;
+  const { isSmallScreen, isBigScreen } = getScreenSize();
 
   const { profileData, setProfileData } = useProfile();
 
@@ -45,8 +42,6 @@ export default function RegisterStep5({ navigation }) {
   });
 
   const onSubmit = async (data) => {
-    const token = await getToken();
-
     setProfileData((prevData) => ({
       ...prevData,
       interestedSkills: data.interestedSkills,
@@ -76,26 +71,8 @@ export default function RegisterStep5({ navigation }) {
     };
 
     try {
-      const response = await fetch(
-        "http://localhost:4002/api/helphub/profile",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(requestData),
-        },
-      );
-
-      if (!response.ok) {
-        console.log("Request Data", requestData);
-        throw new Error("Error sending data");
-      }
-
-      const result = await response.json();
-      console.log(result);
-      setProfileData(result);
+      const response = await apiClient.post("/profile", requestData);
+      setProfileData(response.data);
       navigation.navigate("HomeTabs");
     } catch (error) {
       console.error(error.message);

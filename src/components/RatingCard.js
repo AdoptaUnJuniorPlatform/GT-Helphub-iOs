@@ -1,16 +1,14 @@
 import { useState, useRef } from "react";
-import { View, Text, Dimensions, Image, ScrollView } from "react-native";
+import { View, Text, Image, ScrollView, Dimensions } from "react-native";
+import { getScreenSize } from "../utils/screenSize";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 
-const { width } = Dimensions.get("window");
 const { height: screenHeight } = Dimensions.get("window");
 
 export const RatingCard = ({ onPress }) => {
-  const isSmallScreen = width <= 392;
-  const isBigScreen = width >= 430;
+  const { isSmallScreen } = getScreenSize();
 
   const [scrollY, setScrollY] = useState(0);
-  const [contentHeight, setContentHeight] = useState(0);
   const scrollViewRef = useRef(null);
 
   const handleScroll = (event) => {

@@ -6,16 +6,14 @@ import {
   SafeAreaView,
   TouchableOpacity,
   TextInput,
-  Dimensions,
 } from "react-native";
 import { LogoLight } from "../components";
 import { generateRandomCode } from "../utils/twoFaCodeGenerator";
-
-const { width } = Dimensions.get("window");
+import { getScreenSize } from "../utils/screenSize";
+import apiClient from "../api/apiClient";
 
 export default function ResetPasswordStep1({ navigation }) {
-  const isSmallScreen = width <= 392;
-  const isBigScreen = width >= 430;
+  const { isSmallScreen } = getScreenSize();
 
   const [isEmailFocused, setIsEmailFocused] = useState(false);
 
@@ -34,31 +32,19 @@ export default function ResetPasswordStep1({ navigation }) {
     };
 
     try {
-      const response = await fetch(
-        "http://localhost:4002/api/helphub/email-service/resetEmail",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(payload),
-        },
-      );
-
-      if (response.ok) {
-        console.log("Success", await response.json());
-        navigation.navigate("ResetPasswordStep2", {
-          ...data,
-          twoFa: twoFaCode,
-        });
+      await apiClient.post("/email-service/resetEmail", payload);
+      navigation.navigate("ResetPasswordStep2", {
+        ...data,
+        twoFa: twoFaCode,
+      });
+    } catch (error) {
+      if (error.response) {
+        console.error(error.response.data.message);
+        alert("Se ha producido un error, intenta de nuevo.");
       } else {
-        const errorData = await response.json();
-        console.error(errorData.message);
+        console.error(error.message);
         alert("Se ha producido un error, intenta de nuevo.");
       }
-    } catch (error) {
-      console.error(error);
-      alert("Se ha producido un error, intenta de nuevo.");
     }
   };
 

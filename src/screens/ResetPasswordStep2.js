@@ -7,16 +7,14 @@ import {
   SafeAreaView,
   TouchableOpacity,
   TextInput,
-  Dimensions,
 } from "react-native";
 import { LogoLight } from "../components";
+import { getScreenSize } from "../utils/screenSize";
+import apiClient from "../api/apiClient";
 import AntDesign from "@expo/vector-icons/AntDesign";
 
-const { width } = Dimensions.get("window");
-
 export default function ResetPasswordStep1() {
-  const isSmallScreen = width <= 392;
-  const isBigScreen = width >= 430;
+  const { isSmallScreen } = getScreenSize();
 
   const [isTwoFaFocused, setIsTwoFaFocused] = useState(false);
   const [isNewPasswordFocused, setIsNewPasswordFocused] = useState(false);
@@ -35,42 +33,30 @@ export default function ResetPasswordStep1() {
 
   const { email } = route.params;
 
-  // const onSubmit = (data) => {
-  //   console.log(data);
-  //   navigation.navigate("SessionStart");
-  // };
-
   const onSubmit = async (data) => {
     const payload = {
       email,
       password: data.newPassword,
-      // twoFa: data.twoFa,
     };
 
     try {
-      const response = await fetch(
-        "http://localhost:4002/api/helphub/auth/reset-password",
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(payload),
-        },
-      );
+      const response = await apiClient.patch("/auth/reset-password", payload);
 
-      const result = await response.json();
-
-      if (response.ok) {
+      if (response.status === 200) {
         console.log("New password confirmed", data);
         navigation.navigate("SessionStart");
       } else {
-        console.error(result);
+        console.error(response.data);
         alert("Se ha producido un error, intenta de nuevo.");
       }
     } catch (error) {
-      console.error(error);
-      alert("Se ha producido un error, intenta de nuevo.");
+      if (error.response) {
+        console.error(error.response.data.message);
+        alert("Se ha producido un error, intenta de nuevo.");
+      } else {
+        console.error(error.message);
+        alert("Se ha producido un error, intenta de nuevo.");
+      }
     }
   };
 

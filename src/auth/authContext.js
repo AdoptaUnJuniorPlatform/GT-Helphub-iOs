@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { saveToken, removeToken, getToken } from "./authService";
+import apiClient from "../api/apiClient";
 
 const AuthContext = createContext();
 
@@ -16,24 +17,22 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
     try {
-      const response = await fetch(
-        "http://localhost:4002/api/helphub/auth/login-mobile",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email, password }),
-        },
-      );
-      const data = await response.json();
-      if (response.ok && data.access_token) {
-        await saveToken(data.access_token);
-        setUserToken(data.access_token);
-        console.log("Token saved successfully");
+      const response = await apiClient.post("/auth/login-mobile", {
+        email,
+        password,
+      });
+      const { access_token } = response.data;
+
+      if (access_token) {
+        await saveToken(access_token);
+        setUserToken(access_token);
+        console.log("Token saved successfully:", access_token);
       } else {
-        throw new Error("Authentification error");
+        console.error("Login failed: No access token in response");
+        throw new Error("Authentication error");
       }
     } catch (error) {
-      console.error(error);
+      console.error("Login error:", error);
       alert("Se ha producido un error, intenta de nuevo.");
     }
   };
