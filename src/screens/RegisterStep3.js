@@ -61,7 +61,7 @@ export default function RegisterStep1({ navigation }) {
           <View className="flex-1">
             <View>
               {/* ¿Qué día...? */}
-              <View className="mt-4">
+              <View className={`${isSmallScreen ? "mt-2" : "mt-4"}`}>
                 <Text
                   className={`
                     text-neutros-negro font-roboto-medium 

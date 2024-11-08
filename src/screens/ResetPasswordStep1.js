@@ -32,21 +32,11 @@ export default function ResetPasswordStep1({ navigation }) {
     };
 
     try {
-      const response = await apiClient.post(
-        "/email-service/resetEmail",
-        payload,
-      );
-
-      if (response.status === 200) {
-        console.log("Success", response.data);
-        navigation.navigate("ResetPasswordStep2", {
-          ...data,
-          twoFa: twoFaCode,
-        });
-      } else {
-        console.error(response.data.message);
-        alert("Se ha producido un error, intenta de nuevo.");
-      }
+      await apiClient.post("/email-service/resetEmail", payload);
+      navigation.navigate("ResetPasswordStep2", {
+        ...data,
+        twoFa: twoFaCode,
+      });
     } catch (error) {
       if (error.response) {
         console.error(error.response.data.message);

@@ -71,16 +71,12 @@ export default function RegisterStep1({ navigation }) {
       category,
     };
 
+    console.log(requestData);
+
     try {
       const response = await apiClient.post("/hability", requestData);
-
-      if (response.status === 200) {
-        setAbilityData(response.data);
-        togglePopUp();
-      } else {
-        console.error(response.data);
-        throw new Error("Error sending data");
-      }
+      setAbilityData(response.data);
+      togglePopUp();
     } catch (error) {
       console.error(error.message);
       alert("Se ha producido un error, intenta de nuevo.");

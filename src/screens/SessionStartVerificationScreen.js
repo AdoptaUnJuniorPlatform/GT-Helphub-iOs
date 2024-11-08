@@ -124,12 +124,32 @@ export default function SessionStartVerificationScreen() {
           <LogoDark />
         </View>
 
-        <View className="flex-1 justify-start mt-8">
-          <View className="rounded-lg bg-neutros-beige-fondo p-3.5 mb-5">
-            <Text className="text-primarios-violeta-100 font-roboto-medium text-[34px] mb-3">
+        <View
+          className={`
+          flex-1 justify-start 
+          ${isSmallScreen ? "mt-2" : "mt-8"}
+          `}
+        >
+          <View
+            className={`
+            rounded-lg bg-neutros-beige-fondo p-3.5 
+            ${isSmallScreen ? "mb-3" : "mb-5"}
+            `}
+          >
+            <Text
+              className={`
+              text-primarios-violeta-100 font-roboto-medium text-[34px] 
+              ${isSmallScreen ? "text-[20px] mb-1" : "text-[34px] mb-3"}
+              `}
+            >
               Protege tu cuenta
             </Text>
-            <Text className="text-neutros-negro font-roboto-medium text-base mb-2">
+            <Text
+              className={`
+              text-neutros-negro font-roboto-medium text-base 
+              ${isSmallScreen ? "mb-1" : "mb-2"}
+              `}
+            >
               Autenticación en dos factores (2FA)
             </Text>
             <View className="pl-2 pr-4 mb-2 flex-row items-center">
@@ -147,11 +167,21 @@ export default function SessionStartVerificationScreen() {
             </View>
           </View>
 
-          <Text className="text-neutros-negro text-xl font-roboto-medium mb-1">
+          <Text
+            className={`
+            text-neutros-negro font-roboto-medium 
+            ${isSmallScreen ? "text-base" : "text-xl mb-1"}
+            `}
+          >
             Introduce el código que hemos enviado a{" "}
             <Text className="text-primarios-violeta-100">{email}</Text>
           </Text>
-          <Text className="text-neutros-negro leading-6 text-base font-roboto-regular mb-1">
+          <Text
+            className={`
+            text-neutros-negro leading-6 font-roboto-regular 
+            ${isSmallScreen ? "text-sm" : "mb-1 text-base"}
+            `}
+          >
             Puede que tarde un minuto en recibir el correo.
           </Text>
           <Text className="text-neutral-color-blue-gray-900 text-sm font-roboto-medium mb-2">
@@ -159,35 +189,6 @@ export default function SessionStartVerificationScreen() {
           </Text>
 
           <View>
-            {/* <Controller
-              control={control}
-              name="twoFa"
-              rules={{
-                required: "El código de verificación es obligatorio",
-                pattern: {
-                  value: /^[0-9]{6}$/,
-                  message:
-                    "El código debe ser de 6 dígitos y solo contener números",
-                },
-              }}
-              render={({ field: { onChange, onBlur, value } }) => (
-                <TextInput
-                  onBlur={() => {
-                    setIsTwoFaFocused(false);
-                    onBlur();
-                  }}
-                  onFocus={() => setIsTwoFaFocused(true)}
-                  onChangeText={onChange}
-                  value={value}
-                  placeholder="Código email"
-                  className={`
-                bg-transparent border-[1px] rounded-lg h-[40px] font-roboto-regular text-sm text-neutral-color-gray-900 px-3 pb-1
-                ${errors.twoFa ? "border-red-error" : isTwoFaFocused ? "border-[#455A64]" : "border-neutral-color-blue-gray-100"}
-                `}
-                  placeholderTextColor={isTwoFaFocused ? "#212121" : "#90a3ae"}
-                />
-              )}
-            /> */}
             <View className="flex flex-row justify-start mb-2">
               {Array.from({ length: 6 }).map((_, index) => (
                 <Controller
@@ -254,7 +255,7 @@ export default function SessionStartVerificationScreen() {
         <View
           className={`
             flex-row items-center justify-between
-            ${isSmallScreen ? "mt-auto mb-2" : "mt-4"}
+            ${isSmallScreen ? "mt-auto mb-2 mt-2" : "mt-4"}
             `}
         >
           <CustomButton

@@ -55,17 +55,8 @@ export const RegisterForm = ({ navigation }) => {
     };
 
     try {
-      const response = await apiClient.post(
-        "/email-service/emailAcount",
-        payload,
-      );
-
-      if (response.status === 200) {
-        navigation.navigate("EmailVerification", { ...data, twoFa: twoFaCode });
-      } else {
-        console.error(response.data);
-        alert("Se ha producido un error, intenta de nuevo.");
-      }
+      await apiClient.post("/email-service/emailAcount", payload);
+      navigation.navigate("EmailVerification", { ...data, twoFa: twoFaCode });
     } catch (error) {
       if (error.response) {
         console.error(error.response.data.message);

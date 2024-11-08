@@ -9,8 +9,8 @@ import {
   TextInput,
 } from "react-native";
 import { LogoLight } from "../components";
-import Feather from "@expo/vector-icons/Feather";
 import { getScreenSize } from "../utils/screenSize";
+import Feather from "@expo/vector-icons/Feather";
 
 export default function LoginScreen({ navigation }) {
   const { isSmallScreen } = getScreenSize();

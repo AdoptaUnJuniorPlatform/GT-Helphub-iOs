@@ -364,7 +364,7 @@ export const EditProfile = ({ onRequestClose, visible }) => {
       `}
                   >
                     <View
-                      className={`${isSmallScreen ? "w-[28%] mr-2" : "w-[48%]"} mb-2`}
+                      className={`${isSmallScreen ? "w-[30%] mr-2" : "w-[48%]"} mb-2`}
                     >
                       <CustomRadio
                         label="08:00hs a 14:00hs"
@@ -374,7 +374,7 @@ export const EditProfile = ({ onRequestClose, visible }) => {
                     </View>
 
                     <View
-                      className={`${isSmallScreen ? "w-[28%] mr-2" : "w-[48%]"} mb-2`}
+                      className={`${isSmallScreen ? "w-[30%] mr-2" : "w-[48%]"} mb-2`}
                     >
                       <CustomRadio
                         label="15:00hs a 17:00hs"
@@ -384,7 +384,7 @@ export const EditProfile = ({ onRequestClose, visible }) => {
                     </View>
 
                     <View
-                      className={`${isSmallScreen ? "w-[28%] mr-2" : "w-[48%]"} mb-2`}
+                      className={`${isSmallScreen ? "w-[30%] mr-2" : "w-[48%]"} mb-2`}
                     >
                       <CustomRadio
                         label="17:00hs a 21:00hs"
@@ -394,7 +394,7 @@ export const EditProfile = ({ onRequestClose, visible }) => {
                     </View>
 
                     <View
-                      className={`${isSmallScreen ? "w-[28%] mr-2" : "w-[48%]"} mb-2`}
+                      className={`${isSmallScreen ? "w-[30%] mr-2" : "w-[48%]"} mb-2`}
                     >
                       <CustomRadio
                         label="08:00hs a 21:00hs"
@@ -404,7 +404,7 @@ export const EditProfile = ({ onRequestClose, visible }) => {
                     </View>
 
                     <View
-                      className={`${isSmallScreen ? "w-[28%] mr-2" : "w-[48%]"} mb-2`}
+                      className={`${isSmallScreen ? "w-[30%] mr-2" : "w-[48%]"} mb-2`}
                     >
                       <CustomRadio
                         label="Flexible schedule"

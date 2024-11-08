@@ -43,8 +43,6 @@ export default function ProfileScreen({ navigation }) {
 
   const opacity = useRef(new Animated.Value(0)).current;
 
-  const user_id = profileData.userId._id;
-
   const toggleEditAbility = (ability) => {
     setSelectedAbility(ability);
     setEditAbilityVisible(!isEditAbilityVisible);
@@ -76,20 +74,19 @@ export default function ProfileScreen({ navigation }) {
   const fetchProfile = async () => {
     try {
       const response = await apiClient.get("/profile");
-
       if (response.status === 200) {
         setCreateProfileWarningVisible(false);
         setProfileData(response.data);
-      } else if (response.status === 404) {
-        toggleCreateProfileWarning();
-      } else {
-        console.error(response.data.message);
-        alert("Se ha producido un error, intenta de nuevo.");
+        fetchAbilities();
       }
     } catch (error) {
       if (error.response) {
-        console.error(error.response.data.message);
-        alert("Se ha producido un error, intenta de nuevo.");
+        if (error.response.status === 404) {
+          toggleCreateProfileWarning();
+        } else {
+          console.error(error.response.data.message);
+          alert("Se ha producido un error, intenta de nuevo.");
+        }
       } else {
         console.error(error.message);
         alert("Se ha producido un error, intenta de nuevo.");
@@ -98,45 +95,34 @@ export default function ProfileScreen({ navigation }) {
   };
 
   const fetchAbilities = async () => {
+    const user_id = profileData.userId._id;
     try {
       const response = await apiClient.get(
         `/hability/user-habilities/${user_id}`,
       );
-
-      if (response.status === 200) {
-        setAbilities(response.data);
-      } else {
-        console.error(response.data.message);
-        alert("Se ha producido un error, intenta de nuevo.");
-      }
+      setAbilities(response.data);
     } catch (error) {
       if (error.response) {
-        console.error(error.response.data.message);
-        alert("Se ha producido un error, intenta de nuevo.");
+        //console.error(error.response.data.message);
+        //alert("Se ha producido un error, intenta de nuevo.");
       } else {
-        console.error(error.message);
-        alert("Se ha producido un error, intenta de nuevo.");
+        //console.error(error.message);
+        //alert("Se ha producido un error, intenta de nuevo.");
       }
     }
   };
 
   const deleteAbility = async (abilityId) => {
     try {
-      const response = await apiClient.delete(`/hability/${abilityId}`);
-
-      if (response.status === 200) {
-        setAbilities((prevAbilities) =>
-          prevAbilities.filter((ability) => ability._id !== abilityId),
-        );
-        alert("Habilidad eliminada correctamente.");
-      } else {
-        console.error(response.data.message);
-        alert("Se ha producido un error al eliminar la habilidad.");
-      }
+      await apiClient.delete(`/hability/${abilityId}`);
+      setAbilities((prevAbilities) =>
+        prevAbilities.filter((ability) => ability._id !== abilityId),
+      );
+      alert("Habilidad eliminada correctamente.");
     } catch (error) {
       if (error.response) {
         console.error(error.response.data.message);
-        alert("Se ha producido un error, intenta de nuevo.");
+        alert("Se ha producido un error al eliminar la habilidad.");
       } else {
         console.error(error.message);
         alert("Se ha producido un error, intenta de nuevo.");
@@ -152,7 +138,7 @@ export default function ProfileScreen({ navigation }) {
 
   useEffect(() => {
     fetchAbilities();
-  }, [user_id, abilities]);
+  }, [abilities]);
 
   return (
     <SafeAreaView className="flex-1 bg-neutros-gris-fondo">
@@ -401,7 +387,12 @@ export default function ProfileScreen({ navigation }) {
             </>
           ) : (
             <>
-              <View className="flex-row items-center justify-start mb-3 mx-4">
+              <View
+                className={`
+                flex-row items-center justify-start mb-3 mx-4
+                ${isSmallScreen ? "mb-2" : "mb-3"}
+                `}
+              >
                 <View
                   className={`
                     bg-primarios-violeta-100 rounded-[6px] justify-center items-center mr-2
@@ -426,7 +417,7 @@ export default function ProfileScreen({ navigation }) {
                 <Text
                   className={`
                     text-neutros-negro font-roboto-medium 
-                    ${isSmallScreen ? "text-lg" : "text-xl"}
+                    ${isSmallScreen ? "text-base" : "text-xl"}
                     `}
                 >
                   Mis reseñas
@@ -435,7 +426,7 @@ export default function ProfileScreen({ navigation }) {
               <View
                 className={`
                 pl-4 
-                ${isSmallScreen ? "mt-2" : "mt-4"}
+                ${isSmallScreen ? "mt-1" : "mt-4"}
                 `}
               >
                 <ScrollView horizontal showsHorizontalScrollIndicator={false}>

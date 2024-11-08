@@ -72,14 +72,8 @@ export default function RegisterStep5({ navigation }) {
 
     try {
       const response = await apiClient.post("/profile", requestData);
-
-      if (response.status === 200) {
-        setProfileData(response.data);
-        navigation.navigate("HomeTabs");
-      } else {
-        console.error(response.data);
-        throw new Error("Error sending data");
-      }
+      setProfileData(response.data);
+      navigation.navigate("HomeTabs");
     } catch (error) {
       console.error(error.message);
       alert("Se ha producido un error, intenta de nuevo.");

@@ -120,7 +120,7 @@ export const AbilityCard = ({ onDelete, onEdit, ability }) => {
             showsVerticalScrollIndicator={false}
             className={`
         px-4 max-h-[50px]
-        ${isSmallScreen ? "mt-1" : "mt-6"}
+        ${isSmallScreen ? "mt-2" : "mt-6"}
         `}
           >
             <Text className="text-neutros-negro leading-5 font-roboto-regular text-sm">

@@ -25,7 +25,7 @@ export const CustomCheckbox = ({
       </TouchableOpacity>
 
       <View className="flex-row flex-wrap">
-        <Text className="text-neutral-color-blue-gray-400 font-poppins-medium text-xs">
+        <Text className="text-neutros-negro-80 font-roboto-medium text-xs">
           {label}
         </Text>
 
