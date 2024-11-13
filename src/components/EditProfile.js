@@ -9,6 +9,7 @@ import {
   Image,
 } from "react-native";
 import { useProfile } from "../profile/ProfileContext";
+import { useUser } from "../user/UserContext";
 import { CustomButton } from "./CustomButton";
 import { CustomTextarea } from "./CustomTextarea";
 import { InputFieldWithIcon } from "./InputFieldWithIcon";
@@ -29,7 +30,9 @@ export const EditProfile = ({ onRequestClose, visible }) => {
 
   const { profileData, setProfileData } = useProfile();
 
-  const [allCategories, setAllCategories] = useState([
+  const { userData } = useUser();
+
+  const categories = [
     { label: "Animales", active: false },
     { label: "Ayuda", active: false },
     { label: "Consultoría", active: false },
@@ -40,7 +43,23 @@ export const EditProfile = ({ onRequestClose, visible }) => {
     { label: "Salud", active: false },
     { label: "Tutorías", active: false },
     { label: "Otros", active: false },
-  ]);
+  ];
+
+  const [allCategories, setAllCategories] = useState(
+    categories.map((category) => ({
+      ...category,
+      active: profileData.interestedSkills?.includes(category.label) || false,
+    })),
+  );
+
+  useEffect(() => {
+    setValue(
+      "interestedSkills",
+      allCategories
+        .filter((category) => category.active)
+        .map((cat) => cat.label),
+    );
+  }, [allCategories, setValue]);
 
   const [savedDate, setSavedDate] = useState("00/00/00");
 
@@ -64,15 +83,15 @@ export const EditProfile = ({ onRequestClose, visible }) => {
     control,
     handleSubmit,
     setValue,
-    formState: { errors, isValid },
+    formState: { errors },
   } = useForm({
     defaultValues: {
-      description: "",
-      location: "",
-      profilePicture: null,
-      preferredTimeRange: "",
-      selectedDays: [],
-      interestedSkills: [],
+      description: profileData.description || "",
+      location: profileData.location || "",
+      profilePicture: userData.profilePicture || null,
+      preferredTimeRange: profileData.preferredTimeRange || null,
+      selectedDays: profileData.selectedDays || [],
+      interestedSkills: profileData.interestedSkills || [],
     },
     mode: "onChange",
   });
@@ -99,32 +118,19 @@ export const EditProfile = ({ onRequestClose, visible }) => {
   };
 
   const toggleCategory = (label, onChange) => {
-    setAllCategories((prevCategories) => {
-      const activeCategories = prevCategories.filter(
-        (category) => category.active,
-      );
-
-      if (
-        activeCategories.length >= 3 &&
-        !prevCategories.find((category) => category.label === label).active
-      ) {
-        return prevCategories;
-      }
-
-      const updatedCategories = prevCategories.map((category) =>
+    setAllCategories((prevCategories) =>
+      prevCategories.map((category) =>
         category.label === label
           ? { ...category, active: !category.active }
           : category,
-      );
+      ),
+    );
 
-      onChange(
-        updatedCategories
-          .filter((category) => category.active)
-          .map((cat) => cat.label),
-      );
+    const updatedSkills = allCategories
+      .filter((category) => category.active || category.label === label)
+      .map((category) => category.label);
 
-      return updatedCategories;
-    });
+    onChange(updatedSkills);
   };
 
   const profileId = profileData._id;
@@ -142,10 +148,10 @@ export const EditProfile = ({ onRequestClose, visible }) => {
     } catch (error) {
       if (error.response) {
         console.error(error.response.data.message);
-        // alert("Se ha producido un error, intenta de nuevo.");
+        alert("Se ha producido un error, intenta de nuevo.");
       } else {
         console.error(error.message);
-        // alert("Se ha producido un error, intenta de nuevo.");
+        alert("Se ha producido un error, intenta de nuevo.");
       }
     }
   };
@@ -213,10 +219,6 @@ export const EditProfile = ({ onRequestClose, visible }) => {
                 control={control}
                 name="description"
                 rules={{
-                  required: {
-                    value: true,
-                    message: "Descripción es obligatoria",
-                  },
                   maxLength: {
                     value: 160,
                     message: "Máximo 160 caracteres",
@@ -227,7 +229,7 @@ export const EditProfile = ({ onRequestClose, visible }) => {
                     value={value}
                     onChange={onChange}
                     onBlur={onBlur}
-                    placeholder="Soy una joven estudiante de enfermería, tengo 22 años vivo en Madrid con unas amigas. Soy una apasionada por la música, y que desea aprender a tocar el piano."
+                    // placeholder="Soy una joven estudiante de enfermería, tengo 22 años vivo en Madrid con unas amigas. Soy una apasionada por la música, y que desea aprender a tocar el piano."
                     multiline={true}
                     numberOfLines={7}
                     maxLength={160}
@@ -243,10 +245,6 @@ export const EditProfile = ({ onRequestClose, visible }) => {
                 control={control}
                 name="location"
                 rules={{
-                  required: {
-                    value: true,
-                    message: "Código postal es obligatorio",
-                  },
                   pattern: {
                     value: /^[0-9]{5}$/,
                     message: "El código postal debe ser de 5 dígitos",
@@ -299,12 +297,6 @@ export const EditProfile = ({ onRequestClose, visible }) => {
                 <Controller
                   control={control}
                   name="profilePicture"
-                  rules={{
-                    required: {
-                      value: true,
-                      message: "Foto es obligatorio",
-                    },
-                  }}
                   render={({ field: { value } }) => (
                     <>
                       {value ? (
@@ -350,12 +342,6 @@ export const EditProfile = ({ onRequestClose, visible }) => {
               <Controller
                 control={control}
                 name="preferredTimeRange"
-                rules={{
-                  required: {
-                    value: true,
-                    message: "Disponibilidad horaria es obligatoria",
-                  },
-                }}
                 render={({ field: { onChange, value } }) => (
                   <View
                     className={`
@@ -443,12 +429,6 @@ export const EditProfile = ({ onRequestClose, visible }) => {
               <Controller
                 control={control}
                 name="selectedDays"
-                rules={{
-                  required: {
-                    value: true,
-                    message: "Días son obligatorios",
-                  },
-                }}
                 render={({ field: { onChange, value } }) => (
                   <CustomDropdown
                     label="Seleccionar días"
@@ -477,12 +457,6 @@ export const EditProfile = ({ onRequestClose, visible }) => {
               <Controller
                 control={control}
                 name="interestedSkills"
-                rules={{
-                  required: {
-                    value: true,
-                    message: "Categorías son obligatorias",
-                  },
-                }}
                 render={({ field: { onChange, value } }) => (
                   <View className="flex flex-wrap flex-row justify-start align-center gap-2 mt-1">
                     {allCategories.map((category) => (
@@ -520,7 +494,6 @@ export const EditProfile = ({ onRequestClose, visible }) => {
                 title={"Guardar"}
                 width="content"
                 variant="white"
-                disabled={!isValid}
               />
             </View>
           </View>

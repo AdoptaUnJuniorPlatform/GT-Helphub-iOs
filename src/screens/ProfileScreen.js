@@ -77,7 +77,7 @@ export default function ProfileScreen({ navigation }) {
       if (response.status === 200) {
         setCreateProfileWarningVisible(false);
         setProfileData(response.data);
-        fetchAbilities();
+        await fetchAbilities();
       }
     } catch (error) {
       if (error.response) {
