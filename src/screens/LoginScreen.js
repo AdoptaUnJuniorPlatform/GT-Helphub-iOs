@@ -1,10 +1,12 @@
+import { useEffect, useRef } from "react";
 import {
   Text,
   View,
   SafeAreaView,
   ImageBackground,
   TouchableOpacity,
-  ScrollView,
+  Animated,
+  Easing,
 } from "react-native";
 import { LogoLight, HeroCard } from "../components";
 import { getScreenSize } from "../utils/screenSize";
@@ -12,6 +14,33 @@ import { profiles } from "../data/data";
 
 export default function LoginScreen({ navigation }) {
   const { isSmallScreen, isBigScreen } = getScreenSize();
+
+  const scrollX = useRef(new Animated.Value(0)).current;
+
+  const CARD_WIDTH = 280;
+
+  useEffect(() => {
+    const scrollWidth = (profiles.length - 1) * CARD_WIDTH;
+
+    const scrollAnimation = Animated.loop(
+      Animated.sequence([
+        Animated.timing(scrollX, {
+          toValue: -scrollWidth,
+          duration: 120000,
+          easing: Easing.linear,
+          useNativeDriver: true,
+        }),
+        Animated.timing(scrollX, {
+          toValue: 0,
+          duration: 0,
+          useNativeDriver: true,
+        }),
+      ]),
+    );
+    scrollAnimation.start();
+
+    return () => scrollAnimation.stop();
+  }, [scrollX]);
 
   return (
     <SafeAreaView className="flex-1 bg-primarios-violeta-100">
@@ -55,11 +84,10 @@ export default function LoginScreen({ navigation }) {
                 </Text>
               </View>
 
-              <View className="flex-row justify-end mt-6 mb-4 mr-4">
-                <ScrollView
-                  horizontal
-                  showsHorizontalScrollIndicator={false}
-                  contentContainerStyle={{ flexDirection: "row" }}
+              <View className="flex-row justify-end mt-6 mb-4">
+                <Animated.View
+                  className="flex-row absolute left-0"
+                  style={{ transform: [{ translateX: scrollX }] }}
                 >
                   {profiles.map(
                     ({
@@ -86,7 +114,7 @@ export default function LoginScreen({ navigation }) {
                       />
                     ),
                   )}
-                </ScrollView>
+                </Animated.View>
               </View>
 
               <View
@@ -95,7 +123,7 @@ export default function LoginScreen({ navigation }) {
                   ${isBigScreen ? "mt-8" : isSmallScreen ? "mt-4" : "mt-6"}
                   `}
               >
-                <View className="w-full">
+                <View className="w-full absolute bottom-2">
                   <View className={`${isSmallScreen ? "mb-2" : "mb-4"}`}>
                     <TouchableOpacity
                       className="h-[36px] items-center justify-center rounded-lg w-full bg-white"
