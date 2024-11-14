@@ -1,11 +1,46 @@
+import { useEffect, useState } from "react";
 import { View, Text, Image } from "react-native";
 import { CustomChip } from "./CustomChip";
 import { CustomButton } from "./CustomButton";
 import { getScreenSize } from "../utils/screenSize";
 import { ScrollView } from "react-native-gesture-handler";
+import apiClient from "../api/apiClient";
 
 export const HomeCard = ({ onPress, data }) => {
   const { isSmallScreen, isBigScreen } = getScreenSize();
+
+  const userId = data.user_id;
+
+  const [user, setUser] = useState({ nameUser: "", surnameUser: "" });
+  const [profile, setProfile] = useState({
+    profilePicture: null,
+    preferredTimeRange: "",
+  });
+
+  const fetchUser = async (userId) => {
+    try {
+      const response = await apiClient.get(`/user/user-id/${userId}`);
+      setUser(response.data);
+    } catch (error) {
+      console.error(error.message);
+      alert("Se ha producido un error, intenta de nuevo.");
+    }
+  };
+
+  const fetchProfile = async (userId) => {
+    try {
+      const response = await apiClient.get(`/profile/byUserId/${userId}`);
+      setProfile(response.data);
+    } catch (error) {
+      console.error(error.message);
+      alert("Se ha producido un error, intenta de nuevo.");
+    }
+  };
+
+  useEffect(() => {
+    fetchUser(userId);
+    fetchProfile(userId);
+  }, [userId]);
 
   return (
     <View
@@ -21,9 +56,10 @@ export const HomeCard = ({ onPress, data }) => {
       <View className="flex-row items-center gap-[25px] px-5">
         <View className="w-[59px] h-[59px] rounded-full">
           <Image
-            source={require("../../assets/avatar4.png")}
+            className="rounded-full"
+            source={{ uri: profile?.profilePicture }}
             style={{ width: "100%", height: "100%" }}
-            resizeMode="contain"
+            resizeMode="cover"
           />
         </View>
         <Text
@@ -32,7 +68,7 @@ export const HomeCard = ({ onPress, data }) => {
             ${isSmallScreen ? "text-lg" : "text-xl"}
             `}
         >
-          Juanita Perez
+          {user?.nameUser || ""} {user?.surnameUser || ""}
         </Text>
       </View>
 
@@ -49,7 +85,7 @@ export const HomeCard = ({ onPress, data }) => {
             ${isSmallScreen ? "text-lg" : "text-xl"}
             `}
         >
-          {data?.title}
+          {data?.title || ""}
         </Text>
       </View>
 
@@ -61,7 +97,7 @@ export const HomeCard = ({ onPress, data }) => {
           `}
       >
         <Text className="font-roboto-regular text-sm text-neutros-negro">
-          14011 Córdoba, Córdoba provincia
+          {data?.mode === "Online" ? data?.mode : profile?.location}
         </Text>
       </View>
 
@@ -75,7 +111,7 @@ export const HomeCard = ({ onPress, data }) => {
 
       {/* Level */}
       <View className="flex-row w-content gap-2 px-4">
-        {data?.level === "basic" ? (
+        {data?.level === "Básico" ? (
           <View className="flex-row w-content px-[11px] h-[22px] rounded-full items-center bg-primarios-celeste-100">
             <Text
               className={`
@@ -99,7 +135,7 @@ export const HomeCard = ({ onPress, data }) => {
           </View>
         )}
 
-        {data?.level === "medium" ? (
+        {data?.level === "Medio" ? (
           <View className="flex-row w-content px-[11px] h-[22px] rounded-full items-center bg-primarios-celeste-100">
             <Text
               className={`
@@ -123,7 +159,7 @@ export const HomeCard = ({ onPress, data }) => {
           </View>
         )}
 
-        {data?.level === "high" ? (
+        {data?.level === "Avanzado" ? (
           <View className="flex-row w-content px-[11px] h-[22px] rounded-full items-center bg-primarios-celeste-100">
             <Text
               className={`
@@ -165,7 +201,7 @@ export const HomeCard = ({ onPress, data }) => {
               ${isSmallScreen ? "text-xs" : "text-sm"}
               `}
           >
-            9:00 a 14:00
+            {profile?.preferredTimeRange || ""}
           </Text>
         </View>
       </View>
@@ -173,7 +209,7 @@ export const HomeCard = ({ onPress, data }) => {
       {/* Descripción */}
       <ScrollView showsVerticalScrollIndicator={false} className="max-h-[50px]">
         <Text className="my-2 px-4 text-neutros-negro-80 text-sm font-roboto-regular">
-          {data?.description}
+          {data?.description || ""}
         </Text>
       </ScrollView>
 
@@ -188,7 +224,11 @@ export const HomeCard = ({ onPress, data }) => {
       {/* Categories */}
       <View className="flex-row gap-2 px-4">
         <View>
-          <CustomChip label={data?.category} status={"inactive"} showBorder />
+          <CustomChip
+            label={data?.category || ""}
+            status={"inactive"}
+            showBorder
+          />
         </View>
       </View>
 

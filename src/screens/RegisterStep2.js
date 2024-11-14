@@ -17,10 +17,12 @@ import {
   AvatarChecked,
 } from "../components";
 import { useProfile } from "../profile/ProfileContext";
+import { useUser } from "../user/UserContext";
 import { Ionicons } from "@expo/vector-icons";
 import { getScreenSize } from "../utils/screenSize";
 import * as ImagePicker from "expo-image-picker";
 import Feather from "@expo/vector-icons/Feather";
+import apiClient from "../api/apiClient";
 
 export default function RegisterStep2({ navigation }) {
   const { isSmallScreen, isBigScreen } = getScreenSize();
@@ -28,7 +30,10 @@ export default function RegisterStep2({ navigation }) {
   const [visible, setVisible] = useState(false);
   const opacity = useRef(new Animated.Value(0)).current;
 
-  const { setProfileData } = useProfile();
+  const { profileData, setProfileData } = useProfile();
+  const { userData } = useUser();
+
+  console.log(userData);
 
   const { control, handleSubmit, setValue, watch } = useForm({
     defaultValues: {
@@ -38,12 +43,24 @@ export default function RegisterStep2({ navigation }) {
 
   const imageValue = watch("profilePicture");
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = async (data) => {
     setProfileData((prevData) => ({
       ...prevData,
       profilePicture: data.profilePicture,
     }));
+
+    // const payload = {
+    //   id_user: "",
+    //   image_profile: data.profilePicture,
+    // };
+
+    // try {
+    //   await apiClient.post("/upload-service/upload-profileImage", payload);
+    //   console.log("Image Upload Success");
+    // } catch (error) {
+    //   console.error(error.message);
+    //   alert("Se ha producido un error, intenta de nuevo.");
+    // }
 
     navigation.navigate("RegisterStep3");
   };

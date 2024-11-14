@@ -113,7 +113,7 @@ const MessagesScreen = ({ navigation }) => {
               `}
           >
             <Text className="font-roboto-medium text-base text-neutros-negro-80">
-              Activos
+              Mensajes
             </Text>
 
             {messages.length > 0 && (

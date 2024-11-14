@@ -29,9 +29,14 @@ export default function HomeScreen() {
 
   const [isFilterVisible, setFilterVisible] = useState(false);
   const [isCardVisible, setCardVisible] = useState(false);
-  const [selected, setSelected] = useState(null);
+  const [selectedItem, setSelectedItem] = useState(null);
 
   const [categoriesData, setCategoriesData] = useState([]);
+  const [filteredCategoriesData, setFilteredCategoriesData] = useState([]);
+
+  const [filterCategory, setFilterCategory] = useState([]);
+  const [filterPostalCode, setFilterPostalCode] = useState("");
+  const [filterMode, setFilterMode] = useState("Todos");
 
   const fetchCategories = async () => {
     try {
@@ -44,9 +49,63 @@ export default function HomeScreen() {
 
       const results = await Promise.all(dataPromises);
       setCategoriesData(results);
+      setFilteredCategoriesData(results);
     } catch (error) {
       console.error("Error fetching category data:", error);
     }
+  };
+
+  const fetchProfileData = async (userId) => {
+    try {
+      const response = await apiClient.get(`/profile/byUserId/${userId}`);
+      return response.data;
+    } catch (error) {
+      if (error.response && error.response.status === 404) {
+        console.warn(`Profile not found for userId: ${userId}`);
+      } else {
+        console.error(
+          `Error fetching profile for userId ${userId}: ${error.message}`,
+        );
+      }
+      return null;
+    }
+  };
+
+  const applyFilters = async () => {
+    const filteredDataPromises = categoriesData.map(async (categoryData) => {
+      const filteredItemsPromises = categoryData.items.map(async (item) => {
+        const matchesCategory =
+          filterCategory.length === 0 ||
+          filterCategory.some((cat) => item.category.includes(cat));
+
+        let matchesLocation = true;
+        if (item.mode === "Presencial") {
+          const profileData = await fetchProfileData(item.user_id);
+
+          if (profileData) {
+            const postalCode = profileData.location;
+            matchesLocation = postalCode === filterPostalCode;
+          } else {
+            matchesLocation = false;
+          }
+        }
+
+        const matchesMode = filterMode === "Todos" || item.mode === filterMode;
+
+        return matchesCategory && matchesLocation && matchesMode ? item : null;
+      });
+
+      const filteredItems = await Promise.all(filteredItemsPromises);
+
+      return {
+        ...categoryData,
+        items: filteredItems.filter(Boolean),
+      };
+    });
+
+    const filteredData = await Promise.all(filteredDataPromises);
+    setFilteredCategoriesData(filteredData);
+    toggleFilter();
   };
 
   useFocusEffect(
@@ -61,6 +120,11 @@ export default function HomeScreen() {
 
   const toggleCard = () => {
     setCardVisible(!isCardVisible);
+  };
+
+  const handleCardPress = (item) => {
+    setSelectedItem(item);
+    toggleCard();
   };
 
   return (
@@ -130,34 +194,40 @@ export default function HomeScreen() {
 
           {/* Cards Section */}
           <View className="mb-12">
-            {categoriesData.map((categoryData, index) => (
-              <View key={index} className="pl-4 mb-6">
-                <Text
-                  className={`
+            {filteredCategoriesData
+              .filter((categoryData) => categoryData.items.length > 0)
+              .map((categoryData, index) => (
+                <View key={index} className="pl-4 mb-6">
+                  <Text
+                    className={`
               font-roboto-regular text-neutral-color-gray-900
               ${isBigScreen ? "text-[22px] mb-7" : isSmallScreen ? "text-lg mb-2" : "text-xl mb-6"}
             `}
-                >
-                  {categoryData.category}
-                </Text>
-                <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-                  <View className="flex-row">
-                    {categoryData.items.map((item, cardIndex) => (
-                      <HomeCard
-                        key={cardIndex}
-                        data={item}
-                        onPress={() => toggleCard(item)}
-                      />
-                    ))}
-                  </View>
-                </ScrollView>
-              </View>
-            ))}
+                  >
+                    {categoryData.category}
+                  </Text>
+                  <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                    <View className="flex-row">
+                      {categoryData.items.map((item, cardIndex) => (
+                        <HomeCard
+                          key={cardIndex}
+                          data={item}
+                          onPress={() => handleCardPress(item)}
+                        />
+                      ))}
+                    </View>
+                  </ScrollView>
+                </View>
+              ))}
           </View>
         </View>
 
-        {isCardVisible && (
-          <ProfileCard isCardVisible={isCardVisible} toggleCard={toggleCard} />
+        {isCardVisible && selectedItem && (
+          <ProfileCard
+            isCardVisible={isCardVisible}
+            toggleCard={toggleCard}
+            data={selectedItem}
+          />
         )}
 
         {isFilterVisible && (
@@ -178,7 +248,6 @@ export default function HomeScreen() {
                   showsVerticalScrollIndicator={false}
                   className="px-6 mb-2"
                 >
-                  {/* Header */}
                   <View className="w-full">
                     <View className="flex-row justify-between items-center mb-3">
                       <Text className="text-xl font-roboto-bold text-neutral-color-gray-900">
@@ -188,54 +257,37 @@ export default function HomeScreen() {
                         <MaterialIcons name="close" size={14} color="#212121" />
                       </Pressable>
                     </View>
-                    <View className="w-[80%]">
-                      <Text className="font-roboto-regular text-sm text-neutros-negro-80">
-                        Personaliza la búsqueda para obtener mejores resultados.
-                      </Text>
-                    </View>
                   </View>
 
-                  {/* Category Selection Section */}
+                  {/* Filter Inputs */}
                   <View className="mt-7">
-                    <Text className="font-roboto-regular text-xl text-neutral-color-gray-900 mb-4">
-                      Categoría
-                    </Text>
-                    <View className="gap-3 flex-grow-0">
-                      <View>
-                        {/* <CustomDropdown
-                          label={"Categorías"}
-                          items={categories}
-                          backgroundColor={"transparent"}
-                        /> */}
-                        <TextInput
-                          placeholder="Categorías"
-                          autoCapitalize="none"
-                          className="bg-transparent border-[1px] border-neutros-negro-50 rounded-lg h-[40px] font-roboto-regular text-sm text-neutral-color-gray-900 px-3 pb-1"
-                          placeholderTextColor={"#b8b8b8"}
-                        />
-                      </View>
-                      <View>
-                        <TextInput
-                          placeholder="Ubicación (CP)"
-                          autoCapitalize="none"
-                          className="bg-transparent border-[1px] border-neutros-negro-50 rounded-lg h-[40px] font-roboto-regular text-sm text-neutral-color-gray-900 px-3 pb-1"
-                          placeholderTextColor={"#b8b8b8"}
-                        />
-                      </View>
-                    </View>
+                    <CustomDropdown
+                      label="Categorías"
+                      items={categories}
+                      backgroundColor="bg-transparent"
+                      selectedItems={filterCategory}
+                      onItemsChange={setFilterCategory}
+                    />
+                    <TextInput
+                      placeholder="Ubicación (CP)"
+                      value={filterPostalCode}
+                      onChangeText={setFilterPostalCode}
+                      className="bg-transparent border-[1px] border-neutros-negro-50 rounded-lg h-[40px] mt-3 pb-1 px-3 text-base font-roboto-regular text-neutros-negro-80"
+                      placeholderTextColor="#696868"
+                    />
                   </View>
 
-                  {/* Mode Selection Section */}
+                  {/* Mode Selection */}
                   <View className="w-full mt-4">
                     <Text className="font-roboto-regular text-xl w-2/3 text-neutral-color-gray-900">
                       Modalidad de Intercambio
                     </Text>
                     <View className="mt-4 w-full h-[35px] flex-row items-center justify-center rounded-md">
                       <TouchableOpacity
-                        onPress={() => setSelected("Todos")}
+                        onPress={() => setFilterMode("Todos")}
                         className={`
                           rounded-l-md h-full flex-1 items-center justify-center border-[1px] 
-                          ${selected === "Todos"
+                          ${filterMode === "Todos"
                             ? "border-primarios-celeste-100"
                             : "border-[#b8b8b8] border-r-white"
                           }
@@ -243,56 +295,52 @@ export default function HomeScreen() {
                       >
                         <Text
                           className={`
-                            uppercase font-roboto-regular text-sm 
-                            ${selected === "Todos"
+                            uppercase font-roboto-regular text-sm
+                            ${filterMode === "Todos"
                               ? "text-primarios-celeste-100"
                               : "text-neutros-negro"
                             }
-                            `}
+                          `}
                         >
                           Todos
                         </Text>
                       </TouchableOpacity>
-
                       <TouchableOpacity
-                        onPress={() => setSelected("Online")}
+                        onPress={() => setFilterMode("Online")}
                         className={`
-                          flex-1 h-full items-center justify-center border-[1px]
-                          ${selected === "Todos" ? "border-l-[0px]" : ""}
-                          ${selected === "Online" ? "border-blue-500" : "border-[#b8b8b8]"}
-                          ${selected === "Presencial" ? "border-r-white" : ""}
+                          flex-1 h-full items-center justify-center border-[1px] 
+                          ${filterMode === "Todos" ? "border-l-[0px]" : ""}
+                          ${filterMode === "Online" ? "border-blue-500" : "border-[#b8b8b8]"}
+                          ${filterMode === "Presencial" ? "border-r-white" : ""}
                           `}
                       >
                         <Text
                           className={`
-                            uppercase font-roboto-regular text-sm 
-                            ${selected === "Online"
+                            uppercase font-roboto-regular text-sm
+                            ${filterMode === "Online"
                               ? "text-primarios-celeste-100"
                               : "text-neutros-negro"
                             }
-                            `}
+                          `}
                         >
                           Online
                         </Text>
                       </TouchableOpacity>
                       <TouchableOpacity
-                        onPress={() => setSelected("Presencial")}
+                        onPress={() => setFilterMode("Presencial")}
                         className={`
-                          rounded-r-md h-full flex-2 items-center justify-center px-2 border-[1px] 
-                          ${selected === "Presencial"
-                            ? "border-primarios-celeste-100"
-                            : "border-[#b8b8b8] border-l-white"
-                          }
+                          rounded-r-md h-full flex-2 items-center justify-center border-[1px] px-2 
+                          ${filterMode === "Presencial" ? "border-primarios-celeste-100" : "border-[#b8b8b8] border-l-white"}
                           `}
                       >
                         <Text
                           className={`
-                            uppercase font-roboto-regular text-sm 
-                            ${selected === "Presencial"
+                            uppercase font-roboto-regular text-sm
+                            ${filterMode === "Presencial"
                               ? "text-primarios-celeste-100"
                               : "text-neutros-negro"
                             }
-                            `}
+                          `}
                         >
                           Presencial
                         </Text>
@@ -304,14 +352,19 @@ export default function HomeScreen() {
                 {/* Button Set */}
                 <View className="mt-3 flex-row w-full justify-between px-6">
                   <CustomButton
-                    onPress={() => console.log("borrar filtros")}
+                    onPress={() => {
+                      setFilterCategory("");
+                      setFilterPostalCode("");
+                      setFilterMode("Todos");
+                      setFilteredCategoriesData(categoriesData);
+                    }}
                     title={"Borrar filtros"}
                     width="content"
                     variant="white"
                   />
 
                   <CustomButton
-                    onPress={() => console.log("guardar")}
+                    onPress={applyFilters}
                     title={"Guardar"}
                     width="content"
                     variant="filled"
