@@ -45,7 +45,7 @@ export default function EmailVerificationScreen() {
 
   const onCodeReset = async () => {
     setIsResending(true);
-    const twoFaCode = generateRandomCode();
+    const twoFaCode = await generateRandomCode();
 
     const payload = {
       email,

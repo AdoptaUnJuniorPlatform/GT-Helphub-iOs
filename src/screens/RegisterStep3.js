@@ -104,52 +104,52 @@ export default function RegisterStep1({ navigation }) {
       `}
                     >
                       <View
-                        className={`${isSmallScreen ? "w-[28%] mr-2" : "w-[48%]"} mb-2`}
+                        className={`${isSmallScreen ? "w-[45%] mr-2" : "w-[48%]"} mb-2`}
                       >
                         <CustomRadio
-                          label="08:00hs a 14:00hs"
-                          isSelected={value === "08:00hs a 14:00hs"}
-                          onPress={() => onChange("08:00hs a 14:00hs")}
+                          label="08:00 a 14:00"
+                          isSelected={value === "08:00 a 14:00"}
+                          onPress={() => onChange("08:00 a 14:00")}
                         />
                       </View>
 
                       <View
-                        className={`${isSmallScreen ? "w-[28%] mr-2" : "w-[48%]"} mb-2`}
+                        className={`${isSmallScreen ? "w-[45%] mr-2" : "w-[48%]"} mb-2`}
                       >
                         <CustomRadio
-                          label="15:00hs a 17:00hs"
-                          isSelected={value === "15:00hs a 17:00hs"}
-                          onPress={() => onChange("15:00hs a 17:00hs")}
+                          label="15:00 a 17:00"
+                          isSelected={value === "15:00 a 17:00"}
+                          onPress={() => onChange("15:00 a 17:00")}
                         />
                       </View>
 
                       <View
-                        className={`${isSmallScreen ? "w-[28%] mr-2" : "w-[48%]"} mb-2`}
+                        className={`${isSmallScreen ? "w-[45%] mr-2" : "w-[48%]"} mb-2`}
                       >
                         <CustomRadio
-                          label="17:00hs a 21:00hs"
-                          isSelected={value === "17:00hs a 21:00hs"}
-                          onPress={() => onChange("17:00hs a 21:00hs")}
+                          label="17:00 a 21:00"
+                          isSelected={value === "17:00 a 21:00"}
+                          onPress={() => onChange("17:00 a 21:00")}
                         />
                       </View>
 
                       <View
-                        className={`${isSmallScreen ? "w-[28%] mr-2" : "w-[48%]"} mb-2`}
+                        className={`${isSmallScreen ? "w-[45%] mr-2" : "w-[48%]"} mb-2`}
                       >
                         <CustomRadio
-                          label="08:00hs a 21:00hs"
-                          isSelected={value === "08:00hs a 21:00hs"}
-                          onPress={() => onChange("08:00hs a 21:00hs")}
+                          label="08:00 a 17:00"
+                          isSelected={value === "08:00 a 17:00"}
+                          onPress={() => onChange("08:00 a 17:00")}
                         />
                       </View>
 
                       <View
-                        className={`${isSmallScreen ? "w-[28%] mr-2" : "w-[48%]"} mb-2`}
+                        className={`${isSmallScreen ? "w-[45%] mr-2" : "w-[48%]"} mb-2`}
                       >
                         <CustomRadio
-                          label="Flexible schedule"
-                          isSelected={value === "Flexible schedule"}
-                          onPress={() => onChange("Flexible schedule")}
+                          label="Horario flexible"
+                          isSelected={value === "Horario flexible"}
+                          onPress={() => onChange("Horario flexible")}
                         />
                       </View>
                     </View>

@@ -24,7 +24,7 @@ export default function ResetPasswordStep1({ navigation }) {
   } = useForm();
 
   const onSubmit = async (data) => {
-    const twoFaCode = generateRandomCode();
+    const twoFaCode = await generateRandomCode();
 
     const payload = {
       email: data.email,

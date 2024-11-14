@@ -31,7 +31,10 @@ export const CustomDropdown = ({
     <View className="w-full">
       <TouchableOpacity
         onPress={toggleDropdown}
-        className={`h-[44px] px-3 py-2 flex-row w-full ${backgroundColor} justify-between items-center border-[1px] rounded-lg`}
+        className={`
+          h-[44px] px-3 py-2 flex-row w-full justify-between items-center border-[1px] border-neutros-negro-50 rounded-lg
+          ${backgroundColor} 
+          `}
         style={{ borderColor: "rgba(105, 104, 104, 0.1)", overflow: "hidden" }}
       >
         <Text
@@ -51,7 +54,7 @@ export const CustomDropdown = ({
       {isOpen && (
         <ScrollView
           showsVerticalScrollIndicator={false}
-          className={`border-[1px] border-gray-200 ${backgroundColor} mt-2 max-h-[200px] rounded-lg`}
+          className={`border-[1px] border-neutros-negro-50 ${backgroundColor} mt-2 max-h-[200px] rounded-lg`}
         >
           {items.map((item) => (
             <View

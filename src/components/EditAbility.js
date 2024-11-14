@@ -15,17 +15,13 @@ export const EditAbility = ({ onRequestClose, visible, ability }) => {
 
   const { setAbilityData } = useAbility();
 
-  const {
-    control,
-    handleSubmit,
-    formState: { isValid },
-  } = useForm({
+  const { control, handleSubmit } = useForm({
     defaultValues: {
-      title: "",
-      level: "",
-      mode: "",
-      description: "",
-      category: "",
+      title: ability.title || "",
+      level: ability.level || "",
+      mode: ability.mode || "",
+      description: ability.description || "",
+      category: ability.category || "",
     },
     mode: "onChange",
   });
@@ -131,7 +127,6 @@ export const EditAbility = ({ onRequestClose, visible, ability }) => {
                   control={control}
                   name="title"
                   rules={{
-                    required: "El título es obligatorio",
                     maxLength: {
                       value: 20,
                       message: "Máximo 20 caracteres",
@@ -142,7 +137,7 @@ export const EditAbility = ({ onRequestClose, visible, ability }) => {
                       value={value}
                       onChange={onChange}
                       onBlur={onBlur}
-                      placeholder={"Ej: Pintar óleo"}
+                      // placeholder={"Ej: Pintar óleo"}
                       multiline={true}
                       numberOfLines={1}
                       maxLength={20}
@@ -166,7 +161,6 @@ export const EditAbility = ({ onRequestClose, visible, ability }) => {
               <Controller
                 control={control}
                 name="level"
-                rules={{ required: "Selecciona un nivel" }}
                 render={({ field: { onChange, value } }) => (
                   <View
                     className={`
@@ -176,28 +170,28 @@ export const EditAbility = ({ onRequestClose, visible, ability }) => {
                   >
                     <View className="mr-2 w-auto mb-2">
                       <CustomRadio
-                        label="basic"
-                        isSelected={value === "basic"}
+                        label="Básico"
+                        isSelected={value === "Básico"}
                         onPress={() => {
-                          onChange("basic");
+                          onChange("Básico");
                         }}
                       />
                     </View>
                     <View className="mr-2 w-auto mb-2">
                       <CustomRadio
-                        label="medium"
-                        isSelected={value === "medium"}
+                        label="Medio"
+                        isSelected={value === "Medio"}
                         onPress={() => {
-                          onChange("medium");
+                          onChange("Medio");
                         }}
                       />
                     </View>
                     <View className="mr-2 w-auto mb-2">
                       <CustomRadio
-                        label="high"
-                        isSelected={value === "high"}
+                        label="Avanzado"
+                        isSelected={value === "Avanzado"}
                         onPress={() => {
-                          onChange("high");
+                          onChange("Avanzado");
                         }}
                       />
                     </View>
@@ -219,7 +213,6 @@ export const EditAbility = ({ onRequestClose, visible, ability }) => {
               <Controller
                 control={control}
                 name="mode"
-                rules={{ required: "Selecciona una modalidad" }}
                 render={({ field: { onChange, value } }) => (
                   <View
                     className={`
@@ -234,10 +227,10 @@ export const EditAbility = ({ onRequestClose, visible, ability }) => {
                     `}
                     >
                       <CustomRadio
-                        label="online"
-                        isSelected={value === "online"}
+                        label="Online"
+                        isSelected={value === "Online"}
                         onPress={() => {
-                          onChange("online");
+                          onChange("Online");
                         }}
                       />
                     </View>
@@ -248,10 +241,10 @@ export const EditAbility = ({ onRequestClose, visible, ability }) => {
                     `}
                     >
                       <CustomRadio
-                        label="presential"
-                        isSelected={value === "presential"}
+                        label="Presencial"
+                        isSelected={value === "Presencial"}
                         onPress={() => {
-                          onChange("presential");
+                          onChange("Presencial");
                         }}
                       />
                     </View>
@@ -277,7 +270,6 @@ export const EditAbility = ({ onRequestClose, visible, ability }) => {
                 control={control}
                 name="description"
                 rules={{
-                  required: "La descripción es obligatoria",
                   maxLength: {
                     value: 160,
                     message: "Máximo 160 caracteres",
@@ -288,7 +280,7 @@ export const EditAbility = ({ onRequestClose, visible, ability }) => {
                     value={value}
                     onChange={onChange}
                     onBlur={onBlur}
-                    placeholder="Ej: Clases de pintura al óleo desde cero. Nivel inicial y avanzado."
+                    // placeholder="Ej: Clases de pintura al óleo desde cero. Nivel inicial y avanzado."
                     multiline={true}
                     numberOfLines={7}
                     maxLength={160}
@@ -317,7 +309,6 @@ export const EditAbility = ({ onRequestClose, visible, ability }) => {
                 <Controller
                   control={control}
                   name="category"
-                  rules={{ required: "Selecciona una categoría" }}
                   render={({ field: { onChange, value } }) => (
                     <CustomDropdown
                       label="Categorías"
@@ -346,7 +337,6 @@ export const EditAbility = ({ onRequestClose, visible, ability }) => {
               title={"Guardar"}
               width="content"
               variant="white"
-              disabled={!isValid}
             />
           </View>
         </View>

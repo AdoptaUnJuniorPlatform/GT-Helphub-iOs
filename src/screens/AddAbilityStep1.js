@@ -257,28 +257,28 @@ const AddAbilityStep1 = ({ onRequestClose, visible, route, navigation }) => {
                 >
                   <View className="mr-2 w-auto mb-2">
                     <CustomRadio
-                      label="basic"
-                      isSelected={value === "basic"}
+                      label="Básico"
+                      isSelected={value === "Básico"}
                       onPress={() => {
-                        onChange("basic");
+                        onChange("Básico");
                       }}
                     />
                   </View>
                   <View className="mr-2 w-auto mb-2">
                     <CustomRadio
-                      label="medium"
-                      isSelected={value === "medium"}
+                      label="Medio"
+                      isSelected={value === "Medio"}
                       onPress={() => {
-                        onChange("medium");
+                        onChange("Medio");
                       }}
                     />
                   </View>
                   <View className="mr-2 w-auto mb-2">
                     <CustomRadio
-                      label="high"
-                      isSelected={value === "high"}
+                      label="Avanzado"
+                      isSelected={value === "Avanzado"}
                       onPress={() => {
-                        onChange("high");
+                        onChange("Avanzado");
                       }}
                     />
                   </View>
@@ -316,10 +316,10 @@ const AddAbilityStep1 = ({ onRequestClose, visible, route, navigation }) => {
                     `}
                   >
                     <CustomRadio
-                      label="online"
-                      isSelected={value === "online"}
+                      label="Online"
+                      isSelected={value === "Online"}
                       onPress={() => {
-                        onChange("online");
+                        onChange("Online");
                       }}
                     />
                   </View>
@@ -330,10 +330,10 @@ const AddAbilityStep1 = ({ onRequestClose, visible, route, navigation }) => {
                     `}
                   >
                     <CustomRadio
-                      label="presential"
-                      isSelected={value === "presential"}
+                      label="Presencial"
+                      isSelected={value === "Presencial"}
                       onPress={() => {
-                        onChange("presential");
+                        onChange("Presencial");
                       }}
                     />
                   </View>

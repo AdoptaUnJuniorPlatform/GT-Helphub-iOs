@@ -42,7 +42,7 @@ export const AbilityCard = ({ onDelete, onEdit, ability }) => {
         <View>
           {/* Level */}
           <View className="flex-row w-content gap-2 px-4">
-            {ability?.level === "basic" ? (
+            {ability?.level === "Básico" ? (
               <View className="flex-row w-content px-[11px] h-[22px] rounded-full items-center bg-primarios-celeste-100">
                 <Text
                   className={`
@@ -66,7 +66,7 @@ export const AbilityCard = ({ onDelete, onEdit, ability }) => {
               </View>
             )}
 
-            {ability?.level === "medium" ? (
+            {ability?.level === "Medio" ? (
               <View className="flex-row w-content px-[11px] h-[22px] rounded-full items-center bg-primarios-celeste-100">
                 <Text
                   className={`
@@ -90,7 +90,7 @@ export const AbilityCard = ({ onDelete, onEdit, ability }) => {
               </View>
             )}
 
-            {ability?.level === "high" ? (
+            {ability?.level === "Avanzado" ? (
               <View className="flex-row w-content px-[11px] h-[22px] rounded-full items-center bg-primarios-celeste-100">
                 <Text
                   className={`

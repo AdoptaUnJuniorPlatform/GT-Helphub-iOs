@@ -1,14 +1,49 @@
+import { useState, useEffect } from "react";
 import { View, Modal, Pressable, Text, Image, ScrollView } from "react-native";
 import { CustomButton } from "./CustomButton";
 import { RatingCard } from "./RatingCard";
 import { CustomRating } from "./CustomRating";
 import { getScreenSize } from "../utils/screenSize";
-// import DialogIcon from "./svgComponents/DialogIcon";
+import apiClient from "../api/apiClient";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+// import DialogIcon from "./svgComponents/DialogIcon";
 // import Entypo from "@expo/vector-icons/Entypo";
 
-export const ProfileCard = ({ isCardVisible, toggleCard }) => {
+export const ProfileCard = ({ isCardVisible, toggleCard, data }) => {
   const { isSmallScreen, isBigScreen } = getScreenSize();
+
+  const userId = data.user_id;
+
+  const [user, setUser] = useState({ nameUser: "", surnameUser: "" });
+  const [profile, setProfile] = useState({
+    profilePicture: null,
+    description: "",
+  });
+
+  const fetchUser = async (userId) => {
+    try {
+      const response = await apiClient.get(`/user/user-id/${userId}`);
+      setUser(response.data);
+    } catch (error) {
+      console.error(error.message);
+      alert("Se ha producido un error, intenta de nuevo.");
+    }
+  };
+
+  const fetchProfile = async (userId) => {
+    try {
+      const response = await apiClient.get(`/profile/byUserId/${userId}`);
+      setProfile(response.data);
+    } catch (error) {
+      console.error(error.message);
+      alert("Se ha producido un error, intenta de nuevo.");
+    }
+  };
+
+  useEffect(() => {
+    fetchUser(userId);
+    fetchProfile(userId);
+  }, [userId]);
 
   return (
     <Modal
@@ -41,14 +76,15 @@ export const ProfileCard = ({ isCardVisible, toggleCard }) => {
           <View className="flex-row justify-start items-center mb-5 gap-2 w-full">
             <View className="h-[124px] w-[120px] rounded-[10px]">
               <Image
-                source={require("../../assets/avatar5.png")}
+                className="rounded-[10px]"
+                source={{ uri: profile?.profilePicture }}
                 style={{ width: "100%", height: "100%" }}
-                resizeMode="contain"
+                resizeMode="cover"
               />
             </View>
             <View className="h-[124px] py-4 justify-between">
               <Text className="font-roboto-medium text-xl text-neutros-negro">
-                Juanita Perez
+                {user?.nameUser || ""} {user?.surnameUser || ""}
               </Text>
               <CustomRating rating={5} />
               <View>
@@ -70,8 +106,7 @@ export const ProfileCard = ({ isCardVisible, toggleCard }) => {
               Descripción
             </Text>
             <Text className="text-neutros-negro-80 font-roboto-regular text-xs">
-              Tengo una amplia experiencia en cuidar animales, he trabajado en
-              una guardería de mascotas por 2 años.
+              {profile?.description || ""}
             </Text>
           </View>
 

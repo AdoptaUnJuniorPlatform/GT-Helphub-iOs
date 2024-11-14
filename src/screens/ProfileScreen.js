@@ -33,6 +33,8 @@ export default function ProfileScreen({ navigation }) {
   const { profileData, setProfileData } = useProfile();
   const { userData } = useUser();
 
+  const user_id = profileData.userId._id;
+
   const [abilities, setAbilities] = useState([]);
   const [selected, setSelected] = useState("Habilidades");
   const [isEditAbilityVisible, setEditAbilityVisible] = useState(false);
@@ -77,7 +79,6 @@ export default function ProfileScreen({ navigation }) {
       if (response.status === 200) {
         setCreateProfileWarningVisible(false);
         setProfileData(response.data);
-        fetchAbilities();
       }
     } catch (error) {
       if (error.response) {
@@ -95,7 +96,6 @@ export default function ProfileScreen({ navigation }) {
   };
 
   const fetchAbilities = async () => {
-    const user_id = profileData.userId._id;
     try {
       const response = await apiClient.get(
         `/hability/user-habilities/${user_id}`,
@@ -138,7 +138,7 @@ export default function ProfileScreen({ navigation }) {
 
   useEffect(() => {
     fetchAbilities();
-  }, [abilities]);
+  }, [user_id, abilities]);
 
   return (
     <SafeAreaView className="flex-1 bg-neutros-gris-fondo">

@@ -406,7 +406,7 @@ export default function RegisterStep1({ navigation }) {
                   ></View>
 
                   {/* Level */}
-                  {abilityData?.mode === "basic" && (
+                  {abilityData?.mode === "Básico" && (
                     <View className="flex-row gap-2 px-4">
                       <View className="flex-row w-content px-[11px] h-[22px] rounded-full items-center bg-primarios-celeste-100">
                         <Text className="font-roboto-regular text-xs text-white">
@@ -428,7 +428,7 @@ export default function RegisterStep1({ navigation }) {
                     </View>
                   )}
 
-                  {abilityData?.mode === "medium" && (
+                  {abilityData?.mode === "Medio" && (
                     <View className="flex-row gap-2 px-4">
                       <View className="flex-row w-content px-[11px] h-[22px] rounded-full items-center bg-neutral-color-blue-gray-50">
                         <Text className="font-roboto-regular text-xs text-neutros-negro-80">
@@ -450,7 +450,7 @@ export default function RegisterStep1({ navigation }) {
                     </View>
                   )}
 
-                  {abilityData?.mode === "high" && (
+                  {abilityData?.mode === "Avanzado" && (
                     <View className="flex-row gap-2 px-4">
                       <View className="flex-row w-content px-[11px] h-[22px] rounded-full items-center bg-neutral-color-blue-gray-50">
                         <Text className="font-roboto-regular text-xs text-neutros-negro-80">
