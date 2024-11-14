@@ -68,7 +68,7 @@ export default function SessionStartVerificationScreen() {
 
   const onCodeSet = async () => {
     setIsSending(true);
-    const twoFaCode = generateRandomCode();
+    const twoFaCode = await generateRandomCode();
 
     const payload = {
       email,

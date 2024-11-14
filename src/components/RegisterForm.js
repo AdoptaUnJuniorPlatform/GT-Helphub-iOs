@@ -39,7 +39,7 @@ export const RegisterForm = ({ navigation }) => {
 
     setUserData(data);
 
-    const twoFaCode = generateRandomCode();
+    const twoFaCode = await generateRandomCode();
 
     const payload = {
       email: data.email,
@@ -56,6 +56,8 @@ export const RegisterForm = ({ navigation }) => {
 
     try {
       await apiClient.post("/email-service/emailAcount", payload);
+      // console.log(response);
+      // setUserData(response);
       navigation.navigate("EmailVerification", { ...data, twoFa: twoFaCode });
     } catch (error) {
       if (error.response) {

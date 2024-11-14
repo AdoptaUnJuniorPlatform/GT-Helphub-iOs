@@ -1,3 +1,8 @@
-export const generateRandomCode = () => {
-  return Math.floor(100000 + Math.random() * 900000).toString();
+import * as Crypto from "expo-crypto";
+
+export const generateRandomCode = async () => {
+  const randomBytes = await Crypto.getRandomBytesAsync(4); // Generate 4 random bytes
+  const randomNumber =
+    (new Uint32Array(randomBytes.buffer)[0] % 900000) + 100000;
+  return randomNumber.toString();
 };
