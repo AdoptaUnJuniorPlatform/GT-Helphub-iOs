@@ -63,7 +63,6 @@ export default function HomeScreen() {
   const fetchUser = async (email) => {
     try {
       const response = await apiClient.get(`/user/${email}`);
-      // setUserData(response.data[0]);
       setUserData((prevData) => ({
         ...prevData,
         ...response.data[0],
@@ -103,12 +102,10 @@ export default function HomeScreen() {
           filterCategory.some((cat) => item.category.includes(cat));
 
         let matchesLocation = true;
-        if (item.mode === "Presencial") {
+        if (item.mode === "Presencial" && filterPostalCode) {
           const profileData = await fetchProfileData(item.user_id);
-
           if (profileData) {
-            const postalCode = profileData.location;
-            matchesLocation = postalCode === filterPostalCode;
+            matchesLocation = profileData.location === filterPostalCode;
           } else {
             matchesLocation = false;
           }
@@ -120,11 +117,7 @@ export default function HomeScreen() {
       });
 
       const filteredItems = await Promise.all(filteredItemsPromises);
-
-      return {
-        ...categoryData,
-        items: filteredItems.filter(Boolean),
-      };
+      return { ...categoryData, items: filteredItems.filter(Boolean) };
     });
 
     const filteredData = await Promise.all(filteredDataPromises);
