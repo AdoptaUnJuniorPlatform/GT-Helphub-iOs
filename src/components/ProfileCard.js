@@ -19,6 +19,7 @@ export const ProfileCard = ({ isCardVisible, toggleCard, data }) => {
     profilePicture: null,
     description: "",
   });
+  const [profileImage, setProfileImage] = useState(null);
 
   const fetchUser = async (userId) => {
     try {
@@ -40,9 +41,29 @@ export const ProfileCard = ({ isCardVisible, toggleCard, data }) => {
     }
   };
 
+  const fetchImage = async (userId) => {
+    try {
+      const response = await apiClient.get(
+        `/upload-service/profile-imageByUser/${userId}`,
+        { responseType: "blob" },
+      );
+      const imageUrl = URL.createObjectURL(response.data);
+      setProfileImage(imageUrl);
+    } catch (error) {
+      if (error.response) {
+        console.error(error.response.data.message);
+        //alert("Se ha producido un error, intenta de nuevo.");
+      } else {
+        console.error(error.message);
+        //alert("Se ha producido un error, intenta de nuevo.");
+      }
+    }
+  };
+
   useEffect(() => {
     fetchUser(userId);
     fetchProfile(userId);
+    fetchImage(userId);
   }, [userId]);
 
   return (
@@ -75,12 +96,14 @@ export const ProfileCard = ({ isCardVisible, toggleCard, data }) => {
 
           <View className="flex-row justify-start items-center mb-5 gap-2 w-full">
             <View className="h-[124px] w-[120px] rounded-[10px]">
-              <Image
-                className="rounded-[10px]"
-                source={{ uri: profile?.profilePicture }}
-                style={{ width: "100%", height: "100%" }}
-                resizeMode="cover"
-              />
+              {profileImage && (
+                <Image
+                  className="rounded-[10px]"
+                  source={{ uri: profileImage }}
+                  style={{ width: "100%", height: "100%" }}
+                  resizeMode="cover"
+                />
+              )}
             </View>
             <View className="h-[124px] py-4 justify-between">
               <Text className="font-roboto-medium text-xl text-neutros-negro">
