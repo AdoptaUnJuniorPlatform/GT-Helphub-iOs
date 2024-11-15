@@ -57,7 +57,6 @@ export default function RegisterStep5({ navigation }) {
       interestedSkills,
       location,
       preferredTimeRange,
-      profilePicture,
       selectedDays,
     } = formData;
 
@@ -66,7 +65,7 @@ export default function RegisterStep5({ navigation }) {
       interestedSkills,
       location,
       preferredTimeRange,
-      profilePicture,
+      profilePicture: null,
       selectedDays,
     };
 

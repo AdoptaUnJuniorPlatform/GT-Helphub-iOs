@@ -16,7 +16,6 @@ import {
   UserCircle,
   AvatarChecked,
 } from "../components";
-import { useProfile } from "../profile/ProfileContext";
 import { useUser } from "../user/UserContext";
 import { Ionicons } from "@expo/vector-icons";
 import { getScreenSize } from "../utils/screenSize";
@@ -30,10 +29,7 @@ export default function RegisterStep2({ navigation }) {
   const [visible, setVisible] = useState(false);
   const opacity = useRef(new Animated.Value(0)).current;
 
-  const { profileData, setProfileData } = useProfile();
-  const { userData } = useUser();
-
-  console.log(userData);
+  const { userData, setUserData } = useUser();
 
   const { control, handleSubmit, setValue, watch } = useForm({
     defaultValues: {
@@ -44,25 +40,34 @@ export default function RegisterStep2({ navigation }) {
   const imageValue = watch("profilePicture");
 
   const onSubmit = async (data) => {
-    setProfileData((prevData) => ({
-      ...prevData,
-      profilePicture: data.profilePicture,
-    }));
+    const userId = userData._id;
 
-    // const payload = {
-    //   id_user: "",
-    //   image_profile: data.profilePicture,
-    // };
+    const imageUri = data.profilePicture;
 
-    // try {
-    //   await apiClient.post("/upload-service/upload-profileImage", payload);
-    //   console.log("Image Upload Success");
-    // } catch (error) {
-    //   console.error(error.message);
-    //   alert("Se ha producido un error, intenta de nuevo.");
-    // }
+    const fileType = imageUri.endsWith(".png") ? "image/png" : "image/jpeg";
 
-    navigation.navigate("RegisterStep3");
+    const formData = new FormData();
+    formData.append("id_user", userId);
+    formData.append("image_profile", {
+      uri: imageUri,
+      name: `profile.${fileType === "image/png" ? "png" : "jpg"}`,
+      type: fileType,
+    });
+
+    setUserData({
+      ...userData,
+      profilePicture: imageUri,
+    });
+
+    try {
+      await apiClient.post("/upload-service/upload-profileImage", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      navigation.navigate("RegisterStep3");
+    } catch (error) {
+      console.error(error.message);
+      alert("Se ha producido un error, intenta de nuevo.");
+    }
   };
 
   const toggleDialog = () => {

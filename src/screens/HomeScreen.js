@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { useFocusEffect } from "@react-navigation/native";
 import {
   View,
@@ -19,6 +19,7 @@ import {
 } from "../components";
 import { categories } from "../data/data";
 import { getScreenSize } from "../utils/screenSize";
+import { useUser } from "../user/UserContext";
 import Entypo from "@expo/vector-icons/Entypo";
 import Feather from "@expo/vector-icons/Feather";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
@@ -26,6 +27,8 @@ import apiClient from "../api/apiClient";
 
 export default function HomeScreen() {
   const { isSmallScreen, isBigScreen } = getScreenSize();
+
+  const { userData, setUserData } = useUser();
 
   const [isFilterVisible, setFilterVisible] = useState(false);
   const [isCardVisible, setCardVisible] = useState(false);
@@ -37,6 +40,8 @@ export default function HomeScreen() {
   const [filterCategory, setFilterCategory] = useState([]);
   const [filterPostalCode, setFilterPostalCode] = useState("");
   const [filterMode, setFilterMode] = useState("Todos");
+
+  const emailUser = userData.email;
 
   const fetchCategories = async () => {
     try {
@@ -52,6 +57,25 @@ export default function HomeScreen() {
       setFilteredCategoriesData(results);
     } catch (error) {
       console.error("Error fetching category data:", error);
+    }
+  };
+
+  const fetchUser = async (email) => {
+    try {
+      const response = await apiClient.get(`/user/${email}`);
+      // setUserData(response.data[0]);
+      setUserData((prevData) => ({
+        ...prevData,
+        ...response.data[0],
+      }));
+    } catch (error) {
+      if (error.response) {
+        console.error(error.response.data.message);
+        //alert("Se ha producido un error, intenta de nuevo.");
+      } else {
+        console.error(error.message);
+        //alert("Se ha producido un error, intenta de nuevo.");
+      }
     }
   };
 
@@ -113,6 +137,16 @@ export default function HomeScreen() {
       fetchCategories();
     }, []),
   );
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchUser(emailUser);
+    }, []),
+  );
+
+  useEffect(() => {
+    fetchUser(emailUser);
+  }, [emailUser]);
 
   const toggleFilter = () => {
     setFilterVisible(!isFilterVisible);

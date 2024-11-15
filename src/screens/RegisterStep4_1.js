@@ -39,7 +39,6 @@ export default function RegisterStep4_1({ navigation }) {
   });
 
   const onSubmit = (data) => {
-    console.log(data);
     setAbilityData((prevData) => ({
       ...prevData,
       title: data.title,

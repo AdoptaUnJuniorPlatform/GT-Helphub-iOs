@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
+import { useFocusEffect } from "@react-navigation/native";
 import { useForm, Controller } from "react-hook-form";
 import {
   Text,
@@ -26,12 +27,16 @@ import { getScreenSize } from "../utils/screenSize";
 import Feather from "@expo/vector-icons/Feather";
 import apiClient from "../api/apiClient";
 
-export default function RegisterStep1({ navigation }) {
+export default function RegisterStep4_2({ navigation }) {
   const { isSmallScreen, isBigScreen } = getScreenSize();
 
   const { abilityData, setAbilityData } = useAbility();
   const { profileData } = useProfile();
   const { userData } = useUser();
+
+  const id_user = userData._id;
+
+  const [profileImage, setProfileImage] = useState(null);
 
   const [isDialogVisible, setDialogVisible] = useState(false);
   const [isPopUpVisible, setPopUpVisible] = useState(false);
@@ -47,6 +52,35 @@ export default function RegisterStep1({ navigation }) {
     },
     mode: "onChange",
   });
+
+  const fetchImage = async (id_user) => {
+    try {
+      const response = await apiClient.get(
+        `/upload-service/profile-imageByUser/${id_user}`,
+        { responseType: "blob" },
+      );
+      const imageUrl = URL.createObjectURL(response.data);
+      setProfileImage(imageUrl);
+    } catch (error) {
+      if (error.response) {
+        console.error(error.response.data.message);
+        //alert("Se ha producido un error, intenta de nuevo.");
+      } else {
+        console.error(error.message);
+        //alert("Se ha producido un error, intenta de nuevo.");
+      }
+    }
+  };
+
+  useEffect(() => {
+    fetchImage(id_user);
+  }, [id_user]);
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchImage(id_user);
+    }, []),
+  );
 
   const onSubmit = async (data) => {
     setAbilityData((prevData) => ({
@@ -71,8 +105,6 @@ export default function RegisterStep1({ navigation }) {
       category,
     };
 
-    console.log(requestData);
-
     try {
       const response = await apiClient.post("/hability", requestData);
       setAbilityData(response.data);
@@ -90,6 +122,8 @@ export default function RegisterStep1({ navigation }) {
   const togglePopUp = () => {
     setPopUpVisible(!isPopUpVisible);
   };
+
+  console.log(profileImage);
 
   return (
     <SafeAreaView className="flex-1 bg-neutros-gris-fondo">
@@ -347,14 +381,12 @@ export default function RegisterStep1({ navigation }) {
                   {/* Header */}
                   <View className="flex-row items-center gap-[25px] px-5">
                     <View className="w-[59px] h-[59px] rounded-full">
-                      {profileData?.profilePicture && (
-                        <Image
-                          source={{ uri: profileData.profilePicture }}
-                          style={{ width: "100%", height: "100%" }}
-                          resizeMode="cover"
-                          className="rounded-full"
-                        />
-                      )}
+                      <Image
+                        source={{ uri: profileImage }}
+                        style={{ width: "100%", height: "100%" }}
+                        resizeMode="cover"
+                        className="rounded-full"
+                      />
                     </View>
                     <Text
                       className={`

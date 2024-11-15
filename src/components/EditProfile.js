@@ -30,7 +30,7 @@ export const EditProfile = ({ onRequestClose, visible }) => {
 
   const { profileData, setProfileData } = useProfile();
 
-  const { userData } = useUser();
+  const { userData, setUserData } = useUser();
 
   const categories = [
     { label: "Animales", active: false },
@@ -135,16 +135,58 @@ export const EditProfile = ({ onRequestClose, visible }) => {
 
   const profileId = profileData._id;
 
+  const onImageSubmit = async (data) => {
+    const userId = userData._id;
+    const imageUri = data.profilePicture;
+
+    if (!imageUri) {
+      alert("No image selected!");
+      return;
+    }
+
+    setUserData({
+      ...userData,
+      profilePicture: imageUri,
+    });
+
+    const fileType = imageUri.endsWith(".png") ? "image/png" : "image/jpeg";
+    const formData = new FormData();
+    formData.append("id_user", userId);
+    formData.append("image_profile", {
+      uri: imageUri,
+      name: `profile.${fileType === "image/png" ? "png" : "jpg"}`,
+      type: fileType,
+    });
+
+    try {
+      await apiClient.patch(
+        `/upload-service/profile-image-user/${userId}`,
+        formData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        },
+      );
+      alert("¡La imagen cargada con éxito!");
+    } catch (error) {
+      console.error(error.message);
+      alert("Se ha producido un error, intenta de nuevo.");
+    }
+  };
+
   const onSubmit = async (data) => {
     const timestamp = formatDate(new Date());
     const formData = { ...data, timestamp };
 
     try {
       await AsyncStorage.setItem("formData", JSON.stringify(formData));
-      const response = await apiClient.patch(`/profile/${profileId}`, data);
+      await apiClient.patch(`/profile/${profileId}`, data);
+      setProfileData({
+        ...userData,
+        data,
+      });
       alert("¡Perfil editado con éxito!");
-      setProfileData(response.data);
-      onRequestClose(onRequestClose);
+
+      onRequestClose();
     } catch (error) {
       if (error.response) {
         console.error(error.response.data.message);
@@ -288,7 +330,8 @@ export const EditProfile = ({ onRequestClose, visible }) => {
               </Text>
             </View>
             <View className="justify-center items-center mb-8">
-              <View
+              <TouchableOpacity
+                onPress={pickImage}
                 className={`
                 relative rounded-full
                 ${isSmallScreen ? "h-[98px] w-[98px]" : "h-[124px] w-[120px]"}
@@ -310,7 +353,7 @@ export const EditProfile = ({ onRequestClose, visible }) => {
                         />
                       ) : (
                         <Image
-                          source={{ uri: profileData.profilePicture }}
+                          source={{ uri: userData.profilePicture }}
                           style={{ width: "100%", height: "100%" }}
                           resizeMode="cover"
                           className="rounded-full"
@@ -319,10 +362,10 @@ export const EditProfile = ({ onRequestClose, visible }) => {
                     </>
                   )}
                 />
-              </View>
+              </TouchableOpacity>
               <View className="absolute -bottom-6">
                 <CustomButton
-                  onPress={pickImage}
+                  onPress={handleSubmit(onImageSubmit)}
                   title="Editar Foto"
                   width="content"
                 />

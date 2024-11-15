@@ -184,9 +184,9 @@ export default function ProfileScreen({ navigation }) {
                 ${isSmallScreen ? "h-[98px] w-[98px]" : "h-[124px] w-[120px]"}
                 `}
             >
-              {profileData?.profilePicture && (
+              {userData?.profilePicture && (
                 <Image
-                  source={{ uri: profileData.profilePicture }}
+                  source={{ uri: userData.profilePicture }}
                   style={{ width: "100%", height: "100%" }}
                   resizeMode="cover"
                   className="rounded-[10px]"
