@@ -13,9 +13,7 @@ export const CustomButton = ({
   const getWidthStyle = () => (width === "full" ? "w-full" : "w-fit px-[16px]");
 
   const getButtonStyle = () =>
-    variant === "filled"
-      ? "bg-primarios-azul-100"
-      : "bg-transparent border-[1px]";
+    variant === "filled" ? "bg-primarios-azul-100" : "bg-white border-[1px]";
 
   const getTextStyle = () =>
     variant === "filled" ? "text-white" : "text-primarios-celeste-100";
@@ -34,7 +32,7 @@ export const CustomButton = ({
     return (
       <TouchableOpacity
         onPress={onPress}
-        className="h-[36px] flex-row items-center justify-center rounded-lg pl-2 pr-4 border-[1px] border-neutros-negro-80"
+        className="h-[36px] bg-white flex-row items-center justify-center rounded-lg pl-2 pr-4 border-[1px] border-neutros-negro-80"
       >
         <View className="mr-2">
           <Feather name="chevron-left" size={20} color="#696868" />

@@ -215,7 +215,7 @@ export default function RegisterStep5({ navigation }) {
             isBackButton
           />
           <CustomButton
-            title="Siguiente"
+            title="Continuar"
             onPress={handleSubmit(onSubmit)}
             variant="white"
             width="content"
