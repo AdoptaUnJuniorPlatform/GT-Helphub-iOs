@@ -235,7 +235,7 @@ export const MessagesProfile = ({ onRequestClose, visible, navigation }) => {
                 <View className="mr-2">
                   <TouchableOpacity
                     onPress={() => console.log("declinar")}
-                    className="h-[36px] flex-row items-center justify-center rounded-lg px-4 border-[1px] border-neutros-negro-80"
+                    className="bg-transparent h-[36px] flex-row items-center justify-center rounded-lg px-4 border-[1px] border-neutros-negro-80"
                   >
                     <Text className="uppercase font-roboto-medium text-xs text-neutros-negro-80">
                       Declinar

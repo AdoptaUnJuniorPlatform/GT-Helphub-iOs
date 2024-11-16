@@ -11,6 +11,8 @@ export const HomeCard = ({ onPress, data }) => {
 
   const userId = data.user_id;
 
+  const [profileImage, setProfileImage] = useState(null);
+
   const [user, setUser] = useState({ nameUser: "", surnameUser: "" });
   const [profile, setProfile] = useState({
     profilePicture: null,
@@ -37,9 +39,29 @@ export const HomeCard = ({ onPress, data }) => {
     }
   };
 
+  const fetchImage = async (userId) => {
+    try {
+      const response = await apiClient.get(
+        `/upload-service/profile-imageByUser/${userId}`,
+        { responseType: "blob" },
+      );
+      const imageUrl = URL.createObjectURL(response.data);
+      setProfileImage(imageUrl);
+    } catch (error) {
+      if (error.response) {
+        console.error(error.response.data.message);
+        //alert("Se ha producido un error, intenta de nuevo.");
+      } else {
+        console.error(error.message);
+        //alert("Se ha producido un error, intenta de nuevo.");
+      }
+    }
+  };
+
   useEffect(() => {
     fetchUser(userId);
     fetchProfile(userId);
+    fetchImage(userId);
   }, [userId]);
 
   return (
@@ -55,12 +77,14 @@ export const HomeCard = ({ onPress, data }) => {
       {/* Header */}
       <View className="flex-row items-center gap-[25px] px-5">
         <View className="w-[59px] h-[59px] rounded-full">
-          <Image
-            className="rounded-full"
-            source={{ uri: profile?.profilePicture }}
-            style={{ width: "100%", height: "100%" }}
-            resizeMode="cover"
-          />
+          {profileImage && (
+            <Image
+              className="rounded-full"
+              source={{ uri: profileImage }}
+              style={{ width: "100%", height: "100%" }}
+              resizeMode="cover"
+            />
+          )}
         </View>
         <Text
           className={`

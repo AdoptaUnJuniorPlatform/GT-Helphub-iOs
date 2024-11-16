@@ -90,27 +90,20 @@ export default function EmailVerificationScreen() {
     };
 
     try {
-      const response = await fetch(
-        "http://localhost:4002/api/helphub/user/register",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(payload),
-        },
-      );
+      const response = await apiClient.post("/user/register", payload);
 
-      const result = await response.json();
-
-      if (response.ok) {
+      if (response.status === 200 || response.status === 201) {
         console.log("Data sent to register: ", data);
         togglePopUp();
       } else {
-        console.error("Error:", result);
+        console.error("Unexpected status code:", response.status);
       }
     } catch (error) {
-      console.error("Error:", error);
+      if (error.response) {
+        console.error("Error:", error.response.data);
+      } else {
+        console.error("Error:", error.message);
+      }
     }
   };
 
@@ -280,7 +273,7 @@ export default function EmailVerificationScreen() {
                     ${isSmallScreen ? "w-[90%]" : ""}
                     `}
                 >
-                  Ingresa tus datos para navegar por la web
+                  Ingresa tus datos para navegar por la app
                 </Text>
               </View>
             </View>

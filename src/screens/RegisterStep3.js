@@ -29,7 +29,6 @@ export default function RegisterStep1({ navigation }) {
   });
 
   const onSubmit = (data) => {
-    console.log(data);
     setProfileData((prevData) => ({
       ...prevData,
       selectedDays: data.selectedDays,

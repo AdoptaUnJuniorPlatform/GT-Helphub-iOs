@@ -5,14 +5,11 @@ import { ToggleSwitch } from "./ToggleSwitch";
 import { CustomCheckbox } from "./CustomCheckbox";
 import { CustomButton } from "./CustomButton";
 import { generateRandomCode } from "../utils/twoFaCodeGenerator";
-import { useUser } from "../user/UserContext";
 import { getScreenSize } from "../utils/screenSize";
 import apiClient from "../api/apiClient";
 
 export const RegisterForm = ({ navigation }) => {
   const { isSmallScreen, isBigScreen } = getScreenSize();
-
-  const { setUserData } = useUser();
 
   const countryCode = "🇪🇸  +34";
   const [acceptTermsAndConditions, setAcceptTermsAndConditions] =
@@ -37,8 +34,6 @@ export const RegisterForm = ({ navigation }) => {
       return;
     }
 
-    setUserData(data);
-
     const twoFaCode = await generateRandomCode();
 
     const payload = {
@@ -56,8 +51,6 @@ export const RegisterForm = ({ navigation }) => {
 
     try {
       await apiClient.post("/email-service/emailAcount", payload);
-      // console.log(response);
-      // setUserData(response);
       navigation.navigate("EmailVerification", { ...data, twoFa: twoFaCode });
     } catch (error) {
       if (error.response) {

@@ -57,7 +57,6 @@ export default function RegisterStep5({ navigation }) {
       interestedSkills,
       location,
       preferredTimeRange,
-      profilePicture,
       selectedDays,
     } = formData;
 
@@ -66,7 +65,7 @@ export default function RegisterStep5({ navigation }) {
       interestedSkills,
       location,
       preferredTimeRange,
-      profilePicture,
+      profilePicture: null,
       selectedDays,
     };
 
@@ -216,7 +215,7 @@ export default function RegisterStep5({ navigation }) {
             isBackButton
           />
           <CustomButton
-            title="Siguiente"
+            title="Continuar"
             onPress={handleSubmit(onSubmit)}
             variant="white"
             width="content"
