@@ -1,14 +1,124 @@
+import { useState, useEffect } from "react";
 import { View, Modal, TouchableOpacity, Text, Image } from "react-native";
 import { CustomButton } from "./CustomButton";
 import { VerifiedIcon } from "../components/svgComponents/VerifiedIcon";
 import { CustomChip } from "./CustomChip";
 import { CustomRating } from "../components/CustomRating";
 import { getScreenSize } from "../utils/screenSize";
+import apiClient from "../api/apiClient";
 import Feather from "@expo/vector-icons/Feather";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 
-export const MessagesProfile = ({ onRequestClose, visible, navigation }) => {
+export const MessagesProfile = ({
+  onRequestClose,
+  visible,
+  navigation,
+  requestData,
+  requests,
+  setRequests,
+}) => {
   const { isSmallScreen, isBigScreen } = getScreenSize();
+
+  const senderId = requestData?.transmitter;
+  const exchangeId = requestData?._id;
+
+  const [sender, setSender] = useState({});
+  const [senderImage, setSenderImage] = useState(null);
+  const [senderProfile, setSenderProfile] = useState({});
+  const [activeAbilities, setActiveAbilities] = useState([]);
+
+  const fetchUser = async (senderId) => {
+    try {
+      const response = await apiClient.get(`/user/user-id/${senderId}`);
+      setSender(response.data);
+    } catch (error) {
+      console.error(error.message);
+      alert("Se ha producido un error, intenta de nuevo.");
+    }
+  };
+
+  const fetchImage = async (senderId) => {
+    try {
+      const response = await apiClient.get(
+        `/upload-service/profile-imageByUser/${senderId}`,
+        { responseType: "blob" },
+      );
+      const imageUrl = URL.createObjectURL(response.data);
+      setSenderImage(imageUrl);
+    } catch (error) {
+      if (error.response) {
+        console.error(error.response.data.message);
+        alert("Se ha producido un error, intenta de nuevo.");
+      } else {
+        console.error(error.message);
+        alert("Se ha producido un error, intenta de nuevo.");
+      }
+    }
+  };
+
+  const fetchProfile = async (senderId) => {
+    try {
+      const response = await apiClient.get(`/profile/byUserId/${senderId}`);
+      setSenderProfile(response.data);
+    } catch (error) {
+      console.error(error.message);
+      alert("Se ha producido un error, intenta de nuevo.");
+    }
+  };
+
+  const fetchActiveAbilities = async (senderId) => {
+    try {
+      const response = await apiClient.get(
+        `/hability/user-habilities/${senderId}`,
+      );
+      setActiveAbilities(response.data);
+    } catch (error) {
+      console.error(error.message);
+      alert("Se ha producido un error, intenta de nuevo.");
+    }
+  };
+
+  useEffect(() => {
+    fetchUser(senderId);
+    fetchImage(senderId);
+    fetchProfile(senderId);
+    fetchActiveAbilities(senderId);
+  }, []);
+
+  const declineExchange = async (exchangeId) => {
+    const payload = {
+      state: "declined",
+    };
+    try {
+      await apiClient.patch(`/exchange/${exchangeId}`, payload);
+      setRequests((prevRequests) =>
+        prevRequests.filter((request) => request._id !== exchangeId),
+      );
+      alert("¡Intercambio declinado!");
+      onRequestClose();
+    } catch (error) {
+      console.error(error.message);
+      alert("Se ha producido un error, intenta de nuevo.");
+    }
+  };
+
+  const acceptExchange = async (exchangeId) => {
+    const payload = {
+      state: "accepted",
+    };
+    try {
+      await apiClient.patch(`/exchange/${exchangeId}`, payload);
+      setRequests((prevRequests) =>
+        prevRequests.filter((request) => request._id !== exchangeId),
+      );
+      alert("¡Intercambio aceptado!");
+      onRequestClose();
+      goToMessagesFlow();
+    } catch (error) {
+      console.error(error.message);
+      alert("Se ha producido un error, intenta de nuevo.");
+    }
+  };
 
   const goToMessagesFlow = () => {
     onRequestClose();
@@ -60,16 +170,19 @@ export const MessagesProfile = ({ onRequestClose, visible, navigation }) => {
             `}
             >
               <View className="h-[124px] w-[120px] rounded-[10px] mr-1">
-                <Image
-                  source={require("../../assets/avatar13.png")}
-                  style={{ width: "100%", height: "100%" }}
-                  resizeMode="contain"
-                />
+                {senderImage && (
+                  <Image
+                    source={{ uri: senderImage }}
+                    style={{ width: "100%", height: "100%" }}
+                    resizeMode="cover"
+                    className="rounded-[10px]"
+                  />
+                )}
               </View>
               <View className="h-[124px] py-4 justify-between">
                 <View className="flex-row">
                   <Text className="mr-2 font-roboto-medium text-xl text-neutros-negro">
-                    Melania Pino
+                    {sender.nameUser} {sender.surnameUser}
                   </Text>
                   <VerifiedIcon />
                 </View>
@@ -98,7 +211,7 @@ export const MessagesProfile = ({ onRequestClose, visible, navigation }) => {
               <View className="flex-row items-center">
                 <View className="flex-row w-content py-1 px-2 rounded-full items-center bg-transparent border-[1px] border-neutros-negro-80">
                   <Text className="font-roboto-regular text-xs text-neutros-negro-80">
-                    Cocina
+                    Informática
                   </Text>
                 </View>
                 <View className="mx-1">
@@ -131,21 +244,24 @@ export const MessagesProfile = ({ onRequestClose, visible, navigation }) => {
               >
                 Habilidad intercambiada
               </Text>
-              <View
-                className={`
-                  rounded-[10px] pl-[11px] pr-[45px] py-3 
-                  ${isSmallScreen ? "mb-2" : "mb-4"}
-                  `}
-                style={{ backgroundColor: "rgba(174, 174, 174, 0.1)" }}
-              >
-                <Text className="text-neutros-negro font-roboto-regular text-sm mb-[5px]">
-                  Clases de Cocina Vegana
-                </Text>
-                <Text className="text-neutros-negro-80 font-roboto-regular text-xs">
-                  Aprende a preparar un plato vegano delicioso y nutritivo
-                  (desde entrantes hasta postres)
-                </Text>
-              </View>
+
+              {activeAbilities.map((ability, _id) => (
+                <View
+                  key={_id}
+                  className={`
+                                  rounded-[10px] pl-[11px] pr-[45px] py-3 
+                                  ${isSmallScreen ? "mb-2" : "mb-4"}
+                                  `}
+                  style={{ backgroundColor: "rgba(174, 174, 174, 0.1)" }}
+                >
+                  <Text className="text-neutros-negro font-roboto-regular text-sm mb-[5px]">
+                    {ability.title}
+                  </Text>
+                  <Text className="text-neutros-negro-80 font-roboto-regular text-xs">
+                    {ability.description}
+                  </Text>
+                </View>
+              ))}
             </View>
 
             {/* Sobre mí */}
@@ -166,9 +282,7 @@ export const MessagesProfile = ({ onRequestClose, visible, navigation }) => {
                 style={{ backgroundColor: "rgba(174, 174, 174, 0.1)" }}
               >
                 <Text className="text-neutros-negro-80 font-roboto-regular text-xs">
-                  Soy vegana con 5 años de experiencia en cocina basada en
-                  plantas. Te enseñaré a preparar platos veganos deliciosos y
-                  saludables, desde entrantes hasta postres.
+                  {senderProfile.description}
                 </Text>
               </View>
             </View>
@@ -180,7 +294,7 @@ export const MessagesProfile = ({ onRequestClose, visible, navigation }) => {
               </Text>
               <View className="border-[1px] border-neutros-negro-6 rounded-lg py-1.5 px-4">
                 <Text className="font-roboto-medium text-neutros-negro text-sm">
-                  9:00 a 14:00
+                  {senderProfile.preferredTimeRange}
                 </Text>
               </View>
             </View>
@@ -201,16 +315,16 @@ export const MessagesProfile = ({ onRequestClose, visible, navigation }) => {
                 Habilidades activas
               </Text>
               <View className="flex-row gap-2">
-                <View>
-                  <CustomChip label={"Cocina"} status={"inactive"} showBorder />
-                </View>
-                <View>
-                  <CustomChip
-                    label={"Tutorías"}
-                    status={"inactive"}
-                    showBorder
-                  />
-                </View>
+                {activeAbilities.map((ability, _id) => (
+                  <View>
+                    <CustomChip
+                      key={_id}
+                      label={ability.category}
+                      status={"inactive"}
+                      showBorder
+                    />
+                  </View>
+                ))}
               </View>
             </View>
           </View>
@@ -234,7 +348,7 @@ export const MessagesProfile = ({ onRequestClose, visible, navigation }) => {
               <View className="flex-row justify-end">
                 <View className="mr-2">
                   <TouchableOpacity
-                    onPress={() => console.log("declinar")}
+                    onPress={() => declineExchange(exchangeId)}
                     className="bg-transparent h-[36px] flex-row items-center justify-center rounded-lg px-4 border-[1px] border-neutros-negro-80"
                   >
                     <Text className="uppercase font-roboto-medium text-xs text-neutros-negro-80">
@@ -243,7 +357,7 @@ export const MessagesProfile = ({ onRequestClose, visible, navigation }) => {
                   </TouchableOpacity>
                 </View>
                 <CustomButton
-                  onPress={goToMessagesFlow}
+                  onPress={() => acceptExchange(exchangeId)}
                   title={"Aceptar intercambio"}
                   width="content"
                   variant="filled"

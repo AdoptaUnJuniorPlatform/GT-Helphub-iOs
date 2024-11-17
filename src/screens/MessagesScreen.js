@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useCallback, useEffect } from "react";
+import { useFocusEffect } from "@react-navigation/native";
 import {
   View,
   Text,
@@ -13,75 +14,74 @@ import {
   AlertIcon,
 } from "../components";
 import { getScreenSize } from "../utils/screenSize";
+import { useUser } from "../user/UserContext";
+import apiClient from "../api/apiClient";
 
 const MessagesScreen = ({ navigation }) => {
   const [activeTab, setActiveTab] = useState("Mensajes");
 
   const { isSmallScreen, isBigScreen } = getScreenSize();
 
+  const { userData } = useUser();
+  const user_id = userData?._id;
+
+  const [selectedRequest, setSelectedRequest] = useState(null);
   const [isProfileVisible, setProfileVisible] = useState(false);
 
-  const messages = [
-    {
-      id: 1,
-      image: require("../../assets/avatar7.png"),
-      name: "Lidia",
-      surname: "Soriano",
-      message: "Muchas Gracias",
-      pending: "0",
-    },
-    {
-      id: 2,
-      image: require("../../assets/avatar8.png"),
-      name: "Elsa",
-      surname: "Landó",
-      message: "No lo sé",
-      pending: "2",
-    },
-    {
-      id: 3,
-      image: require("../../assets/avatar9.png"),
-      name: "Estela",
-      surname: "Naiad",
-      message: "Puedes?",
-      pending: "2",
-    },
-    {
-      id: 4,
-      image: require("../../assets/avatar10.png"),
-      name: "Andrés",
-      surname: "Castro",
-      message: "Hola!",
-      pending: "1",
-    },
-    {
-      id: 5,
-      image: require("../../assets/avatar10.png"),
-      name: "Sirius",
-      surname: "Black",
-      message: "Qué tal?",
-      pending: "2",
-    },
-  ];
+  const [messages, setMessages] = useState([]);
+  const [requests, setRequests] = useState([]);
 
-  const requests = [
-    {
-      id: 1,
-      image: require("../../assets/avatar12.png"),
-      name: "Melania",
-      surname: "Pino",
-    },
-    {
-      id: 2,
-      image: require("../../assets/avatar8.png"),
-      name: "Melania",
-      surname: "Pino",
-    },
-  ];
+  const fetchRequests = async (user_id) => {
+    try {
+      const response = await apiClient.get(
+        `/exchange/findBy-reciever-progress/${user_id}`,
+      );
+      setRequests(response.data);
+    } catch (error) {
+      if (error.response) {
+        // console.error(error.response.data.message);
+        // alert("Se ha producido un error, intenta de nuevo.");
+      } else {
+        // console.error(error.message);
+        // alert("Se ha producido un error, intenta de nuevo.");
+      }
+    }
+  };
 
-  const toggleProfile = () => {
+  const fetchAccepted = async (user_id) => {
+    try {
+      const response = await apiClient.get(
+        `/exchange/find-all-acepted/${user_id}`,
+      );
+      console.log("ACCEPTED DATA", response.data);
+      setMessages(response.data);
+    } catch (error) {
+      if (error.response) {
+        // console.error(error.response.data.message);
+        // alert("Se ha producido un error, intenta de nuevo.");
+      } else {
+        // console.error(error.message);
+        // alert("Se ha producido un error, intenta de nuevo.");
+      }
+    }
+  };
+
+  const toggleProfile = (requestData) => {
+    setSelectedRequest(requestData);
     setProfileVisible(!isProfileVisible);
   };
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchRequests(user_id);
+      fetchAccepted(user_id);
+    }, []),
+  );
+
+  useEffect(() => {
+    fetchRequests(user_id);
+    fetchAccepted(user_id);
+  }, [user_id]);
 
   return (
     <SafeAreaView className="flex-1 bg-neutros-gris-fondo">
@@ -148,14 +148,10 @@ const MessagesScreen = ({ navigation }) => {
         <ScrollView showsVerticalScrollIndicator={false}>
           {activeTab === "Mensajes" && (
             <View className="p-4 pt-4">
-              {messages.map((message, index) => (
+              {messages.map((message, _id) => (
                 <MessageCard
-                  key={index}
-                  image={message.image}
-                  name={message.name}
-                  surname={message.surname}
-                  message={message.message}
-                  pending={message.pending}
+                  key={_id}
+                  senderId={message.transmitter}
                   onPress={() =>
                     navigation.navigate("MessagesFlow", {
                       screen: "MessagesStep1",
@@ -181,7 +177,7 @@ const MessagesScreen = ({ navigation }) => {
                 </Text>
                 <TouchableOpacity
                   className="flex-row h-[36px] mt-6 items-center justify-center rounded-[5px] bg-transparent w-fit px-4 border-[1px] border-neutros-negro-80"
-                  onPress={() => console.log("ver perfil")}
+                  onPress={() => navigation.navigate("Inicio")}
                 >
                   <Text className="font-roboto-bold text-sm text-neutros-negro-80">
                     Buscar intercambio
@@ -193,15 +189,14 @@ const MessagesScreen = ({ navigation }) => {
 
           {activeTab === "Solicitudes" && (
             <View className="p-4">
-              {requests.map((request, index) => (
-                <RequestCard
-                  key={index}
-                  image={request.image}
-                  name={request.name}
-                  surname={request.surname}
-                  onPress={toggleProfile}
-                />
-              ))}
+              {requests.length > 0 &&
+                requests.map((request, _id) => (
+                  <RequestCard
+                    key={_id}
+                    senderId={request.transmitter}
+                    onPress={() => toggleProfile(request)}
+                  />
+                ))}
             </View>
           )}
 
@@ -223,14 +218,6 @@ const MessagesScreen = ({ navigation }) => {
                 <Text className="text-neutros-negro-50 text-sm font-roboto-medium">
                   No hay conversaciones
                 </Text>
-                <TouchableOpacity
-                  className="flex-row h-[36px] mt-6 items-center justify-center rounded-[5px] bg-transparent w-fit px-4 border-[1px] border-neutros-negro-80"
-                  onPress={() => console.log("ver perfil")}
-                >
-                  <Text className="font-roboto-bold text-sm text-neutros-negro-80">
-                    Buscar intercambio
-                  </Text>
-                </TouchableOpacity>
               </View>
             </View>
           )}
@@ -242,6 +229,9 @@ const MessagesScreen = ({ navigation }) => {
           visible={isProfileVisible}
           onRequestClose={toggleProfile}
           navigation={navigation}
+          requestData={selectedRequest}
+          setRequests={setRequests}
+          requests={requests}
         />
       )}
     </SafeAreaView>

@@ -33,7 +33,9 @@ export default function ProfileScreen({ navigation }) {
   const { profileData, setProfileData } = useProfile();
   const { userData } = useUser();
 
-  const user_id = profileData.userId._id;
+  const user_id = userData?._id;
+
+  const [profileImage, setProfileImage] = useState(null);
 
   const [abilities, setAbilities] = useState([]);
   const [selected, setSelected] = useState("Habilidades");
@@ -85,17 +87,36 @@ export default function ProfileScreen({ navigation }) {
         if (error.response.status === 404) {
           toggleCreateProfileWarning();
         } else {
-          console.error(error.response.data.message);
-          alert("Se ha producido un error, intenta de nuevo.");
+          // console.error(error.response.data.message);
+          // alert("Se ha producido un error, intenta de nuevo.");
         }
       } else {
-        console.error(error.message);
-        alert("Se ha producido un error, intenta de nuevo.");
+        // console.error(error.message);
+        // alert("Se ha producido un error, intenta de nuevo.");
       }
     }
   };
 
-  const fetchAbilities = async () => {
+  const fetchImage = async (user_id) => {
+    try {
+      const response = await apiClient.get(
+        `/upload-service/profile-imageByUser/${user_id}`,
+        { responseType: "blob" },
+      );
+      const imageUrl = URL.createObjectURL(response.data);
+      setProfileImage(imageUrl);
+    } catch (error) {
+      if (error.response) {
+        // console.error(error.response.data.message);
+        // alert("Se ha producido un error, intenta de nuevo.");
+      } else {
+        // console.error(error.message);
+        // alert("Se ha producido un error, intenta de nuevo.");
+      }
+    }
+  };
+
+  const fetchAbilities = async (user_id) => {
     try {
       const response = await apiClient.get(
         `/hability/user-habilities/${user_id}`,
@@ -103,11 +124,11 @@ export default function ProfileScreen({ navigation }) {
       setAbilities(response.data);
     } catch (error) {
       if (error.response) {
-        //console.error(error.response.data.message);
-        //alert("Se ha producido un error, intenta de nuevo.");
+        // console.error(error.response.data.message);
+        // alert("Se ha producido un error, intenta de nuevo.");
       } else {
-        //console.error(error.message);
-        //alert("Se ha producido un error, intenta de nuevo.");
+        // console.error(error.message);
+        // alert("Se ha producido un error, intenta de nuevo.");
       }
     }
   };
@@ -133,12 +154,22 @@ export default function ProfileScreen({ navigation }) {
   useFocusEffect(
     useCallback(() => {
       fetchProfile();
+      fetchAbilities(user_id);
+      fetchImage(user_id);
     }, []),
   );
 
   useEffect(() => {
-    fetchAbilities();
+    fetchAbilities(user_id);
   }, [user_id, abilities]);
+
+  useEffect(() => {
+    fetchProfile();
+  }, [user_id, profileData]);
+
+  useEffect(() => {
+    fetchImage(user_id);
+  }, [user_id, profileImage]);
 
   return (
     <SafeAreaView className="flex-1 bg-neutros-gris-fondo">
@@ -184,9 +215,9 @@ export default function ProfileScreen({ navigation }) {
                 ${isSmallScreen ? "h-[98px] w-[98px]" : "h-[124px] w-[120px]"}
                 `}
             >
-              {userData?.profilePicture && (
+              {profileImage && (
                 <Image
-                  source={{ uri: userData.profilePicture }}
+                  source={{ uri: profileImage }}
                   style={{ width: "100%", height: "100%" }}
                   resizeMode="cover"
                   className="rounded-[10px]"
@@ -259,7 +290,7 @@ export default function ProfileScreen({ navigation }) {
               Habilidades que me interesan
             </Text>
             <View className="flex-row gap-1">
-              {profileData.interestedSkills ? (
+              {profileData?.interestedSkills ? (
                 profileData.interestedSkills.map((skill, index) => (
                   <View
                     key={index}
@@ -519,6 +550,7 @@ export default function ProfileScreen({ navigation }) {
         <EditProfile
           visible={isEditProfileVisible}
           onRequestClose={toggleEditProfile}
+          profileImage={profileImage}
         />
       )}
     </SafeAreaView>

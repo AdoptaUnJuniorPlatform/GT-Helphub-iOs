@@ -14,7 +14,11 @@ export const ProfileProvider = ({ children }) => {
         const storedProfileData =
           await AsyncStorage.getItem(PROFILE_STORAGE_KEY);
         if (storedProfileData) {
-          setProfileData(JSON.parse(storedProfileData));
+          const parsedData = JSON.parse(storedProfileData);
+          console.log("Loaded profile data from AsyncStorage:", parsedData);
+          setProfileData(parsedData);
+        } else {
+          console.log("No profile data found in AsyncStorage.");
         }
       } catch (error) {
         console.error("Error loading profile data from AsyncStorage:", error);
@@ -26,19 +30,20 @@ export const ProfileProvider = ({ children }) => {
 
   useEffect(() => {
     const saveProfileData = async () => {
-      try {
-        await AsyncStorage.setItem(
-          PROFILE_STORAGE_KEY,
-          JSON.stringify(profileData),
-        );
-      } catch (error) {
-        console.error("Error saving profile data to AsyncStorage:", error);
+      if (profileData) {
+        try {
+          console.log("Saving profile data to AsyncStorage:", profileData);
+          await AsyncStorage.setItem(
+            PROFILE_STORAGE_KEY,
+            JSON.stringify(profileData),
+          );
+        } catch (error) {
+          console.error("Error saving profile data to AsyncStorage:", error);
+        }
       }
     };
 
-    if (profileData) {
-      saveProfileData();
-    }
+    saveProfileData();
   }, [profileData]);
 
   return (

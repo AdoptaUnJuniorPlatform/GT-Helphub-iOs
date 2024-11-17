@@ -25,7 +25,7 @@ import Feather from "@expo/vector-icons/Feather";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import apiClient from "../api/apiClient";
 
-export default function HomeScreen() {
+export default function HomeScreen({ navigation }) {
   const { isSmallScreen, isBigScreen } = getScreenSize();
 
   const { userData, setUserData } = useUser();
@@ -41,7 +41,16 @@ export default function HomeScreen() {
   const [filterPostalCode, setFilterPostalCode] = useState("");
   const [filterMode, setFilterMode] = useState("Todos");
 
-  const emailUser = userData.email;
+  const emailUser = userData?.email;
+
+  const handleLogout = () => {
+    try {
+      navigation.navigate("Login");
+      console.log("Data cleared and logged out.");
+    } catch (error) {
+      console.error("Error clearing data during logout:", error);
+    }
+  };
 
   const fetchCategories = async () => {
     try {
@@ -70,10 +79,10 @@ export default function HomeScreen() {
     } catch (error) {
       if (error.response) {
         console.error(error.response.data.message);
-        //alert("Se ha producido un error, intenta de nuevo.");
+        alert("Se ha producido un error, intenta de nuevo.");
       } else {
         console.error(error.message);
-        //alert("Se ha producido un error, intenta de nuevo.");
+        alert("Se ha producido un error, intenta de nuevo.");
       }
     }
   };
@@ -131,12 +140,6 @@ export default function HomeScreen() {
     }, []),
   );
 
-  useFocusEffect(
-    useCallback(() => {
-      fetchUser(emailUser);
-    }, []),
-  );
-
   useEffect(() => {
     fetchUser(emailUser);
   }, [emailUser]);
@@ -162,11 +165,14 @@ export default function HomeScreen() {
       >
         <View
           className={`
-            px-9 
+            px-9 flex-row justify-between items-center 
             ${isBigScreen ? "my-7" : isSmallScreen ? "my-3" : "my-5"}
             `}
         >
           <LogoDark />
+          <TouchableOpacity onPress={handleLogout}>
+            <MaterialIcons name="logout" size={24} color="black" />
+          </TouchableOpacity>
         </View>
         <View className="flex-1 mt-2">
           {/* Search */}
