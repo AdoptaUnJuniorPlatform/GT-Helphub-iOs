@@ -93,7 +93,6 @@ export default function EmailVerificationScreen() {
       const response = await apiClient.post("/user/register", payload);
 
       if (response.status === 200 || response.status === 201) {
-        console.log("Data sent to register: ", data);
         togglePopUp();
       } else {
         console.error("Unexpected status code:", response.status);

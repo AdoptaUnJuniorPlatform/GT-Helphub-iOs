@@ -10,10 +10,13 @@ import {
 } from "react-native";
 import { LogoLight } from "../components";
 import { getScreenSize } from "../utils/screenSize";
+import { useUser } from "../user/UserContext";
 import Feather from "@expo/vector-icons/Feather";
 
 export default function LoginScreen({ navigation }) {
   const { isSmallScreen } = getScreenSize();
+
+  const { setUserData } = useUser();
 
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
@@ -31,6 +34,7 @@ export default function LoginScreen({ navigation }) {
   const onSubmit = async (data) => {
     try {
       await login(data.email, data.password);
+      setUserData(data);
       navigation.navigate("SessionStartVerification", { ...data });
     } catch (error) {
       console.log("Error: " + error.message);

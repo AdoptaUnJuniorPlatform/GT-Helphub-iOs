@@ -11,9 +11,14 @@ import {
 import { LogoLight, HeroCard } from "../components";
 import { getScreenSize } from "../utils/screenSize";
 import { profiles } from "../data/data";
+import { useUser } from "../user/UserContext";
+import { useProfile } from "../profile/ProfileContext";
 
 export default function LoginScreen({ navigation }) {
   const { isSmallScreen, isBigScreen } = getScreenSize();
+
+  const { setUserData } = useUser();
+  const { setProfileData } = useProfile();
 
   const scrollX = useRef(new Animated.Value(0)).current;
 
@@ -41,6 +46,11 @@ export default function LoginScreen({ navigation }) {
 
     return () => scrollAnimation.stop();
   }, [scrollX]);
+
+  useEffect(() => {
+    setUserData(null);
+    setProfileData(null);
+  }, []);
 
   return (
     <SafeAreaView className="flex-1 bg-primarios-violeta-100">

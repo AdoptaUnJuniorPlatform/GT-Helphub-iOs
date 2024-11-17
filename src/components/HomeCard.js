@@ -1,15 +1,20 @@
-import { useEffect, useState } from "react";
+import { useState, useCallback } from "react";
+import { useFocusEffect } from "@react-navigation/native";
 import { View, Text, Image } from "react-native";
 import { CustomChip } from "./CustomChip";
 import { CustomButton } from "./CustomButton";
 import { getScreenSize } from "../utils/screenSize";
 import { ScrollView } from "react-native-gesture-handler";
+import { useProfile } from "../profile/ProfileContext";
+import { formatDateHyphen } from "../utils/formatDate";
 import apiClient from "../api/apiClient";
 
 export const HomeCard = ({ onPress, data }) => {
   const { isSmallScreen, isBigScreen } = getScreenSize();
 
-  const userId = data.user_id;
+  const { profileData } = useProfile();
+
+  const userId = data?.user_id;
 
   const [profileImage, setProfileImage] = useState(null);
 
@@ -50,19 +55,41 @@ export const HomeCard = ({ onPress, data }) => {
     } catch (error) {
       if (error.response) {
         console.error(error.response.data.message);
-        //alert("Se ha producido un error, intenta de nuevo.");
+        alert("Se ha producido un error, intenta de nuevo.");
       } else {
         console.error(error.message);
-        //alert("Se ha producido un error, intenta de nuevo.");
+        alert("Se ha producido un error, intenta de nuevo.");
       }
     }
   };
 
-  useEffect(() => {
-    fetchUser(userId);
-    fetchProfile(userId);
-    fetchImage(userId);
-  }, [userId]);
+  const createExchange = async () => {
+    const payload = {
+      transmitter: profileData.userId._id,
+      reciever: userId,
+      state: "progress",
+      date: formatDateHyphen(),
+    };
+    try {
+      await apiClient.post("/exchange", payload);
+      alert("¡Intercambio solicitado con éxito!");
+    } catch (error) {
+      if (error.response && error.response.status === 406) {
+        alert("¡Solicitud de intercambio ya existe!");
+      } else {
+        console.error(error.message);
+        alert("Se ha producido un error, intenta de nuevo.");
+      }
+    }
+  };
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchUser(userId);
+      fetchProfile(userId);
+      fetchImage(userId);
+    }, []),
+  );
 
   return (
     <View
@@ -276,7 +303,7 @@ export const HomeCard = ({ onPress, data }) => {
         </View>
         <View>
           <CustomButton
-            onPress={() => console.log("solicitar intercambio")}
+            onPress={createExchange}
             title={"Solicitar intercambio"}
             variant="filled"
             width="content"

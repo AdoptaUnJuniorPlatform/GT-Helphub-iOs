@@ -71,7 +71,7 @@ export const NotificationCard = ({
         {status === "declined" ? (
           <View className="self-end">
             <CustomButton
-              onPress={onProfilePress}
+              onPress={() => console.log("ver perfil")}
               title={"Ver perfil"}
               width="content"
             />

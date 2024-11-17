@@ -4,6 +4,8 @@ import { CustomButton } from "./CustomButton";
 import { RatingCard } from "./RatingCard";
 import { CustomRating } from "./CustomRating";
 import { getScreenSize } from "../utils/screenSize";
+import { formatDateHyphen } from "../utils/formatDate";
+import { useProfile } from "../profile/ProfileContext";
 import apiClient from "../api/apiClient";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 // import DialogIcon from "./svgComponents/DialogIcon";
@@ -12,7 +14,9 @@ import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 export const ProfileCard = ({ isCardVisible, toggleCard, data }) => {
   const { isSmallScreen, isBigScreen } = getScreenSize();
 
-  const userId = data.user_id;
+  const userId = data?.user_id;
+
+  const { profileData } = useProfile();
 
   const [user, setUser] = useState({ nameUser: "", surnameUser: "" });
   const [profile, setProfile] = useState({
@@ -52,10 +56,30 @@ export const ProfileCard = ({ isCardVisible, toggleCard, data }) => {
     } catch (error) {
       if (error.response) {
         console.error(error.response.data.message);
-        //alert("Se ha producido un error, intenta de nuevo.");
+        alert("Se ha producido un error, intenta de nuevo.");
       } else {
         console.error(error.message);
-        //alert("Se ha producido un error, intenta de nuevo.");
+        alert("Se ha producido un error, intenta de nuevo.");
+      }
+    }
+  };
+
+  const createExchange = async () => {
+    const payload = {
+      transmitter: profileData.userId._id,
+      reciever: userId,
+      state: "progress",
+      date: formatDateHyphen(),
+    };
+    try {
+      await apiClient.post("/exchange", payload);
+      alert("¡Intercambio solicitado con éxito!");
+    } catch (error) {
+      if (error.response && error.response.status === 406) {
+        alert("¡Solicitud de intercambio ya existe!");
+      } else {
+        console.error(error.message);
+        alert("Se ha producido un error, intenta de nuevo.");
       }
     }
   };
@@ -64,7 +88,7 @@ export const ProfileCard = ({ isCardVisible, toggleCard, data }) => {
     fetchUser(userId);
     fetchProfile(userId);
     fetchImage(userId);
-  }, [userId]);
+  }, []);
 
   return (
     <Modal
@@ -173,7 +197,7 @@ export const ProfileCard = ({ isCardVisible, toggleCard, data }) => {
 
           <View className="w-[80%] self-center">
             <CustomButton
-              onPress={() => console.log("enviar solicitud")}
+              onPress={createExchange}
               title={"Enviar solicitud de intercambio"}
             />
           </View>

@@ -25,12 +25,11 @@ import Feather from "@expo/vector-icons/Feather";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import apiClient from "../api/apiClient";
 
-export const EditProfile = ({ onRequestClose, visible }) => {
+export const EditProfile = ({ onRequestClose, visible, profileImage }) => {
   const { isSmallScreen, isBigScreen } = getScreenSize();
 
   const { profileData, setProfileData } = useProfile();
-
-  const { userData, setUserData } = useUser();
+  const { userData } = useUser();
 
   const categories = [
     { label: "Animales", active: false },
@@ -88,7 +87,7 @@ export const EditProfile = ({ onRequestClose, visible }) => {
     defaultValues: {
       description: profileData.description || "",
       location: profileData.location || "",
-      profilePicture: userData.profilePicture || null,
+      profilePicture: null,
       preferredTimeRange: profileData.preferredTimeRange || null,
       selectedDays: profileData.selectedDays || [],
       interestedSkills: profileData.interestedSkills || [],
@@ -144,11 +143,6 @@ export const EditProfile = ({ onRequestClose, visible }) => {
       return;
     }
 
-    setUserData({
-      ...userData,
-      profilePicture: imageUri,
-    });
-
     const fileType = imageUri.endsWith(".png") ? "image/png" : "image/jpeg";
     const formData = new FormData();
     formData.append("id_user", userId);
@@ -175,13 +169,21 @@ export const EditProfile = ({ onRequestClose, visible }) => {
 
   const onSubmit = async (data) => {
     const timestamp = formatDate(new Date());
-    const formData = { ...data, timestamp };
+    const formData = {
+      description: data.description,
+      location: data.location,
+      profilePicture: null,
+      preferredTimeRange: data.preferredTimeRange,
+      selectedDays: data.selectedDays,
+      interestedSkills: data.interestedSkills,
+      timestamp,
+    };
 
     try {
       await AsyncStorage.setItem("formData", JSON.stringify(formData));
       await apiClient.patch(`/profile/${profileId}`, data);
       setProfileData({
-        ...userData,
+        ...profileData,
         data,
       });
       alert("¡Perfil editado con éxito!");
@@ -353,7 +355,7 @@ export const EditProfile = ({ onRequestClose, visible }) => {
                         />
                       ) : (
                         <Image
-                          source={{ uri: userData.profilePicture }}
+                          source={{ uri: profileImage }}
                           style={{ width: "100%", height: "100%" }}
                           resizeMode="cover"
                           className="rounded-full"
