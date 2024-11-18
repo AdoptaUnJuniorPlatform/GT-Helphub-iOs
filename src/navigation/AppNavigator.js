@@ -21,6 +21,9 @@ import ResetPasswordStep1 from "../screens/ResetPasswordStep1";
 import ResetPasswordStep2 from "../screens/ResetPasswordStep2";
 import MessagesStep1 from "../screens/MessagesStep1";
 import MessagesStep2 from "../screens/MessagesStep2";
+import PolicyStep1 from "../screens/PolicyStep1";
+import PolicyStep2 from "../screens/PolicyStep2";
+import PolicyStep3 from "../screens/PolicyStep3";
 import { Ionicons } from "@expo/vector-icons";
 import { Text, SafeAreaView, View } from "react-native";
 
@@ -55,6 +58,28 @@ const RegisterFlow = () => {
       <Stack.Screen
         name="EmailVerification"
         component={EmailVerificationScreen}
+        options={{ headerShown: false }}
+      />
+    </Stack.Navigator>
+  );
+};
+
+const PolicyFlow = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="PolicyStep1"
+        component={PolicyStep1}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="PolicyStep2"
+        component={PolicyStep2}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="PolicyStep3"
+        component={PolicyStep3}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>
@@ -266,6 +291,11 @@ const AppNavigator = () => {
       <Stack.Screen
         name="RegisterFlow"
         component={RegisterFlow}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="PolicyFlow"
+        component={PolicyFlow}
         options={{ headerShown: false }}
       />
       <Stack.Screen
