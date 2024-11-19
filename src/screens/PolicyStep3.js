@@ -1,5 +1,6 @@
 import { View, SafeAreaView, ScrollView, Text } from "react-native";
-import { CustomButton, LogoLight } from "../components";
+import { CustomButton, LogoLight, PolicySection } from "../components";
+import { policySections3 } from "../data/data";
 
 export default function PolicyStep3({ navigation }) {
   return (
@@ -11,92 +12,20 @@ export default function PolicyStep3({ navigation }) {
           </View>
 
           <View className="mt-5 mb-4">
-            <View>
-              <Text className="font-roboto-medium text-xl text-neutral-color-gray-900">
-                3. Uso de Permisos en Dispositivos Móviles
-              </Text>
-            </View>
+            <Text className="font-roboto-medium text-xl text-neutral-color-gray-900">
+              3. Uso de Permisos en Dispositivos Móviles
+            </Text>
+            <Text className="mt-3 font-roboto-regular text-xl text-neutros-negro-80">
+              Para el correcto funcionamiento de la aplicación HelpHub, se
+              requieren los siguientes permisos en dispositivos Android. Todos
+              los permisos solicitados se limitan a funciones estrictamente
+              necesarias y se solicitarán de manera transparente al usuario.
+            </Text>
+
             <View className="mt-3">
-              <Text className="font-roboto-regular text-xl text-neutros-negro-80">
-                Para el correcto funcionamiento de la aplicación HelpHub, se
-                requieren los siguientes permisos en dispositivos Android. Todos
-                los permisos solicitados se limitan a funciones estrictamente
-                necesarias y se solicitarán de manera transparente al usuario.
-              </Text>
-            </View>
-            <View className="mt-3">
-              <View>
-                <Text className="font-roboto-medium text-xl text-neutral-color-gray-900">
-                  3.1
-                </Text>
-              </View>
-              <View className="mb-1">
-                <Text className="font-roboto-medium text-xl text-neutral-color-gray-900">
-                  Cámara:
-                </Text>
-              </View>
-              <View>
-                <Text className="mb-2 font-roboto-regular text-base text-neutros-negro-80">
-                  Propósito: permitir al usuario capturar una foto en tiempo
-                  real como su foto de perfil
-                </Text>
-                <Text className="mb-2 font-roboto-regular text-base text-neutros-negro-80">
-                  Nota: este permiso sólo se activará en el caso de que el
-                  usuario opte por tomar una foto en lugar de seleccionar una de
-                  su galería.
-                </Text>
-                <Text className="mb-2 font-roboto-regular text-base text-neutros-negro-80">
-                  Alternativa: si prefieren no otorgar este permiso, el usuario
-                  puede optar por subir una foto de perfil desde la galería del
-                  dispositivo.
-                </Text>
-              </View>
-            </View>
-            <View className="mt-3">
-              <View>
-                <Text className="font-roboto-medium text-xl text-neutral-color-gray-900">
-                  3.2
-                </Text>
-              </View>
-              <View className="mb-1">
-                <Text className="font-roboto-medium text-xl text-neutral-color-gray-900">
-                  Almacenamiento Externo (Lectura):
-                </Text>
-              </View>
-              <View>
-                <Text className="mb-2 font-roboto-regular text-base text-neutros-negro-80">
-                  Propósito: permitir al usuario seleccionar una imagen de
-                  perfil desde la galería del dispositivo.
-                </Text>
-                <Text className="font-roboto-regular text-base text-neutros-negro-80">
-                  Información adicional: HelpHub no accede a otros archivos
-                  fuera de la imagen seleccionada por el usuario.
-                </Text>
-              </View>
-            </View>
-            <View className="mt-3">
-              <View>
-                <Text className="font-roboto-medium text-xl text-neutral-color-gray-900">
-                  3.3
-                </Text>
-              </View>
-              <View className="mb-1">
-                <Text className="font-roboto-medium text-xl text-neutral-color-gray-900">
-                  Almacenamiento Externo (Escritura):
-                </Text>
-              </View>
-              <View>
-                <Text className="mb-2 font-roboto-regular text-base text-neutros-negro-80">
-                  Propósito: permitir la descarga de datos de la aplicación o
-                  almacenamiento de configuraciones específicas en el
-                  dispositivo del usuario (si corresponde).
-                </Text>
-                <Text className="font-roboto-regular text-base text-neutros-negro-80">
-                  Nota: este permiso se solicita solo si la funcionalidad
-                  requiere guardar archivos o configuraciones locales en el
-                  dispositivo.
-                </Text>
-              </View>
+              {policySections3.map((section) => (
+                <PolicySection key={section.id} section={section} />
+              ))}
               <View className="mt-3">
                 <Text className="font-roboto-regular text-xl text-neutros-negro-80">
                   Los permisos anteriores se solicitarán únicamente al momento
@@ -108,7 +37,7 @@ export default function PolicyStep3({ navigation }) {
               </View>
             </View>
           </View>
-          {/* Navigation Button Set */}
+
           <View className="flex-row items-center justify-between">
             <CustomButton
               title="Atrás"
