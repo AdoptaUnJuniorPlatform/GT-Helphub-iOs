@@ -42,3 +42,4 @@ export { RegisterForm } from "./RegisterForm";
 export { RequestCard } from "./RequestCard";
 export { StepHeader } from "./StepHeader";
 export { RatingsDialog } from "./RatingsDialog";
+export { PolicySection } from "./PolicySection";

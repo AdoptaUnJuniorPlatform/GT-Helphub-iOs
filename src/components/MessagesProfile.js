@@ -245,9 +245,9 @@ export const MessagesProfile = ({
                 Habilidad intercambiada
               </Text>
 
-              {activeAbilities.map((ability, _id) => (
+              {activeAbilities.map((ability) => (
                 <View
-                  key={_id}
+                  key={ability.description}
                   className={`
                                   rounded-[10px] pl-[11px] pr-[45px] py-3 
                                   ${isSmallScreen ? "mb-2" : "mb-4"}
@@ -315,10 +315,10 @@ export const MessagesProfile = ({
                 Habilidades activas
               </Text>
               <View className="flex-row gap-2">
-                {activeAbilities.map((ability, _id) => (
+                {activeAbilities.map((ability) => (
                   <View>
                     <CustomChip
-                      key={_id}
+                      key={ability.description}
                       label={ability.category}
                       status={"inactive"}
                       showBorder

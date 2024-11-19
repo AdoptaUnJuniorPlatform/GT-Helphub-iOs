@@ -16,16 +16,10 @@ export const MessageCard = ({ senderId, onPress }) => {
         </View>
         <View className="w-2/3 overflow-ellipsis">
           <View className="flex-row mb-2 w-full">
-            <Text className="mr-1 text-xl font-roboto-medium text-neutros-negro">
-              name
-            </Text>
-            <Text className="text-xl font-roboto-medium text-neutros-negro">
-              surname
-            </Text>
+            <Text className="mr-1 text-xl font-roboto-medium text-neutros-negro"></Text>
+            <Text className="text-xl font-roboto-medium text-neutros-negro"></Text>
           </View>
-          <Text className="text-[15px] font-roboto-regular text-neutros-negro-80 w-full">
-            message
-          </Text>
+          <Text className="text-[15px] font-roboto-regular text-neutros-negro-80 w-full"></Text>
         </View>
       </View>
       {/* {pending > 0 && (

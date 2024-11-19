@@ -15,7 +15,7 @@ export const ProfileProvider = ({ children }) => {
           await AsyncStorage.getItem(PROFILE_STORAGE_KEY);
         if (storedProfileData) {
           const parsedData = JSON.parse(storedProfileData);
-          console.log("Loaded profile data from AsyncStorage:", parsedData);
+          // console.log("Loaded profile data from AsyncStorage:", parsedData);
           setProfileData(parsedData);
         } else {
           console.log("No profile data found in AsyncStorage.");
@@ -32,7 +32,7 @@ export const ProfileProvider = ({ children }) => {
     const saveProfileData = async () => {
       if (profileData) {
         try {
-          console.log("Saving profile data to AsyncStorage:", profileData);
+          // console.log("Saving profile data to AsyncStorage:", profileData);
           await AsyncStorage.setItem(
             PROFILE_STORAGE_KEY,
             JSON.stringify(profileData),

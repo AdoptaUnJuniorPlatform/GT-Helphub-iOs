@@ -35,6 +35,8 @@ const NotificationsScreen = ({ navigation }) => {
     setIsRatingsDialogVisible(!isRatingsDialogVisible);
   };
 
+  //TODO: Change 3 card types logic
+
   const completed = [
     {
       id: 1,

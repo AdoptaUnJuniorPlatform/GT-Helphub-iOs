@@ -9,7 +9,6 @@ export const NotificationCard = ({
   status,
   onRatingsPress,
   onProfilePress,
-  navigation,
 }) => {
   return (
     <View>
@@ -68,15 +67,7 @@ export const NotificationCard = ({
           </Text>
         )}
 
-        {status === "declined" ? (
-          <View className="self-end">
-            <CustomButton
-              onPress={() => console.log("ver perfil")}
-              title={"Ver perfil"}
-              width="content"
-            />
-          </View>
-        ) : status === "completed" ? (
+        {status === "completed" ? (
           <View className="self-end">
             <CustomButton
               onPress={onRatingsPress}
@@ -86,23 +77,14 @@ export const NotificationCard = ({
           </View>
         ) : (
           <View className="flex-row self-end">
-            <View className="mr-2">
-              <TouchableOpacity
-                onPress={() => console.log("declined")}
-                className="h-[36px] flex-row items-center justify-center rounded-lg px-4 border-[1px] border-neutros-negro-80"
-              >
-                <Text className="uppercase font-roboto-medium text-xs text-neutros-negro-80">
-                  Declinar
-                </Text>
-              </TouchableOpacity>
-            </View>
-            <CustomButton
-              onPress={() =>
-                navigation.navigate("MessagesFlow", { screen: "MessagesStep1" })
-              }
-              title={"Aceptar"}
-              width="content"
-            />
+            <TouchableOpacity
+              className="flex-row h-[36px] items-center justify-center rounded-lg bg-primarios-rosa-100 w-fit px-4"
+              onPress={onProfilePress}
+            >
+              <Text className="font-roboto-medium uppercase text-xs text-white">
+                Ver Perfil
+              </Text>
+            </TouchableOpacity>
           </View>
         )}
       </View>

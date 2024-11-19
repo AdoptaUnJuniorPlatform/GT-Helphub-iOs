@@ -12,31 +12,79 @@ import {
 } from "react-native";
 import { CustomButton } from "../components";
 import { getScreenSize } from "../utils/screenSize";
+import { initializeSocket, getSocket } from "../socket/socket";
+import { useUser } from "../user/UserContext";
 import Feather from "@expo/vector-icons/Feather";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
+import apiClient from "../api/apiClient";
 
 const MessagesStep1 = ({ navigation }) => {
   const { isSmallScreen, isBigScreen } = getScreenSize();
 
-  const [messages, setMessages] = useState([
-    {
-      id: 1,
-      user: "Martina",
-      text: "Sí! Me ha salido todo muy bien!",
-      isSender: false,
-    },
-    {
-      id: 2,
-      user: "Juanita",
-      text: "Qué bueno que te pude ayudar!",
-      isSender: true,
-    },
-    { id: 3, user: "Juanita", text: "Me alegra mucho!", isSender: true },
-  ]);
+  const { userData } = useUser();
+  const user_id = userData._id;
 
+  const [profileImage, setProfileImage] = useState(null);
+
+  // const [messages, setMessages] = useState([
+  //   {
+  //     id: 1,
+  //     user: "Martina",
+  //     text: "Sí! Me ha salido todo muy bien!",
+  //     isSender: false,
+  //   },
+  //   {
+  //     id: 2,
+  //     user: "Juanita",
+  //     text: "Qué bueno que te pude ayudar!",
+  //     isSender: true,
+  //   },
+  //   { id: 3, user: "Juanita", text: "Me alegra mucho!", isSender: true },
+  // ]);
+
+  const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
 
   const scrollViewRef = useRef(null);
+
+  const fetchImage = async (userId) => {
+    try {
+      const response = await apiClient.get(
+        `/upload-service/profile-imageByUser/${userId}`,
+        { responseType: "blob" },
+      );
+      const imageUrl = URL.createObjectURL(response.data);
+      setProfileImage(imageUrl);
+    } catch (error) {
+      if (error.response) {
+        console.error(error.response.data.message);
+        alert("Se ha producido un error, intenta de nuevo.");
+      } else {
+        console.error(error.message);
+        alert("Se ha producido un error, intenta de nuevo.");
+      }
+    }
+  };
+
+  useEffect(() => {
+    let socket;
+
+    const setupSocket = async () => {
+      socket = await initializeSocket(userData);
+      socket.on("messageToClient", (message) => {
+        setMessages((prevMessages) => [...prevMessages, message]);
+      });
+    };
+
+    setupSocket();
+
+    return () => {
+      if (socket) {
+        socket.off("messageToClient");
+        socket.disconnect();
+      }
+    };
+  }, [userData]);
 
   const handleSendMessage = () => {
     if (newMessage.trim()) {
@@ -44,17 +92,31 @@ const MessagesStep1 = ({ navigation }) => {
         ...messages,
         {
           id: messages.length + 1,
-          user: "Juanita",
-          text: newMessage,
+          from: user_id,
+          message: newMessage,
           isSender: true,
         },
       ]);
+
+      const socket = getSocket();
+      if (socket) {
+        socket.emit("privateMessage", {
+          from: user_id,
+          to: "67387c4c85d8053b120464cd",
+          message: newMessage,
+        });
+      }
+
       setNewMessage("");
     }
   };
 
   useEffect(() => {
     scrollViewRef.current?.scrollToEnd({ animated: true });
+  }, [messages]);
+
+  useEffect(() => {
+    fetchImage(user_id);
   }, [messages]);
 
   return (
@@ -178,14 +240,14 @@ const MessagesStep1 = ({ navigation }) => {
                       `}
                   >
                     <Text className="text-neutros-negro text-sm font-roboto-regular">
-                      {message.text}
+                      {message.message}
                     </Text>
                   </View>
                   {isLastFromUser && (
                     <Image
-                      source={require("../../assets/avatar11.png")}
-                      className="w-[55px] h-[55px] rounded-[20px] mt-0.5"
-                      resizeMode="contain"
+                      className="w-[55px] h-[55px] rounded-full mt-0.5"
+                      source={{ uri: profileImage }}
+                      resizeMode="cover"
                     />
                   )}
                 </View>

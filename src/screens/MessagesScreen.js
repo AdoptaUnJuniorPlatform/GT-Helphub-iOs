@@ -53,7 +53,6 @@ const MessagesScreen = ({ navigation }) => {
       const response = await apiClient.get(
         `/exchange/find-all-acepted/${user_id}`,
       );
-      console.log("ACCEPTED DATA", response.data);
       setMessages(response.data);
     } catch (error) {
       if (error.response) {
