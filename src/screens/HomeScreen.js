@@ -40,6 +40,7 @@ export default function HomeScreen({ navigation }) {
   const [filterCategory, setFilterCategory] = useState([]);
   const [filterPostalCode, setFilterPostalCode] = useState("");
   const [filterMode, setFilterMode] = useState("Todos");
+  const [searchQuery, setSearchQuery] = useState("");
 
   const emailUser = userData?.email;
 
@@ -134,6 +135,29 @@ export default function HomeScreen({ navigation }) {
     toggleFilter();
   };
 
+  const searchByTitleQuery = () => {
+    if (!searchQuery.trim()) {
+      setFilteredCategoriesData(categoriesData);
+      return;
+    }
+
+    const filteredData = categoriesData.map((categoryData) => {
+      const filteredItems = categoryData.items.filter((item) =>
+        item.title.toLowerCase().includes(searchQuery.toLowerCase()),
+      );
+
+      return { ...categoryData, items: filteredItems };
+    });
+
+    setFilteredCategoriesData(
+      filteredData.filter((cat) => cat.items.length > 0),
+    );
+  };
+
+  useEffect(() => {
+    searchByTitleQuery();
+  }, [searchQuery]);
+
   useFocusEffect(
     useCallback(() => {
       fetchCategories();
@@ -188,9 +212,11 @@ export default function HomeScreen({ navigation }) {
                   placeholder="¿Qué estás buscando?"
                   className="flex-1 h-full mr-4 mb-1 text-base font-roboto-regular text-neutros-negro"
                   placeholderTextColor="rgba(113, 102, 210, 0.5)"
+                  value={searchQuery}
+                  onChangeText={setSearchQuery}
                 />
               </View>
-              <TouchableOpacity onPress={() => console.log("search")}>
+              <TouchableOpacity onPress={searchByTitleQuery}>
                 <Entypo name="magnifying-glass" size={22} color="#434242" />
               </TouchableOpacity>
             </View>
