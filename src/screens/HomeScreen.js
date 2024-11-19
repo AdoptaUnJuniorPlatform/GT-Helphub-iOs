@@ -267,9 +267,9 @@ export default function HomeScreen({ navigation }) {
                   </Text>
                   <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                     <View className="flex-row">
-                      {categoryData.items.map((item, cardIndex) => (
+                      {categoryData.items.map((item) => (
                         <HomeCard
-                          key={cardIndex}
+                          key={item.description}
                           data={item}
                           onPress={() => handleCardPress(item)}
                         />

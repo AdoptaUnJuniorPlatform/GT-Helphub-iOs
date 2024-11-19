@@ -1,6 +1,48 @@
+import { useState, useEffect } from "react";
 import { View, Text, Image, TouchableOpacity } from "react-native";
+import apiClient from "../api/apiClient";
 
 export const MessageCard = ({ senderId, onPress }) => {
+  const [sender, setSender] = useState({});
+  const [senderImage, setSenderImage] = useState(null);
+
+  const fetchUser = async (senderId) => {
+    try {
+      const response = await apiClient.get(`/user/user-id/${senderId}`);
+      setSender(response.data);
+    } catch (error) {
+      console.error(error.message);
+      alert("Se ha producido un error, intenta de nuevo.");
+    }
+  };
+
+  const fetchImage = async (senderId) => {
+    try {
+      const response = await apiClient.get(
+        `/upload-service/profile-imageByUser/${senderId}`,
+        { responseType: "blob" },
+      );
+      const imageUrl = URL.createObjectURL(response.data);
+      setSenderImage(imageUrl);
+    } catch (error) {
+      if (error.response) {
+        console.error(error.response.data.message);
+        alert("Se ha producido un error, intenta de nuevo.");
+      } else {
+        console.error(error.message);
+        alert("Se ha producido un error, intenta de nuevo.");
+      }
+    }
+  };
+
+  useEffect(() => {
+    fetchUser(senderId);
+  }, []);
+
+  useEffect(() => {
+    fetchImage(senderId);
+  }, []);
+
   return (
     <TouchableOpacity
       onPress={onPress}
@@ -8,16 +50,23 @@ export const MessageCard = ({ senderId, onPress }) => {
     >
       <View className="flex-1 flex-row items-center">
         <View className="w-[59px] h-[59px] rounded-full mr-5">
-          {/* <Image
-            source={image}
-            style={{ width: "100%", height: "100%" }}
-            resizeMode="contain"
-          /> */}
+          {senderImage && (
+            <Image
+              source={{ uri: senderImage }}
+              style={{ width: "100%", height: "100%" }}
+              resizeMode="cover"
+              className="rounded-full"
+            />
+          )}
         </View>
         <View className="w-2/3 overflow-ellipsis">
           <View className="flex-row mb-2 w-full">
-            <Text className="mr-1 text-xl font-roboto-medium text-neutros-negro"></Text>
-            <Text className="text-xl font-roboto-medium text-neutros-negro"></Text>
+            <Text className="mr-1 text-xl font-roboto-medium text-neutros-negro">
+              {sender.nameUser}
+            </Text>
+            <Text className="text-xl font-roboto-medium text-neutros-negro">
+              {sender.surnameUser}
+            </Text>
           </View>
           <Text className="text-[15px] font-roboto-regular text-neutros-negro-80 w-full"></Text>
         </View>

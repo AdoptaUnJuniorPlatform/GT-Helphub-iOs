@@ -11,15 +11,21 @@ import {
 import { useFocusEffect } from "@react-navigation/native";
 import {
   MessagesProfile,
-  NotificationCard,
+  ActiveNotificationCard,
+  DeclinedNotificationCard,
   AlertDialogIcon,
   RatingsDialog,
 } from "../components";
 import { getScreenSize } from "../utils/screenSize";
+import { useUser } from "../user/UserContext";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import apiClient from "../api/apiClient";
 
 const NotificationsScreen = ({ navigation }) => {
   const { isSmallScreen, isBigScreen } = getScreenSize();
+
+  const { userData } = useUser();
+  const user_id = userData?._id;
 
   const [activeTab, setActiveTab] = useState("Activos");
   const [isDialogVisible, setDialogVisible] = useState(false);
@@ -35,43 +41,60 @@ const NotificationsScreen = ({ navigation }) => {
     setIsRatingsDialogVisible(!isRatingsDialogVisible);
   };
 
-  //TODO: Change 3 card types logic
-
   const completed = [
-    {
-      id: 1,
-      image: require("../../assets/avatar19.png"),
-      name: "Laura",
-      surname: "González",
-      time: "12:44",
-      status: "completed",
-    },
+    // {
+    //   id: 1,
+    //   image: require("../../assets/avatar19.png"),
+    //   name: "Laura",
+    //   surname: "González",
+    //   time: "12:44",
+    //   status: "completed",
+    // },
   ];
 
-  const requests = [
-    {
-      id: 1,
-      image: require("../../assets/avatar20.png"),
-      name: "Alberto",
-      surname: "Zuñiga",
-      time: "10:14",
-      status: "request",
-    },
-  ];
+  const [requests, setRequests] = useState([]);
+  const [selectedRequest, setSelectedRequest] = useState(null);
 
-  const active = [...completed, ...requests];
+  // const active = [...completed, ...requests];
 
-  const declined = [
-    {
-      id: 1,
-      image: require("../../assets/avatar20.png"),
-      name: "Alberto",
-      surname: "Zuñiga",
-      time: "10:19",
-    },
-  ];
+  const [declined, setDeclined] = useState([]);
 
-  const toggleProfile = () => {
+  const fetchRequests = async (user_id) => {
+    try {
+      const response = await apiClient.get(
+        `/exchange/findBy-reciever-progress/${user_id}`,
+      );
+      setRequests(response.data);
+    } catch (error) {
+      if (error.response) {
+        // console.error(error.response.data.message);
+        // alert("Se ha producido un error, intenta de nuevo.");
+      } else {
+        // console.error(error.message);
+        // alert("Se ha producido un error, intenta de nuevo.");
+      }
+    }
+  };
+
+  const fetchDeclined = async (user_id) => {
+    try {
+      const response = await apiClient.get(
+        `/exchange/findBy-all-declined/${user_id}`,
+      );
+      setDeclined(response.data);
+    } catch (error) {
+      if (error.response) {
+        // console.error(error.response.data.message);
+        // alert("Se ha producido un error, intenta de nuevo.");
+      } else {
+        // console.error(error.message);
+        // alert("Se ha producido un error, intenta de nuevo.");
+      }
+    }
+  };
+
+  const toggleProfile = (requestData) => {
+    setSelectedRequest(requestData);
     setProfileVisible(!isProfileVisible);
   };
 
@@ -85,13 +108,22 @@ const NotificationsScreen = ({ navigation }) => {
     return hours * 60 + minutes;
   };
 
-  const sortedActive = [...completed, ...requests].sort(
+  // const sortedActive = [...completed, ...requests].sort(
+  //   (a, b) => parseTime(b.time) - parseTime(a.time),
+  // );
+
+  const sortedRequests = [...requests].sort(
     (a, b) => parseTime(b.time) - parseTime(a.time),
   );
 
   const sortedDeclined = [...declined].sort(
     (a, b) => parseTime(b.time) - parseTime(a.time),
   );
+
+  useEffect(() => {
+    fetchRequests(user_id);
+    fetchDeclined(user_id);
+  }, [requests, declined]);
 
   useFocusEffect(
     React.useCallback(() => {
@@ -100,11 +132,11 @@ const NotificationsScreen = ({ navigation }) => {
   );
 
   useEffect(() => {
-    if (activeTab === "Activos" && active.length === 0 && !hasDialogShown) {
+    if (activeTab === "Activos" && requests.length === 0 && !hasDialogShown) {
       setDialogVisible(true);
       setHasDialogShown(true);
     }
-  }, [activeTab, active, hasDialogShown]);
+  }, [activeTab, requests, hasDialogShown]);
 
   const handleTabChange = (tab) => {
     setActiveTab(tab);
@@ -156,22 +188,17 @@ const NotificationsScreen = ({ navigation }) => {
         <ScrollView showsVerticalScrollIndicator={false}>
           {activeTab === "Activos" && (
             <View className="p-4 pt-4">
-              {sortedActive.map((message, index) => (
-                <NotificationCard
-                  key={index}
-                  status={message.status}
-                  time={message.time}
-                  image={message.image}
-                  name={message.name}
-                  surname={message.surname}
-                  navigation={navigation}
-                  onRatingsPress={toggleRatingsDialog}
+              {sortedRequests.map((request) => (
+                <ActiveNotificationCard
+                  key={request._id}
+                  senderId={request.transmitter}
+                  onProfilePress={() => toggleProfile(request)}
                 />
               ))}
             </View>
           )}
 
-          {activeTab === "Activos" && active.length === 0 && (
+          {requests.length === 0 && declined.length === 0 && (
             <Modal
               animationType="fade"
               transparent={true}
@@ -228,15 +255,11 @@ const NotificationsScreen = ({ navigation }) => {
 
           {activeTab === "Declinados" && (
             <View className="p-4">
-              {sortedDeclined.map((message, index) => (
-                <NotificationCard
-                  key={index}
-                  status={"declined"}
-                  time={message.time}
-                  image={message.image}
-                  name={message.name}
-                  surname={message.surname}
-                  onProfilePress={toggleProfile}
+              {sortedDeclined.map((request) => (
+                <DeclinedNotificationCard
+                  key={request._id}
+                  senderId={request.transmitter}
+                  onProfilePress={() => toggleProfile(request)}
                 />
               ))}
             </View>
@@ -249,6 +272,9 @@ const NotificationsScreen = ({ navigation }) => {
           visible={isProfileVisible}
           onRequestClose={toggleProfile}
           navigation={navigation}
+          requestData={selectedRequest}
+          setRequests={setRequests}
+          requests={requests}
         />
       )}
 
