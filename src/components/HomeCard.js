@@ -24,6 +24,8 @@ export const HomeCard = ({ onPress, data }) => {
     preferredTimeRange: "",
   });
 
+  const [isRequestSent, setIsRequestSent] = useState(false);
+
   const fetchUser = async (userId) => {
     try {
       const response = await apiClient.get(`/user/user-id/${userId}`);
@@ -64,6 +66,9 @@ export const HomeCard = ({ onPress, data }) => {
   };
 
   const createExchange = async () => {
+    if (isRequestSent) return;
+    setIsRequestSent(true);
+
     const payload = {
       transmitter: profileData.userId._id,
       reciever: userId,
@@ -307,6 +312,7 @@ export const HomeCard = ({ onPress, data }) => {
             title={"Solicitar intercambio"}
             variant="filled"
             width="content"
+            disabled={isRequestSent}
           />
         </View>
       </View>
