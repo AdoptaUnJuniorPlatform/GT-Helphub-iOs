@@ -24,6 +24,8 @@ export default function EmailVerificationScreen() {
   const [isPopUpVisible, setPopUpVisible] = useState(false);
   const [isResending, setIsResending] = useState(false);
 
+  const [generatedCode, setGeneratedCode] = useState(null);
+
   const navigation = useNavigation();
   const route = useRoute();
 
@@ -46,6 +48,7 @@ export default function EmailVerificationScreen() {
   const onCodeReset = async () => {
     setIsResending(true);
     const twoFaCode = await generateRandomCode();
+    setGeneratedCode(twoFaCode);
 
     const payload = {
       email,
@@ -76,33 +79,37 @@ export default function EmailVerificationScreen() {
   };
 
   const onSubmit = async (data) => {
-    const payload = {
-      email,
-      password,
-      nameUser,
-      surnameUser,
-      phone,
-      optionCall,
-      showPhone: false,
-      blocked: false,
-      twoFa: data.twoFa,
-      role: "user",
-    };
+    if (data.twoFa === generatedCode) {
+      const payload = {
+        email,
+        password,
+        nameUser,
+        surnameUser,
+        phone,
+        optionCall,
+        showPhone: false,
+        blocked: false,
+        twoFa: data.twoFa,
+        role: "user",
+      };
 
-    try {
-      const response = await apiClient.post("/user/register", payload);
+      try {
+        const response = await apiClient.post("/user/register", payload);
 
-      if (response.status === 200 || response.status === 201) {
-        togglePopUp();
-      } else {
-        console.error("Unexpected status code:", response.status);
+        if (response.status === 200 || response.status === 201) {
+          togglePopUp();
+        } else {
+          console.error("Unexpected status code:", response.status);
+        }
+      } catch (error) {
+        if (error.response) {
+          console.error("Error:", error.response.data);
+        } else {
+          console.error("Error:", error.message);
+        }
       }
-    } catch (error) {
-      if (error.response) {
-        console.error("Error:", error.response.data);
-      } else {
-        console.error("Error:", error.message);
-      }
+    } else {
+      alert("El código de verificación no es correcto. Intenta de nuevo.");
     }
   };
 

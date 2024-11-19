@@ -44,6 +44,8 @@ export default function SessionStartVerificationScreen() {
   const code = watch("code");
   const isComplete = code.every((digit) => digit !== "");
 
+  const [generatedCode, setGeneratedCode] = useState("");
+
   const handleDigitChange = (value, index) => {
     if (/^\d$/.test(value)) {
       const codeArray = getValues("code");
@@ -69,6 +71,7 @@ export default function SessionStartVerificationScreen() {
   const onCodeSet = async () => {
     setIsSending(true);
     const twoFaCode = await generateRandomCode();
+    setGeneratedCode(twoFaCode);
 
     const payload = {
       email,
@@ -97,23 +100,27 @@ export default function SessionStartVerificationScreen() {
   const onSubmit = async (data) => {
     const verificationCode = data.code.join("");
 
-    const payload = {
-      email,
-      twoFa: verificationCode,
-    };
+    if (verificationCode === generatedCode) {
+      const payload = {
+        email,
+        twoFa: verificationCode,
+      };
 
-    try {
-      await apiClient.post(
-        "http://localhost:4002/api/helphub/email-service/loginEmail",
-        payload,
-      );
-      togglePopUp();
-    } catch (error) {
-      if (error.response) {
-        console.error("Error:", error.response.data);
-      } else {
-        console.error("Error:", error);
+      try {
+        await apiClient.post(
+          "http://localhost:4002/api/helphub/email-service/loginEmail",
+          payload,
+        );
+        togglePopUp();
+      } catch (error) {
+        if (error.response) {
+          console.error("Error:", error.response.data);
+        } else {
+          console.error("Error:", error);
+        }
       }
+    } else {
+      alert("El código es incorrecto. Por favor, inténtalo nuevamente.");
     }
   };
 
