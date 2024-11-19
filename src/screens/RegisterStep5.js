@@ -80,32 +80,31 @@ export default function RegisterStep5({ navigation }) {
   };
 
   const toggleCategory = (label, onChange) => {
-    setAllCategories((prevCategories) => {
-      const activeCategories = prevCategories.filter(
-        (category) => category.active,
-      );
+    const activeCategories = allCategories.filter(
+      (category) => category.active,
+    );
 
-      if (
-        activeCategories.length >= 3 &&
-        !prevCategories.find((category) => category.label === label).active
-      ) {
-        return prevCategories;
-      }
+    if (
+      activeCategories.length >= 3 &&
+      !allCategories.find((category) => category.label === label).active
+    ) {
+      alert("Solo puedes seleccionar hasta 3 categorías.");
+      return;
+    }
 
-      const updatedCategories = prevCategories.map((category) =>
-        category.label === label
-          ? { ...category, active: !category.active }
-          : category,
-      );
+    const updatedCategories = allCategories.map((category) =>
+      category.label === label
+        ? { ...category, active: !category.active }
+        : category,
+    );
 
-      onChange(
-        updatedCategories
-          .filter((category) => category.active)
-          .map((cat) => cat.label),
-      );
+    setAllCategories(updatedCategories);
 
-      return updatedCategories;
-    });
+    const activeLabels = updatedCategories
+      .filter((category) => category.active)
+      .map((cat) => cat.label);
+
+    onChange(activeLabels);
   };
 
   return (

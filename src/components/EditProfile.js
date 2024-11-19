@@ -117,6 +117,18 @@ export const EditProfile = ({ onRequestClose, visible, profileImage }) => {
   };
 
   const toggleCategory = (label, onChange) => {
+    const activeCount = allCategories.filter(
+      (category) => category.active,
+    ).length;
+
+    if (
+      !allCategories.find((category) => category.label === label).active &&
+      activeCount >= 3
+    ) {
+      alert("Solo puedes seleccionar hasta 3 categorías.");
+      return;
+    }
+
     setAllCategories((prevCategories) =>
       prevCategories.map((category) =>
         category.label === label
@@ -126,7 +138,10 @@ export const EditProfile = ({ onRequestClose, visible, profileImage }) => {
     );
 
     const updatedSkills = allCategories
-      .filter((category) => category.active || category.label === label)
+      .filter(
+        (category) =>
+          category.active || (category.label === label && activeCount < 3),
+      )
       .map((category) => category.label);
 
     onChange(updatedSkills);
