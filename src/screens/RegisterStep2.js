@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import {
   Text,
@@ -25,11 +25,12 @@ import apiClient from "../api/apiClient";
 
 export default function RegisterStep2({ navigation }) {
   const { isSmallScreen, isBigScreen } = getScreenSize();
-
+  const { userData, setUserData } = useUser();
+  const userId = userData._id;
+  const [fetchedImageUri, setFetchedImageUri] = useState(null);
+  const [imageUri, setImageUri] = useState(null);
   const [visible, setVisible] = useState(false);
   const opacity = useRef(new Animated.Value(0)).current;
-
-  const { userData, setUserData } = useUser();
 
   const { control, handleSubmit, setValue, watch } = useForm({
     defaultValues: {
@@ -39,13 +40,29 @@ export default function RegisterStep2({ navigation }) {
 
   const imageValue = watch("profilePicture");
 
-  const onSubmit = async (data) => {
-    const userId = userData._id;
+  const fetchProfileImage = async (userId) => {
+    try {
+      const response = await apiClient.get(
+        `/upload-service/profile-imageByUser/${userId}`,
+        { responseType: "blob" },
+      );
+      const imageUrl = URL.createObjectURL(response.data);
+      setImageUri(imageUrl);
+      setFetchedImageUri(imageUrl);
+    } catch (error) {
+      // console.error("Error fetching profile image:", error.message);
+      setImageUri(null);
+    }
+  };
 
+  useEffect(() => {
+    fetchProfileImage(userId);
+  }, []);
+
+  const onSubmit = async (data) => {
     const imageUri = data.profilePicture;
 
     const fileType = imageUri.endsWith(".png") ? "image/png" : "image/jpeg";
-
     const formData = new FormData();
     formData.append("id_user", userId);
     formData.append("image_profile", {
@@ -59,14 +76,30 @@ export default function RegisterStep2({ navigation }) {
       profilePicture: imageUri,
     });
 
-    try {
-      await apiClient.post("/upload-service/upload-profileImage", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
-      navigation.navigate("RegisterStep3");
-    } catch (error) {
-      console.error(error.message);
-      alert("Se ha producido un error, intenta de nuevo.");
+    if (fetchedImageUri === null) {
+      try {
+        await apiClient.post("/upload-service/upload-profileImage", formData, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
+        navigation.navigate("RegisterStep3");
+      } catch (error) {
+        console.error(error.message);
+        alert("Se ha producido un error, intenta de nuevo.");
+      }
+    } else {
+      try {
+        await apiClient.patch(
+          `/upload-service/profile-image-user/${userId}`,
+          formData,
+          {
+            headers: { "Content-Type": "multipart/form-data" },
+          },
+        );
+        navigation.navigate("RegisterStep3");
+      } catch (error) {
+        console.error(error.message);
+        alert("Se ha producido un error, intenta de nuevo.");
+      }
     }
   };
 
@@ -197,6 +230,20 @@ export default function RegisterStep2({ navigation }) {
                               <Feather name="check" size={14} color="white" />
                             </View>
                           </>
+                        ) : fetchedImageUri ? (
+                          <>
+                            <Image
+                              source={{ uri: fetchedImageUri }}
+                              style={{
+                                width: isSmallScreen ? 100 : 120,
+                                height: isSmallScreen ? 100 : 120,
+                                borderRadius: isSmallScreen ? 50 : 60,
+                              }}
+                            />
+                            <View className="absolute right-1 top-1 bg-primarios-violeta-100 h-[22px] w-[22px] rounded-full border-[1px] border-white justify-center items-center">
+                              <Feather name="check" size={14} color="white" />
+                            </View>
+                          </>
                         ) : (
                           <UserCircle />
                         )}
@@ -249,7 +296,7 @@ export default function RegisterStep2({ navigation }) {
               onPress={handleSubmit(onSubmit)}
               variant="white"
               width="content"
-              disabled={!imageValue}
+              disabled={!fetchedImageUri && !imageValue}
             />
           </View>
         </View>
