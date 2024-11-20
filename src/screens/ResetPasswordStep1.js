@@ -14,7 +14,6 @@ import apiClient from "../api/apiClient";
 
 export default function ResetPasswordStep1({ navigation }) {
   const { isSmallScreen } = getScreenSize();
-
   const [isEmailFocused, setIsEmailFocused] = useState(false);
 
   const {

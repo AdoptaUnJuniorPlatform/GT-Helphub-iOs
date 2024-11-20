@@ -7,7 +7,6 @@ const { height: screenHeight } = Dimensions.get("window");
 
 export const RatingCard = ({ onPress }) => {
   const { isSmallScreen } = getScreenSize();
-
   const [scrollY, setScrollY] = useState(0);
   const scrollViewRef = useRef(null);
 
@@ -35,7 +34,6 @@ export const RatingCard = ({ onPress }) => {
         ${isSmallScreen ? "mb-2" : "mb-4"}
         `}
       >
-        {/* Scroll Text */}
         <ScrollView
           ref={scrollViewRef}
           onScroll={handleScroll}

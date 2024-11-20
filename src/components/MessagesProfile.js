@@ -7,7 +7,7 @@ import { CustomRating } from "../components/CustomRating";
 import { getScreenSize } from "../utils/screenSize";
 import apiClient from "../api/apiClient";
 import Feather from "@expo/vector-icons/Feather";
-import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
+// import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 
 export const MessagesProfile = ({
   onRequestClose,
@@ -122,7 +122,9 @@ export const MessagesProfile = ({
 
   const goToMessagesFlow = () => {
     onRequestClose();
-    navigation.navigate("MessagesFlow", { screen: "MessagesStep1" });
+    navigation.navigate("MessagesFlow", {
+      screen: "MessagesStep1",
+    });
   };
 
   return (
@@ -198,8 +200,9 @@ export const MessagesProfile = ({
               </View>
             </View>
 
+            {/* TODO: API endpoints revision is necessary */}
             {/* Intercambiar... */}
-            <View className="items-start justify-between mx-8">
+            {/* <View className="items-start justify-between mx-8">
               <Text
                 className={`
                   font-roboto-medium text-sm text-neutros-negro 
@@ -227,7 +230,7 @@ export const MessagesProfile = ({
                   </Text>
                 </View>
               </View>
-            </View>
+            </View> */}
 
             {/* Habilidad... */}
             <View
@@ -316,9 +319,8 @@ export const MessagesProfile = ({
               </Text>
               <View className="flex-row gap-2">
                 {activeAbilities.map((ability) => (
-                  <View>
+                  <View key={ability.description}>
                     <CustomChip
-                      key={ability.description}
                       label={ability.category}
                       status={"inactive"}
                       showBorder

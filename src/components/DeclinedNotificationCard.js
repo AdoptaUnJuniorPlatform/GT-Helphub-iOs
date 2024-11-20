@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { View, Text, Image, TouchableOpacity } from "react-native";
+import { fetchProfileImage } from "../api/apiCalls";
 import apiClient from "../api/apiClient";
 
 export const DeclinedNotificationCard = ({ senderId, onProfilePress }) => {
@@ -16,31 +17,21 @@ export const DeclinedNotificationCard = ({ senderId, onProfilePress }) => {
     }
   };
 
-  const fetchImage = async (senderId) => {
-    try {
-      const response = await apiClient.get(
-        `/upload-service/profile-imageByUser/${senderId}`,
-        { responseType: "blob" },
-      );
-      const imageUrl = URL.createObjectURL(response.data);
-      setSenderImage(imageUrl);
-    } catch (error) {
-      if (error.response) {
-        console.error(error.response.data.message);
-        alert("Se ha producido un error, intenta de nuevo.");
-      } else {
-        console.error(error.message);
-        alert("Se ha producido un error, intenta de nuevo.");
-      }
-    }
-  };
-
   useEffect(() => {
     fetchUser(senderId);
   }, []);
 
   useEffect(() => {
-    fetchImage(senderId);
+    const fetchImage = async () => {
+      try {
+        const imageUrl = await fetchProfileImage(senderId);
+        setSenderImage(imageUrl);
+      } catch (error) {
+        console.error("Error fetching profile image:", error);
+      }
+    };
+
+    fetchImage();
   }, []);
 
   return (

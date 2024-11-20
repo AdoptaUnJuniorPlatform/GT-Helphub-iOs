@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { View, Text, Image, TouchableOpacity } from "react-native";
+import { fetchProfileImage } from "../api/apiCalls";
 import apiClient from "../api/apiClient";
 
 export const MessageCard = ({ senderId, onPress }) => {
@@ -16,31 +17,21 @@ export const MessageCard = ({ senderId, onPress }) => {
     }
   };
 
-  const fetchImage = async (senderId) => {
-    try {
-      const response = await apiClient.get(
-        `/upload-service/profile-imageByUser/${senderId}`,
-        { responseType: "blob" },
-      );
-      const imageUrl = URL.createObjectURL(response.data);
-      setSenderImage(imageUrl);
-    } catch (error) {
-      if (error.response) {
-        console.error(error.response.data.message);
-        alert("Se ha producido un error, intenta de nuevo.");
-      } else {
-        console.error(error.message);
-        alert("Se ha producido un error, intenta de nuevo.");
-      }
-    }
-  };
-
   useEffect(() => {
     fetchUser(senderId);
   }, []);
 
   useEffect(() => {
-    fetchImage(senderId);
+    const fetchImage = async () => {
+      try {
+        const imageUrl = await fetchProfileImage(senderId);
+        setSenderImage(imageUrl);
+      } catch (error) {
+        console.error("Error fetching profile image:", error);
+      }
+    };
+
+    fetchImage();
   }, []);
 
   return (
@@ -71,6 +62,8 @@ export const MessageCard = ({ senderId, onPress }) => {
           <Text className="text-[15px] font-roboto-regular text-neutros-negro-80 w-full"></Text>
         </View>
       </View>
+
+      {/* TODO: Will be implemented later */}
       {/* {pending > 0 && (
         <View className="bg-primarios-violeta-100 rounded-[20px] w-[35px] h-[23px] items-center justify-center">
           <Text className="text-white text-[14px] font-roboto-medium">

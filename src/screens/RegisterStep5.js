@@ -14,9 +14,7 @@ import apiClient from "../api/apiClient";
 
 export default function RegisterStep5({ navigation }) {
   const { isSmallScreen, isBigScreen } = getScreenSize();
-
   const { profileData, setProfileData } = useProfile();
-
   const [allCategories, setAllCategories] = useState([
     { label: "Animales", active: false },
     { label: "Ayuda", active: false },
@@ -200,7 +198,6 @@ export default function RegisterStep5({ navigation }) {
           </View>
         </ScrollView>
 
-        {/* Navigation Button Set */}
         <View
           className={`
             ${isSmallScreen ? "pb-2" : ""} 

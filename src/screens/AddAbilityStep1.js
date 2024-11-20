@@ -9,11 +9,8 @@ import AntDesign from "@expo/vector-icons/AntDesign";
 
 const AddAbilityStep1 = ({ onRequestClose, visible, route, navigation }) => {
   const { isSmallScreen, isBigScreen } = getScreenSize();
-
   const { setAbilityData } = useAbility();
-
   const { abilitiesCount } = route.params;
-
   const [isDialogVisible, setDialogVisible] = useState(false);
 
   const {

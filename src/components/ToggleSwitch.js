@@ -30,14 +30,12 @@ export const ToggleSwitch = ({ isEnabled, onToggle }) => {
       className="w-[40px] h-[20px] rounded-full"
       activeOpacity={0.8}
     >
-      {/* Animated Track */}
       <Animated.View
         style={{
           backgroundColor: backgroundColor,
         }}
         className="w-[40px] h-[20px] rounded-full flex-row items-center p-1"
       >
-        {/* Toggle Ball */}
         <Animated.View
           style={{
             transform: [{ translateX: translateX }],

@@ -19,13 +19,10 @@ import apiClient from "../api/apiClient";
 
 export default function EmailVerificationScreen() {
   const { isSmallScreen, isBigScreen } = getScreenSize();
-
   const [isTwoFaFocused, setIsTwoFaFocused] = useState(false);
   const [isPopUpVisible, setPopUpVisible] = useState(false);
   const [isResending, setIsResending] = useState(false);
-
   const [generatedCode, setGeneratedCode] = useState(null);
-
   const navigation = useNavigation();
   const route = useRoute();
 

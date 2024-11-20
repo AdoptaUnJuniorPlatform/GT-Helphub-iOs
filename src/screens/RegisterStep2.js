@@ -232,7 +232,6 @@ export default function RegisterStep2({ navigation }) {
             </View>
           </View>
 
-          {/* Navigation Button Set */}
           <View
             className={`
               flex-row items-center justify-between 

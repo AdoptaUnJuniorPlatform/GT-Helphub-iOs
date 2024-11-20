@@ -10,11 +10,9 @@ import apiClient from "../api/apiClient";
 
 export const RegisterForm = ({ navigation }) => {
   const { isSmallScreen, isBigScreen } = getScreenSize();
-
   const countryCode = "🇪🇸  +34";
   const [acceptTermsAndConditions, setAcceptTermsAndConditions] =
     useState(false);
-
   const [isNameUserFocused, setIsNameUserFocused] = useState(false);
   const [isSurnameUserFocused, setIsSurnameUserFocused] = useState(false);
   const [isSurnameTwoFocused, setIsSurnameTwoFocused] = useState(false);

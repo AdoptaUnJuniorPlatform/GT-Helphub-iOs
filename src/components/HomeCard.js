@@ -11,19 +11,14 @@ import apiClient from "../api/apiClient";
 
 export const HomeCard = ({ onPress, data }) => {
   const { isSmallScreen, isBigScreen } = getScreenSize();
-
   const { profileData } = useProfile();
-
   const userId = data?.user_id;
-
   const [profileImage, setProfileImage] = useState(null);
-
   const [user, setUser] = useState({ nameUser: "", surnameUser: "" });
   const [profile, setProfile] = useState({
     profilePicture: null,
     preferredTimeRange: "",
   });
-
   const [isRequestSent, setIsRequestSent] = useState(false);
 
   const fetchUser = async (userId) => {

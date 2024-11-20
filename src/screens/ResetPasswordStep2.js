@@ -15,12 +15,10 @@ import AntDesign from "@expo/vector-icons/AntDesign";
 
 export default function ResetPasswordStep1() {
   const { isSmallScreen } = getScreenSize();
-
   const [isTwoFaFocused, setIsTwoFaFocused] = useState(false);
   const [isNewPasswordFocused, setIsNewPasswordFocused] = useState(false);
   const [isConfirmPasswordFocused, setIsConfirmPasswordFocused] =
     useState(false);
-
   const navigation = useNavigation();
   const route = useRoute();
 

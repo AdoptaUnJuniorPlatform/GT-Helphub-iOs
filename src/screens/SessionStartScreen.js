@@ -15,11 +15,8 @@ import Feather from "@expo/vector-icons/Feather";
 
 export default function LoginScreen({ navigation }) {
   const { isSmallScreen } = getScreenSize();
-
   const { setUserData } = useUser();
-
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-
   const [isEmailFocused, setIsEmailFocused] = useState(false);
   const [isPasswordFocused, setIsPasswordFocused] = useState(false);
 

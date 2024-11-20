@@ -27,7 +27,6 @@ import apiClient from "../api/apiClient";
 
 export const EditProfile = ({ onRequestClose, visible, profileImage }) => {
   const { isSmallScreen, isBigScreen } = getScreenSize();
-
   const { profileData, setProfileData } = useProfile();
   const { userData } = useUser();
 
@@ -288,7 +287,6 @@ export const EditProfile = ({ onRequestClose, visible, profileImage }) => {
                     value={value}
                     onChange={onChange}
                     onBlur={onBlur}
-                    // placeholder="Soy una joven estudiante de enfermería, tengo 22 años vivo en Madrid con unas amigas. Soy una apasionada por la música, y que desea aprender a tocar el piano."
                     multiline={true}
                     numberOfLines={7}
                     maxLength={160}
