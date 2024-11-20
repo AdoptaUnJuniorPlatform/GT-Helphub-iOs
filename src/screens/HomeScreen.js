@@ -158,15 +158,15 @@ export default function HomeScreen({ navigation }) {
     searchByTitleQuery();
   }, [searchQuery]);
 
+  useEffect(() => {
+    fetchUser(emailUser);
+  }, [emailUser]);
+
   useFocusEffect(
     useCallback(() => {
       fetchCategories();
     }, []),
   );
-
-  useEffect(() => {
-    fetchUser(emailUser);
-  }, [emailUser]);
 
   const toggleFilter = () => {
     setFilterVisible(!isFilterVisible);
@@ -267,13 +267,15 @@ export default function HomeScreen({ navigation }) {
                   </Text>
                   <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                     <View className="flex-row">
-                      {categoryData.items.map((item) => (
-                        <HomeCard
-                          key={item.description}
-                          data={item}
-                          onPress={() => handleCardPress(item)}
-                        />
-                      ))}
+                      {categoryData.items
+                        .filter((item) => item.user_id !== userData?._id)
+                        .map((item) => (
+                          <HomeCard
+                            key={item.description}
+                            data={item}
+                            onPress={() => handleCardPress(item)}
+                          />
+                        ))}
                     </View>
                   </ScrollView>
                 </View>
