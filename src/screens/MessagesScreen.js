@@ -53,8 +53,8 @@ const MessagesScreen = ({ navigation }) => {
       const response = await apiClient.get(
         `/exchange/find-all-acepted/${user_id}`,
       );
-      console.log("ACCEPTED DATA", response.data);
       setMessages(response.data);
+      console.log("MESSAGES", response.data);
     } catch (error) {
       if (error.response) {
         // console.error(error.response.data.message);
@@ -151,10 +151,18 @@ const MessagesScreen = ({ navigation }) => {
               {messages.map((message, _id) => (
                 <MessageCard
                   key={_id}
-                  senderId={message.transmitter}
+                  senderId={
+                    message.transmitter === user_id
+                      ? message.reciever
+                      : message.transmitter
+                  }
                   onPress={() =>
                     navigation.navigate("MessagesFlow", {
                       screen: "MessagesStep1",
+                      params: {
+                        transmitter: message.transmitter,
+                        receiver: message.reciever,
+                      },
                     })
                   }
                 />

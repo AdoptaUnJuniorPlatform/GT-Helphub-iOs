@@ -20,9 +20,7 @@ import Feather from "@expo/vector-icons/Feather";
 
 export default function RegisterStep4_1({ navigation }) {
   const { isSmallScreen, isBigScreen } = getScreenSize();
-
   const { setAbilityData } = useAbility();
-
   const [isDialogVisible, setDialogVisible] = useState(false);
 
   const {
@@ -325,7 +323,6 @@ export default function RegisterStep4_1({ navigation }) {
           </View>
         </ScrollView>
 
-        {/* Navigation Button Set */}
         <View
           className={` 
             ${isSmallScreen ? "pb-2" : ""} 

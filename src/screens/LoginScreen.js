@@ -16,12 +16,9 @@ import { useProfile } from "../profile/ProfileContext";
 
 export default function LoginScreen({ navigation }) {
   const { isSmallScreen, isBigScreen } = getScreenSize();
-
   const { setUserData } = useUser();
   const { setProfileData } = useProfile();
-
   const scrollX = useRef(new Animated.Value(0)).current;
-
   const CARD_WIDTH = 280;
 
   useEffect(() => {

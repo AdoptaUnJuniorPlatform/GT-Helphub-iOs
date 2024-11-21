@@ -7,14 +7,13 @@ import { CustomRating } from "../components/CustomRating";
 import { getScreenSize } from "../utils/screenSize";
 import apiClient from "../api/apiClient";
 import Feather from "@expo/vector-icons/Feather";
-import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
+// import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 
 export const MessagesProfile = ({
   onRequestClose,
   visible,
   navigation,
   requestData,
-  requests,
   setRequests,
 }) => {
   const { isSmallScreen, isBigScreen } = getScreenSize();
@@ -120,9 +119,13 @@ export const MessagesProfile = ({
     }
   };
 
+  // TODO: Navigation revision necessary for the next version
   const goToMessagesFlow = () => {
     onRequestClose();
-    navigation.navigate("MessagesFlow", { screen: "MessagesStep1" });
+    // navigation.navigate("MessagesFlow", {
+    //   screen: "MessagesStep1",
+    // });
+    // navigation.navigate("Mensajes");
   };
 
   return (
@@ -198,8 +201,9 @@ export const MessagesProfile = ({
               </View>
             </View>
 
+            {/* TODO: API endpoints revision is necessary */}
             {/* Intercambiar... */}
-            <View className="items-start justify-between mx-8">
+            {/* <View className="items-start justify-between mx-8">
               <Text
                 className={`
                   font-roboto-medium text-sm text-neutros-negro 
@@ -227,7 +231,7 @@ export const MessagesProfile = ({
                   </Text>
                 </View>
               </View>
-            </View>
+            </View> */}
 
             {/* Habilidad... */}
             <View
@@ -245,9 +249,9 @@ export const MessagesProfile = ({
                 Habilidad intercambiada
               </Text>
 
-              {activeAbilities.map((ability, _id) => (
+              {activeAbilities.map((ability) => (
                 <View
-                  key={_id}
+                  key={ability.description}
                   className={`
                                   rounded-[10px] pl-[11px] pr-[45px] py-3 
                                   ${isSmallScreen ? "mb-2" : "mb-4"}
@@ -315,10 +319,9 @@ export const MessagesProfile = ({
                 Habilidades activas
               </Text>
               <View className="flex-row gap-2">
-                {activeAbilities.map((ability, _id) => (
-                  <View>
+                {activeAbilities.map((ability) => (
+                  <View key={ability.description}>
                     <CustomChip
-                      key={_id}
                       label={ability.category}
                       status={"inactive"}
                       showBorder

@@ -16,6 +16,7 @@ import {
   CustomDropdown,
   CustomButton,
   ProfileCard,
+  CreateProfileWarning,
 } from "../components";
 import { categories } from "../data/data";
 import { getScreenSize } from "../utils/screenSize";
@@ -29,6 +30,9 @@ export default function HomeScreen({ navigation }) {
   const { isSmallScreen, isBigScreen } = getScreenSize();
 
   const { userData, setUserData } = useUser();
+  const user_id = userData?._id;
+  const [isCreateProfileWarningVisible, setCreateProfileWarningVisible] =
+    useState(false);
 
   const [isFilterVisible, setFilterVisible] = useState(false);
   const [isCardVisible, setCardVisible] = useState(false);
@@ -40,6 +44,7 @@ export default function HomeScreen({ navigation }) {
   const [filterCategory, setFilterCategory] = useState([]);
   const [filterPostalCode, setFilterPostalCode] = useState("");
   const [filterMode, setFilterMode] = useState("Todos");
+  const [searchQuery, setSearchQuery] = useState("");
 
   const emailUser = userData?.email;
 
@@ -49,6 +54,31 @@ export default function HomeScreen({ navigation }) {
       console.log("Data cleared and logged out.");
     } catch (error) {
       console.error("Error clearing data during logout:", error);
+    }
+  };
+
+  const toggleCreateProfileWarning = () => {
+    setCreateProfileWarningVisible((prev) => !prev);
+  };
+
+  const fetchProfile = async () => {
+    try {
+      const response = await apiClient.get("/profile");
+      if (response.status === 200) {
+        setCreateProfileWarningVisible(false);
+      }
+    } catch (error) {
+      if (error.response) {
+        if (error.response.status === 404) {
+          toggleCreateProfileWarning();
+        } else {
+          // console.error(error.response.data.message);
+          // alert("Se ha producido un error, intenta de nuevo.");
+        }
+      } else {
+        // console.error(error.message);
+        // alert("Se ha producido un error, intenta de nuevo.");
+      }
     }
   };
 
@@ -134,15 +164,42 @@ export default function HomeScreen({ navigation }) {
     toggleFilter();
   };
 
+  const searchByTitleQuery = () => {
+    if (!searchQuery.trim()) {
+      setFilteredCategoriesData(categoriesData);
+      return;
+    }
+
+    const filteredData = categoriesData.map((categoryData) => {
+      const filteredItems = categoryData.items.filter((item) =>
+        item.title.toLowerCase().includes(searchQuery.toLowerCase()),
+      );
+
+      return { ...categoryData, items: filteredItems };
+    });
+
+    setFilteredCategoriesData(
+      filteredData.filter((cat) => cat.items.length > 0),
+    );
+  };
+
+  useEffect(() => {
+    fetchUser(emailUser);
+  }, [emailUser]);
+
+  useEffect(() => {
+    if (user_id) fetchProfile();
+  }, [user_id]);
+
+  useEffect(() => {
+    searchByTitleQuery();
+  }, [searchQuery]);
+
   useFocusEffect(
     useCallback(() => {
       fetchCategories();
     }, []),
   );
-
-  useEffect(() => {
-    fetchUser(emailUser);
-  }, [emailUser]);
 
   const toggleFilter = () => {
     setFilterVisible(!isFilterVisible);
@@ -188,9 +245,11 @@ export default function HomeScreen({ navigation }) {
                   placeholder="¿Qué estás buscando?"
                   className="flex-1 h-full mr-4 mb-1 text-base font-roboto-regular text-neutros-negro"
                   placeholderTextColor="rgba(113, 102, 210, 0.5)"
+                  value={searchQuery}
+                  onChangeText={setSearchQuery}
                 />
               </View>
-              <TouchableOpacity onPress={() => console.log("search")}>
+              <TouchableOpacity onPress={searchByTitleQuery}>
                 <Entypo name="magnifying-glass" size={22} color="#434242" />
               </TouchableOpacity>
             </View>
@@ -241,19 +300,28 @@ export default function HomeScreen({ navigation }) {
                   </Text>
                   <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                     <View className="flex-row">
-                      {categoryData.items.map((item, cardIndex) => (
-                        <HomeCard
-                          key={cardIndex}
-                          data={item}
-                          onPress={() => handleCardPress(item)}
-                        />
-                      ))}
+                      {categoryData.items
+                        .filter((item) => item.user_id !== userData?._id)
+                        .map((item) => (
+                          <HomeCard
+                            key={item.description}
+                            data={item}
+                            onPress={() => handleCardPress(item)}
+                          />
+                        ))}
                     </View>
                   </ScrollView>
                 </View>
               ))}
           </View>
         </View>
+
+        {isCreateProfileWarningVisible && (
+          <CreateProfileWarning
+            isVisible={isCreateProfileWarningVisible}
+            onClose={() => navigation.navigate("CreateProfileFlow")}
+          />
+        )}
 
         {isCardVisible && selectedItem && (
           <ProfileCard

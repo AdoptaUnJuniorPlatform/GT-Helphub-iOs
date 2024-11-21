@@ -10,9 +10,7 @@ import apiClient from "../api/apiClient";
 
 const AddAbilityStep2 = ({ onRequestClose, visible, navigation }) => {
   const { isSmallScreen, isBigScreen } = getScreenSize();
-
   const { abilityData, setAbilityData } = useAbility();
-
   const [isDialogVisible, setDialogVisible] = useState(false);
 
   const {

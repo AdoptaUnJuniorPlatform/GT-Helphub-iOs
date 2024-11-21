@@ -12,9 +12,7 @@ import apiClient from "../api/apiClient";
 
 export const EditAbility = ({ onRequestClose, visible, ability }) => {
   const { isSmallScreen, isBigScreen } = getScreenSize();
-
   const { setAbilityData } = useAbility();
-
   const { control, handleSubmit } = useForm({
     defaultValues: {
       title: ability.title || "",
@@ -280,7 +278,6 @@ export const EditAbility = ({ onRequestClose, visible, ability }) => {
                     value={value}
                     onChange={onChange}
                     onBlur={onBlur}
-                    // placeholder="Ej: Clases de pintura al óleo desde cero. Nivel inicial y avanzado."
                     multiline={true}
                     numberOfLines={7}
                     maxLength={160}

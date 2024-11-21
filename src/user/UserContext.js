@@ -14,7 +14,7 @@ export const UserProvider = ({ children }) => {
         const storedUserData = await AsyncStorage.getItem(USER_STORAGE_KEY);
         if (storedUserData) {
           const parsedData = JSON.parse(storedUserData);
-          console.log("Loaded user data from AsyncStorage:", parsedData);
+          // console.log("Loaded user data from AsyncStorage:", parsedData);
           setUserData(parsedData);
         } else {
           console.log("No user data found in AsyncStorage.");
@@ -31,7 +31,7 @@ export const UserProvider = ({ children }) => {
     const saveUserData = async () => {
       if (userData) {
         try {
-          console.log("Saving user data to AsyncStorage:", userData);
+          // console.log("Saving user data to AsyncStorage:", userData);
           await AsyncStorage.setItem(
             USER_STORAGE_KEY,
             JSON.stringify(userData),

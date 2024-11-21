@@ -16,7 +16,6 @@ import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 
 export const RatingsDialog = ({ isDialogVisible, toggleDialog }) => {
   const { isSmallScreen } = getScreenSize();
-
   const [description, setDescription] = useState("");
   const [rating, setRating] = useState(0);
 
@@ -180,6 +179,7 @@ a Evangelina."
             />
           </View>
 
+          {/* TODO: Next version addition */}
           <View className="flex-row justify-end">
             {/* <View className="mr-2">
               <TouchableOpacity

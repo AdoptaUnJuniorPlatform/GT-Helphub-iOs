@@ -13,7 +13,6 @@ import { getScreenSize } from "../utils/screenSize";
 
 export default function RegisterStep1({ navigation }) {
   const { isSmallScreen, isBigScreen } = getScreenSize();
-
   const { setProfileData } = useProfile();
 
   const {
@@ -198,7 +197,6 @@ export default function RegisterStep1({ navigation }) {
           </View>
         </ScrollView>
 
-        {/* Navigation Button Set */}
         <View
           className={`
             bg-neutros-gris-fondo absolute bottom-0 left-0 right-0 px-4 pt-2 flex-row items-center justify-between 

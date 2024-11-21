@@ -18,7 +18,6 @@ export const AbilityCard = ({ onDelete, onEdit, ability }) => {
         shadowColor: "#000000",
       }}
     >
-      {/* Header */}
       <View className="mt-2 px-2">
         <Text
           className={`
@@ -133,7 +132,6 @@ export const AbilityCard = ({ onDelete, onEdit, ability }) => {
           {/* Separator */}
           <View className="my-2 border-b-[0.5px] border-b-neutral-color-blue-gray-50"></View>
 
-          {/* Button Set */}
           <View className="flex-row justify-start px-4">
             <TouchableOpacity
               onPress={onDelete}

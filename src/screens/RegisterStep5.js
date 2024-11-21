@@ -14,9 +14,7 @@ import apiClient from "../api/apiClient";
 
 export default function RegisterStep5({ navigation }) {
   const { isSmallScreen, isBigScreen } = getScreenSize();
-
   const { profileData, setProfileData } = useProfile();
-
   const [allCategories, setAllCategories] = useState([
     { label: "Animales", active: false },
     { label: "Ayuda", active: false },
@@ -80,32 +78,31 @@ export default function RegisterStep5({ navigation }) {
   };
 
   const toggleCategory = (label, onChange) => {
-    setAllCategories((prevCategories) => {
-      const activeCategories = prevCategories.filter(
-        (category) => category.active,
-      );
+    const activeCategories = allCategories.filter(
+      (category) => category.active,
+    );
 
-      if (
-        activeCategories.length >= 3 &&
-        !prevCategories.find((category) => category.label === label).active
-      ) {
-        return prevCategories;
-      }
+    if (
+      activeCategories.length >= 3 &&
+      !allCategories.find((category) => category.label === label).active
+    ) {
+      alert("Solo puedes seleccionar hasta 3 categorías.");
+      return;
+    }
 
-      const updatedCategories = prevCategories.map((category) =>
-        category.label === label
-          ? { ...category, active: !category.active }
-          : category,
-      );
+    const updatedCategories = allCategories.map((category) =>
+      category.label === label
+        ? { ...category, active: !category.active }
+        : category,
+    );
 
-      onChange(
-        updatedCategories
-          .filter((category) => category.active)
-          .map((cat) => cat.label),
-      );
+    setAllCategories(updatedCategories);
 
-      return updatedCategories;
-    });
+    const activeLabels = updatedCategories
+      .filter((category) => category.active)
+      .map((cat) => cat.label);
+
+    onChange(activeLabels);
   };
 
   return (
@@ -149,12 +146,7 @@ export default function RegisterStep5({ navigation }) {
                 <Text
                   className={`
                     text-neutros-negro font-roboto-medium 
-                    ${isBigScreen
-                      ? "text-[21px]"
-                      : isSmallScreen
-                        ? "text-lg"
-                        : "text-xl"
-                    }
+                    ${isBigScreen ? "text-[21px]" : isSmallScreen ? "text-lg" : "text-xl"}
                     `}
                 >
                   Seleccionar categorías
@@ -201,7 +193,6 @@ export default function RegisterStep5({ navigation }) {
           </View>
         </ScrollView>
 
-        {/* Navigation Button Set */}
         <View
           className={`
             ${isSmallScreen ? "pb-2" : ""} 

@@ -25,7 +25,6 @@ export const HeroCard = ({
         shadowColor: "#000000",
       }}
     >
-      {/* Header */}
       <View className="w-full flex-row items-center gap-4 mx-2">
         <View className="w-[40px] h-[40px] rounded-full">
           <Image
@@ -53,7 +52,6 @@ export const HeroCard = ({
         </View>
       </View>
 
-      {/* Ability */}
       <View
         className={`
           ${isBigScreen ? "mt-10" : isSmallScreen ? "mt-4" : "mt-8"} 
@@ -65,7 +63,6 @@ export const HeroCard = ({
         </Text>
       </View>
 
-      {/* Mode */}
       <View
         className={`
           ${isBigScreen ? "mt-5" : isSmallScreen ? "mt-3" : "mt-4"}
@@ -77,7 +74,6 @@ export const HeroCard = ({
         </Text>
       </View>
 
-      {/* Availability */}
       <View
         className={`
           flex-row items-center justify-between mx-4
@@ -99,17 +95,14 @@ export const HeroCard = ({
         </View>
       </View>
 
-      {/* Descripción */}
       <ScrollView className="overflow-hidden px-3 my-2 mr-2 max-h-[53px]">
         <Text className="w-full text-wrap my-2 text-neutros-negro-80 text-sm font-roboto-regular">
           {description}
         </Text>
       </ScrollView>
 
-      {/* Separator */}
       <View className="border-b-[1px] border-b-neutral-color-blue-gray-50 mb-4"></View>
 
-      {/* Categories */}
       <View className="flex-row gap-2 mx-2">
         <View>
           <CustomChip label={category} status={"inactive"} showBorder />

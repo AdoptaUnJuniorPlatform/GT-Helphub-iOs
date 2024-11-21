@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { useFocusEffect } from "@react-navigation/native";
 import {
   Text,
@@ -7,8 +7,6 @@ import {
   Image,
   TouchableOpacity,
   ScrollView,
-  Animated,
-  Easing,
 } from "react-native";
 import {
   CustomButton,
@@ -19,7 +17,7 @@ import {
   Calendar,
   CustomRating,
   EditIcon,
-  WarningIcon,
+  CreateProfileWarning,
 } from "../components";
 import { useProfile } from "../profile/ProfileContext";
 import { useUser } from "../user/UserContext";
@@ -45,8 +43,6 @@ export default function ProfileScreen({ navigation }) {
     useState(false);
   const [selectedAbility, setSelectedAbility] = useState(null);
 
-  const opacity = useRef(new Animated.Value(0)).current;
-
   const toggleEditAbility = (ability) => {
     setSelectedAbility(ability);
     setEditAbilityVisible(!isEditAbilityVisible);
@@ -57,22 +53,7 @@ export default function ProfileScreen({ navigation }) {
   };
 
   const toggleCreateProfileWarning = () => {
-    if (isCreateProfileWarningVisible) {
-      Animated.timing(opacity, {
-        toValue: 0,
-        duration: 300,
-        easing: Easing.out(Easing.ease),
-        useNativeDriver: true,
-      }).start(() => setCreateProfileWarningVisible(false));
-    } else {
-      setCreateProfileWarningVisible(true);
-      Animated.timing(opacity, {
-        toValue: 1,
-        duration: 300,
-        easing: Easing.out(Easing.ease),
-        useNativeDriver: true,
-      }).start();
-    }
+    setCreateProfileWarningVisible(!isCreateProfileWarningVisible);
   };
 
   const fetchProfile = async () => {
@@ -326,19 +307,13 @@ export default function ProfileScreen({ navigation }) {
               onPress={() => setSelected("Habilidades")}
               className={`
                 rounded-l-md h-full px-2 items-center justify-center border-[1px] 
-                ${selected === "Habilidades"
-                  ? "border-primarios-violeta-100 bg-primarios-violeta-20"
-                  : "border-neutros-negro-50 bg-white"
-                }
+                ${selected === "Habilidades" ? "border-primarios-violeta-100 bg-primarios-violeta-20" : "border-neutros-negro-50 bg-white"}
                 `}
             >
               <Text
                 className={`
                   uppercase text-[10px] 
-                  ${selected === "Habilidades"
-                    ? "text-primarios-violeta-100 font-roboto-medium"
-                    : "text-neutros-negro-80 font-roboto-regular"
-                  }
+                  ${selected === "Habilidades" ? "text-primarios-violeta-100 font-roboto-medium" : "text-neutros-negro-80 font-roboto-regular"}
                   `}
               >
                 Habilidades
@@ -349,19 +324,13 @@ export default function ProfileScreen({ navigation }) {
               onPress={() => setSelected("Valoraciones")}
               className={`
                 rounded-r-md h-full items-center justify-center px-2 border-[1px] 
-                ${selected === "Valoraciones"
-                  ? "border-primarios-violeta-100 bg-primarios-violeta-20"
-                  : "border-neutros-negro-50 border-l-white bg-white"
-                }
+                ${selected === "Valoraciones" ? "border-primarios-violeta-100 bg-primarios-violeta-20" : "border-neutros-negro-50 border-l-white bg-white"}
                 `}
             >
               <Text
                 className={`
                   uppercase font-roboto-regular text-[10px] 
-                  ${selected === "Valoraciones"
-                    ? "text-primarios-violeta-100 font-roboto-medium"
-                    : "text-neutros-negro-80 font-roboto-regular"
-                  }
+                  ${selected === "Valoraciones" ? "text-primarios-violeta-100 font-roboto-medium" : "text-neutros-negro-80 font-roboto-regular"}
                   `}
               >
                 Valoraciones
@@ -478,64 +447,10 @@ export default function ProfileScreen({ navigation }) {
       </View>
 
       {isCreateProfileWarningVisible && (
-        <Animated.View
-          style={{
-            opacity: opacity,
-            backgroundColor: "rgba(144, 145, 146, 0.6)",
-          }}
-          className="absolute w-full h-screen flex-1 justify-center px-4"
-        >
-          <View
-            className="bg-white p-[24px] rounded-[8px]"
-            style={{
-              shadowColor: "#212121",
-              shadowOffset: { width: 0, height: 3 },
-              shadowOpacity: 0.4,
-              shadowRadius: 4,
-            }}
-          >
-            <View className="mb-[24px]">
-              <View className="flex-row justify-center">
-                <WarningIcon />
-              </View>
-
-              <Text className="my-2 text-primarios-violeta-100 font-roboto-bold text-2xl text-center">
-                Personaliza tu Experiencia
-              </Text>
-              <Text className="mb-2 text-primarios-violeta-80 font-roboto-medium text-base text-center">
-                Cuéntanos de ti y activa tu primera habilidad.
-              </Text>
-              <View className="mb-2 py-[11px] px-6 rounded-lg bg-neutros-beige-fondo w-full">
-                <Text
-                  className={`
-                    text-neutros-negro-80 font-roboto-regular text-sm 
-                    ${isSmallScreen ? "w-[90%]" : ""}
-                    `}
-                >
-                  Completa los detalles y recibe recomendaciones personalizadas.
-                </Text>
-              </View>
-              <View className="py-[11px] px-6 rounded-lg bg-neutros-beige-fondo w-full">
-                <Text
-                  className={`
-                    text-neutros-negro-80 font-roboto-regular text-sm 
-                    ${isSmallScreen ? "w-[90%]" : ""}
-                    `}
-                >
-                  Añade al menos una habilidad para iniciar tu experiencia de
-                  intercambio.
-                </Text>
-              </View>
-            </View>
-            <View className="items-end">
-              <CustomButton
-                onPress={() => navigation.navigate("CreateProfileFlow")}
-                title="Completar perfil"
-                width="content"
-              />
-            </View>
-          </View>
-        </Animated.View>
+        <CreateProfileWarning
+          isVisible={isCreateProfileWarningVisible}
+          onClose={() => navigation.navigate("CreateProfileFlow")}
+        />
       )}
 
       {isEditAbilityVisible && (

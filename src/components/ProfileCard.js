@@ -3,7 +3,7 @@ import { View, Modal, Pressable, Text, Image, ScrollView } from "react-native";
 import { CustomButton } from "./CustomButton";
 import { RatingCard } from "./RatingCard";
 import { CustomRating } from "./CustomRating";
-import { getScreenSize } from "../utils/screenSize";
+// import { getScreenSize } from "../utils/screenSize";
 import { formatDateHyphen } from "../utils/formatDate";
 import { useProfile } from "../profile/ProfileContext";
 import apiClient from "../api/apiClient";
@@ -12,12 +12,9 @@ import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 // import Entypo from "@expo/vector-icons/Entypo";
 
 export const ProfileCard = ({ isCardVisible, toggleCard, data }) => {
-  const { isSmallScreen, isBigScreen } = getScreenSize();
-
+  // const { isSmallScreen, isBigScreen } = getScreenSize();
   const userId = data?.user_id;
-
   const { profileData } = useProfile();
-
   const [user, setUser] = useState({ nameUser: "", surnameUser: "" });
   const [profile, setProfile] = useState({
     profilePicture: null,
@@ -163,6 +160,7 @@ export const ProfileCard = ({ isCardVisible, toggleCard, data }) => {
             </Text>
           </View>
 
+          {/* TODO: Check logic when ratings are implemented */}
           {/* <View
             className={`
             w-full mb-5 rounded-lg border-[1px] items-center justify-center border-neutral-color-blue-gray-100

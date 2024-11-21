@@ -27,7 +27,6 @@ import apiClient from "../api/apiClient";
 
 export const EditProfile = ({ onRequestClose, visible, profileImage }) => {
   const { isSmallScreen, isBigScreen } = getScreenSize();
-
   const { profileData, setProfileData } = useProfile();
   const { userData } = useUser();
 
@@ -117,6 +116,18 @@ export const EditProfile = ({ onRequestClose, visible, profileImage }) => {
   };
 
   const toggleCategory = (label, onChange) => {
+    const activeCount = allCategories.filter(
+      (category) => category.active,
+    ).length;
+
+    if (
+      !allCategories.find((category) => category.label === label).active &&
+      activeCount >= 3
+    ) {
+      alert("Solo puedes seleccionar hasta 3 categorías.");
+      return;
+    }
+
     setAllCategories((prevCategories) =>
       prevCategories.map((category) =>
         category.label === label
@@ -126,7 +137,10 @@ export const EditProfile = ({ onRequestClose, visible, profileImage }) => {
     );
 
     const updatedSkills = allCategories
-      .filter((category) => category.active || category.label === label)
+      .filter(
+        (category) =>
+          category.active || (category.label === label && activeCount < 3),
+      )
       .map((category) => category.label);
 
     onChange(updatedSkills);
@@ -273,7 +287,6 @@ export const EditProfile = ({ onRequestClose, visible, profileImage }) => {
                     value={value}
                     onChange={onChange}
                     onBlur={onBlur}
-                    // placeholder="Soy una joven estudiante de enfermería, tengo 22 años vivo en Madrid con unas amigas. Soy una apasionada por la música, y que desea aprender a tocar el piano."
                     multiline={true}
                     numberOfLines={7}
                     maxLength={160}

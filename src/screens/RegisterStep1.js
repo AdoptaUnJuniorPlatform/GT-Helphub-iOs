@@ -12,7 +12,6 @@ import { getScreenSize } from "../utils/screenSize";
 
 export default function RegisterStep1({ navigation }) {
   const { isSmallScreen, isBigScreen } = getScreenSize();
-
   const { setProfileData } = useProfile();
 
   const {
@@ -123,7 +122,6 @@ export default function RegisterStep1({ navigation }) {
           </View>
         </View>
 
-        {/* Navigation Button Set */}
         <View
           className={`
             flex-row items-center justify-between 
