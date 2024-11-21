@@ -27,6 +27,7 @@ export { StepLabel } from "./StepLabel";
 export { Stepper } from "./Stepper";
 export { StepTitle } from "./StepTitle";
 export { ToggleSwitch } from "./ToggleSwitch";
+export { CreateProfileWarning } from "./CreateProfileWarning";
 
 export { AbilityCard } from "./AbilityCard";
 export { EditAbility } from "./EditAbility";

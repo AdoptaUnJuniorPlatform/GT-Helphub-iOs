@@ -146,12 +146,7 @@ export default function RegisterStep5({ navigation }) {
                 <Text
                   className={`
                     text-neutros-negro font-roboto-medium 
-                    ${isBigScreen
-                      ? "text-[21px]"
-                      : isSmallScreen
-                        ? "text-lg"
-                        : "text-xl"
-                    }
+                    ${isBigScreen ? "text-[21px]" : isSmallScreen ? "text-lg" : "text-xl"}
                     `}
                 >
                   Seleccionar categorías

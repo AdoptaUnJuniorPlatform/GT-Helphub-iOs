@@ -16,6 +16,7 @@ import {
   CustomDropdown,
   CustomButton,
   ProfileCard,
+  CreateProfileWarning,
 } from "../components";
 import { categories } from "../data/data";
 import { getScreenSize } from "../utils/screenSize";
@@ -29,6 +30,9 @@ export default function HomeScreen({ navigation }) {
   const { isSmallScreen, isBigScreen } = getScreenSize();
 
   const { userData, setUserData } = useUser();
+  const user_id = userData?._id;
+  const [isCreateProfileWarningVisible, setCreateProfileWarningVisible] =
+    useState(false);
 
   const [isFilterVisible, setFilterVisible] = useState(false);
   const [isCardVisible, setCardVisible] = useState(false);
@@ -50,6 +54,31 @@ export default function HomeScreen({ navigation }) {
       console.log("Data cleared and logged out.");
     } catch (error) {
       console.error("Error clearing data during logout:", error);
+    }
+  };
+
+  const toggleCreateProfileWarning = () => {
+    setCreateProfileWarningVisible((prev) => !prev);
+  };
+
+  const fetchProfile = async () => {
+    try {
+      const response = await apiClient.get("/profile");
+      if (response.status === 200) {
+        setCreateProfileWarningVisible(false);
+      }
+    } catch (error) {
+      if (error.response) {
+        if (error.response.status === 404) {
+          toggleCreateProfileWarning();
+        } else {
+          // console.error(error.response.data.message);
+          // alert("Se ha producido un error, intenta de nuevo.");
+        }
+      } else {
+        // console.error(error.message);
+        // alert("Se ha producido un error, intenta de nuevo.");
+      }
     }
   };
 
@@ -155,12 +184,16 @@ export default function HomeScreen({ navigation }) {
   };
 
   useEffect(() => {
-    searchByTitleQuery();
-  }, [searchQuery]);
-
-  useEffect(() => {
     fetchUser(emailUser);
   }, [emailUser]);
+
+  useEffect(() => {
+    if (user_id) fetchProfile();
+  }, [user_id]);
+
+  useEffect(() => {
+    searchByTitleQuery();
+  }, [searchQuery]);
 
   useFocusEffect(
     useCallback(() => {
@@ -282,6 +315,13 @@ export default function HomeScreen({ navigation }) {
               ))}
           </View>
         </View>
+
+        {isCreateProfileWarningVisible && (
+          <CreateProfileWarning
+            isVisible={isCreateProfileWarningVisible}
+            onClose={() => navigation.navigate("CreateProfileFlow")}
+          />
+        )}
 
         {isCardVisible && selectedItem && (
           <ProfileCard

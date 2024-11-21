@@ -14,10 +14,7 @@ export const CustomCheckbox = ({
         <View
           className={`
             w-[18px] h-[18px] border-[1px] rounded items-center justify-center
-            ${isChecked
-              ? "bg-[#3F51B5] border-[#3F51B5]"
-              : "bg-transparent border-neutral-color-blue-gray-100"
-            } 
+            ${isChecked ? "bg-[#3F51B5] border-[#3F51B5]" : "bg-transparent border-neutral-color-blue-gray-100"} 
             `}
         >
           {isChecked && <Feather name="check" size={14} color="white" />}
