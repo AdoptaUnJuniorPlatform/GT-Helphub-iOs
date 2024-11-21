@@ -1,17 +1,15 @@
 import { io } from "socket.io-client";
-import { getToken } from "../auth/authService";
 
 const SOCKET_SERVER_URL = "http://localhost:4002";
 
 let socket;
 
 export const initializeSocket = async (userData) => {
-  const token = await getToken();
   const user_id = userData._id;
 
   socket = io(SOCKET_SERVER_URL, {
-    query: { authorization: token, id: user_id },
-    transports: ["websocket"],
+    query: { id: user_id },
+    timeout: 5000,
   });
 
   socket.on("connect", () => {

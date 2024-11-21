@@ -54,6 +54,7 @@ const MessagesScreen = ({ navigation }) => {
         `/exchange/find-all-acepted/${user_id}`,
       );
       setMessages(response.data);
+      console.log("MESSAGES", response.data);
     } catch (error) {
       if (error.response) {
         // console.error(error.response.data.message);
@@ -150,7 +151,11 @@ const MessagesScreen = ({ navigation }) => {
               {messages.map((message, _id) => (
                 <MessageCard
                   key={_id}
-                  senderId={message.transmitter}
+                  senderId={
+                    message.transmitter === user_id
+                      ? message.reciever
+                      : message.transmitter
+                  }
                   onPress={() =>
                     navigation.navigate("MessagesFlow", {
                       screen: "MessagesStep1",

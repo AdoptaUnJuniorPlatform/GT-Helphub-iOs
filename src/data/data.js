@@ -113,6 +113,7 @@ export const policySections1 = [
     content: [
       "HelpHub no garantiza la disponibilidad continua del servicio y no se hace responsable de fallos técnicos ni eventos fuera de su control.",
       "La plataforma no garantiza la veracidad de los datos de los usuarios ni se responsabiliza por daños resultantes del uso de la aplicación.",
+      "El usuario es responsable del contenido que comparte en el chat y la plataforma no se hace responsable de las opiniones expresadas por los usuarios.",
     ],
   },
 ];
@@ -120,10 +121,11 @@ export const policySections1 = [
 export const policySections2 = [
   {
     id: "2.1",
-    title: "Información recolectada",
+    title: "Información recolectada (datos específicos que se recolectan)",
     content: [
       "Datos personales: nombre, edad, ubicación aproximada (para hacer el match).",
       "Datos de contacto: correo electrónico (para registro y/o comunicación interna).",
+      "Datos del chat: qué datos personales se recopilan en el chat, como el contenido de los mensajes, metadatos (por ejemplo, hora de envío) y cualquier dato relacionado con la cuenta de usuario (nombre de usuario, identificadores, etc.). Si el chat es anónimo, o se asocian los mensajes con cuentas de usuario, indicarlo.",
       "Datos de perfil: habilidades, disponibilidad horaria, foto de perfil.",
       "Autenticación: implementación de 2FA para seguridad adicional.",
     ],
@@ -134,6 +136,7 @@ export const policySections2 = [
     content: [
       "Los datos se utilizarán únicamente para conectar usuarios con habilidades complementarias y mejorar la experiencia de uso.",
       "HelpHub no compartirá datos personales con terceros sin consentimiento explícito, salvo en casos requeridos por ley.",
+      "Explicar si los datos recopilados en el chat se usan para mejorar la experiencia del usuario, asegurar la calidad del servicio, moderación de contenido, o para fines de soporte técnico.",
     ],
   },
   {
@@ -142,6 +145,7 @@ export const policySections2 = [
     content: [
       "Los datos personales se conservarán mientras la cuenta esté activa y serán eliminados en un plazo de X meses tras la desactivación de la cuenta (este plazo puede ajustarse cuando el equipo defina los períodos de retención).",
       "El usuario podrá solicitar la eliminación de su cuenta y de sus datos en cualquier momento.",
+      "Indica cuánto tiempo se almacenarán los mensajes del chat y si los usuarios pueden eliminar su historial de mensajes. Aclara qué ocurre con los mensajes si un usuario decide cerrar su cuenta (por ejemplo, si se eliminan o permanecen anónimos).",
     ],
   },
   {
@@ -150,6 +154,7 @@ export const policySections2 = [
     content: [
       "Los datos personales serán encriptados (detallar el nivel de encriptación una vez que esté implementado) y almacenados en servidores seguros.",
       "El acceso a los datos estará restringido al personal autorizado de HelpHub.",
+      "Mencionar las medidas de seguridad que protegen las conversaciones y cómo asegurar que los datos del chat estén encriptados y protegidos de accesos no autorizados.",
     ],
   },
   {

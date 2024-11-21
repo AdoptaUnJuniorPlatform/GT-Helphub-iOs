@@ -14,79 +14,73 @@ import { CustomButton } from "../components";
 import { getScreenSize } from "../utils/screenSize";
 import { initializeSocket, getSocket } from "../socket/socket";
 import { useUser } from "../user/UserContext";
+import { fetchProfileImage } from "../api/apiCalls";
 import Feather from "@expo/vector-icons/Feather";
-import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import apiClient from "../api/apiClient";
+// import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 
 const MessagesStep1 = ({ navigation }) => {
   const { isSmallScreen, isBigScreen } = getScreenSize();
-
   const { userData } = useUser();
-  const user_id = userData._id;
-
+  const user_id = userData?._id;
+  const another_user_id = "67387c4c85d8053b120464cd";
+  // const another_user_id = "6739f95835c90fa6e4a11a16";
   const [profileImage, setProfileImage] = useState(null);
-
-  // const [messages, setMessages] = useState([
-  //   {
-  //     id: 1,
-  //     user: "Martina",
-  //     text: "Sí! Me ha salido todo muy bien!",
-  //     isSender: false,
-  //   },
-  //   {
-  //     id: 2,
-  //     user: "Juanita",
-  //     text: "Qué bueno que te pude ayudar!",
-  //     isSender: true,
-  //   },
-  //   { id: 3, user: "Juanita", text: "Me alegra mucho!", isSender: true },
-  // ]);
-
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
-
   const scrollViewRef = useRef(null);
 
-  const fetchImage = async (userId) => {
+  const fetchMessages = async (user_id, another_user_id) => {
     try {
       const response = await apiClient.get(
-        `/upload-service/profile-imageByUser/${userId}`,
-        { responseType: "blob" },
+        `/chat/conversation/${user_id}/${another_user_id}`,
       );
-      const imageUrl = URL.createObjectURL(response.data);
-      setProfileImage(imageUrl);
+      const updatedMessages = response.data.map((message) => ({
+        ...message,
+        isSender: message.from === user_id,
+      }));
+      const sortedMessages = updatedMessages.sort(
+        (a, b) => new Date(a.timestamp) - new Date(b.timestamp),
+      );
+      setMessages(sortedMessages);
+      console.log("MESSAGES", response.data);
     } catch (error) {
       if (error.response) {
-        console.error(error.response.data.message);
-        alert("Se ha producido un error, intenta de nuevo.");
+        // console.error(error.response.data.message);
+        // alert("Se ha producido un error, intenta de nuevo.");
       } else {
-        console.error(error.message);
-        alert("Se ha producido un error, intenta de nuevo.");
+        // console.error(error.message);
+        // alert("Se ha producido un error, intenta de nuevo.");
       }
     }
   };
 
   useEffect(() => {
-    let socket;
+    fetchMessages(user_id, another_user_id);
+  }, []);
 
+  useEffect(() => {
+    let socketInstance;
     const setupSocket = async () => {
-      socket = await initializeSocket(userData);
-      socket.on("messageToClient", (message) => {
-        setMessages((prevMessages) => [...prevMessages, message]);
+      socketInstance = await initializeSocket(userData);
+      socketInstance.on("privateMessage", (message, formattedDate, id) => {
+        if (id === another_user_id) {
+          console.log("Mensaje Privado:", message, formattedDate, id);
+        }
       });
     };
 
     setupSocket();
 
     return () => {
-      if (socket) {
-        socket.off("messageToClient");
-        socket.disconnect();
+      if (socketInstance) {
+        socketInstance.off("privateMessage");
+        socketInstance.disconnect();
       }
     };
   }, [userData]);
 
-  const handleSendMessage = () => {
+  const sendPrivateMessage = () => {
     if (newMessage.trim()) {
       setMessages([
         ...messages,
@@ -97,16 +91,12 @@ const MessagesStep1 = ({ navigation }) => {
           isSender: true,
         },
       ]);
-
-      const socket = getSocket();
-      if (socket) {
-        socket.emit("privateMessage", {
-          from: user_id,
-          to: "67387c4c85d8053b120464cd",
-          message: newMessage,
-        });
-      }
-
+      const socketInstance = getSocket();
+      socketInstance.emit("privateMessage", {
+        from: user_id,
+        to: another_user_id,
+        message: newMessage,
+      });
       setNewMessage("");
     }
   };
@@ -116,14 +106,23 @@ const MessagesStep1 = ({ navigation }) => {
   }, [messages]);
 
   useEffect(() => {
-    fetchImage(user_id);
-  }, [messages]);
+    const fetchImage = async () => {
+      try {
+        const imageUrl = await fetchProfileImage(user_id);
+        setProfileImage(imageUrl);
+      } catch (error) {
+        console.error("Error fetching profile image:", error);
+      }
+    };
+
+    fetchImage();
+  }, [user_id, messages]);
 
   return (
     <SafeAreaView className="flex-1 h-full bg-neutros-gris-fondo">
       <KeyboardAvoidingView
         className="flex-1"
-        behavior={Platform.OS === " ios" ? "padding" : "height"}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
         {/* Go To Messages */}
         <View className="bg-neutros-gris-fondo w-full py-2 flex-row justify-start items-center">
@@ -152,8 +151,9 @@ const MessagesStep1 = ({ navigation }) => {
           </TouchableOpacity>
         </View>
 
+        {/* TODO: Exchange endpoints revision is necessary */}
         {/* Info Card */}
-        <View className="p-4 bg-neutros-beige-fondo">
+        {/* <View className="p-4 bg-neutros-beige-fondo">
           <View className="flex-row items-center justify-center px-4">
             <View className="flex-1 flex-row items-center">
               <View className="w-[45px] h-[45px] rounded-full mr-2">
@@ -175,7 +175,7 @@ const MessagesStep1 = ({ navigation }) => {
                 </View>
               </View>
             </View>
-            {/* Intercambiar... */}
+
             <View className="items-start">
               <Text
                 className={`
@@ -215,8 +215,7 @@ const MessagesStep1 = ({ navigation }) => {
               variant="filled"
             />
           </View>
-        </View>
-
+        </View> */}
         <View className="flex-1 justify-between">
           <ScrollView
             className="flex-2 p-4"
@@ -230,7 +229,7 @@ const MessagesStep1 = ({ navigation }) => {
 
               return (
                 <View
-                  key={message.id}
+                  key={message.timestamp}
                   className={`w-full mb-1 ${message.isSender ? "items-end" : "items-start"}`}
                 >
                   <View
@@ -256,7 +255,6 @@ const MessagesStep1 = ({ navigation }) => {
             <View className="h-20" />
           </ScrollView>
 
-          {/* Send Message */}
           <View
             View
             className="flex-0 flex-row px-4 p-4 border-t-[1px] border-neutros-negro-50"
@@ -273,7 +271,7 @@ const MessagesStep1 = ({ navigation }) => {
             </View>
             <View className="flex-row justify-end">
               <CustomButton
-                onPress={handleSendMessage}
+                onPress={sendPrivateMessage}
                 title={"Enviar mensaje"}
                 width="content"
                 variant="filled"
