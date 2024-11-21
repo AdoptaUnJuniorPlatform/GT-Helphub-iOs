@@ -14,7 +14,6 @@ export const MessagesProfile = ({
   visible,
   navigation,
   requestData,
-  requests,
   setRequests,
 }) => {
   const { isSmallScreen, isBigScreen } = getScreenSize();
@@ -120,11 +119,13 @@ export const MessagesProfile = ({
     }
   };
 
+  // TODO: Navigation revision necessary for the next version
   const goToMessagesFlow = () => {
     onRequestClose();
-    navigation.navigate("MessagesFlow", {
-      screen: "MessagesStep1",
-    });
+    // navigation.navigate("MessagesFlow", {
+    //   screen: "MessagesStep1",
+    // });
+    // navigation.navigate("Mensajes");
   };
 
   return (

@@ -13,7 +13,7 @@ import {
 import { CustomButton, RatingsDialog } from "../components";
 import { getScreenSize } from "../utils/screenSize";
 import Feather from "@expo/vector-icons/Feather";
-import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
+// import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 
 const MessagesStep2 = ({ navigation }) => {
@@ -121,7 +121,7 @@ const MessagesStep2 = ({ navigation }) => {
               </View>
             </View>
             {/* Intercambiar... */}
-            <View className="items-start">
+            {/* <View className="items-start">
               <Text
                 className={`
                   font-roboto-regular text-sm text-neutros-negro 
@@ -149,10 +149,7 @@ const MessagesStep2 = ({ navigation }) => {
                   </Text>
                 </View>
               </View>
-            </View>
-          </View>
-
-          <View className="justify-center items-center mt-4">
+            </View> */}
             <CustomButton
               onPress={toggleDialog}
               title={"Valorar intercambio"}
@@ -160,6 +157,15 @@ const MessagesStep2 = ({ navigation }) => {
               variant="filled"
             />
           </View>
+
+          {/* <View className="justify-center items-center mt-4">
+            <CustomButton
+              onPress={toggleDialog}
+              title={"Valorar intercambio"}
+              width="content"
+              variant="filled"
+            />
+          </View> */}
         </View>
 
         <View className="flex-1 justify-between">
@@ -168,7 +174,7 @@ const MessagesStep2 = ({ navigation }) => {
             showsVerticalScrollIndicator={false}
             ref={scrollViewRef}
           >
-            {messages.map((message, index) => {
+            {/* {messages.map((message, index) => {
               const isLastFromUser =
                 index === messages.length - 1 ||
                 messages[index + 1].user !== message.user;
@@ -195,7 +201,7 @@ const MessagesStep2 = ({ navigation }) => {
                   )}
                 </View>
               );
-            })}
+            })} */}
 
             {/* Separator */}
             <View className="h-20" />

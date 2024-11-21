@@ -159,6 +159,10 @@ const MessagesScreen = ({ navigation }) => {
                   onPress={() =>
                     navigation.navigate("MessagesFlow", {
                       screen: "MessagesStep1",
+                      params: {
+                        transmitter: message.transmitter,
+                        receiver: message.reciever,
+                      },
                     })
                   }
                 />
