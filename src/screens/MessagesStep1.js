@@ -86,32 +86,32 @@ const MessagesStep1 = ({ navigation, route }) => {
   }, [senderId]);
 
   useEffect(() => {
-    let socketInstance;
-    const setupSocket = async () => {
-      socketInstance = await initializeSocket(userData);
-      socketInstance.on("privateMessage", (message, formattedDate, id) => {
-        if (id === senderId) {
-          console.log("Mensaje Privado:", message, formattedDate, id);
-        }
-      });
-    };
-
-    setupSocket();
-
-    return () => {
-      if (socketInstance) {
-        socketInstance.off("privateMessage");
-        socketInstance.disconnect();
-      }
-    };
-  }, [userData]);
+    initializeSocket(userData);
+    const socketInstance = getSocket();
+    socketInstance.on("privateMessage", (message, formattedDate, id) => {
+      console.log("aqui");
+      // if (senderId === id) {
+      console.log("Mensaje Privado:", message, formattedDate, id);
+      // }
+      setMessages([
+        ...messages,
+        {
+          _id: messages.length + 1,
+          from: id,
+          message: message,
+          isSender: false,
+        },
+      ]);
+      console.log(messages);
+    });
+  }, [messages]);
 
   const sendPrivateMessage = () => {
     if (newMessage.trim()) {
       setMessages([
         ...messages,
         {
-          id: messages.length + 1,
+          _id: messages.length + 1,
           from: user_id,
           message: newMessage,
           isSender: true,
@@ -134,8 +134,10 @@ const MessagesStep1 = ({ navigation, route }) => {
   useEffect(() => {
     const fetchImages = async () => {
       try {
-        const transmitterImg = await fetchProfileImage(transmitter);
-        const receiverImg = await fetchProfileImage(receiver);
+        // const transmitterImg = await fetchProfileImage(transmitter);
+        // const receiverImg = await fetchProfileImage(receiver);
+        const transmitterImg = await fetchProfileImage(user_id);
+        const receiverImg = await fetchProfileImage(senderId);
         setTransmitterImage(transmitterImg);
         setReceiverImage(receiverImg);
       } catch (error) {
@@ -190,7 +192,12 @@ const MessagesStep1 = ({ navigation, route }) => {
             <View className="flex-1 flex-row items-center">
               <View className="w-[45px] h-[45px] rounded-full mr-2">
                 <Image
-                  source={{ uri: transmitterImage }}
+                  source={{
+                    uri:
+                      user.surnameUser === userData.surnameUser
+                        ? transmitterImage
+                        : receiverImage,
+                  }}
                   style={{ width: "100%", height: "100%" }}
                   resizeMode="cover"
                   className="rounded-full"
@@ -198,7 +205,7 @@ const MessagesStep1 = ({ navigation, route }) => {
               </View>
 
               <View className="w-2/3 overflow-ellipsis">
-                <View className="w-full">
+                <View className="w-full flex-row">
                   <Text className="mr-1 text-sm font-roboto-medium text-neutros-negro">
                     {user.nameUser}
                   </Text>
@@ -263,6 +270,7 @@ const MessagesStep1 = ({ navigation, route }) => {
             ref={scrollViewRef}
           >
             {messages.map((message, index) => {
+              const uniqueKey = `${message._id || index}-${message.timestamp}`;
               // const isSender = message.isSender;
               // const profileImg = isSender ? receiverImage : transmitterImage;
 
@@ -272,7 +280,7 @@ const MessagesStep1 = ({ navigation, route }) => {
 
               return (
                 <View
-                  key={message.timestamp}
+                  key={uniqueKey}
                   className={`w-full mb-1 ${message.isSender ? "items-end" : "items-start"}`}
                 >
                   <View

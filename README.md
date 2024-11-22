@@ -2,7 +2,7 @@
   <img src="https://i.postimg.cc/LstzkZww/Captura-de-pantalla-2024-11-19-a-la-s-15-43-05.png" alt="Captura de pantalla">
 </p>
 
-# <p align="center">HelpHub: "Uniendo talentos, creando comunidad" | Mobile Multiplatform</p> 
+# <p align="center">HelpHub: "Uniendo talentos, creando comunidad" | Mobile: iOS</p> 
  
 HelpHub es una plataforma de *intercambio de habilidades* comunitarias, diseñada como una iniciativa sin ánimo de lucro.
 
